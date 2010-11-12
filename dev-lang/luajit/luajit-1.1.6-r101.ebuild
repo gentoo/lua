@@ -4,9 +4,10 @@
 
 EAPI="2"
 
-inherit pax-utils multilib
+inherit pax-utils multilib versionator
 
 MY_P="LuaJIT-${PV}"
+MY_PV="$(get_version_component_range 1-2)"
 LUA_PV="5.1.4"
 
 DESCRIPTION="A Just-In-Time Compiler for the Lua programming language."
@@ -57,16 +58,16 @@ src_install(){
 	# dev-lang/luajit:1 doesn't install man pages.
 	rm -rf "${D}usr/man"
 
-	mv "${D}"usr/bin/luajit{,"${SLOT}"} || die "mv failed!"
-	pax-mark m "${D}usr/bin/luajit${SLOT}"
+	mv "${D}"usr/bin/luajit{,"${MY_PV}"} || die "mv failed!"
+	pax-mark m "${D}usr/bin/luajit${MY_PV}"
 
 	dodoc README
 	dohtml -r jitdoc/*
 
 	insinto /usr/share/pixmaps
-	newins etc/luajit.ico "luajit${SLOT}.ico"
+	newins etc/luajit.ico "luajit${MY_PV}.ico"
 	insinto /usr/$(get_libdir)/pkgconfig
-	newins etc/luajit.pc "luajit${SLOT}.pc"
+	newins etc/luajit.pc "luajit${MY_PV}.pc"
 }
 
 pkg_postinst(){
@@ -74,5 +75,7 @@ pkg_postinst(){
 	elog 'If you want to compile something against liblua and use it with'
 	elog "this version of LuaJit, please install =dev-lang/lua-${PV}"
 	elog 'and use eselect lua to make it the default.'
+	elog
+	elog 'You will also need dev-lang/lua if you want the luac binary'
 	elog
 }
