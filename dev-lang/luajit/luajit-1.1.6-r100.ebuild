@@ -1,10 +1,10 @@
 # Copyright 1999-2010 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/dev-lang/luajit/luajit-1.1.6.ebuild,v 1.1 2010/10/13 00:07:11 rafaelmartins Exp $
+# $Header: $
 
 EAPI="2"
 
-inherit pax-utils
+inherit pax-utils multilib
 
 MY_P="LuaJIT-${PV}"
 LUA_PV="5.1.4"
