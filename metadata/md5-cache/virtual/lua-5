@@ -1,0 +1,7 @@
+DEFINED_PHASES=-
+DESCRIPTION=Virtual for Lua programming language
+EAPI=4
+KEYWORDS=~alpha ~amd64 ~arm ~hppa ~ia64 ~mips ~ppc ~ppc64 ~s390 ~sh ~sparc ~x86 ~x86-fbsd
+RDEPEND=|| ( dev-lang/lua dev-lang/luajit )
+SLOT=0
+_md5_=52fcb6f2f6f354ef1a51a4e8668bb50a

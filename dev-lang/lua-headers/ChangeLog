@@ -1,0 +1,10 @@
+# ChangeLog for dev-lang/lua-headers
+# Copyright 1999-2012 Gentoo Foundation; Distributed under the GPL v2
+# $Header: $
+
+*lua-headers-5.1.4 (12 Nov 2010)
+
+  12 Nov 2010; Rafael G. Martins <rafaelmartins@gentoo.org>
+  +lua-headers-5.1.4.ebuild, +metadata.xml:
+  added dev-lang/lua{,-headers}
+

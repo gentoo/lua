@@ -1,0 +1,80 @@
+# This file is deprecated as per GLEP 56 in favor of metadata.xml. Please add
+# your descriptions to your package's metadata.xml ONLY.
+# * generated automatically using egencache *
+
+dev-lang/lua:deprecated - make deprecated data structures/routines available
+dev-lua/luarocks:openssl - 
+dev-lua/wsapi:luajit - Enable linking with LuaJIT library instead of Lua.
+games-engines/love:luajit - Enable linking with LuaJIT library instead of Lua
+net-im/prosody:libevent - 
+net-im/prosody:luajit - 
+net-im/prosody-modules:addressing - 
+net-im/prosody-modules:adhoc - 
+net-im/prosody-modules:adhoc_cmd_admin - 
+net-im/prosody-modules:adhoc_cmd_modules - 
+net-im/prosody-modules:adhoc_cmd_ping - 
+net-im/prosody-modules:adhoc_cmd_uptime - 
+net-im/prosody-modules:admin_web - 
+net-im/prosody-modules:archive - 
+net-im/prosody-modules:archive_muc - 
+net-im/prosody-modules:auth_dovecot - 
+net-im/prosody-modules:auth_external - 
+net-im/prosody-modules:auth_internal_yubikey - 
+net-im/prosody-modules:auth_joomla - 
+net-im/prosody-modules:auth_ldap - 
+net-im/prosody-modules:auth_phpbb3 - 
+net-im/prosody-modules:auth_sql - 
+net-im/prosody-modules:auth_wordpress - 
+net-im/prosody-modules:blocking - 
+net-im/prosody-modules:carbons - 
+net-im/prosody-modules:component_guard - 
+net-im/prosody-modules:component_roundrobin - 
+net-im/prosody-modules:couchdb - 
+net-im/prosody-modules:data_access - 
+net-im/prosody-modules:default_bookmarks - 
+net-im/prosody-modules:default_vcard - 
+net-im/prosody-modules:discoitems - 
+net-im/prosody-modules:extdisco - 
+net-im/prosody-modules:flash_policy - 
+net-im/prosody-modules:group_bookmarks - 
+net-im/prosody-modules:ipcheck - 
+net-im/prosody-modules:ircd - 
+net-im/prosody-modules:json_streams - 
+net-im/prosody-modules:log_auth - 
+net-im/prosody-modules:motd_sequential - 
+net-im/prosody-modules:muc_intercom - 
+net-im/prosody-modules:muc_log - 
+net-im/prosody-modules:muc_log_http - 
+net-im/prosody-modules:offline_email - 
+net-im/prosody-modules:onhold - 
+net-im/prosody-modules:openid - 
+net-im/prosody-modules:pastebin - 
+net-im/prosody-modules:post_msg - 
+net-im/prosody-modules:privacy - 
+net-im/prosody-modules:proxy65 - 
+net-im/prosody-modules:pubsub_feed - 
+net-im/prosody-modules:register_json - 
+net-im/prosody-modules:register_redirect - 
+net-im/prosody-modules:reload_modules - 
+net-im/prosody-modules:remote_roster - 
+net-im/prosody-modules:roster_command - 
+net-im/prosody-modules:s2s_blackwhitelist - 
+net-im/prosody-modules:s2s_idle_timeout - 
+net-im/prosody-modules:s2s_never_encrypt_blacklist - 
+net-im/prosody-modules:s2s_reload_newcomponent - 
+net-im/prosody-modules:saslauth_muc - 
+net-im/prosody-modules:seclabels - 
+net-im/prosody-modules:server_contact_info - 
+net-im/prosody-modules:sift - 
+net-im/prosody-modules:smacks - 
+net-im/prosody-modules:sms_clickatell - 
+net-im/prosody-modules:srvinjection - 
+net-im/prosody-modules:stanza_counter - 
+net-im/prosody-modules:streamstats - 
+net-im/prosody-modules:support_contact - 
+net-im/prosody-modules:swedishchef - 
+net-im/prosody-modules:tcpproxy - 
+net-im/prosody-modules:throttle_presence - 
+net-im/prosody-modules:twitter - 
+net-im/prosody-modules:webpresence - 
+net-im/prosody-modules:websocket - 

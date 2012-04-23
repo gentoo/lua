@@ -1,0 +1,24 @@
+# ChangeLog for dev-lang/luajit
+# Copyright 1999-2012 Gentoo Foundation; Distributed under the GPL v2
+# $Header: $
+
+  25 Nov 2011; Vadim A. Misbakh-Soloviev <mva@mva.name> luajit-9999.ebuild:
+  luajit fix
+
+  24 Nov 2011; Vadim A. Misbakh-Soloviev <mva@mva.name> luajit-9999.ebuild:
+  luajit fix
+
+  23 Nov 2011; Vadim A. Misbakh-Soloviev <mva@mva.name> luajit-9999.ebuild:
+  Lua json fix + Lua csjon + luajit fix
+
+  15 Nov 2011; Vadim A. Misbakh-Soloviev <mva@mva.name> luajit-9999.ebuild:
+  luajit-9999 fix
+
+*luajit-9999 (15 Nov 2011)
+*luajit-2.0.0_beta8 (15 Nov 2011)
+*luajit-1.1.7 (15 Nov 2011)
+
+  15 Nov 2011; Vadim A. Misbakh-Soloviev <mva@mva.name> +luajit-1.1.7.ebuild,
+  +luajit-2.0.0_beta8.ebuild, +luajit-9999.ebuild, +metadata.xml:
+  LuaJIT and eselect-luajit
+

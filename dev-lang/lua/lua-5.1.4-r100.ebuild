@@ -1,8 +1,8 @@
-# Copyright 1999-2010 Gentoo Foundation
+# Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: $
+# $Header: This ebuild is from Lua overlay; Bumped by mva; $
 
-EAPI="3"
+EAPI="4"
 
 inherit eutils multilib portability toolchain-funcs versionator
 
@@ -17,7 +17,8 @@ SLOT="0"
 KEYWORDS="~alpha ~amd64 ~arm ~hppa ~ia64 ~mips ~ppc ~ppc64 ~s390 ~sh ~sparc ~x86 ~x86-fbsd"
 IUSE="+deprecated emacs readline static"
 
-DEPEND="readline? ( sys-libs/readline )"
+DEPEND="readline? ( sys-libs/readline )
+	sys-devel/libtool"
 RDEPEND="${DEPEND}"
 PDEPEND="emacs? ( app-emacs/lua-mode )
 	=dev-lang/lua-headers-${PV}*"
