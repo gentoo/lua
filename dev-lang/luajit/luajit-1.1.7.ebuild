@@ -17,7 +17,9 @@ SLOT="1"
 KEYWORDS="~amd64 ~x86"
 IUSE="readline"
 
-DEPEND="readline? ( sys-libs/readline )
+CDEPEND="dev-lang/lua"
+DEPEND="${CDEPEND}
+	readline? ( sys-libs/readline )
 	app-admin/eselect-luajit"
 RDEPEND="${DEPEND}"
 

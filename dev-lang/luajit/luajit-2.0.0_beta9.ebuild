@@ -17,7 +17,10 @@ SLOT="2"
 KEYWORDS="~amd64 ~x86"
 IUSE=""
 
-DEPEND="app-admin/eselect-luajit"
+CDEPEND="dev-lang/lua"
+DEPEND="${CDEPEND}
+	app-admin/eselect-luajit"
+
 S="${WORKDIR}/${MY_P}"
 
 src_prepare(){
