@@ -7,7 +7,7 @@
 +INSTALL = install
 +INSTALL_PROGRAM = $(INSTALL)
 +INSTALL_DATA = $(INSTALL) -m 644
-+LUA_INC_DIR=/usr/include/lua5.1
++LUA_INC_DIR=/usr/include
 +LUA_LIB_DIR=/usr/lib
 +INSTALL_DIR_LUA=/usr/share/lua/5.1
 +INSTALL_DIR_BIN=/usr/lib/lua/5.1

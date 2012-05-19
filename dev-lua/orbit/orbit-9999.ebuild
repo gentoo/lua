@@ -6,31 +6,26 @@ EAPI="4"
 
 inherit multilib eutils git-2
 
-DESCRIPTION="Lua WSAPI Library"
-HOMEPAGE="https://github.com/keplerproject/wsapi"
+DESCRIPTION="MVC Web Framework for Lua"
+HOMEPAGE="https://github.com/keplerproject/orbit"
 SRC_URI=""
 
-#s/msva/keplerproject/ somewhen in the future
-EGIT_REPO_URI="git://github.com/msva/wsapi.git https://github.com/msva/wsapi.git"
+EGIT_REPO_URI="git://github.com/msva/orbit.git https://github.com/msva/orbit.git"
 
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS=""
 IUSE="luajit doc"
-#TODO: xavante"
+
 RDEPEND=" || ( >=dev-lang/lua-5.1 dev-lang/luajit:2 )
-	luajit? ( dev-lang/luajit:2 )
-	dev-libs/fcgi
-	virtual/httpd-fastcgi
-	dev-lua/rings
-	dev-lua/coxpcall"
-#TODO:	xavante? ( dev-lua/xavante )"
+	dev-lua/wsapi
+	dev-lua/cosmo"
 DEPEND="${RDEPEND}"
 
 src_prepare() {
 	use luajit && \
-	sed -e "s///g" -e "s%#!.*lua$%#!/usr/bin/env luajit%g" \
-	-i src/launcher/wsapi{,.cgi,.fcgi}
+	sed -e "s%#!.*lua$%#!/usr/bin/env luajit%g" \
+	-i src/launchers/ob{.cgi,.fcgi} src/launchers/orbit
 }
 
 src_configure() {
@@ -40,15 +35,9 @@ src_configure() {
 	./configure "${LUA}"
 }
 
-src_compile() {
-	use luajit && INC="-I/usr/include/luajit-2.0/"
-	emake DESTDIR="${D}" CC="$(tc-getCC) -fPIC -DPIC" LDFLAGS="${LDFLAGS}" INC="${INC}" CFLAGS="${CFLAGS}" || die "Can't copmile Lua-FCGI library"
-}
-
 src_install() {
         docompress -x /usr/share/doc
-	emake DESTDIR="${D}" install
-	emake DESTDIR="${D}" install-fcgi
+	emake DESTDIR="${D}" install || die "Can't install Orbit"
         use doc && (
                 insinto /usr/share/doc/${PF}/examples
                 doins -r samples/*
