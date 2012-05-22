@@ -6,12 +6,16 @@ EAPI="3"
 
 inherit eutils games
 
-DESCRIPTION="A 2D SuperMarioBros. + p0rtal clone"
-HOMEPAGE="http://stabyourself.net/${PN}/"
-SRC_URI="http://stabyourself.net/dl.php?file=${PN}-1006/${PN}-source.zip -> ${P}.zip"
+DESCRIPTION="A tetris game with physics"
+HOMEPAGE="http://stabyourself.net/${PN}2/"
+SRC_URI="http://stabyourself.net/dl.php?file=${PN}2/${PN}2-source.zip -> ${P}.zip"
 LICENSE="GPL-2"
 SLOT="0"
-KEYWORDS="~amd64 ~x86"
+
+# Currently not usable with love-0.8.0.
+# Waiting for fixes from upstream.
+KEYWORDS="-*"
+
 IUSE=""
 RESTRICT=""
 
@@ -22,7 +26,8 @@ S="${WORKDIR}"
 
 src_unpack() {
 	default
-	mv "${P/-/_}.love" "${P}.zip"
+	#it is only one .love file, so we can use asterisk
+	mv *.love "${P}.zip"
 	unpack "./${P}.zip"
 	rm "${P}.zip"
 }

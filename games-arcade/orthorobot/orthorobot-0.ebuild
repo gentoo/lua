@@ -6,9 +6,9 @@ EAPI="3"
 
 inherit eutils games
 
-DESCRIPTION="A 2D SuperMarioBros. + p0rtal clone"
+DESCRIPTION="Nice perspective based puzzle game, where you flatten the view to move across gaps."
 HOMEPAGE="http://stabyourself.net/${PN}/"
-SRC_URI="http://stabyourself.net/dl.php?file=${PN}-1006/${PN}-source.zip -> ${P}.zip"
+SRC_URI="http://stabyourself.net/dl.php?file=${PN}/${PN}-source.zip -> ${P}.zip"
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
@@ -22,7 +22,8 @@ S="${WORKDIR}"
 
 src_unpack() {
 	default
-	mv "${P/-/_}.love" "${P}.zip"
+	#it is only one .love file, so we can use asterisk
+	mv *.love "${P}.zip"
 	unpack "./${P}.zip"
 	rm "${P}.zip"
 }

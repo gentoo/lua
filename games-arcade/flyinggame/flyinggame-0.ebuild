@@ -6,9 +6,9 @@ EAPI="3"
 
 inherit eutils games
 
-DESCRIPTION="A 2D SuperMarioBros. + p0rtal clone"
-HOMEPAGE="http://stabyourself.net/${PN}/"
-SRC_URI="http://stabyourself.net/dl.php?file=${PN}-1006/${PN}-source.zip -> ${P}.zip"
+DESCRIPTION="A game prototype by Maurice (mari0 author)"
+HOMEPAGE="http://stabyourself.net/other/"
+SRC_URI="http://stabyourself.net/dl.php?file=${PN}/${PN}.love -> ${P}.zip"
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
@@ -19,18 +19,6 @@ DEPEND=">=games-engines/love-0.8.0"
 RDEPEND="${DEPEND}"
 
 S="${WORKDIR}"
-
-src_unpack() {
-	default
-	mv "${P/-/_}.love" "${P}.zip"
-	unpack "./${P}.zip"
-	rm "${P}.zip"
-}
-
-src_prepare() {
-	default
-	epatch_user
-}
 
 src_install() {
 	insinto "/usr/share/games/love/${P}"

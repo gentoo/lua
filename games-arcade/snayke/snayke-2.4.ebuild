@@ -26,5 +26,5 @@ S="${WORKDIR}"
 src_install() {
 	insinto "/usr/share/games/love/${P}"
 	doins -r .
-	games_make_wrapper snayke "love /usr/share/games/love/${P}"
+	games_make_wrapper "${P}" "love /usr/share/games/love/${P}"
 }
