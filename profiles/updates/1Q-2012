@@ -1,0 +1,7 @@
+move games-arcade/flyinggame games-indie/flyinggame
+move games-arcade/mari0 games-indie/mari0
+move games-arcade/nottetris games-indie/nottetris
+move games-arcade/orthorobot games-indie/orthorobot
+move games-arcade/rimshot games-indie/rimshot
+move games-arcade/shoothookers games-indie/shoothookers
+move games-arcade/snayke games-indie/snayke

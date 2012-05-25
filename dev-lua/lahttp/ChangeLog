@@ -2,13 +2,9 @@
 # Copyright 1999-2012 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
-  24 Jul 2011; Misbakh-Soloviev Vadim A. (mva) <mva@mva.name>
-  lahttp-9999.ebuild:
-  fixed lua pkgs
+*lahttp-9999 (23 Apr 2012)
 
-*lahttp-9999 (18 Jul 2011)
-
-  18 Jul 2011; Misbakh-Soloviev Vadim A. (mva) <mva@mva.name>
-  +lahttp-9999.ebuild, +metadata.xml:
-  new lua pkgs (some of them is not fully completed)
+  23 Apr 2012; Vadim A. Misbakh-Soloviov <mva@mva.name> +lahttp-9999.ebuild,
+  +metadata.xml:
+  bump!
 

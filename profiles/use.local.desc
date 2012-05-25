@@ -3,7 +3,11 @@
 # * generated automatically using egencache *
 
 dev-lang/lua:deprecated - make deprecated data structures/routines available
+dev-lua/cosmo:luajit - Enable linking with LuaJIT library instead of Lua.
+dev-lua/coxpcall:luajit - Enable linking with LuaJIT library instead of Lua.
 dev-lua/luarocks:openssl - 
+dev-lua/orbit:luajit - Enable linking with LuaJIT library instead of Lua.
+dev-lua/rings:luajit - Enable linking with LuaJIT library instead of Lua.
 dev-lua/wsapi:luajit - Enable linking with LuaJIT library instead of Lua.
 games-engines/love:luajit - Enable linking with LuaJIT library instead of Lua
 net-im/prosody:libevent - 

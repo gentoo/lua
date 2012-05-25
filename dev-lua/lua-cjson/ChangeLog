@@ -2,9 +2,9 @@
 # Copyright 1999-2012 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
-*lua-cjson-9999 (23 Nov 2011)
+*lua-cjson-9999 (23 Apr 2012)
 
-  23 Nov 2011; Vadim A. Misbakh-Soloviev <mva@mva.name>
+  23 Apr 2012; Vadim A. Misbakh-Soloviov <mva@mva.name>
   +lua-cjson-9999.ebuild, +metadata.xml:
-  Lua json fix + Lua csjon + luajit fix
+  bump!
 

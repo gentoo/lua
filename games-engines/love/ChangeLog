@@ -1,7 +1,11 @@
-*love-0.7.2 (22 Apr 2012)
-*love-9999 (22 Apr 2012)
+# ChangeLog for games-engines/love
+# Copyright 1999-2012 Gentoo Foundation; Distributed under the GPL v2
+# $Header: $
 
-  22 Apr 2012; Misbakh-Soloviov Vadim A. <mva@gentoo.org> +love-0.7.2.ebuild,
+*love-9999 (23 Apr 2012)
+*love-0.7.2 (23 Apr 2012)
+
+  23 Apr 2012; Vadim A. Misbakh-Soloviov <mva@mva.name> +love-0.7.2.ebuild,
   +love-9999.ebuild, +metadata.xml:
   bump!
 

@@ -2,23 +2,34 @@
 # Copyright 1999-2012 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
-  25 Nov 2011; Vadim A. Misbakh-Soloviev <mva@mva.name> luajit-9999.ebuild:
-  luajit fix
+  09 May 2012; Vadim A. Misbakh-Soloviov <mva@mva.name> luajit-1.1.7.ebuild,
+  luajit-2.0.0_beta9.ebuild, luajit-9999.ebuild:
+  Adding dev-lang/lua as build-dependcy
 
-  24 Nov 2011; Vadim A. Misbakh-Soloviev <mva@mva.name> luajit-9999.ebuild:
-  luajit fix
+  Signed-off-by: Vadim A. Misbakh-Soloviov <mva@mva.name>
 
-  23 Nov 2011; Vadim A. Misbakh-Soloviev <mva@mva.name> luajit-9999.ebuild:
-  Lua json fix + Lua csjon + luajit fix
+*luajit-9999 (23 Apr 2012)
+*luajit-2.0.0_beta9 (23 Apr 2012)
+*luajit-1.1.7 (23 Apr 2012)
 
-  15 Nov 2011; Vadim A. Misbakh-Soloviev <mva@mva.name> luajit-9999.ebuild:
-  luajit-9999 fix
+  23 Apr 2012; Vadim A. Misbakh-Soloviov <mva@mva.name>
+  -luajit-1.1.6-r101.ebuild, +luajit-1.1.7.ebuild, +luajit-2.0.0_beta9.ebuild,
+  +luajit-9999.ebuild, metadata.xml:
+  bump!
 
-*luajit-9999 (15 Nov 2011)
-*luajit-2.0.0_beta8 (15 Nov 2011)
-*luajit-1.1.7 (15 Nov 2011)
+*luajit-1.1.6-r101 (12 Nov 2010)
 
-  15 Nov 2011; Vadim A. Misbakh-Soloviev <mva@mva.name> +luajit-1.1.7.ebuild,
-  +luajit-2.0.0_beta8.ebuild, +luajit-9999.ebuild, +metadata.xml:
-  LuaJIT and eselect-luajit
+  12 Nov 2010; Rafael G. Martins <rafaelmartins@gentoo.org>
+  -luajit-1.1.6-r100.ebuild, +luajit-1.1.6-r101.ebuild:
+  version bump for dev-lang/luajit:1 fixed binary name
+
+  12 Nov 2010; Rafael G. Martins <rafaelmartins@gentoo.org>
+  luajit-1.1.6-r100.ebuild:
+  cleaned header and added missing eclass for dev-lang/luajit:1
+
+*luajit-1.1.6-r100 (12 Nov 2010)
+
+  12 Nov 2010; Rafael G. Martins <rafaelmartins@gentoo.org>
+  +luajit-1.1.6-r100.ebuild, +metadata.xml:
+  added dev-lang/luajit:1
 

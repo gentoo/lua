@@ -7,5 +7,5 @@ IUSE=+libevent mysql postgres sqlite +ssl +zlib +luajit ipv6
 LICENSE=MIT
 RDEPEND=virtual/lua net-im/jabber-base luajit? ( dev-lang/luajit:2 ) >=net-dns/libidn-1.1 >=dev-libs/openssl-0.9.8 dev-lua/luasocket ipv6? ( =dev-lua/luasocket-9999 ) ssl? ( dev-lua/luasec ) dev-lua/luaexpat dev-lua/luafilesystem mysql? ( >=dev-lua/luadbi-0.5[mysql] ) postgres? ( >=dev-lua/luadbi-0.5[postgres] ) sqlite? ( >=dev-lua/luadbi-0.5[sqlite] ) libevent? ( dev-lua/luaevent ) zlib? ( dev-lua/lua-zlib )
 SLOT=0
-_eclasses_=eutils	74d9118e657da5b1db0c36f5dea88e57	mercurial	add64e64d758a9618d46a08a95f77483	multilib	5f4ad6cf85e365e8f0c6050ddd21659e	toolchain-funcs	6526ac6fc9aedf391efb91fcd75ace68	user	32a09e82e2f592bf88ad2fd08525166e	versionator	6601b4c5b3f019a993db59a50e1854e4
+_eclasses_=eutils	39af24987a4a7a34dccf2ef9cc6af3f7	mercurial	add64e64d758a9618d46a08a95f77483	multilib	5f4ad6cf85e365e8f0c6050ddd21659e	toolchain-funcs	f71b9936acc911ed1cc84557d3b5c2b3	user	32a09e82e2f592bf88ad2fd08525166e	versionator	6601b4c5b3f019a993db59a50e1854e4
 _md5_=e820833e0f7a1c4381797121b230a03d

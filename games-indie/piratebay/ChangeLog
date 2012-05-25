@@ -1,0 +1,6 @@
+*piratebay-0 (25 May 2012)
+
+  25 May 2012; Misbakh-Soloviov Vadim A. <mva@gentoo.org> +metadata.xml,
+  +piratebay-0.ebuild:
+  move games-arcade to games-indie + added piratebay game
+

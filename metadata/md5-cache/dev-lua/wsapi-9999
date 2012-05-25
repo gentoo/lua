@@ -1,11 +1,11 @@
-DEFINED_PHASES=compile configure install unpack
-DEPEND=>=dev-lang/lua-5.1 luajit? ( dev-lang/luajit:2 ) dev-libs/fcgi virtual/httpd-fastcgi dev-util/pkgconfig dev-vcs/git
+DEFINED_PHASES=compile configure install prepare unpack
+DEPEND=|| ( >=dev-lang/lua-5.1 dev-lang/luajit:2 ) luajit? ( dev-lang/luajit:2 ) dev-libs/fcgi virtual/httpd-fastcgi dev-lua/rings dev-lua/coxpcall dev-vcs/git
 DESCRIPTION=Lua WSAPI Library
 EAPI=4
 HOMEPAGE=https://github.com/keplerproject/wsapi
-IUSE=luajit
+IUSE=luajit doc
 LICENSE=MIT
-RDEPEND=>=dev-lang/lua-5.1 luajit? ( dev-lang/luajit:2 ) dev-libs/fcgi virtual/httpd-fastcgi
+RDEPEND=|| ( >=dev-lang/lua-5.1 dev-lang/luajit:2 ) luajit? ( dev-lang/luajit:2 ) dev-libs/fcgi virtual/httpd-fastcgi dev-lua/rings dev-lua/coxpcall
 SLOT=0
-_eclasses_=eutils	74d9118e657da5b1db0c36f5dea88e57	git-2	15733ab6a6feb34af9837b41623c2bad	multilib	5f4ad6cf85e365e8f0c6050ddd21659e	toolchain-funcs	6526ac6fc9aedf391efb91fcd75ace68	user	32a09e82e2f592bf88ad2fd08525166e
-_md5_=d80ca322c951b581932b1169bd3468e1
+_eclasses_=eutils	39af24987a4a7a34dccf2ef9cc6af3f7	git-2	15733ab6a6feb34af9837b41623c2bad	multilib	5f4ad6cf85e365e8f0c6050ddd21659e	toolchain-funcs	f71b9936acc911ed1cc84557d3b5c2b3	user	32a09e82e2f592bf88ad2fd08525166e
+_md5_=91d0eef5c2dbb1c8fcdc74b8bbd39c54

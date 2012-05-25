@@ -1,5 +1,5 @@
 DEFINED_PHASES=install postinst prepare
-DEPEND=app-admin/eselect-luajit
+DEPEND=dev-lang/lua app-admin/eselect-luajit
 DESCRIPTION=Just-In-Time Compiler for the Lua programming language
 EAPI=4
 HOMEPAGE=http://luajit.org/
@@ -7,5 +7,5 @@ KEYWORDS=~amd64 ~x86
 LICENSE=MIT
 SLOT=2
 SRC_URI=http://luajit.org/download/LuaJIT-2.0.0-beta9.tar.gz
-_eclasses_=eutils	74d9118e657da5b1db0c36f5dea88e57	multilib	5f4ad6cf85e365e8f0c6050ddd21659e	pax-utils	0ace932c4045349c7fc1af0fe7091acf	toolchain-funcs	6526ac6fc9aedf391efb91fcd75ace68	user	32a09e82e2f592bf88ad2fd08525166e
-_md5_=3697bc383ea157ef4ff2fa21527e99bf
+_eclasses_=eutils	39af24987a4a7a34dccf2ef9cc6af3f7	multilib	5f4ad6cf85e365e8f0c6050ddd21659e	pax-utils	0ace932c4045349c7fc1af0fe7091acf	toolchain-funcs	f71b9936acc911ed1cc84557d3b5c2b3	user	32a09e82e2f592bf88ad2fd08525166e
+_md5_=c024f57b2193d61fb20291b31b6e4e6e
