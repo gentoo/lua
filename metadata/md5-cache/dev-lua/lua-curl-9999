@@ -1,5 +1,5 @@
 DEFINED_PHASES=install prepare unpack
-DEPEND=>=dev-lang/lua-5.1 net-misc/curl || ( >=sys-devel/automake-1.11.1:1.11 ) >=sys-devel/autoconf-2.68 sys-devel/libtool dev-vcs/git
+DEPEND=>=dev-lang/lua-5.1 net-misc/curl || ( >=sys-devel/automake-1.11.1:1.11 >=sys-devel/automake-1.12:1.12 ) >=sys-devel/autoconf-2.68 sys-devel/libtool dev-vcs/git
 DESCRIPTION=Lua cURL Library
 EAPI=4
 HOMEPAGE=https://github.com/msva/lua-curl
@@ -7,5 +7,5 @@ IUSE=doc examples
 LICENSE=MIT
 RDEPEND=>=dev-lang/lua-5.1
 SLOT=0
-_eclasses_=autotools	e4e346f68308900c24bb302865e7d43d	eutils	39af24987a4a7a34dccf2ef9cc6af3f7	git-2	15733ab6a6feb34af9837b41623c2bad	libtool	46e19fa7553f66c48ebc7cf025acd3ed	multilib	5f4ad6cf85e365e8f0c6050ddd21659e	toolchain-funcs	f71b9936acc911ed1cc84557d3b5c2b3	user	32a09e82e2f592bf88ad2fd08525166e
+_eclasses_=autotools	9d170f07df0e48055093b8c6a60d0fba	eutils	e9ac199862f908195424dc48ca2de8f6	git-2	15733ab6a6feb34af9837b41623c2bad	libtool	46e19fa7553f66c48ebc7cf025acd3ed	multilib	5782800349f728f725f9378105c6a2ab	multiprocessing	1512bdfe7004902b8cd2c466fc3df772	toolchain-funcs	940fa431b6227157c9a420dadef4970b	user	32a09e82e2f592bf88ad2fd08525166e
 _md5_=d4a67306116ba889c7437d066ab5026b

@@ -1,6 +1,12 @@
-*mari0-1.6 (22 Apr 2012)
+# ChangeLog for games-indie/mari0
+# Copyright 1999-2012 Gentoo Foundation; Distributed under the GPL v2
+# $Header: $
 
-  22 Apr 2012; Misbakh-Soloviov Vadim A. <mva@gentoo.org> +mari0-1.6.ebuild,
+*mari0-1.6 (25 May 2012)
+
+  25 May 2012; Vadim A. Misbakh-Soloviov <mva@mva.name> +mari0-1.6.ebuild,
   +metadata.xml:
-  bump!
+  move games-arcade to games-indie + added piratebay game
+
+  Signed-off-by: Vadim A. Misbakh-Soloviov <mva@mva.name>
 

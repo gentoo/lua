@@ -1,6 +1,12 @@
-*snayke-2.4 (22 Apr 2012)
+# ChangeLog for games-indie/snayke
+# Copyright 1999-2012 Gentoo Foundation; Distributed under the GPL v2
+# $Header: $
 
-  22 Apr 2012; Misbakh-Soloviov Vadim A. <mva@gentoo.org> +metadata.xml,
+*snayke-2.4 (25 May 2012)
+
+  25 May 2012; Vadim A. Misbakh-Soloviov <mva@mva.name> +metadata.xml,
   +snayke-2.4.ebuild:
-  bump!
+  move games-arcade to games-indie + added piratebay game
+
+  Signed-off-by: Vadim A. Misbakh-Soloviov <mva@mva.name>
 

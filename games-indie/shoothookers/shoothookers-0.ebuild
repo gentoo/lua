@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: This ebuild is from Lua overlay; Bumped by mva; $
 
-EAPI="3"
+EAPI="4"
 
 inherit eutils games
 
@@ -21,7 +21,16 @@ RDEPEND="${DEPEND}"
 S="${WORKDIR}"
 
 src_install() {
-	insinto "/usr/share/games/love/${P}"
-	doins -r .
-	games_make_wrapper "${PN}" "love /usr/share/games/love/${P}"
+        local dir="${GAMES_DATADIR}/love/${PN}"
+        insinto "${dir}"
+        doins -r .
+        games_make_wrapper "${PN}" "love /usr/share/games/love/${P}"
+        make_desktop_entry "${PN}"
+        prepgamesdirs
 }
+
+pkg_postinst() {
+        elog "${PN} savegames and configurations are stored in:"
+        elog "~/.local/share/love/${PN}/"
+}
+

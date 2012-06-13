@@ -1,0 +1,11 @@
+DEFINED_PHASES=configure install prepare unpack
+DEPEND=|| ( >=dev-lang/lua-5.1 dev-lang/luajit:2 ) dev-lua/wsapi dev-lua/cosmo dev-vcs/git
+DESCRIPTION=MVC Web Framework for Lua
+EAPI=4
+HOMEPAGE=https://github.com/keplerproject/orbit
+IUSE=luajit doc
+LICENSE=MIT
+RDEPEND=|| ( >=dev-lang/lua-5.1 dev-lang/luajit:2 ) dev-lua/wsapi dev-lua/cosmo
+SLOT=0
+_eclasses_=eutils	e9ac199862f908195424dc48ca2de8f6	git-2	15733ab6a6feb34af9837b41623c2bad	multilib	5782800349f728f725f9378105c6a2ab	toolchain-funcs	940fa431b6227157c9a420dadef4970b	user	32a09e82e2f592bf88ad2fd08525166e
+_md5_=7e980525ef3182f6d84b76109bbb04bf

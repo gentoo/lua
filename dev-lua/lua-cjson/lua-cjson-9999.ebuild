@@ -25,6 +25,5 @@ src_install() {
 		insinto /usr/share/doc/"${P}"
 		doins -r tests
 	fi
-	export PREFIX="/usr"
-	default
+	emake PREFIX="${D}/usr" install
 }

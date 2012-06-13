@@ -2,21 +2,22 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: This ebuild is from Lua overlay; Bumped by mva; $
 
-EAPI="3"
+EAPI="4"
 
 inherit eutils games
 
-DESCRIPTION="A 2D SuperMarioBros. + p0rtal clone"
+DESCRIPTION="A mix from Nintendo's Super Mario Bros and Valve's Portal"
 HOMEPAGE="http://stabyourself.net/${PN}/"
 SRC_URI="http://stabyourself.net/dl.php?file=${PN}-1006/${PN}-source.zip -> ${P}.zip"
-LICENSE="GPL-2"
+LICENSE="CCPL-Attribution-ShareAlike-NonCommercial-3.0"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
 IUSE=""
 RESTRICT=""
 
-DEPEND=">=games-engines/love-0.8.0"
-RDEPEND="${DEPEND}"
+RDEPEND=">=games-engines/love-0.8.0
+         media-libs/devil[gif,png]"
+DEPEND="app-arch/unzip"
 
 S="${WORKDIR}"
 
@@ -33,7 +34,16 @@ src_prepare() {
 }
 
 src_install() {
-	insinto "/usr/share/games/love/${P}"
+        local dir="${GAMES_DATADIR}/love/${PN}"
+	insinto "${dir}"
 	doins -r .
+        doins -s scalable "${FILESDIR}/${PN}.svg"
 	games_make_wrapper "${PN}" "love /usr/share/games/love/${P}"
+        make_desktop_entry "${PN}"
+        prepgamesdirs
+}
+
+pkg_postinst() {
+        elog "${PN} savegames and configurations are stored in:"
+        elog "~/.local/share/love/${PN}/"
 }

@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: This ebuild is from Lua overlay; Bumped by mva; $
 
-EAPI="3"
+EAPI="4"
 
 inherit eutils games
 
@@ -22,7 +22,7 @@ S="${WORKDIR}"
 
 src_unpack() {
 	default
-	#it is only one .love file, so we can use asterisk
+	#it is only one .love file (but with a crappy name), so we can use asterisk
 	mv *.love "${P}.zip"
 	unpack "./${P}.zip"
 	rm "${P}.zip"
@@ -30,12 +30,23 @@ src_unpack() {
 
 src_prepare() {
 	default
+	# patch to work with love 0.8.0
 	sed -r -e 's#(\trequire.*)(.lua)(.*)#\1\3#g' -i main.lua
 	epatch_user
 }
 
 src_install() {
-	insinto "/usr/share/games/love/${P}"
-	doins -r .
-	games_make_wrapper "${PN}" "love /usr/share/games/love/${P}"
+        local dir="${GAMES_DATADIR}/love/${PN}"
+        insinto "${dir}"
+        doins -r .
+        doins -s scalable "${FILESDIR}/${PN}.svg"
+        games_make_wrapper "${PN}" "love /usr/share/games/love/${P}"
+        make_desktop_entry "${PN}"
+        prepgamesdirs
 }
+
+pkg_postinst() {
+        elog "${PN} savegames and configurations are stored in:"
+        elog "~/.local/share/love/${PN}/"
+}
+

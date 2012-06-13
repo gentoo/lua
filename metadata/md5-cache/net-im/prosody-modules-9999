@@ -7,5 +7,5 @@ IUSE=addressing adhoc adhoc_cmd_admin adhoc_cmd_modules adhoc_cmd_ping adhoc_cmd
 LICENSE=MIT
 RDEPEND=net-im/prosody ircd? ( dev-lua/squish dev-lua/verse )
 SLOT=0
-_eclasses_=eutils	39af24987a4a7a34dccf2ef9cc6af3f7	mercurial	add64e64d758a9618d46a08a95f77483	multilib	5f4ad6cf85e365e8f0c6050ddd21659e	toolchain-funcs	f71b9936acc911ed1cc84557d3b5c2b3	user	32a09e82e2f592bf88ad2fd08525166e
+_eclasses_=eutils	e9ac199862f908195424dc48ca2de8f6	mercurial	add64e64d758a9618d46a08a95f77483	multilib	5782800349f728f725f9378105c6a2ab	toolchain-funcs	940fa431b6227157c9a420dadef4970b	user	32a09e82e2f592bf88ad2fd08525166e
 _md5_=974c1c45707c6283739ed7e2e2decd27
