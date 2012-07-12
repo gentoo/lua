@@ -14,11 +14,12 @@ EGIT_REPO_URI="http://luajit.org/git/luajit-2.0.git"
 LICENSE="MIT"
 SLOT="2"
 KEYWORDS=""
-IUSE="symlink +optimization"
+IUSE="emacs +optimization symlink"
 
 CDEPEND="	symlink? ( dev-lang/lua-headers !dev-lang/lua )
 		!symlink? ( dev-lang/lua )"
 DEPEND="${CDEPEND}
+	emacs? ( app-emacs/lua-mode )
 	app-admin/eselect-luajit"
 
 # Workaround for CHECKREQS_MEMORY
