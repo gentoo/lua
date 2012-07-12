@@ -4,7 +4,7 @@
 
 EAPI="4"
 
-inherit eutils multilib pax-utils git-2
+inherit eutils multilib check-reqs pax-utils git-2
 
 DESCRIPTION="Just-In-Time Compiler for the Lua programming language"
 HOMEPAGE="http://luajit.org/"
@@ -13,12 +13,26 @@ EGIT_REPO_URI="http://luajit.org/git/luajit-2.0.git"
 
 LICENSE="MIT"
 SLOT="2"
-KEYWORDS="~amd64 ~x86"
-IUSE=""
+KEYWORDS=""
+IUSE="symlink +optimization"
 
-CDEPEND="dev-lang/lua"
+CDEPEND="	symlink? ( dev-lang/lua-headers !dev-lang/lua )
+		!symlink? ( dev-lang/lua )"
 DEPEND="${CDEPEND}
 	app-admin/eselect-luajit"
+
+# Workaround for CHECKREQS_MEMORY
+pkg_setup() { :; }
+
+pkg_pretend() {
+	CHECKREQS_DISK_BUILD="10M"
+	use optimization && {
+		CHECKREQS_MEMORY="200M"
+		ewarn "Optimized build wants at least 200MB of RAM"
+		ewarn "If you have no such RAM - try to disable 'optimization' flag"
+	}
+	check-reqs_pkg_pretend
+}
 
 src_prepare(){
 	# fixing prefix and version
@@ -37,10 +51,27 @@ src_prepare(){
 		|| die "failed to remove forced strip"
 }
 
-src_install(){
+src_compile() {
+	if use optimization; then
+		emake amalg || die "emake failed!"
+	else
+		emake || die "emake failed!"
+	fi
+}
+
+src_install() {
 	einstall DESTDIR="${D}"
 	pax-mark m "${D}usr/bin/luajit-${PV}"
 	dosym "luajit-${PV}" "/usr/bin/luajit-${SLOT}"
+	use symlink && {
+		dosym "luajit-${SLOT}" "/usr/bin/lua"
+		exeinto /usr/bin
+		newexe "${FILESDIR}/luac.jit" "luac"
+		dosym liblua.so.5 /usr/$(get_libdir)/liblua.so
+		dosym liblua.so.5.1.9999 /usr/$(get_libdir)/liblua.so.5
+		dosym libluajit-5.1.so /usr/$(get_libdir)/liblua.so.5.1.9999
+		dosym libluajit-5.1.a /usr/$(get_libdir)/liblua.a
+	}
 }
 
 pkg_postinst() {

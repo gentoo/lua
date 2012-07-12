@@ -15,8 +15,6 @@ SLOT="0"
 KEYWORDS="~alpha ~amd64 ~arm ~hppa ~ia64 ~mips ~ppc ~ppc64 ~s390 ~sh ~sparc ~x86 ~x86-fbsd"
 IUSE=""
 
-DEPEND="!dev-lang/lua"
-
 S="${WORKDIR}/${MY_P}"
 
 src_compile() {
@@ -24,7 +22,8 @@ src_compile() {
 }
 
 src_install() {
-	cd "${S}/src"
-	insinto /usr/include
-	doins lua.h luaconf.h lualib.h lauxlib.h lua.hpp || die 'doins failed'
+	has_version dev-lang/lua || {
+		insinto /usr/include
+		doins src/lua.h src/luaconf.h src/lualib.h src/lauxlib.h src/lua.hpp || die 'doins failed.'
+	}
 }

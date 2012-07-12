@@ -22,7 +22,8 @@ src_compile() {
 }
 
 src_install() {
-	insinto /usr/include
-	doins src/lua.h src/luaconf.h src/lualib.h src/lauxlib.h etc/lua.hpp \
-		|| die 'doins failed.'
+	has_version dev-lang/lua || {
+		insinto /usr/include
+		doins src/lua.h src/luaconf.h src/lualib.h src/lauxlib.h etc/lua.hpp || die 'doins failed.'
+	}
 }
