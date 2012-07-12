@@ -58,6 +58,8 @@ src_install(){
 }
 
 pkg_postinst() {
+	einfo "!!!! This is old bugfix-only branch of LuaJIT. If you want more powerfull and !!!!"
+	einfo "!!!! performance-improved LuaJIT version - please install dev-lang/luajit:2 !!!!"
 	ewarn "Now you should select LuaJIT version to use as system default LuaJIT interpreter."
 	ewarn "Use 'eselect luajit list' to look for installed versions and"
 	ewarn "Use 'eselect luajit set <NUMBER_or_NAME>' to set version you chose."
