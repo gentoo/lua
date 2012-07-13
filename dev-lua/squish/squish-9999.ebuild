@@ -20,4 +20,6 @@ DEPEND="${RDEPEND}"
 
 src_install() {
 	dobin squish || die;
+	dobin make_squishy || die;
+	dodoc README CHANGES || die
 }
