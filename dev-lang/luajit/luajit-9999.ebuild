@@ -72,6 +72,7 @@ src_install() {
 		dosym liblua.so.5.1.9999 /usr/$(get_libdir)/liblua.so.5
 		dosym libluajit-5.1.so /usr/$(get_libdir)/liblua.so.5.1.9999
 		dosym libluajit-5.1.a /usr/$(get_libdir)/liblua.a
+		dosym luajit.pc /usr/$(get_libdir)/pkgconfig/lua.pc
 	}
 }
 
