@@ -15,7 +15,7 @@ SLOT="0"
 KEYWORDS=""
 IUSE=""
 
-RDEPEND=">=dev-lang/lua-5.1
+RDEPEND="|| ( >=dev-lang/lua-5.1 dev-lang/luajit:2 )
 	dev-lua/squish
 	dev-lua/luasocket
 	dev-lua/luaexpat

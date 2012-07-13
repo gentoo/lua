@@ -14,7 +14,7 @@ SLOT="0"
 KEYWORDS="~amd64 ~x86"
 IUSE=""
 
-DEPEND="|| ( dev-lang/lua dev-lang/luajit )"
+DEPEND="|| ( >=dev-lang/lua-5.1 dev-lang/luajit:2 )"
 RDEPEND="${DEPEND}"
 
 src_prepare() {

@@ -15,7 +15,7 @@ SLOT="0"
 KEYWORDS=""
 IUSE="debug"
 
-RDEPEND=">=dev-lang/lua-5.1"
+RDEPEND="|| ( >=dev-lang/lua-5.1 dev-lang/luajit:2 )"
 DEPEND="${RDEPEND}
 	dev-util/pkgconfig"
 

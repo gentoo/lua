@@ -15,7 +15,7 @@ SLOT="0"
 KEYWORDS=""
 IUSE="mysql postgres sqlite"
 
-RDEPEND=">=dev-lang/lua-5.1
+RDEPEND="	|| ( >=dev-lang/lua-5.1 dev-lang/luajit:2 )
 		mysql? ( || ( dev-db/mysql dev-db/mariadb ) )
 		postgres? ( dev-db/postgresql-base )
 		sqlite? ( >=dev-db/sqlite-3 )"

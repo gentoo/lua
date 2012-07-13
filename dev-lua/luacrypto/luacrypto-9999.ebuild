@@ -20,7 +20,7 @@ KEYWORDS=""
 IUSE="doc"
 IUSE+="${LANGS// / linguas_}"
 
-RDEPEND=">=dev-lang/lua-5.1
+RDEPEND="|| ( >=dev-lang/lua-5.1 dev-lang/luajit:2 )
 	>=dev-libs/openssl-0.9.7"
 DEPEND="${RDEPEND}
 	dev-util/pkgconfig"

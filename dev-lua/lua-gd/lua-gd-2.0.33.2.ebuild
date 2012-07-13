@@ -18,7 +18,7 @@ SLOT="0"
 KEYWORDS="~amd64 ~x86"
 IUSE="doc examples"
 
-RDEPEND="dev-lang/lua
+RDEPEND="|| ( >=dev-lang/lua-5.1 dev-lang/luajit:2 )
 	media-libs/gd[png]"
 DEPEND="${RDEPEND}
 	dev-util/pkgconfig"

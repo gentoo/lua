@@ -15,7 +15,7 @@ SLOT="0"
 KEYWORDS=""
 IUSE=""
 
-RDEPEND=">=dev-lang/lua-5.1[deprecated]
+RDEPEND="|| ( >=dev-lang/lua-5.1[deprecated] dev-lang/luajit:2 )
 		dev-lua/luasocket
 		dev-libs/openssl"
 DEPEND="${RDEPEND}

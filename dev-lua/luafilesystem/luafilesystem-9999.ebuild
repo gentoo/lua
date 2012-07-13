@@ -16,7 +16,7 @@ SLOT="0"
 KEYWORDS=""
 IUSE=""
 
-DEPEND=">=dev-lang/lua-5.1"
+DEPEND="|| ( >=dev-lang/lua-5.1 dev-lang/luajit:2 )"
 RDEPEND="${DEPEND}"
 
 src_prepare() {

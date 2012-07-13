@@ -15,7 +15,7 @@ SLOT="0"
 KEYWORDS="~x86 ~amd64 ~ppc"
 IUSE="curl openssl"
 
-DEPEND="dev-lang/lua
+DEPEND="|| ( >=dev-lang/lua-5.1 dev-lang/luajit:2 )
 		curl? ( net-misc/curl )
 		openssl? ( dev-libs/openssl )"
 RDEPEND="${DEPEND}

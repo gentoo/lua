@@ -15,7 +15,7 @@ SLOT="0"
 KEYWORDS=""
 IUSE="curl openssl"
 
-DEPEND="dev-lang/lua
+DEPEND="|| ( >=dev-lang/lua-5.1 dev-lang/luajit:2 )
 		curl? ( net-misc/curl )
 		openssl? ( dev-libs/openssl )"
 RDEPEND="${DEPEND}

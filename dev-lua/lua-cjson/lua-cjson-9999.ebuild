@@ -17,7 +17,7 @@ SLOT="0"
 KEYWORDS=""
 IUSE="examples"
 
-RDEPEND="|| ( >=dev-lang/lua-5.1 dev-lang/luajit )"
+RDEPEND="|| ( >=dev-lang/lua-5.1 dev-lang/luajit:2 )"
 DEPEND="${RDEPEND}"
 
 src_install() {
