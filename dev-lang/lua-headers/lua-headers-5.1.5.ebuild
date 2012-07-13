@@ -17,9 +17,14 @@ IUSE=""
 
 S="${WORKDIR}/${MY_P}"
 
-src_compile() {
-	:
+src_prepare() {
+	sed \
+		-e 's:\(LUA_ROOT\s*\).*:\1"/usr/":' \
+		-e "s:\(LUA_CDIR\s*LUA_ROOT \"\)lib:\1$(get_libdir):" \
+		-i src/luaconf.h || die "failed patching luaconf.h"
 }
+
+src_compile() { :; }
 
 src_install() {
 	has_version dev-lang/lua || {
