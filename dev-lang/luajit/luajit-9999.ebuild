@@ -16,8 +16,8 @@ SLOT="2"
 KEYWORDS=""
 IUSE="emacs +optimization symlink"
 
-CDEPEND="	symlink? ( dev-lang/lua-headers !dev-lang/lua )
-		!symlink? ( dev-lang/lua )"
+CDEPEND="	symlink? ( =dev-lang/lua-headers-5.1* !dev-lang/lua )
+		!symlink? ( =dev-lang/lua-5.1* )"
 DEPEND="${CDEPEND}
 	emacs? ( app-emacs/lua-mode )
 	app-admin/eselect-luajit"
