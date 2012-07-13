@@ -20,8 +20,8 @@ IUSE="	addressing adhoc_cmd_admin adhoc_cmd_modules adhoc_cmd_ping
 	blocking c2s_conn_throttle carbons checkcerts client_certs
 	compat_muc_admin component_roundrobin conformance_restricted
 	couchdb data_access default_bookmarks default_vcard discoitems
-	extdisco flash_policy group_bookmarks host_guard inotify_reload
-	ipcheck json_streams lastlog latex log_auth mam mam_adhoc
+	extdisco flash_policy group_bookmarks host_guard http_favicon inotify_reload
+	ipcheck json_streams lastlog latex limits log_auth mam mam_adhoc
 	motd_sequential muc_intercom muc_limits muc_log muc_log_http
 	offline_email onhold openid pastebin post_msg privacy pubsub_feeds
 	register_json register_redirect register_web reload_modules
