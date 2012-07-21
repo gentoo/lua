@@ -27,4 +27,5 @@ src_compile() {
 
 src_install() {
 	newbin clix.bin clix || die
+	dodoc README || die
 }
