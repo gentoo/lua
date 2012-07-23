@@ -40,8 +40,8 @@ RDEPEND="${DEPEND}"
 
 src_install() {
 	cd "${S}";
-	for m in ${IUSE}; do
-		if use ${m}; then
+	for m in ${PROSODY_MODULES}; do
+		if use prosody_modules_${m}; then
 			insinto /usr/lib/prosody/modules;
 			doins -r "mod_${m}" || die
 		fi
