@@ -4,11 +4,11 @@
 
 EAPI="4"
 
-inherit multilib toolchain-funcs flag-o-matic eutils subversion
+inherit multilib toolchain-funcs flag-o-matic eutils mercurial
 
 DESCRIPTION="DBI module for Lua"
-HOMEPAGE="http://code.google.com/p/luadbi/"
-ESVN_REPO_URI="http://luadbi.googlecode.com/svn/trunk"
+HOMEPAGE="http://code.matthewwild.co.uk/luadbi"
+EHG_REPO_URI="http://code.matthewwild.co.uk/luadbi"
 
 LICENSE="MIT"
 SLOT="0"
