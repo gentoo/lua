@@ -1,0 +1,22 @@
+|| ( >=dev-lang/lua-5.1 dev-lang/luajit:2 ) luajit? ( dev-lang/luajit:2 ) dev-libs/fcgi virtual/httpd-fastcgi dev-lua/rings dev-lua/coxpcall dev-vcs/git
+|| ( >=dev-lang/lua-5.1 dev-lang/luajit:2 ) luajit? ( dev-lang/luajit:2 ) dev-libs/fcgi virtual/httpd-fastcgi dev-lua/rings dev-lua/coxpcall
+0
+
+
+https://github.com/keplerproject/wsapi
+MIT
+Lua WSAPI Library
+
+eutils git-2 multilib toolchain-funcs user
+luajit doc
+
+
+
+4
+
+compile configure install prepare unpack
+
+
+
+
+

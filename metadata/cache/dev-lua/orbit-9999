@@ -1,0 +1,22 @@
+|| ( >=dev-lang/lua-5.1 dev-lang/luajit:2 ) dev-lua/wsapi dev-lua/cosmo dev-vcs/git
+|| ( >=dev-lang/lua-5.1 dev-lang/luajit:2 ) dev-lua/wsapi dev-lua/cosmo
+0
+
+
+https://github.com/keplerproject/orbit
+MIT
+MVC Web Framework for Lua
+
+eutils git-2 multilib toolchain-funcs user
+luajit doc
+
+
+
+4
+
+configure install prepare unpack
+
+
+
+
+

@@ -1,0 +1,22 @@
+|| ( >=dev-lang/lua-5.1 dev-lang/luajit:2 ) dev-util/pkgconfig dev-vcs/git
+|| ( >=dev-lang/lua-5.1 dev-lang/luajit:2 )
+0
+
+
+http://www.tecgraf.puc-rio.br/~diego/professional/luasocket/
+MIT
+Networking support library for the Lua language.
+
+eutils flag-o-matic git-2 multilib toolchain-funcs user
+debug luajit
+
+
+
+4
+
+compile configure install unpack
+
+
+
+
+

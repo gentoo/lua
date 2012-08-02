@@ -2,6 +2,18 @@
 # Copyright 1999-2012 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+*lua-headers-5.2.1 (13 Jul 2012)
+
+  13 Jul 2012; Vadim A. Misbakh-Soloviov <mva@mva.name>
+  lua-headers-5.1.4.ebuild, lua-headers-5.1.5.ebuild,
+  lua-headers-5.2.0.ebuild, +lua-headers-5.2.1.ebuild:
+  fix install paths
+
+  12 Jul 2012; Vadim A. Misbakh-Soloviov <mva@mva.name>
+  lua-headers-5.1.4.ebuild, lua-headers-5.1.5.ebuild,
+  lua-headers-5.2.0.ebuild:
+  LuaJIT fixes
+
 *lua-headers-5.2.0 (23 Apr 2012)
 *lua-headers-5.1.5 (23 Apr 2012)
 

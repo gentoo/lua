@@ -1,10 +1,10 @@
-DEFINED_PHASES=install postinst prepare unpack
-DEPEND=dev-lang/lua app-admin/eselect-luajit dev-vcs/git
+DEFINED_PHASES=compile install postinst prepare pretend setup unpack
+DEPEND=symlink? ( =dev-lang/lua-headers-5.1* !dev-lang/lua ) !symlink? ( =dev-lang/lua-5.1* ) emacs? ( app-emacs/lua-mode ) app-admin/eselect-luajit dev-vcs/git
 DESCRIPTION=Just-In-Time Compiler for the Lua programming language
 EAPI=4
 HOMEPAGE=http://luajit.org/
-KEYWORDS=~amd64 ~x86
+IUSE=emacs +optimization symlink
 LICENSE=MIT
 SLOT=2
-_eclasses_=eutils	e9ac199862f908195424dc48ca2de8f6	git-2	15733ab6a6feb34af9837b41623c2bad	multilib	5782800349f728f725f9378105c6a2ab	pax-utils	0ace932c4045349c7fc1af0fe7091acf	toolchain-funcs	940fa431b6227157c9a420dadef4970b	user	32a09e82e2f592bf88ad2fd08525166e
-_md5_=3be0ffbda34b46423c9653594f59ca60
+_eclasses_=check-reqs	e25439e7f4ca914e41d6bb617caa564d	eutils	327b713e2d6949c42cd96bc4898fd280	git-2	15733ab6a6feb34af9837b41623c2bad	multilib	5782800349f728f725f9378105c6a2ab	pax-utils	0ace932c4045349c7fc1af0fe7091acf	toolchain-funcs	d3b5812eeab360bc41aa48b6cdbbc142	user	d0a4d0735a6c0183d707ca919bd72f28
+_md5_=45d3a274e37a120fe946411ba9532ac8

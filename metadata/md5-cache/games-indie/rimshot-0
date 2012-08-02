@@ -1,12 +1,12 @@
 DEFINED_PHASES=compile configure install postinst preinst prepare setup unpack
 DEPEND=>=games-engines/love-0.8.0
 DESCRIPTION=Nice application to work with drumbeats and play in 'Guitar Anti-Hero'
-EAPI=3
+EAPI=4
 HOMEPAGE=http://stabyourself.net/rimshot/
 KEYWORDS=~amd64 ~x86
 LICENSE=GPL-2
 RDEPEND=>=games-engines/love-0.8.0
 SLOT=0
 SRC_URI=http://stabyourself.net/dl.php?file=rimshot/rimshot-source.zip -> rimshot-0.zip
-_eclasses_=base	5f35078c26d6c60556d5c8a2feb4f84f	eutils	e9ac199862f908195424dc48ca2de8f6	games	208d30509b917ca42d728b7d106acb73	multilib	5782800349f728f725f9378105c6a2ab	toolchain-funcs	940fa431b6227157c9a420dadef4970b	user	32a09e82e2f592bf88ad2fd08525166e
-_md5_=4c62345ffdb3c0de42533172c7e039f3
+_eclasses_=base	d40e074a6349af3ea5e937210630bdc1	eutils	327b713e2d6949c42cd96bc4898fd280	games	024161bb840ff1c7b424696877dbb18b	multilib	5782800349f728f725f9378105c6a2ab	toolchain-funcs	d3b5812eeab360bc41aa48b6cdbbc142	user	d0a4d0735a6c0183d707ca919bd72f28
+_md5_=3ba0e15c27f93a3eae82d5bcec210cee

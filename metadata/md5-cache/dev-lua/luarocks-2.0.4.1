@@ -1,13 +1,13 @@
 DEFINED_PHASES=configure preinst
-DEPEND=dev-lang/lua curl? ( net-misc/curl ) openssl? ( dev-libs/openssl )
+DEPEND=|| ( >=dev-lang/lua-5.1 dev-lang/luajit:2 ) curl? ( net-misc/curl ) openssl? ( dev-libs/openssl )
 DESCRIPTION=A deployment and management system for Lua modules
 EAPI=4
 HOMEPAGE=http://www.luarocks.org
 IUSE=curl openssl
 KEYWORDS=~x86 ~amd64 ~ppc
 LICENSE=MIT
-RDEPEND=dev-lang/lua curl? ( net-misc/curl ) openssl? ( dev-libs/openssl ) app-arch/unzip
+RDEPEND=|| ( >=dev-lang/lua-5.1 dev-lang/luajit:2 ) curl? ( net-misc/curl ) openssl? ( dev-libs/openssl ) app-arch/unzip
 SLOT=0
 SRC_URI=http://luarocks.org/releases/luarocks-2.0.4.1.tar.gz
-_eclasses_=eutils	e9ac199862f908195424dc48ca2de8f6	multilib	5782800349f728f725f9378105c6a2ab	toolchain-funcs	940fa431b6227157c9a420dadef4970b	user	32a09e82e2f592bf88ad2fd08525166e
-_md5_=60bc202c283b42e902c645f1a2c8cedb
+_eclasses_=eutils	327b713e2d6949c42cd96bc4898fd280	multilib	5782800349f728f725f9378105c6a2ab	toolchain-funcs	d3b5812eeab360bc41aa48b6cdbbc142	user	d0a4d0735a6c0183d707ca919bd72f28
+_md5_=ab993568f248f9e187a128467c7e509d

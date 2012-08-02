@@ -1,0 +1,22 @@
+>=games-engines/love-0.8.0
+>=games-engines/love-0.8.0
+0
+http://stabyourself.net/dl.php?file=shoothookers/shoothookers.love -> shoothookers-0.zip
+
+http://stabyourself.net/other/
+GPL-2
+A game prototype by Maurice (mari0 author)
+~amd64 ~x86
+base eutils games multilib toolchain-funcs user
+
+
+
+
+4
+
+compile configure install postinst preinst prepare setup unpack
+
+
+
+
+

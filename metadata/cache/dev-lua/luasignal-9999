@@ -1,0 +1,22 @@
+|| ( >=dev-lang/lua-5.1 dev-lang/luajit:2 ) virtual/pkgconfig dev-vcs/git
+|| ( >=dev-lang/lua-5.1 dev-lang/luajit:2 )
+0
+
+
+https://github.com/msva/lua-signal
+MIT
+Lua signal Library
+
+eutils git-2 multilib toolchain-funcs user
+
+
+
+
+4
+
+configure unpack
+
+
+
+
+

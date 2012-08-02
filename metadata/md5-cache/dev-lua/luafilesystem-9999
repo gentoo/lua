@@ -1,10 +1,10 @@
 DEFINED_PHASES=install prepare unpack
-DEPEND=>=dev-lang/lua-5.1 dev-vcs/git
+DEPEND=|| ( >=dev-lang/lua-5.1 dev-lang/luajit:2 ) dev-vcs/git
 DESCRIPTION=File System Library for the Lua Programming Language
 EAPI=4
 HOMEPAGE=http://keplerproject.github.com/luafilesystem/
 LICENSE=MIT
-RDEPEND=>=dev-lang/lua-5.1
+RDEPEND=|| ( >=dev-lang/lua-5.1 dev-lang/luajit:2 )
 SLOT=0
-_eclasses_=git-2	15733ab6a6feb34af9837b41623c2bad	multilib	5782800349f728f725f9378105c6a2ab	toolchain-funcs	940fa431b6227157c9a420dadef4970b
-_md5_=242d69f72d43be7973d1a6e6d8270c5d
+_eclasses_=git-2	15733ab6a6feb34af9837b41623c2bad	multilib	5782800349f728f725f9378105c6a2ab	toolchain-funcs	d3b5812eeab360bc41aa48b6cdbbc142
+_md5_=7a17ca951edb3da95d00f51b39c12554

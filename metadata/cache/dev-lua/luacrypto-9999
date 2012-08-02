@@ -1,0 +1,22 @@
+|| ( >=dev-lang/lua-5.1 dev-lang/luajit:2 ) >=dev-libs/openssl-0.9.7 dev-util/pkgconfig dev-vcs/git
+|| ( >=dev-lang/lua-5.1 dev-lang/luajit:2 ) >=dev-libs/openssl-0.9.7
+0
+
+
+https://github.com/msva/lua-crypto
+MIT
+Lua Crypto Library
+
+eutils flag-o-matic git-2 multilib toolchain-funcs user
+doc linguas_en linguas_ru
+
+
+
+4
+
+install unpack
+
+
+
+
+

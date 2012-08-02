@@ -1,13 +1,13 @@
 DEFINED_PHASES=compile install prepare
-DEPEND=dev-lang/lua media-libs/gd[png] dev-util/pkgconfig
+DEPEND=|| ( >=dev-lang/lua-5.1 dev-lang/luajit:2 ) media-libs/gd[png] dev-util/pkgconfig
 DESCRIPTION=Lua bindings to Thomas Boutell's gd library
 EAPI=4
 HOMEPAGE=http://lua-gd.luaforge.net/
 IUSE=doc examples
 KEYWORDS=~amd64 ~x86
 LICENSE=MIT
-RDEPEND=dev-lang/lua media-libs/gd[png]
+RDEPEND=|| ( >=dev-lang/lua-5.1 dev-lang/luajit:2 ) media-libs/gd[png]
 SLOT=0
 SRC_URI=http://luaforge.net/frs/download.php/1592/lua-gd-2.0.33r2.tar.gz mirror://sourceforge/lua-gd/lua-gd/lua-gd-2.0.33r2%20%28for%20Lua%205.1%29/lua-gd-2.0.33r2.tar.gz
-_eclasses_=eutils	e9ac199862f908195424dc48ca2de8f6	multilib	5782800349f728f725f9378105c6a2ab	toolchain-funcs	940fa431b6227157c9a420dadef4970b	user	32a09e82e2f592bf88ad2fd08525166e	versionator	6601b4c5b3f019a993db59a50e1854e4
-_md5_=064a49d007ae3b5ab1d0911f53e8b17a
+_eclasses_=eutils	327b713e2d6949c42cd96bc4898fd280	multilib	5782800349f728f725f9378105c6a2ab	toolchain-funcs	d3b5812eeab360bc41aa48b6cdbbc142	user	d0a4d0735a6c0183d707ca919bd72f28	versionator	6601b4c5b3f019a993db59a50e1854e4
+_md5_=09608d54bccb49834b886df7b7c4c5f8

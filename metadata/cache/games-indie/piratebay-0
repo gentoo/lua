@@ -1,0 +1,22 @@
+>=games-engines/love-0.8.0
+>=games-engines/love-0.8.0
+0
+http://ghoulsblade.schattenkind.net/files/piratebay.love -> piratebay-0.zip
+
+http://gamejams.schattenkind.net/2011/10/pirate-bay.html
+ZLIB
+A physics based game done in 19 hours during the Devmania 2011 Overnight Contest.
+-*
+base eutils games multilib toolchain-funcs user
+
+
+
+
+4
+
+compile configure install postinst preinst prepare setup unpack
+
+
+
+
+

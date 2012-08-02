@@ -1,10 +1,10 @@
 DEFINED_PHASES=compile install prepare unpack
-DEPEND=>=dev-lang/lua-5.1[deprecated] dev-lua/luasocket dev-libs/openssl dev-util/pkgconfig dev-vcs/mercurial
+DEPEND=|| ( >=dev-lang/lua-5.1[deprecated] dev-lang/luajit:2 ) dev-lua/luasocket dev-libs/openssl dev-util/pkgconfig dev-vcs/mercurial
 DESCRIPTION=Lua binding for OpenSSL library to provide TLS/SSL communication.
 EAPI=4
 HOMEPAGE=http://www.inf.puc-rio.br/~brunoos/luasec/
 LICENSE=MIT
-RDEPEND=>=dev-lang/lua-5.1[deprecated] dev-lua/luasocket dev-libs/openssl
+RDEPEND=|| ( >=dev-lang/lua-5.1[deprecated] dev-lang/luajit:2 ) dev-lua/luasocket dev-libs/openssl
 SLOT=0
-_eclasses_=eutils	e9ac199862f908195424dc48ca2de8f6	flag-o-matic	d4d85170c0ee7a80c9a7cd009ae13133	mercurial	add64e64d758a9618d46a08a95f77483	multilib	5782800349f728f725f9378105c6a2ab	toolchain-funcs	940fa431b6227157c9a420dadef4970b	user	32a09e82e2f592bf88ad2fd08525166e
-_md5_=e8a37fc8d6496e8124ae4369c7d37a7c
+_eclasses_=eutils	327b713e2d6949c42cd96bc4898fd280	flag-o-matic	2c938a1fe61ea9899a2b97ea1e065f5f	mercurial	add64e64d758a9618d46a08a95f77483	multilib	5782800349f728f725f9378105c6a2ab	toolchain-funcs	d3b5812eeab360bc41aa48b6cdbbc142	user	d0a4d0735a6c0183d707ca919bd72f28
+_md5_=7931dfe95871f6377d53872b4f85173c

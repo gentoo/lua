@@ -1,0 +1,22 @@
+symlink? ( =dev-lang/lua-headers-5.1* !dev-lang/lua ) !symlink? ( =dev-lang/lua-5.1* ) emacs? ( app-emacs/lua-mode ) app-admin/eselect-luajit dev-vcs/git
+
+2
+
+
+http://luajit.org/
+MIT
+Just-In-Time Compiler for the Lua programming language
+
+check-reqs eutils git-2 multilib pax-utils toolchain-funcs user
+emacs +optimization symlink
+
+
+
+4
+
+compile install postinst prepare pretend setup unpack
+
+
+
+
+

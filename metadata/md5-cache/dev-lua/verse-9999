@@ -1,10 +1,10 @@
 DEFINED_PHASES=compile install unpack
-DEPEND=>=dev-lang/lua-5.1 dev-lua/squish dev-lua/luasocket dev-lua/luaexpat dev-lua/luafilesystem dev-lua/LuaBitOp dev-vcs/mercurial
+DEPEND=|| ( >=dev-lang/lua-5.1 dev-lang/luajit:2 ) dev-lua/squish dev-lua/luasocket dev-lua/luaexpat dev-lua/luafilesystem dev-lua/LuaBitOp dev-vcs/mercurial
 DESCRIPTION=XMPP client library written in Lua.
 EAPI=4
 HOMEPAGE=http://code.mathewwild.co.uk/
 LICENSE=MIT
-RDEPEND=>=dev-lang/lua-5.1 dev-lua/squish dev-lua/luasocket dev-lua/luaexpat dev-lua/luafilesystem dev-lua/LuaBitOp
+RDEPEND=|| ( >=dev-lang/lua-5.1 dev-lang/luajit:2 ) dev-lua/squish dev-lua/luasocket dev-lua/luaexpat dev-lua/luafilesystem dev-lua/LuaBitOp
 SLOT=0
-_eclasses_=eutils	e9ac199862f908195424dc48ca2de8f6	flag-o-matic	d4d85170c0ee7a80c9a7cd009ae13133	mercurial	add64e64d758a9618d46a08a95f77483	multilib	5782800349f728f725f9378105c6a2ab	toolchain-funcs	940fa431b6227157c9a420dadef4970b	user	32a09e82e2f592bf88ad2fd08525166e
-_md5_=16096ce15199b0849ec15a7d0c4512a4
+_eclasses_=eutils	327b713e2d6949c42cd96bc4898fd280	flag-o-matic	2c938a1fe61ea9899a2b97ea1e065f5f	mercurial	add64e64d758a9618d46a08a95f77483	multilib	5782800349f728f725f9378105c6a2ab	toolchain-funcs	d3b5812eeab360bc41aa48b6cdbbc142	user	d0a4d0735a6c0183d707ca919bd72f28
+_md5_=509ff384d5b6d46200b462b8cb054a4b

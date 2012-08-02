@@ -2,6 +2,32 @@
 # Copyright 1999-2012 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  13 Jul 2012; Vadim A. Misbakh-Soloviov <mva@mva.name>
+  luajit-2.0.0_beta10.ebuild, luajit-9999.ebuild:
+  luajit ebuild update
+
+  13 Jul 2012; Vadim A. Misbakh-Soloviov <mva@mva.name>
+  luajit-2.0.0_beta10.ebuild:
+  fix luajit deps
+
+  13 Jul 2012; Vadim A. Misbakh-Soloviov <mva@mva.name> luajit-9999.ebuild:
+  luajit fix
+
+*luajit-2.0.0_beta10 (12 Jul 2012)
+*luajit-1.1.8 (12 Jul 2012)
+
+  12 Jul 2012; Vadim A. Misbakh-Soloviov <mva@mva.name> -luajit-1.1.7.ebuild,
+  +luajit-1.1.8.ebuild, -luajit-2.0.0_beta9.ebuild,
+  +luajit-2.0.0_beta10.ebuild:
+  LuaJIT-related improvements
+
+  12 Jul 2012; Vadim A. Misbakh-Soloviov <mva@mva.name> luajit-9999.ebuild:
+  LuaJIT fixes
+
+  12 Jul 2012; Vadim A. Misbakh-Soloviov <mva@mva.name> +files/luac.jit,
+  luajit-9999.ebuild:
+  LuaJIT fixes
+
   09 May 2012; Vadim A. Misbakh-Soloviov <mva@mva.name> luajit-1.1.7.ebuild,
   luajit-2.0.0_beta9.ebuild, luajit-9999.ebuild:
   Adding dev-lang/lua as build-dependcy

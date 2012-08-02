@@ -1,0 +1,12 @@
+DEFINED_PHASES=compile install postinst prepare pretend setup
+DEPEND=symlink? ( =dev-lang/lua-headers-5.1* !dev-lang/lua ) !symlink? ( =dev-lang/lua-5.1* ) emacs? ( app-emacs/lua-mode ) app-admin/eselect-luajit
+DESCRIPTION=Just-In-Time Compiler for the Lua programming language
+EAPI=4
+HOMEPAGE=http://luajit.org/
+IUSE=emacs +optimization symlink
+KEYWORDS=~amd64 ~x86
+LICENSE=MIT
+SLOT=2
+SRC_URI=http://luajit.org/download/LuaJIT-2.0.0-beta10.tar.gz
+_eclasses_=check-reqs	e25439e7f4ca914e41d6bb617caa564d	eutils	327b713e2d6949c42cd96bc4898fd280	multilib	5782800349f728f725f9378105c6a2ab	pax-utils	0ace932c4045349c7fc1af0fe7091acf	toolchain-funcs	d3b5812eeab360bc41aa48b6cdbbc142	user	d0a4d0735a6c0183d707ca919bd72f28
+_md5_=8e7d9d7338fbbcf09ab6475f152db7e9

@@ -1,0 +1,22 @@
+|| ( >=dev-lang/lua-5.1 dev-lang/luajit:2 ) luajit? ( dev-lang/luajit:2 ) dev-vcs/git
+|| ( >=dev-lang/lua-5.1 dev-lang/luajit:2 ) luajit? ( dev-lang/luajit:2 )
+0
+
+
+https://github.com/keplerproject/rings
+MIT
+Lua Rings Library
+
+eutils git-2 multilib toolchain-funcs user
+luajit
+
+
+
+4
+
+compile configure unpack
+
+
+
+
+

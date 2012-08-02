@@ -2,6 +2,10 @@
 # Copyright 1999-2012 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  13 Jun 2012; Vadim A. Misbakh-Soloviov <mva@mva.name> +files/mari0.svg,
+  mari0-1.6.ebuild:
+  move games to EAPI4
+
 *mari0-1.6 (25 May 2012)
 
   25 May 2012; Vadim A. Misbakh-Soloviov <mva@mva.name> +mari0-1.6.ebuild,
