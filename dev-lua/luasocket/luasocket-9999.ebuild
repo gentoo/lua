@@ -4,34 +4,35 @@
 
 EAPI="4"
 
-inherit multilib toolchain-funcs flag-o-matic mercurial eutils
+inherit multilib toolchain-funcs flag-o-matic eutils git-2
 
 DESCRIPTION="Networking support library for the Lua language."
 HOMEPAGE="http://www.tecgraf.puc-rio.br/~diego/professional/luasocket/"
-EHG_REPO_URI="http://code.matthewwild.co.uk/luasocket2-hg/"
+#EHG_REPO_URI="http://code.matthewwild.co.uk/luasocket2-hg/"
+EGIT_REPO_URI="https://github.com/diegonehab/luasocket git://github.com/diegonehab/luasocket"
+EGIT_BRANCH="unstable"
 
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS=""
-IUSE="debug"
+IUSE="debug luajit"
 
 RDEPEND="|| ( >=dev-lang/lua-5.1 dev-lang/luajit:2 )"
 DEPEND="${RDEPEND}
 	dev-util/pkgconfig"
 
-src_compile() {
-	# We append flags here to avoid editing the config file
-	use debug && append-flags -DLUASOCKET_DEBUG
-	append-flags -fPIC
+src_configure() {
+	use debug && export DEBUG="DEBUG"
+	prefix=/usr
+	LUAINC_linux=/usr/include
+	use luajit && LUAINC_linux=/usr/include/luajit-2.0
+	LUALIB_linux=/usr/lib
+}
 
+src_compile() {
 	emake linux \
-			CFLAGS="${CFLAGS}" \
-			LDFLAGS="${LDFLAGS} -o" \
 			CC="$(tc-getCC)" \
 			LD="$(tc-getCC) -shared" || die
-# I'm sorry for dirty LDFLAGS hack with "-o", but it is only way
-# to fix it ATM..
-# //wbr mva.
 }
 
 src_install() {
