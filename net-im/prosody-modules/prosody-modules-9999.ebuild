@@ -22,7 +22,7 @@ PROSODY_MODULES="
 	discoitems extdisco flash_policy group_bookmarks host_guard http_favicon
 	inotify_reload ipcheck json_streams lastlog latex limits log_auth mam mam_adhoc
 	motd_sequential muc_intercom muc_limits muc_log muc_log_http offline_email onhold
-	openid pastebin post_msg privacy pubsub_feeds readonly register_json register_redirect
+	openid pastebin post_msg privacy pubsub_feeds pubsub_hub readonly register_json register_redirect
 	register_web reload_modules remote_roster roster_command s2s_blackwhitelist s2s_idle_timeout
 	s2s_never_encrypt_blacklist s2s_reload_newcomponent saslauth_muc seclabels server_contact_info
 	server_status service_directories sift smacks sms_clickatell srvinjection stanza_counter
