@@ -67,7 +67,9 @@ src_configure() {
 
 src_install() {
 	DESTDIR="${D}" emake install || die "make failed"
-	newinitd "${FILESDIR}/${PN}".initd ${PN}
+	newinitd "${FILESDIR}/${PN}".initd "${PN}"
+	insinto "/usr/$(get_libdir)/${PN}"
+	doins -r tools
 }
 
 src_test() {
@@ -76,5 +78,8 @@ src_test() {
 }
 
 pkg_postinst() {
-	elog "Please note that the module 'console' has been renamed to 'admin_telnet'."
+	einfo ""
+	einfo "If you want to migrate your data from another XMPP-server"
+	einfo "software, please take a look into /usr/$(get_libdir)/${PN}/tools"
+	einfo ""
 }
