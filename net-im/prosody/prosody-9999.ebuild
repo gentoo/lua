@@ -78,12 +78,15 @@ src_install() {
 	DESTDIR="${D}" emake install || die "make failed"
 	newinitd "${FILESDIR}/${PN}".initd "${PN}"
 	use migration && (
-		cd "${S}/tools"
+		cd "${S}/tools/migration"
+		DESTDIR="${D}" emake install || die "migrator install failed"
+		cd "${S}"
+		rm -rf tools/migration
 		insinto $(pkg-config lua --variable INSTALL_LMOD)
-		doins erlparse.lua
-		newbin ejabberd2prosody{.lua,}
-		newbin ejabberdsql2prosody{.lua,}
-		newbin xep227toprosody{.lua,}
+		doins tools/erlparse.lua
+		rm tools/erlparse.lua
+		insinto "/usr/$(get_libdir)/${PN}"
+		doins -r tools
 	)
 }
 
@@ -92,7 +95,14 @@ src_test() {
 	./run_tests.sh
 }
 
-#pkg_postinst() {
-#	einfo ""
-#	einfo ""
-#}
+pkg_postinst() {
+	use migration && (
+		einfo 'You have enabled "migration" USE-flag.'
+		einfo "If you want to migrate data from Ejabberd server, then"
+		einfo "take a look at /usr/$(get_libdir)/${PN}/*{2,to}prosody.lua"
+		einfo "migration scripts."
+		einfo 'Also, you can find "prosody-migrator" binary as usefull'
+		einfo "to migrate data from jabberd14, or between prosody files"
+		einfo "storage and SQLite3."
+	)
+}
