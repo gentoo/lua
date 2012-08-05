@@ -14,7 +14,7 @@ EHG_REPO_URI="http://hg.prosody.im/trunk"
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS=""
-IUSE="+libevent mysql postgres sqlite +ssl +zlib +luajit ipv6"
+IUSE="+libevent mysql postgres sqlite +ssl +zlib +luajit ipv6 migration"
 
 DEPEND="	virtual/lua
 		net-im/jabber-base
@@ -50,26 +50,41 @@ src_prepare() {
 }
 
 src_configure() {
-	# LuaJIT configuration feature (pkg-config is not in deps, since it is LuaJIT there)
-	# and LuaJIT has pkg-config in deps ;)
-	use luajit && myconf="--with-lua-include=$(pkg-config --variable includedir luajit)"
+	use luajit && \
+		myconf="--with-lua-include=$(pkg-config --variable includedir luajit)" || \
+		myconf="--with-lua-include=$(pkg-config --variable includedir lua)"
 	# the configure script is handcrafted (and yells at unknown options)
 	# hence do not use 'econf'
 	./configure --prefix="/usr" \
+		--ostype=linux \
 		--sysconfdir="${JABBER_ETC}" \
 		--datadir="${JABBER_SPOOL}" \
-		--with-lua-lib=/usr/$(get_libdir)/lua \
+		--with-lua-lib=/usr/$(get_libdir) \
 		--c-compiler="$(tc-getCC)" --linker="$(tc-getCC)" \
 		--cflags="${CFLAGS} -Wall -fPIC" \
 		--ldflags="${LDFLAGS} -shared" \
 		--require-config "${myconf}" || die "configure failed"
 }
 
+src_compile() {
+	default
+	use migration && (
+		cd "${S}/tools/migration"
+		emake || die "emake migrator fails"
+	)
+}
+
 src_install() {
 	DESTDIR="${D}" emake install || die "make failed"
 	newinitd "${FILESDIR}/${PN}".initd "${PN}"
-	insinto "/usr/$(get_libdir)/${PN}"
-	doins -r tools
+	use migration && (
+		cd "${S}/tools"
+		insinto $(pkg-config lua --variable INSTALL_LMOD)
+		doins erlparse.lua
+		newbin ejabberd2prosody{.lua,}
+		newbin ejabberdsql2prosody{.lua,}
+		newbin xep227toprosody{.lua,}
+	)
 }
 
 src_test() {
@@ -77,9 +92,7 @@ src_test() {
 	./run_tests.sh
 }
 
-pkg_postinst() {
-	einfo ""
-	einfo "If you want to migrate your data from another XMPP-server"
-	einfo "software, please take a look into /usr/$(get_libdir)/${PN}/tools"
-	einfo ""
-}
+#pkg_postinst() {
+#	einfo ""
+#	einfo ""
+#}
