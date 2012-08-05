@@ -2,6 +2,9 @@
 # Copyright 1999-2012 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  04 Aug 2012; Vadim A. Misbakh-Soloviov <mva@mva.name> prosody-9999.ebuild:
+  prosody fix (now we installing tools)
+
 *prosody-9999 (23 Apr 2012)
 
   23 Apr 2012; Vadim A. Misbakh-Soloviov <mva@mva.name>
