@@ -17,9 +17,9 @@ PROSODY_MODULES="
 	addressing admin_web archive archive_muc auth_dovecot auth_external
 	auth_internal_yubikey auth_joomla auth_ldap auth_phpbb3 auth_sql auth_wordpress
 	auto_accept_subscriptions blocking block_s2s_subscriptions block_strangers
-	block_subscriptions c2s_conn_throttle carbons checkcerts client_certs compat_bind
-	compat_muc_admin compat_vcard component_roundrobin conformance_restricted couchdb
-	data_access default_bookmarks default_vcard discoitems extdisco flash_policy
+	block_subscriptions broadcast c2s_conn_throttle carbons checkcerts client_certs
+	compat_bind compat_muc_admin compat_vcard component_roundrobin conformance_restricted
+	couchdb	data_access default_bookmarks default_vcard discoitems extdisco flash_policy
 	group_bookmarks host_guard http_favicon inotify_reload ipcheck json_streams
 	lastlog latex limits log_auth mam mam_adhoc motd_sequential muc_intercom muc_limits
 	muc_log muc_log_http offline_email onhold openid pastebin post_msg pubsub_feeds
