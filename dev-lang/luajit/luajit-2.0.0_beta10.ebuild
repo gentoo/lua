@@ -53,6 +53,9 @@ src_prepare(){
 	# removing strip
 	sed -e '/$(Q)$(TARGET_STRIP)/d' -i src/Makefile \
 		|| die "failed to remove forced strip"
+	sed -r \
+		-e 's#(INSTALL_CMOD=.*)#\1\nINSTALL_INC=${includedir}#' \
+		-i etc/luajit.pc || die "failed to fix pkg-config file"
 }
 
 src_compile() {
