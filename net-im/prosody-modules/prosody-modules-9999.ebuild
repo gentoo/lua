@@ -38,8 +38,8 @@ done
 
 
 DEPEND="net-im/prosody"
-#	ircd? ( dev-lua/squish dev-lua/verse )"
-RDEPEND="${DEPEND}"
+RDEPEND="${DEPEND}
+prosody_modules_inotify_reload? ( dev-lua/linotify )"
 
 src_install() {
 	cd "${S}";
