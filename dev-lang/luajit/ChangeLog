@@ -2,6 +2,19 @@
 # Copyright 1999-2012 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  08 Aug 2012; Vadim A. Misbakh-Soloviov <mva@mva.name>
+  luajit-2.0.0_beta10.ebuild:
+  merging luajit fix to snapshot version
+
+  08 Aug 2012; Vadim A. Misbakh-Soloviov <mva@mva.name> luajit-9999.ebuild:
+  Sorry. One more missed slash
+
+  08 Aug 2012; Vadim A. Misbakh-Soloviov <mva@mva.name> luajit-9999.ebuild:
+  missing newline escaping
+
+  08 Aug 2012; Vadim A. Misbakh-Soloviov <mva@mva.name> luajit-9999.ebuild:
+  fix luajit
+
   13 Jul 2012; Vadim A. Misbakh-Soloviov <mva@mva.name>
   luajit-2.0.0_beta10.ebuild, luajit-9999.ebuild:
   luajit ebuild update

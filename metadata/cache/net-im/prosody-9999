@@ -8,13 +8,13 @@ MIT
 Prosody is a flexible communications server for Jabber/XMPP written in Lua.
 
 eutils mercurial multilib toolchain-funcs user versionator
-+libevent mysql postgres sqlite +ssl +zlib +luajit ipv6
++libevent mysql postgres sqlite +ssl +zlib +luajit ipv6 migration
 
 
 
 4
 
-configure install postinst prepare test unpack
+compile configure install postinst prepare test unpack
 
 
 
