@@ -77,6 +77,8 @@ src_compile() {
 src_install() {
 	DESTDIR="${D}" emake install || die "make failed"
 	newinitd "${FILESDIR}/${PN}".initd "${PN}"
+	insinto /etc/logrotate.d
+	newins "${FILESDIR}/${PN}".logrotate "${PN}"
 	use migration && (
 		cd "${S}/tools/migration"
 		DESTDIR="${D}" emake install || die "migrator install failed"
