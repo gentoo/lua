@@ -39,8 +39,7 @@ DEPEND="${RDEPEND}
 DOCS=( "readme.md" "changes.txt" )
 
 src_prepare() {
-	sh platform/unix/gen-makefile || die
-	mkdir platform/unix/m4 || die
+	sh platform/unix/automagic || die
 	eautoreconf
 }
 
