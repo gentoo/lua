@@ -1,10 +1,12 @@
-# ChangeLog for dev-lua/lua-zlib
+# ChangeLog for dev-lua/luazip
 # Copyright 1999-2012 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
-*lua-zlib-9999 (23 Apr 2012)
+*luazip-9999 (15 Aug 2012)
 
-  23 Apr 2012; Vadim A. Misbakh-Soloviov <mva@mva.name> +lua-zlib-9999.ebuild,
+  15 Aug 2012; Vadim A. Misbakh-Soloviov <mva@mva.name> +luazip-9999.ebuild,
   +metadata.xml:
-  bump!
+  luaZips and luaxml
+
+  Signed-off-by: Vadim A. Misbakh-Soloviov <mva@mva.name>
 

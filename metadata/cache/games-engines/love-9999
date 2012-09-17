@@ -1,5 +1,5 @@
-dev-games/physfs dev-lang/lua media-libs/devil[mng,tiff] media-libs/freetype media-libs/libmodplug media-libs/libsdl[joystick,opengl] media-libs/libvorbis media-libs/openal media-sound/mpg123 virtual/opengl media-libs/libmng media-libs/tiff || ( >=sys-devel/automake-1.11.1:1.11 >=sys-devel/automake-1.12:1.12 ) >=sys-devel/autoconf-2.68 sys-devel/libtool dev-vcs/mercurial
-dev-games/physfs dev-lang/lua media-libs/devil[mng,tiff] media-libs/freetype media-libs/libmodplug media-libs/libsdl[joystick,opengl] media-libs/libvorbis media-libs/openal media-sound/mpg123 virtual/opengl
+dev-games/physfs media-libs/devil[mng,tiff] media-libs/freetype media-libs/libmodplug media-libs/libsdl[joystick,opengl] media-libs/libvorbis media-libs/openal media-sound/mpg123 virtual/lua virtual/opengl media-libs/libmng media-libs/tiff || ( >=sys-devel/automake-1.11.1:1.11 >=sys-devel/automake-1.12:1.12 ) >=sys-devel/autoconf-2.68 sys-devel/libtool dev-vcs/mercurial
+dev-games/physfs media-libs/devil[mng,tiff] media-libs/freetype media-libs/libmodplug media-libs/libsdl[joystick,opengl] media-libs/libvorbis media-libs/openal media-sound/mpg123 virtual/lua virtual/opengl
 0
 
 

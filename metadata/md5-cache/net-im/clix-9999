@@ -6,5 +6,5 @@ HOMEPAGE=http://code.mathewwild.co.uk/
 LICENSE=MIT
 RDEPEND=virtual/lua dev-lua/squish dev-lua/verse dev-lua/luaexpat
 SLOT=0
-_eclasses_=eutils	327b713e2d6949c42cd96bc4898fd280	flag-o-matic	2c938a1fe61ea9899a2b97ea1e065f5f	mercurial	add64e64d758a9618d46a08a95f77483	multilib	5782800349f728f725f9378105c6a2ab	toolchain-funcs	d3b5812eeab360bc41aa48b6cdbbc142	user	d0a4d0735a6c0183d707ca919bd72f28
+_eclasses_=eutils	f98a70ed99fbfc479df6694dc8af82ac	flag-o-matic	2c938a1fe61ea9899a2b97ea1e065f5f	mercurial	add64e64d758a9618d46a08a95f77483	multilib	c2b85b5c63a44798c1e442147ac14c5c	toolchain-funcs	6dbd628eeb45b01b517c4d2bd5c3a44e	user	d0a4d0735a6c0183d707ca919bd72f28
 _md5_=c9be9f563e69760013f3d832d771b315

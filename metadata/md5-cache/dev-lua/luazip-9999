@@ -1,0 +1,11 @@
+DEFINED_PHASES=configure unpack
+DEPEND=|| ( >=dev-lang/lua-5.1 dev-lang/luajit:2 ) dev-libs/zziplib dev-util/pkgconfig dev-vcs/git
+DESCRIPTION=Lua bindings to zziplib
+EAPI=4
+HOMEPAGE=http://github.com/luaforge/luazip
+IUSE=luajit
+LICENSE=MIT
+RDEPEND=|| ( >=dev-lang/lua-5.1 dev-lang/luajit:2 ) dev-libs/zziplib
+SLOT=0
+_eclasses_=git-2	15733ab6a6feb34af9837b41623c2bad
+_md5_=89be269548dfea2b28966ee316bcc9bf

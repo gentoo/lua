@@ -23,7 +23,6 @@ SLOT="0"
 IUSE="luajit"
 
 RDEPEND="dev-games/physfs
-	dev-lang/lua
 	media-libs/devil[mng,tiff]
 	media-libs/freetype
 	media-libs/libmodplug
@@ -31,6 +30,7 @@ RDEPEND="dev-games/physfs
 	media-libs/libvorbis
 	media-libs/openal
 	media-sound/mpg123
+	virtual/lua
 	virtual/opengl"
 DEPEND="${RDEPEND}
 	media-libs/libmng

@@ -1,0 +1,22 @@
+|| ( >=dev-lang/lua-5.1 dev-lang/luajit:2 ) dev-libs/libzip dev-util/pkgconfig >=dev-util/cmake-2.8.4 userland_GNU? ( >=sys-apps/findutils-4.4.0 ) dev-vcs/git
+|| ( >=dev-lang/lua-5.1 dev-lang/luajit:2 ) dev-libs/libzip
+0
+
+
+http://github.com/brimworks/lua-zip
+MIT
+Lua bindings to libzip
+
+base cmake-utils eutils flag-o-matic git-2 multilib toolchain-funcs user
+luajit
+
+
+
+4
+
+compile configure install prepare test unpack
+
+
+
+
+
