@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: This ebuild is from Lua overlay; Bumped by mva; $
 
-EAPI="3"
+EAPI="4"
 
 DESCRIPTION="An *awesome* framework you can use to make 2D games in Lua."
 HOMEPAGE="http://love2d.org/"

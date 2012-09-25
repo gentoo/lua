@@ -1,10 +1,14 @@
-# ChangeLog for dev-lua/lua-geoip
+# ChangeLog for dev-lua/lua-fann
 # Copyright 1999-2012 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
-*lua-geoip-9999 (05 Aug 2012)
+*lua-fann-9999 (17 Sep 2012)
+*lua-fann-0.3 (17 Sep 2012)
+*lua-fann-0.2 (17 Sep 2012)
 
-  05 Aug 2012; Vadim A. Misbakh-Soloviov <mva@mva.name>
-  +lua-geoip-9999.ebuild, +metadata.xml:
-  dev-lua/lua-geoip
+  17 Sep 2012; Vadim A. Misbakh-Soloviov <mva@mva.name> +lua-fann-0.2.ebuild,
+  +lua-fann-0.3.ebuild, +lua-fann-9999.ebuild, +metadata.xml:
+  added lua-fann + love fix
+
+  Signed-off-by: Vadim A. Misbakh-Soloviov <mva@mva.name>
 

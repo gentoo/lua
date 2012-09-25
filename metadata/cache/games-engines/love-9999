@@ -5,7 +5,7 @@ dev-games/physfs media-libs/devil[mng,tiff] media-libs/freetype media-libs/libmo
 
 http://love2d.org/
 ZLIB
-Based on the libtool eclass
+An *awesome* framework you can use to make 2D games in Lua.
 
 autotools base eutils games libtool mercurial multilib multiprocessing toolchain-funcs user
 luajit

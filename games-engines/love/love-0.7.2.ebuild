@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: This ebuild is from Lua overlay; Bumped by mva; $
 
-EAPI="3"
+EAPI="4"
 
 inherit games
 
