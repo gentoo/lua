@@ -36,7 +36,7 @@ src_compile() {
 
 src_install() {
 	insinto /usr/share/doc/"${P}";
-	doins README
+	doins README.md
 	emake install \
 	DESTDIR="${D}" \
 	INSTALL_PATH="$(pkg-config ${LUAPKG_CMD} --variable=INSTALL_CMOD)" \
