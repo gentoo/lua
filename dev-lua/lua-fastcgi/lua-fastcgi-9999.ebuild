@@ -11,21 +11,39 @@ HOMEPAGE="https://github.com/cramey/lua-fastcgi"
 SRC_URI=""
 
 EGIT_REPO_URI="git://github.com/cramey/lua-fastcgi.git"
+EGIT_BRANCH="public"
 
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS=""
-IUSE="doc"
+IUSE="doc luajit"
 
 RDEPEND="
 	|| ( >=dev-lang/lua-5.1 dev-lang/luajit:2 )
+	luajit? ( dev-lang/luajit:2 )
 	dev-libs/fcgi
 "
 DEPEND="${RDEPEND}"
 
+src_prepare() {
+	if use luajit; then
+	LUA_LIB="luajit-5.1"
+	LUA_INC="luajit-2.0/"
+	else
+	LUA_LIB="lua"
+	LUA_INC=""
+	fi
+	sed -e "s/-Wl,[^ ]*//g"  -i Makefile
+	sed -e "s/lua5.1/${LUA_LIB}/g"  -i Makefile
+	sed -e "s#lua5.1/#${LUA_INC}#" -i src/config.c
+	sed -e "s#lua5.1/#${LUA_INC}#" -i src/lfuncs.c
+	sed -e "s#lua5.1/#${LUA_INC}#" -i src/lua.c
+	sed -e "s#lua5.1/#${LUA_INC}#" -i src/lua-fastcgi.c
+}
+
 src_install() {
 	if use doc; then
-		dodoc README.md TODO || die "dodoc failed"
+		dodoc README.md TODO lua-fastcgi.lua || die "dodoc failed"
 	fi
-	default
+	dobin lua-fastcgi
 }
