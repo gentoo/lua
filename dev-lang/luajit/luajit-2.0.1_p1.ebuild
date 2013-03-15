@@ -2,11 +2,11 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: This ebuild is from Lua overlay; Bumped by mva; $
 
-EAPI="4"
+EAPI="5"
 
 inherit eutils multilib check-reqs pax-utils
 
-MY_P="LuaJIT-${PV/_/-}"
+MY_P="LuaJIT-${PV//_p*}"
 DESCRIPTION="Just-In-Time Compiler for the Lua programming language"
 HOMEPAGE="http://luajit.org/"
 SRC_URI="http://luajit.org/download/${MY_P}.tar.gz"
@@ -15,13 +15,20 @@ KEYWORDS="~amd64 ~x86"
 
 LICENSE="MIT"
 SLOT="2"
-IUSE="emacs +optimization symlink"
+IUSE="emacs +optimization symlink +interactive"
 
-CDEPEND="	symlink? ( =dev-lang/lua-headers-5.1* !dev-lang/lua )
-		!symlink? ( =dev-lang/lua-5.1* )"
-DEPEND="${CDEPEND}
+CDEPEND="
+		symlink? ( =dev-lang/lua-headers-5.1* !dev-lang/lua )
+		!symlink? ( =dev-lang/lua-5.1* )
+"
+DEPEND="
+	${CDEPEND}
 	emacs? ( app-emacs/lua-mode )
-	app-admin/eselect-luajit"
+"
+PDEPEND="
+	interactive? ( dev-lua/iluajit )
+	virtual/lua
+"
 
 S="${WORKDIR}/${MY_P}"
 
@@ -56,6 +63,8 @@ src_prepare(){
 	sed -r \
 		-e 's#(INSTALL_CMOD=.*)#\1\nINSTALL_INC=${includedir}#' \
 		-i etc/luajit.pc || die "failed to fix pkg-config file"
+
+	epatch "${FILESDIR}/v${PV/_p/_hotfix}.patch"
 }
 
 src_compile() {

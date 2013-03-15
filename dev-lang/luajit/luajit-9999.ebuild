@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: This ebuild is from Lua overlay; Bumped by mva; $
 
-EAPI="4"
+EAPI="5"
 
 inherit eutils multilib check-reqs pax-utils git-2
 
@@ -14,13 +14,20 @@ EGIT_REPO_URI="http://luajit.org/git/luajit-2.0.git"
 LICENSE="MIT"
 SLOT="2"
 KEYWORDS=""
-IUSE="emacs +optimization symlink"
+IUSE="emacs +optimization symlink +interactive"
 
-CDEPEND="	symlink? ( =dev-lang/lua-headers-5.1* !dev-lang/lua )
-		!symlink? ( =dev-lang/lua-5.1* )"
-DEPEND="${CDEPEND}
+CDEPEND="
+		symlink? ( =dev-lang/lua-headers-5.1* !dev-lang/lua )
+		!symlink? ( =dev-lang/lua-5.1* )
+"
+DEPEND="
+	${CDEPEND}
 	emacs? ( app-emacs/lua-mode )
-	app-admin/eselect-luajit"
+"
+PDEPEND="
+	interactive? ( dev-lua/iluajit )
+	virtual/lua
+"
 
 # Workaround for CHECKREQS_MEMORY
 pkg_setup() { :; }
@@ -66,8 +73,9 @@ src_compile() {
 src_install() {
 	einstall DESTDIR="${D}"
 	pax-mark m "${D}usr/bin/luajit-${PV}"
-	dosym "luajit-${PV}" "/usr/bin/luajit-${SLOT}"
+	dosym "luajit-${PV}" "/usr/bin/luajit"
 	use symlink && {
+	# Spikes
 		dosym "luajit-${SLOT}" "/usr/bin/lua"
 		exeinto /usr/bin
 		newexe "${FILESDIR}/luac.jit" "luac"
@@ -77,10 +85,4 @@ src_install() {
 		dosym libluajit-5.1.a /usr/$(get_libdir)/liblua.a
 		dosym luajit.pc /usr/$(get_libdir)/pkgconfig/lua.pc
 	}
-}
-
-pkg_postinst() {
-	ewarn "Now you should select LuaJIT version to use as system default LuaJIT interpreter."
-	ewarn "Use 'eselect luajit list' to look for installed versions and"
-	ewarn "Use 'eselect luajit set <NUMBER_or_NAME>' to set version you chose."
 }
