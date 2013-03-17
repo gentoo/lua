@@ -14,11 +14,10 @@ EGIT_REPO_URI="http://luajit.org/git/luajit-2.0.git"
 LICENSE="MIT"
 SLOT="2"
 KEYWORDS=""
-IUSE="emacs +optimization symlink +interactive"
+IUSE="emacs +optimization +interactive"
 
 CDEPEND="
-		symlink? ( =dev-lang/lua-headers-5.1* !dev-lang/lua )
-		!symlink? ( =dev-lang/lua-5.1* )
+		|| ( dev-lang/lua-headers dev-lang/lua )
 "
 DEPEND="
 	${CDEPEND}
@@ -26,7 +25,7 @@ DEPEND="
 "
 PDEPEND="
 	interactive? ( dev-lua/iluajit )
-	virtual/lua
+	virtual/lua[luajit]
 "
 
 # Workaround for CHECKREQS_MEMORY
@@ -36,7 +35,7 @@ pkg_pretend() {
 	CHECKREQS_DISK_BUILD="10M"
 	use optimization && {
 		CHECKREQS_MEMORY="200M"
-		ewarn "Optimized build wants at least 200MB of RAM"
+		ewarn "Optimized (amalgamated) build wants at least 200MB of RAM"
 		ewarn "If you have no such RAM - try to disable 'optimization' flag"
 	}
 	check-reqs_pkg_pretend
@@ -72,17 +71,11 @@ src_compile() {
 
 src_install() {
 	einstall DESTDIR="${D}"
-	pax-mark m "${D}usr/bin/luajit-${PV}"
-	dosym "luajit-${PV}" "/usr/bin/luajit"
-	use symlink && {
-	# Spikes
-		dosym "luajit-${SLOT}" "/usr/bin/lua"
-		exeinto /usr/bin
-		newexe "${FILESDIR}/luac.jit" "luac"
-		dosym liblua.so.5 /usr/$(get_libdir)/liblua.so
-		dosym liblua.so.5.1.9999 /usr/$(get_libdir)/liblua.so.5
-		dosym libluajit-5.1.so /usr/$(get_libdir)/liblua.so.5.1.9999
-		dosym libluajit-5.1.a /usr/$(get_libdir)/liblua.a
-		dosym luajit.pc /usr/$(get_libdir)/pkgconfig/lua.pc
-	}
+	pax-mark m "${D}usr/bin/${P}"
+	dosym "luajit-${PV}" "/usr/bin/${PN}"
+	dobin "${FILESDIR}/${P}-luac-wrapper"
 }
+
+#pkg_postinst() {
+#        "${ROOT}"/usr/bin/eselect lua set "${P}"
+#}
