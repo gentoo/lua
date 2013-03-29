@@ -28,14 +28,16 @@ RDEPEND="
 DEPEND="${RDEPEND}"
 
 src_install() {
+	local lmod="$($(tc-getPKG_CONFIG) --variable=INSTALL_LMOD luajit)"
+
 	dodoc README.md || die "dodoc failed"
 	use doc && (
 		luadoc . -d html
 		dohtml -r html
 	)
 
-	insinto "$($(tc-getPKG_CONFIG) --variable=INSTALL_LMOD luajit)/${PN}"
+	insinto "${lmod}"
 	doins *.lua
 
-	make_wrapper "${PN}" "luajit ./${PN}.lua" "$($(tc-getPKG_CONFIG) --variable=INSTALL_LMOD luajit)/${PN}"
+	make_wrapper "${PN}" "luajit ${lmod}/${PN}.lua"
 }
