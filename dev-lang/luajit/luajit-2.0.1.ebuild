@@ -78,7 +78,7 @@ src_install() {
 	einstall DESTDIR="${D}"
 	pax-mark m "${D}usr/bin/${P}"
 	dosym "luajit-${PV}" "/usr/bin/${PN}"
-	newbin "${FILESDIR}/luac.jit" "${P}-luac-wrapper"
+	newbin "${FILESDIR}/luac.jit" "luac-${P}"
 }
 
 #pkg_postinst() {

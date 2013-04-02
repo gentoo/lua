@@ -2,9 +2,9 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: This ebuild is from Lua overlay; Bumped by mva; $
 
-EAPI="4"
+EAPI="5"
 
-inherit multilib toolchain-funcs flag-o-matic git-2 eutils
+inherit cmake-utils multilib toolchain-funcs flag-o-matic git-2 eutils
 
 DESCRIPTION="Lua JSON Library, written in C"
 HOMEPAGE="http://www.kyne.com.au/~mark/software/lua-cjson.php"
