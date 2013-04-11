@@ -2,9 +2,9 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: This ebuild is from Lua overlay; Bumped by mva; $
 
-EAPI="4"
+EAPI="5"
 
-inherit multilib toolchain-funcs flag-o-matic mercurial eutils
+inherit mercurial eutils
 
 DESCRIPTION="XMPP client library written in Lua."
 HOMEPAGE="http://code.mathewwild.co.uk/"
@@ -13,13 +13,21 @@ EHG_REPO_URI="http://code.matthewwild.co.uk/${PN}/"
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS=""
-IUSE=""
+IUSE="luajit"
 
-RDEPEND="virtual/lua
+RDEPEND="
+	|| ( =dev-lang/lua-5.1* dev-lang/luajit:2 )
 	dev-lua/squish
 	dev-lua/verse
-	dev-lua/luaexpat"
+	dev-lua/luaexpat
+"
 DEPEND="${RDEPEND}"
+
+src_prepare() {
+	use luajit && sed -r \
+		-e 's:(env lua):\1jit:' \
+		-i clix.lua || die
+}
 
 src_compile() {
 	squish

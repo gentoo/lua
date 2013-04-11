@@ -25,6 +25,6 @@ src_compile() {
 }
 
 src_install() {
-	insinto $(pkg-config --variable INSTALL_LMOD lua)
+	insinto $($(tc-getPKG_CONFIG) --variable INSTALL_LMOD lua)
 	doins lahttp.lua || die
 }

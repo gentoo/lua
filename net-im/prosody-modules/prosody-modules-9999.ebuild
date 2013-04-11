@@ -62,7 +62,7 @@ src_install() {
 #pkg_postinst() {
 #	if use ircd; then
 #		cd /usr/lib/prosody/modules/mod_ircd;
-#		cp "$(pkg-config --variable INSTALL_LMOD lua)"/verse.lua verse.lua
+#		cp "$($(tc-getPKG_CONFIG) --variable INSTALL_LMOD lua)"/verse.lua verse.lua
 #		squish --use-http
 #	fi
 #}

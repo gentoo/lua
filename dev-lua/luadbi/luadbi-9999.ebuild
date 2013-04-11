@@ -27,10 +27,10 @@ S="${WORKDIR}"
 src_prepare() {
 	epatch "${FILESDIR}/${PV}-Makefile.patch"
 	epatch "${FILESDIR}/${PV}-postgres-path.patch"
-	sed -i -e "s#^INSTALL_DIR_LUA=.*#INSTALL_DIR_LUA=$(pkg-config --variable INSTALL_LMOD lua)#" "${S}/Makefile"
-	sed -i -e "s#^INSTALL_DIR_BIN=.*#INSTALL_DIR_BIN=$(pkg-config --variable INSTALL_CMOD lua)#" "${S}/Makefile"
-	sed -i -e "s#^LUA_INC_DIR=.*#LUA_INC_DIR=$(pkg-config --variable INSTALL_INC lua)#" "${S}/Makefile"
-	sed -i -e "s#^LUA_LIB_DIR=.*#LUA_LIB_DIR=$(pkg-config --variable INSTALL_LIB lua)#" "${S}/Makefile"
+	sed -i -e "s#^INSTALL_DIR_LUA=.*#INSTALL_DIR_LUA=$($(tc-getPKG_CONFIG) --variable INSTALL_LMOD lua)#" "${S}/Makefile"
+	sed -i -e "s#^INSTALL_DIR_BIN=.*#INSTALL_DIR_BIN=$($(tc-getPKG_CONFIG) --variable INSTALL_CMOD lua)#" "${S}/Makefile"
+	sed -i -e "s#^LUA_INC_DIR=.*#LUA_INC_DIR=$($(tc-getPKG_CONFIG) --variable INSTALL_INC lua)#" "${S}/Makefile"
+	sed -i -e "s#^LUA_LIB_DIR=.*#LUA_LIB_DIR=$($(tc-getPKG_CONFIG) --variable INSTALL_LIB lua)#" "${S}/Makefile"
 	sed -i -e "s#^LUA_LIB =.*#LUA_LIB=lua#" "${S}/Makefile"
 }
 

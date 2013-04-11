@@ -22,8 +22,8 @@ DEPEND="${RDEPEND}
 	dev-util/pkgconfig"
 
 src_prepare() {
-	sed -i -e "s#^LUAPATH=.*#LUAPATH=$(pkg-config --variable INSTALL_LMOD lua)#" "${S}/Makefile"
-	sed -i -e "s#^LUACPATH=.*#LUACPATH=$(pkg-config --variable INSTALL_CMOD lua)#" "${S}/Makefile"
+	sed -i -e "s#^LUAPATH=.*#LUAPATH=$($(tc-getPKG_CONFIG) --variable INSTALL_LMOD lua)#" "${S}/Makefile"
+	sed -i -e "s#^LUACPATH=.*#LUACPATH=$($(tc-getPKG_CONFIG) --variable INSTALL_CMOD lua)#" "${S}/Makefile"
 	epatch "${FILESDIR}/${P}_Makefile.patch"
 }
 

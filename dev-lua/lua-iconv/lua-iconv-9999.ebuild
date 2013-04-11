@@ -33,5 +33,5 @@ src_compile() {
 }
 
 src_install() {
-	emake DESTDIR="${D}" INSTALL_PATH="$(pkg-config lua --variable INSTALL_CMOD)" install || die "Can't install"
+	emake DESTDIR="${D}" INSTALL_PATH="$($(tc-getPKG_CONFIG) lua --variable INSTALL_CMOD)" install || die "Can't install"
 }

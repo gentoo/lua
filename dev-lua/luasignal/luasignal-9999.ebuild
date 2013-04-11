@@ -22,5 +22,5 @@ DEPEND="${RDEPEND}
 	virtual/pkgconfig"
 
 src_configure() {
-	sed -e "s#LUA_LIBDIR.*#LUA_LIBDIR=$(pkg-config lua --variable INSTALL_CMOD)#g" -i Make.config
+	sed -e "s#LUA_LIBDIR.*#LUA_LIBDIR=$($(tc-getPKG_CONFIG) lua --variable INSTALL_CMOD)#g" -i Make.config
 }

@@ -30,7 +30,7 @@ src_compile() {
 	use luajit && LUAPKG_CMD="luajit";
 	export LUAPKG_CMD;
 	emake \
-	CFLAGS="${CFLAGS} $(pkg-config ${LUAPKG_CMD} --cflags) -fPIC -O3 -Wall" \
+	CFLAGS="${CFLAGS} $($(tc-getPKG_CONFIG) ${LUAPKG_CMD} --cflags) -fPIC -O3 -Wall" \
 	|| die "emake failed"
 }
 
@@ -39,6 +39,6 @@ src_install() {
 	doins README.md
 	emake install \
 	DESTDIR="${D}" \
-	INSTALL_PATH="$(pkg-config ${LUAPKG_CMD} --variable=INSTALL_CMOD)" \
+	INSTALL_PATH="$($(tc-getPKG_CONFIG) ${LUAPKG_CMD} --variable=INSTALL_CMOD)" \
 	|| die "emake failed"
 }

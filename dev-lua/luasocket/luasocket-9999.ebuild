@@ -37,8 +37,8 @@ src_compile() {
 
 src_install() {
 	emake install \
-		INSTALL_TOP_SHARE="${D}/$(pkg-config --variable INSTALL_LMOD lua)" \
-		INSTALL_TOP_LIB="${D}/$(pkg-config --variable INSTALL_CMOD lua | sed -e "s:lib/:$(get_libdir)/:")" || die
+		INSTALL_TOP_SHARE="${D}/$($(tc-getPKG_CONFIG) --variable INSTALL_LMOD lua)" \
+		INSTALL_TOP_LIB="${D}/$($(tc-getPKG_CONFIG) --variable INSTALL_CMOD lua | sed -e "s:lib/:$(get_libdir)/:")" || die
 
 	dodoc NEW README || die
 	dohtml doc/* || die

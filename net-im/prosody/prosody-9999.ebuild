@@ -51,8 +51,8 @@ src_prepare() {
 
 src_configure() {
 	use luajit && \
-		myconf="--with-lua-include=$(pkg-config --variable includedir luajit)" || \
-		myconf="--with-lua-include=$(pkg-config --variable includedir lua)"
+		myconf="--with-lua-include=$($(tc-getPKG_CONFIG) --variable includedir luajit)" || \
+		myconf="--with-lua-include=$($(tc-getPKG_CONFIG) --variable includedir lua)"
 	# the configure script is handcrafted (and yells at unknown options)
 	# hence do not use 'econf'
 	./configure --prefix="/usr" \
@@ -84,7 +84,7 @@ src_install() {
 		DESTDIR="${D}" emake install || die "migrator install failed"
 		cd "${S}"
 		rm -rf tools/migration
-		insinto $(pkg-config lua --variable INSTALL_LMOD)
+		insinto $($(tc-getPKG_CONFIG) lua --variable INSTALL_LMOD)
 		doins tools/erlparse.lua
 		rm tools/erlparse.lua
 		insinto "/usr/$(get_libdir)/${PN}"

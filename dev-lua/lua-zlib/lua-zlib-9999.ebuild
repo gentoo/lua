@@ -25,6 +25,6 @@ src_prepare() {
 }
 
 src_configure() {
-	MYCMAKEARGS="-DINSTALL_CMOD='$(pkg-config --variable INSTALL_CMOD lua)'"
+	MYCMAKEARGS="-DINSTALL_CMOD='$($(tc-getPKG_CONFIG) --variable INSTALL_CMOD lua)'"
 	cmake-utils_src_configure
 }

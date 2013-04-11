@@ -21,9 +21,9 @@ DEPEND="${RDEPEND}
 dev-util/pkgconfig"
 
 src_prepare() {
-	sed -i -e "s#^LUA_LIBDIR=.*#LUA_LIBDIR=$(pkg-config --variable INSTALL_CMOD lua)#" "${S}/config"
-	sed -i -e "s#^LUA_DIR=.*#LUA_DIR=$(pkg-config --variable INSTALL_LMOD lua)#" "${S}/config"
-	sed -i -e "s#^LUA_INC=.*#LUA_INC=$(pkg-config --variable INSTALL_INC lua)#" "${S}/config"
+	sed -i -e "s#^LUA_LIBDIR=.*#LUA_LIBDIR=$($(tc-getPKG_CONFIG) --variable INSTALL_CMOD lua)#" "${S}/config"
+	sed -i -e "s#^LUA_DIR=.*#LUA_DIR=$($(tc-getPKG_CONFIG) --variable INSTALL_LMOD lua)#" "${S}/config"
+	sed -i -e "s#^LUA_INC=.*#LUA_INC=$($(tc-getPKG_CONFIG) --variable INSTALL_INC lua)#" "${S}/config"
 	sed -i -e "s#^EXPAT_INC=.*#EXPAT_INC=/usr/include#" "${S}/config"
 	sed -i -e "s#^LUA_VERSION_NUM=.*#LUA_VERSION_NUM=501#" "${S}/config"
 	epatch "${FILESDIR}/${P}-makefile.patch"

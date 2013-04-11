@@ -23,8 +23,8 @@ src_configure() {
 	local LUA="lua"
 	use luajit && LUA="luajit"
 	mycmakeargs=(
-		-DINSTALL_CMOD=$(pkg-config --variable INSTALL_CMOD ${LUA}) \
-		-DINSTALL_LMOD=$(pkg-config --variable INSTALL_LMOD ${LUA})
+		-DINSTALL_CMOD=$($(tc-getPKG_CONFIG) --variable INSTALL_CMOD ${LUA}) \
+		-DINSTALL_LMOD=$($(tc-getPKG_CONFIG) --variable INSTALL_LMOD ${LUA})
 	)
 	cmake-utils_src_configure
 }

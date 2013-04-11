@@ -58,7 +58,7 @@ src_prepare(){
 		|| die "failed to remove forced strip"
 	sed -r \
 		-e 's#(INSTALL_CMOD=.*)#\1\nINSTALL_INC=${includedir}#' \
-		-i etc/luajit.pc || die "failed to fix pkg-config file"
+		-i etc/luajit.pc || die "failed to fix pkgconfig file"
 }
 
 src_compile() {

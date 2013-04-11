@@ -21,6 +21,6 @@ RDEPEND="|| ( >=dev-lang/lua-5.1 dev-lang/luajit:2 )
 DEPEND="${RDEPEND}"
 
 src_install() {
-	insinto $(pkg-config --variable INSTALL_LMOD lua)/${PN}/;
+	insinto $($(tc-getPKG_CONFIG) --variable INSTALL_LMOD lua)/${PN}/;
 	doins *.lua || die
 }
