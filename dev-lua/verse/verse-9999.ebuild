@@ -34,5 +34,7 @@ src_install() {
 	use luajit && lua="luajit"
 	insinto "$($(tc-getPKG_CONFIG) --variable INSTALL_LMOD ${lua})"
 	doins verse.lua || die
-	use doc && dodoc doc/* || die
+	use doc && {
+		dodoc doc/* || ewarn "No documentation found! Please report it to XMPP-conference prosody@conference.prosody.org"
+	}
 }
