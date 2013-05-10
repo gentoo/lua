@@ -17,7 +17,7 @@ KEYWORDS=""
 IUSE="emacs +optimization +interactive"
 
 CDEPEND="
-		|| ( dev-lang/lua-headers dev-lang/lua )
+		|| ( =dev-lang/lua-headers-5.1* dev-lang/lua )
 "
 DEPEND="
 	${CDEPEND}
