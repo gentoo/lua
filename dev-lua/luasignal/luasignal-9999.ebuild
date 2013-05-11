@@ -15,12 +15,14 @@ EGIT_REPO_URI="git://github.com/msva/lua-signal.git"
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS=""
-IUSE=""
+IUSE="luajit"
 
 RDEPEND="|| ( >=dev-lang/lua-5.1 dev-lang/luajit:2 )"
 DEPEND="${RDEPEND}
 	virtual/pkgconfig"
 
 src_configure() {
-	sed -e "s#LUA_LIBDIR.*#LUA_LIBDIR=$($(tc-getPKG_CONFIG) lua --variable INSTALL_CMOD)#g" -i Make.config
+	local lua=lua;
+	use luajit && lua=luajit;
+	echo "LUA_IMPL=${lua}" > .config
 }

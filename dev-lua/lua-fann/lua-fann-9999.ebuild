@@ -22,15 +22,10 @@ RDEPEND="|| ( >=dev-lang/lua-5.1 dev-lang/luajit:2 )
 DEPEND="${RDEPEND}"
 
 src_prepare() {
-	LUABIN="lua"
+	local lua=lua;
+	use luajit && lua=luajit;
+	echo "LUA_IMPL=${lua}" > .config
 	default
-	epatch_user
-	use luajit && export LUA_INCLUDE_DIR="/usr/$(get_libdir)/luajit-2.0"
-	use luajit && export LUABIN="luajit"
-}
-
-src_test() {
-	emake test
 }
 
 src_install() {

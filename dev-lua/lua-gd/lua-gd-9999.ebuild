@@ -4,7 +4,7 @@
 
 EAPI="5"
 
-inherit eutils toolchain-funcs versionator git-2
+inherit eutils toolchain-funcs git-2
 
 DESCRIPTION="Lua bindings to Thomas Boutell's gd library"
 HOMEPAGE="http://lua-gd.luaforge.net/"
@@ -14,7 +14,7 @@ EGIT_REPO_URI="git://github.com/ittner/lua-gd.git"
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS=""
-IUSE="doc examples"
+IUSE="doc examples luajit"
 
 RDEPEND="|| ( >=dev-lang/lua-5.1 dev-lang/luajit:2 )
 	media-libs/gd[png]"
@@ -26,11 +26,15 @@ src_prepare() {
 }
 
 src_compile() {
-	emake LUAPKG=lua CC="$(tc-getCC)"
+	local lua=lua;
+	use luajit && lua=luajit;
+	emake LUAPKG="${lua}" CC="$(tc-getCC)"
 }
 
 src_install() {
-	emake install LUAPKG=lua DESTDIR="${D}"
+	local lua=lua;
+	use luajit && lua=luajit;
+	emake install LUAPKG="${lua}" DESTDIR="${D}"
 	dodoc README
 
 	if use doc; then

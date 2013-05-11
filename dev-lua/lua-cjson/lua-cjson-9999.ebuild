@@ -4,26 +4,33 @@
 
 EAPI="5"
 
-inherit cmake-utils multilib toolchain-funcs flag-o-matic git-2 eutils
+inherit cmake-utils git-2
 
 DESCRIPTION="Lua JSON Library, written in C"
 HOMEPAGE="http://www.kyne.com.au/~mark/software/lua-cjson.php"
 SRC_URI=""
 
-EGIT_REPO_URI="git://github.com/mpx/lua-cjson.git"
+EGIT_REPO_URI="git://github.com/msva/lua-cjson.git"
 
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS=""
-IUSE="examples"
+IUSE="examples luajit"
 
 RDEPEND="|| ( >=dev-lang/lua-5.1 dev-lang/luajit:2 )"
 DEPEND="${RDEPEND}"
+
+src_configure() {
+	mycmakeargs=(
+		$(cmake-utils_use_use luajit)
+	)
+	cmake-utils_src_configure
+}
 
 src_install() {
 	if use examples; then
 		insinto /usr/share/doc/"${P}"
 		doins -r tests
 	fi
-	emake PREFIX="${D}/usr" install
+	default
 }

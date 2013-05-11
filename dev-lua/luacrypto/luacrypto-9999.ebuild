@@ -6,7 +6,7 @@ EAPI="5"
 
 LANGS=" en ru"
 
-inherit multilib toolchain-funcs flag-o-matic eutils git-2
+inherit eutils git-2
 
 DESCRIPTION="Lua Crypto Library"
 HOMEPAGE="https://github.com/msva/lua-crypto"
@@ -17,13 +17,25 @@ EGIT_REPO_URI="git://github.com/msva/lua-crypto.git"
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS=""
-IUSE="doc"
+IUSE="doc luajit"
 IUSE+="${LANGS// / linguas_}"
 
-RDEPEND="|| ( >=dev-lang/lua-5.1 dev-lang/luajit:2 )
-	>=dev-libs/openssl-0.9.7"
-DEPEND="${RDEPEND}
-	dev-util/pkgconfig"
+RDEPEND="
+	|| ( >=dev-lang/lua-5.1 dev-lang/luajit:2 )
+	>=dev-libs/openssl-0.9.7
+"
+DEPEND="
+	${RDEPEND}
+	dev-util/pkgconfig
+"
+
+src_prepare() {
+	local lua=lua;
+	use luajit && lua=luajit;
+	sed \
+		-e 's|LUA_IMPL := "lua"|LUA_IMPL := "'${lua}'"|' \
+		-i Makefile
+}
 
 src_install() {
 	if use doc; then

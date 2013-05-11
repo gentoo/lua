@@ -8,7 +8,7 @@ inherit cmake-utils git-2
 
 DESCRIPTION="A minimal set of XML processing function in Lua, with simple mapping between XML and Lua tables"
 HOMEPAGE="http://github.com/LuaDist/luaxml"
-EGIT_REPO_URI="git://github.com/LuaDist/luaxml.git"
+EGIT_REPO_URI="git://github.com/msva/luaxml.git"
 
 LICENSE="MIT"
 SLOT="0"

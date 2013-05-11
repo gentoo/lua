@@ -15,7 +15,7 @@ EGIT_REPO_URI="https://github.com/stevedonovan/Penlight git://github.com/stevedo
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS=""
-IUSE="doc examples test luajit"
+IUSE="doc +examples test luajit"
 
 # TODO: Lua 5.2 handling
 
@@ -26,21 +26,28 @@ RDEPEND="
 "
 DEPEND="${RDEPEND}"
 
+DOCS=( README.md CHANGES.md CONTRIBUTING.md )
+
 src_test() {
-	# TODO LuaJIT handling
-	lua run.lua tests
+	local lua=lua;
+	use luajit && lua=luajit
+	${lua} run.lua tests
 }
 
 src_install() {
 	local lua=lua;
 	use luajit && lua=luajit
-	dodoc README.txt CHANGES.txt || die "dodoc failed"
+	use examples && {
+		docompress -x /usr/share/doc/${PF}/examples
+		dodoc -r examples
+	}
 	use doc && (
-		cd docs
+		docompress -x /usr/share/doc/${PF}/html
+		cd doc
 		dodoc -r manual
-#doesn't work ATM
+# Still doesn't work
 #		luadoc . -d html
-#		dohtml -r html/*
+#		dohtml -r html
 	)
 	insinto "$($(tc-getPKG_CONFIG) --variable INSTALL_LMOD ${lua})"
 	doins -r lua/pl

@@ -22,8 +22,9 @@
  
  $(OUTFILE): gd.lo
 -	$(CC) -o $(OUTFILE) gd.lo $(LFLAGS)
+-	lua test_features.lua
 +	$(CC) -o $(OUTFILE) gd.lo $(LDFLAGS) $(LIBS)
- 	lua test_features.lua
++	$(LUAPKG) test_features.lua
  
  gd.lo: luagd.c
  	$(CC) -o gd.lo -c $(GDFEATURES) $(CFLAGS) luagd.c
