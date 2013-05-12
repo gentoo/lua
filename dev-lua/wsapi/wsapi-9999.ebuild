@@ -16,12 +16,17 @@ EGIT_REPO_URI="git://github.com/msva/wsapi.git https://github.com/msva/wsapi.git
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS=""
-IUSE="luajit doc"
+IUSE="luajit doc uwsgi fcgi"
 #TODO: xavante"
 RDEPEND=" || ( >=dev-lang/lua-5.1 dev-lang/luajit:2 )
 	luajit? ( dev-lang/luajit:2 )
-	dev-libs/fcgi
-	virtual/httpd-fastcgi
+	fcgi? (
+		dev-libs/fcgi
+		virtual/httpd-fastcgi
+	)
+	uwsgi? (
+		www-servers/uwsgi
+	)
 	dev-lua/rings
 	dev-lua/coxpcall"
 #TODO:	xavante? ( dev-lua/xavante )"
