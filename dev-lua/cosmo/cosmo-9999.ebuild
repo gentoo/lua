@@ -15,14 +15,15 @@ EGIT_REPO_URI="git://github.com/msva/cosmo.git https://github.com/msva/cosmo.git
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS=""
-IUSE="doc"
+IUSE="doc luajit"
 
 RDEPEND=" || ( >=dev-lang/lua-5.1 dev-lang/luajit:2 )"
 DEPEND="${RDEPEND}"
 
 src_configure() {
-	LUA="lua";
-	./configure "${LUA}"
+	local lua=lua;
+	use luajit && lua=luajit;
+	./configure "${lua}"
 }
 
 src_install() {
