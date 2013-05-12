@@ -31,5 +31,5 @@ src_configure() {
 
 src_compile() {
 	use luajit && INC="-I/usr/include/luajit-2.0/"
-	emake DESTDIR="${D}" CC="$(tc-getCC) -fPIC -DPIC" LDFLAGS="${LDFLAGS}" INC="${INC}" CFLAGS="${CFLAGS}" || die "Can't copmile Rings library"
+	emake DESTDIR="${D}" CC="$(tc-getCC) -fPIC -DPIC" LDFLAGS="${LDFLAGS}" CFLAGS="${CFLAGS} ${INC}" || die "Can't copmile Rings library"
 }
