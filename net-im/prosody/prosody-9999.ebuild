@@ -6,7 +6,6 @@ EAPI="5"
 
 inherit eutils multilib toolchain-funcs versionator mercurial
 
-MY_PV=$(replace_version_separator 3 '')
 DESCRIPTION="Prosody is a flexible communications server for Jabber/XMPP written in Lua."
 HOMEPAGE="http://prosody.im/"
 EHG_REPO_URI="http://hg.prosody.im/trunk"
@@ -14,29 +13,37 @@ EHG_REPO_URI="http://hg.prosody.im/trunk"
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS=""
-IUSE="+libevent mysql postgres sqlite +ssl +zlib +luajit ipv6 migration"
+IUSE="doc +libevent mysql postgres sqlite +ssl +zlib luajit ipv6 migration"
 
-DEPEND="	virtual/lua
-		net-im/jabber-base
-		luajit? ( dev-lang/luajit:2 )
-		>=net-dns/libidn-1.1
-		>=dev-libs/openssl-0.9.8"
-RDEPEND="${DEPEND}
-		dev-lua/luasocket
-		ipv6? ( =dev-lua/luasocket-9999 )
-		ssl? ( dev-lua/luasec )
-		dev-lua/luaexpat
-		dev-lua/luafilesystem
-		mysql? ( >=dev-lua/luadbi-0.5[mysql] )
-		postgres? ( >=dev-lua/luadbi-0.5[postgres] )
-		sqlite? ( >=dev-lua/luadbi-0.5[sqlite] )
-		libevent? ( dev-lua/luaevent )
-		zlib? ( dev-lua/lua-zlib )"
+DEPEND="
+	|| ( dev-lang/luajit:2 =dev-lang/lua-5.1* )
+	net-im/jabber-base
+	luajit? ( dev-lang/luajit:2 )
+	>=net-dns/libidn-1.1
+	>=dev-libs/openssl-0.9.8
+"
 
-S="${WORKDIR}/${PN}-${MY_PV}"
+RDEPEND="
+	${DEPEND}
+	dev-lua/luasocket
+	ipv6? ( =dev-lua/luasocket-9999 )
+	ssl? ( =dev-lua/luasec-9999 )
+	dev-lua/luaexpat
+	dev-lua/luafilesystem
+	mysql? ( >=dev-lua/luadbi-0.5[mysql] )
+	postgres? ( >=dev-lua/luadbi-0.5[postgres] )
+	sqlite? ( >=dev-lua/luadbi-0.5[sqlite] )
+	libevent? ( dev-lua/luaevent )
+	zlib? ( dev-lua/lua-zlib )
+"
+
+S="${WORKDIR}/${P}"
 
 JABBER_ETC="/etc/jabber"
 JABBER_SPOOL="/var/spool/jabber"
+
+
+DOCS=( -r doc/ HACKERS AUTHORS )
 
 src_prepare() {
 	epatch "${FILESDIR}/${PN}-0.8.0-cfg.lua.patch"
@@ -46,13 +53,16 @@ src_prepare() {
 	sed -e "s!INSTALLEDMODULES = \$(PREFIX)/lib/!INSTALLEDMODULES = \$(PREFIX)/$(get_libdir)/!" -i Makefile
 	sed -e 's!\(os.execute(\)\(CFG_SOURCEDIR.."/../../bin/prosody"\)\();\)!\1"/usr/bin/prosody"\3!' -i util/prosodyctl.lua
 	sed -e 's!\(desired_user = .* or "\)\(prosody\)\(";\)!\1jabber\3!' -i prosodyctl
-	use luajit && sed -e "s!\(/usr/bin/env\) lua!\1 luajit!" -i prosody -i prosodyctl
 }
 
 src_configure() {
-	use luajit && \
-		myconf="--with-lua-include=$($(tc-getPKG_CONFIG) --variable includedir luajit)" || \
-		myconf="--with-lua-include=$($(tc-getPKG_CONFIG) --variable includedir lua)"
+	local lua=lua;
+
+	use luajit && {
+		myconf="--lua-suffix=jit"
+		lua=luajit;
+	}
+
 	# the configure script is handcrafted (and yells at unknown options)
 	# hence do not use 'econf'
 	./configure --prefix="/usr" \
@@ -61,8 +71,10 @@ src_configure() {
 		--datadir="${JABBER_SPOOL}" \
 		--with-lua-lib=/usr/$(get_libdir) \
 		--c-compiler="$(tc-getCC)" --linker="$(tc-getCC)" \
-		--cflags="${CFLAGS} -Wall -fPIC" \
+		--cflags="${CFLAGS} -Wall -fPIC -D_GNU_SOURCE" \
 		--ldflags="${LDFLAGS} -shared" \
+		--runwith="${lua}" \
+		--with-lua-include="$($(tc-getPKG_CONFIG) --variable includedir ${lua})" \
 		--require-config "${myconf}" || die "configure failed"
 }
 
@@ -75,10 +87,12 @@ src_compile() {
 }
 
 src_install() {
-	DESTDIR="${D}" emake install || die "make failed"
+	default
+#	DESTDIR="${D}" emake install || die "make failed"
 	newinitd "${FILESDIR}/${PN}".initd "${PN}"
 	insinto /etc/logrotate.d
 	newins "${FILESDIR}/${PN}".logrotate "${PN}"
+
 	use migration && (
 		cd "${S}/tools/migration"
 		DESTDIR="${D}" emake install || die "migrator install failed"
