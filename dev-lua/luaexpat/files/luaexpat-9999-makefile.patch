@@ -11,7 +11,7 @@
 -	cp src/$T/lom.lua $(LUA_DIR)/$T
 +	mkdir -p $(DESTDIR)$(LUA_LIBDIR)
 +	cp src/$(LIBNAME) $(DESTDIR)$(LUA_LIBDIR)
-+	cd $(DESTDIR)$(LUA_LIBDIR); ln -f -s $(LIBNAME) $T.so
++	cd $(DESTDIR)$(LUA_LIBDIR)
 +	mkdir -p $(DESTDIR)$(LUA_DIR)/$T
 +	cp src/$T/lom.lua $(DESTDIR)$(LUA_DIR)/$T
  

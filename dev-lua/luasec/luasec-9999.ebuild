@@ -4,36 +4,37 @@
 
 EAPI="5"
 
-inherit multilib toolchain-funcs flag-o-matic mercurial eutils
+inherit multilib toolchain-funcs eutils git-2
 
 DESCRIPTION="Lua binding for OpenSSL library to provide TLS/SSL communication."
 HOMEPAGE="http://www.inf.puc-rio.br/~brunoos/luasec/"
-EHG_REPO_URI="http://code.matthewwild.co.uk/luasec-hg"
+#EGIT_REPO_URI="https://github.com/msva/luasec"
+EGIT_REPO_URI="https://github.com/mwild1/luasec"
+#EGIT_REPO_URI="https://github.com/brunoos/luasec"
 
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS=""
-IUSE=""
+IUSE="luajit"
 
-RDEPEND="|| ( >=dev-lang/lua-5.1[deprecated] dev-lang/luajit:2 )
-		dev-lua/luasocket
-		dev-libs/openssl"
-DEPEND="${RDEPEND}
+RDEPEND="
+	|| ( >=dev-lang/lua-5.1[deprecated] dev-lang/luajit:2 )
+	dev-lua/luasocket
+	dev-libs/openssl
+"
+DEPEND="
+	${RDEPEND}
 	dev-util/pkgconfig"
 
-src_prepare() {
-	sed -i -e "s#^LUAPATH=.*#LUAPATH=$($(tc-getPKG_CONFIG) --variable INSTALL_LMOD lua)#" "${S}/Makefile"
-	sed -i -e "s#^LUACPATH=.*#LUACPATH=$($(tc-getPKG_CONFIG) --variable INSTALL_CMOD lua)#" "${S}/Makefile"
-	epatch "${FILESDIR}/${P}_Makefile.patch"
-}
-
 src_compile() {
-	append-flags -fPIC
+	local lua=lua;
+	use luajit && lua=luajit;
 	emake \
-		CFLAGS="${CFLAGS}" \
-		LDFLAGS="${LDFLAGS}" \
 		CC="$(tc-getCC)" \
 		LD="$(tc-getCC) -shared" \
+		LUAPATH="$($(tc-getPKG_CONFIG) --variable INSTALL_LMOD ${lua})" \
+		LUACPATH="$($(tc-getPKG_CONFIG) --variable INSTALL_CMOD ${lua})" \
+		INC_PATH="-I$($(tc-getPKG_CONFIG) --variable includedir ${lua})" \
 		linux \
 		|| die
 }

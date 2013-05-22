@@ -21,24 +21,27 @@ RDEPEND="|| ( >=dev-lang/lua-5.1 dev-lang/luajit:2 )"
 DEPEND="${RDEPEND}
 	dev-util/pkgconfig"
 
-src_configure() {
-	use debug && export DEBUG="DEBUG"
-	prefix=/usr
-	LUAINC_linux=/usr/include
-	use luajit && LUAINC_linux=/usr/include/luajit-2.0
-	LUALIB_linux=/usr/lib
-}
-
 src_compile() {
+	local inc=/usr/include
+	use luajit && inc=/usr/include/luajit-2.0
+
+	use debug && export DEBUG="DEBUG"
+
 	emake linux \
-			CC="$(tc-getCC)" \
-			LD="$(tc-getCC) -shared" || die
+		prefix=/usr \
+		LUAINC_linux="${inc}" \
+		LUALIB_linux=/usr/lib \
+		CC="$(tc-getCC)" \
+		LD="$(tc-getCC) -shared" \
+		|| die
 }
 
 src_install() {
+	local lua=lua;
+	use luajit && lua=luajit;
 	emake install \
-		INSTALL_TOP_SHARE="${D}/$($(tc-getPKG_CONFIG) --variable INSTALL_LMOD lua)" \
-		INSTALL_TOP_LIB="${D}/$($(tc-getPKG_CONFIG) --variable INSTALL_CMOD lua | sed -e "s:lib/:$(get_libdir)/:")" || die
+		INSTALL_TOP_SHARE="${D}/$($(tc-getPKG_CONFIG) --variable INSTALL_LMOD ${lua})" \
+		INSTALL_TOP_LIB="${D}/$($(tc-getPKG_CONFIG) --variable INSTALL_CMOD ${lua} | sed -e "s:lib/:$(get_libdir)/:")" || die
 
 	dodoc NEW README || die
 	dohtml doc/* || die

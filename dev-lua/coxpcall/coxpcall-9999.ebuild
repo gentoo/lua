@@ -16,17 +16,18 @@ EGIT_REPO_URI="git://github.com/msva/coxpcall.git https://github.com/msva/coxpca
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS=""
-IUSE="doc"
+IUSE="doc luajit"
 
 RDEPEND=" || ( >=dev-lang/lua-5.1 dev-lang/luajit:2 )"
 DEPEND="${RDEPEND}"
 
 src_configure() {
-	LUA="lua";
-	./configure "${LUA}"
+	local lua="lua";
+	use luajit && lua="luajit";
+	./configure "${lua}"
 }
 
 src_install() {
 	emake DESTDIR="${D}" install
-	use doc && emake DESTDIR="${D}" install-doc
+	use doc && emake DESTDIR="${D}" DOC_PREFIX=/usr/share/doc/${PF}/ install-doc
 }

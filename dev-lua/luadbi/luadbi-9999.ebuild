@@ -7,13 +7,14 @@ EAPI="5"
 inherit multilib toolchain-funcs flag-o-matic eutils mercurial
 
 DESCRIPTION="DBI module for Lua"
-HOMEPAGE="http://code.matthewwild.co.uk/luadbi"
-EHG_REPO_URI="http://code.matthewwild.co.uk/luadbi"
+HOMEPAGE="https://code.google.com/p/luadbi"
+#EHG_REPO_URI="https://code.google.com/p/luadbi"
+EHG_REPO_URI="https://bitbucket.org/mva/luadbi-temp"
 
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS=""
-IUSE="mysql postgres sqlite"
+IUSE="mysql postgres sqlite luajit"
 
 RDEPEND="	|| ( >=dev-lang/lua-5.1 dev-lang/luajit:2 )
 		mysql? ( || ( dev-db/mysql dev-db/mariadb ) )
@@ -24,17 +25,10 @@ DEPEND="${RDEPEND}
 
 S="${WORKDIR}"
 
-src_prepare() {
-	epatch "${FILESDIR}/${PV}-Makefile.patch"
-	epatch "${FILESDIR}/${PV}-postgres-path.patch"
-	sed -i -e "s#^INSTALL_DIR_LUA=.*#INSTALL_DIR_LUA=$($(tc-getPKG_CONFIG) --variable INSTALL_LMOD lua)#" "${S}/Makefile"
-	sed -i -e "s#^INSTALL_DIR_BIN=.*#INSTALL_DIR_BIN=$($(tc-getPKG_CONFIG) --variable INSTALL_CMOD lua)#" "${S}/Makefile"
-	sed -i -e "s#^LUA_INC_DIR=.*#LUA_INC_DIR=$($(tc-getPKG_CONFIG) --variable INSTALL_INC lua)#" "${S}/Makefile"
-	sed -i -e "s#^LUA_LIB_DIR=.*#LUA_LIB_DIR=$($(tc-getPKG_CONFIG) --variable INSTALL_LIB lua)#" "${S}/Makefile"
-	sed -i -e "s#^LUA_LIB =.*#LUA_LIB=lua#" "${S}/Makefile"
-}
-
 src_compile() {
+	local lua=lua;
+	use luajit && lua=luajit;
+
 	local drivers=""
 	use mysql && drivers="${drivers} mysql"
 	use postgres && drivers="${drivers} psql"
@@ -49,9 +43,17 @@ src_compile() {
 		die "No driver selected"
 	fi
 
-	append-flags -fPIC -c
 	for driver in "${drivers}" ; do
-		emake ${driver} \
+		emake \
+			CC="$(tc-getCC) -fPIC -DPIC" \
+			LDFLAGS="${LDFLAGS}" \
+			CFLAGS="${CFLAGS}"  \
+			LUA_LMOD="$($(tc-getPKG_CONFIG) --variable INSTALL_LMOD ${lua})" \
+			LUA_CMOD="$($(tc-getPKG_CONFIG) --variable INSTALL_CMOD ${lua})" \
+			LUA_INC="-I$($(tc-getPKG_CONFIG) --variable INSTALL_INC ${lua})" \
+			PSQL_INC="-I/usr/include/postgresql/server" \
+			MYQL_INC="-I/usr/include/mysql" \
+			${driver} \
 			|| die "Compiling driver '${drivers// /}' failed"
 	done
 }

@@ -15,7 +15,7 @@ EGIT_REPO_URI="git://github.com/ittner/lua-iconv.git"
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS=""
-IUSE=""
+IUSE="luajit"
 
 RDEPEND="|| ( >=dev-lang/lua-5.1 dev-lang/luajit:2 )"
 DEPEND="${RDEPEND}
@@ -28,10 +28,13 @@ src_prepare() {
 }
 
 src_compile() {
-	use amd64 && CFLAGS="${CFLAGS} -fPIC"
-	emake CFLAGS="${CFLAGS}" LFLAGS="${LDFLAGS} -shared" || die "Can't compile"
+	local lua=lua;
+	use luajit && lua=luajit;
+	emake LUAPKG="${lua}" || die "Can't compile"
 }
 
 src_install() {
-	emake DESTDIR="${D}" INSTALL_PATH="$($(tc-getPKG_CONFIG) lua --variable INSTALL_CMOD)" install || die "Can't install"
+	local lua=lua;
+	use luajit && lua=luajit;
+	emake DESTDIR="${D}" INSTALL_PATH="$($(tc-getPKG_CONFIG) --variable INSTALL_CMOD ${lua})" install || die "Can't install"
 }

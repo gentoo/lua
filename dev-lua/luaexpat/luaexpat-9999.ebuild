@@ -4,43 +4,46 @@
 
 EAPI="5"
 
-inherit multilib toolchain-funcs flag-o-matic mercurial eutils
+inherit multilib toolchain-funcs mercurial eutils
 
 DESCRIPTION="XMPP client library written in Lua."
 HOMEPAGE="http://code.mathewwild.co.uk/"
 EHG_REPO_URI="http://code.matthewwild.co.uk/lua-expat/"
+#EHG_REPO_URI="https://bitbucket.org/mva/luaexpat-temp"
 
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS=""
-IUSE=""
+IUSE="luajit"
 
-RDEPEND="|| ( >=dev-lang/lua-5.1 dev-lang/luajit:2 )
-	dev-libs/expat"
-DEPEND="${RDEPEND}
-dev-util/pkgconfig"
-
-src_prepare() {
-	sed -i -e "s#^LUA_LIBDIR=.*#LUA_LIBDIR=$($(tc-getPKG_CONFIG) --variable INSTALL_CMOD lua)#" "${S}/config"
-	sed -i -e "s#^LUA_DIR=.*#LUA_DIR=$($(tc-getPKG_CONFIG) --variable INSTALL_LMOD lua)#" "${S}/config"
-	sed -i -e "s#^LUA_INC=.*#LUA_INC=$($(tc-getPKG_CONFIG) --variable INSTALL_INC lua)#" "${S}/config"
-	sed -i -e "s#^EXPAT_INC=.*#EXPAT_INC=/usr/include#" "${S}/config"
-	sed -i -e "s#^LUA_VERSION_NUM=.*#LUA_VERSION_NUM=501#" "${S}/config"
-	epatch "${FILESDIR}/${P}-makefile.patch"
-}
+RDEPEND="
+	|| ( >=dev-lang/lua-5.1 dev-lang/luajit:2 )
+	dev-libs/expat
+"
+DEPEND="
+	${RDEPEND}
+	dev-util/pkgconfig
+"
 
 src_compile() {
-	append-flags -fPIC
+	local lua=lua;
+	use luajit && lua=luajit
 	emake \
-		CFLAGS="${CFLAGS}" \
-		LDFLAGS="${LDFLAGS}" \
 		CC="$(tc-getCC)" \
-		LD="$(tc-getCC) -shared" \
-		|| die
+		LDFLAGS="${LDFLAGS}" \
+		CFLAGS="${CFLAGS}"  \
+		LUA_INC="-I$($(tc-getPKG_CONFIG) --variable INSTALL_INC ${lua})" || die "Compiling failed"}
 }
 
 src_install() {
-	make DESTDIR="${D}" install || die "Install failed"
+	local lua=lua;
+	use luajit && lua=luajit
+	emake \
+		LUA_LMOD="$($(tc-getPKG_CONFIG) --variable INSTALL_LMOD ${lua})" \
+		LUA_CMOD="$($(tc-getPKG_CONFIG) --variable INSTALL_CMOD ${lua})" \
+		DESTDIR="${D}" \
+		install || die "Install failed"
 	dodoc README || die
+	docompress -x "/usr/share/doc/${PF}/html"
 	dohtml -r doc/* || die
 }
