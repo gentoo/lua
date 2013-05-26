@@ -16,9 +16,9 @@ SLOT="2"
 KEYWORDS=""
 IUSE="emacs +optimization +interactive"
 
-CDEPEND="
-		|| ( =dev-lang/lua-headers-5.1* dev-lang/lua )
-"
+#CDEPEND="
+#		|| ( =dev-lang/lua-headers-5.1* dev-lang/lua )
+#"
 DEPEND="
 	${CDEPEND}
 	emacs? ( app-emacs/lua-mode )
