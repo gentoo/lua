@@ -4,7 +4,7 @@
 
 EAPI="5"
 
-inherit eutils multilib check-reqs pax-utils git-2
+inherit eutils multilib flag-o-matic check-reqs pax-utils git-2
 
 DESCRIPTION="Just-In-Time Compiler for the Lua programming language"
 HOMEPAGE="http://luajit.org/"
@@ -14,11 +14,8 @@ EGIT_REPO_URI="http://luajit.org/git/luajit-2.0.git"
 LICENSE="MIT"
 SLOT="2"
 KEYWORDS=""
-IUSE="emacs +optimization +interactive"
+IUSE="emacs +optimization +interactive lua52compat"
 
-#CDEPEND="
-#		|| ( =dev-lang/lua-headers-5.1* dev-lang/lua )
-#"
 DEPEND="
 	${CDEPEND}
 	emacs? ( app-emacs/lua-mode )
@@ -53,6 +50,10 @@ src_prepare(){
 		-e "s|lib/|$(get_libdir)/|" \
 		-i src/luaconf.h || die "failed to fix prefix in luaconf.h"
 
+	use lua52compat && sed \
+		-e "/LUAJIT_ENABLE_LUA52COMPAT/s|#||" \
+		-i src/Makefile || die
+
 	# removing strip
 	sed -e '/$(Q)$(TARGET_STRIP)/d' -i src/Makefile \
 		|| die "failed to remove forced strip"
@@ -62,6 +63,40 @@ src_prepare(){
 }
 
 src_compile() {
+	if has_version '=sys-devel/gcc-4.7.3' && gcc-specs-pie && has ccache ${FEATURES}; then
+		# It is three ways to avoid compilation breaking
+		# in case, when user use gcc-4.7.3+pie+ccache:
+		# a) append -fPIC to CFLAGS, to use it even for temporary
+		# build-time only static host/* bins and luajit binary itself.
+		# b) append -nopie to LDFLAGS
+		#    (for same binaries and same reason)
+		# c) disable ccache (even in per-package basis).
+		#    This will slow down amalgamated build, but is prefered and
+		#    recommended by upstream method.
+		# So, since it is impossible to use method "c" directly from
+		# ebuild, I choose method "a"
+		# (since it is more secure on hardened systems, imho) +
+		# + ewarn user, that he really should disable ccache.
+
+#		append-ldflags -nopie
+		append-cflags -fPIC
+		ewarn "As we detected, that you're using gcc-4.7.3+pie+ccache,"
+		ewarn "we need to either:"
+		ewarn "  a) add -fPIC to CFLAGS, or"
+		ewarn "  b) add -nopie to LDFLAGS, or"
+		ewarn "  c) disable ccache (even on per-package basis)."
+		ewarn ""
+		ewarn "We suggest you to use variant 'c' and disable it via"
+		ewarn "/etc/portage/{,package.}env (read portage manual)"
+		ewarn ""
+		ewarn "But, since we can't do that from ebuild, we'll continue"
+		ewarn "with -fPIC (variant 'a') for now, since it gives more security"
+		ewarn "on hardened systems (in our opinion)."
+		ewarn ""
+		ewarn "But, anyway, we still *HIGHLY* recommend you"
+		ewarn "to disable ccache instead."
+	fi
+
 	if use optimization; then
 		emake amalg || die "emake failed!"
 	else
