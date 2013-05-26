@@ -17,7 +17,10 @@ SLOT="0"
 KEYWORDS=""
 IUSE="examples luajit"
 
-RDEPEND="|| ( >=dev-lang/lua-5.1 dev-lang/luajit:2 )"
+RDEPEND="
+	!luajit? ( >=dev-lang/lua-5.1 )
+	luajit? ( dev-lang/luajit:2 )
+"
 DEPEND="${RDEPEND}"
 
 src_configure() {
@@ -32,5 +35,5 @@ src_install() {
 		insinto /usr/share/doc/"${P}"
 		doins -r tests
 	fi
-	default
+	cmake-utils_src_install
 }
