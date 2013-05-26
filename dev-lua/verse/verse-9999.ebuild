@@ -16,12 +16,17 @@ KEYWORDS=""
 IUSE="doc luajit"
 
 RDEPEND="
-	|| ( =dev-lang/lua-5.1* dev-lang/luajit:2 )
 	dev-lua/squish
 	dev-lua/luasocket
 	dev-lua/luaexpat
 	dev-lua/luafilesystem
-	dev-lua/LuaBitOp
+	!luajit? (
+		dev-lua/LuaBitOp
+		=dev-lang/lua-5.1*
+	)
+	luajit? (
+		dev-lang/luajit:2
+	)
 "
 DEPEND="${RDEPEND}"
 
