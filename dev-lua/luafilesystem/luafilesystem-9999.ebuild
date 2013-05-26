@@ -3,7 +3,7 @@
 # $Header: This ebuild is from Lua overlay; Bumped by mva; $
 
 EAPI="5"
-inherit multilib toolchain-funcs git-2
+inherit multilib eutils git-2
 
 DESCRIPTION="File System Library for the Lua Programming Language"
 HOMEPAGE="http://keplerproject.github.com/luafilesystem/"
@@ -14,23 +14,29 @@ SRC_URI=""
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS=""
-IUSE=""
+IUSE="doc luajit"
 
-DEPEND="|| ( >=dev-lang/lua-5.1 dev-lang/luajit:2 )"
+DEPEND="
+	!luajit? ( dev-lang/lua )
+	luajit? ( dev-lang/luajit:2 )"
 RDEPEND="${DEPEND}"
 
+DOCS=( README )
+
 src_prepare() {
-	sed -i \
+	sed \
 		-e "s|/usr/local|/usr|" \
 		-e "s|/lib|/$(get_libdir)|" \
 		-e "s|-O2|${CFLAGS}|" \
 		-e "/^LIB_OPTION/s|= |= ${LDFLAGS} |" \
 		-e "s|gcc|$(tc-getCC)|" \
-		config || die
+		-i config || die "config fix failed"
+	use luajit && sed -r \
+		-e "s|(LUA_INC)=.*|\1 = $($(tc-getPKG_CONFIG) luajit --variable includedir)|" \
+		-i config || die "luajit include fix failed"
 }
 
 src_install() {
 	emake PREFIX="${ED}usr" install || die
-	dodoc README || die
-	dohtml doc/us/* || die
+	use doc && dohtml doc/us/* || die
 }
