@@ -21,17 +21,21 @@ PDEPEND="
 	virtual/lua[luajit]
 "
 
-# Workaround for CHECKREQS_MEMORY
-pkg_setup() { :; }
-
-pkg_pretend() {
-	CHECKREQS_DISK_BUILD="10M"
-	use optimization && {
+check_req() {
+	if use optimization; then
 		CHECKREQS_MEMORY="200M"
 		ewarn "Optimized (amalgamated) build wants at least 200MB of RAM"
 		ewarn "If you have no such RAM - try to disable 'optimization' flag"
-	}
-	check-reqs_pkg_pretend
+	fi
+	check-reqs_pkg_${1}
+}
+
+pkg_pretend() {
+	check_req pretend
+}
+
+pkg_setup() {
+	check_req setup
 }
 
 src_prepare(){
@@ -46,9 +50,11 @@ src_prepare(){
 		-e "s|lib/|$(get_libdir)/|" \
 		-i src/luaconf.h || die "failed to fix prefix in luaconf.h"
 
-	use lua52compat && sed \
-		-e "/LUAJIT_ENABLE_LUA52COMPAT/s|#||" \
-		-i src/Makefile || die
+	if use lua52compat; then
+		sed \
+			-e "/LUAJIT_ENABLE_LUA52COMPAT/s|#||" \
+			-i src/Makefile || die "Lua-5.2 compat fix failed"
+	fi
 
 	# removing strip
 	sed -e '/$(Q)$(TARGET_STRIP)/d' -i src/Makefile \
@@ -61,6 +67,9 @@ src_prepare(){
 }
 
 src_compile() {
+	local opt;
+	use optimization && opt="amalg";
+
 	if has_version '=sys-devel/gcc-4.7.3' && gcc-specs-pie && has ccache ${FEATURES}; then
 		# It is three ways to avoid compilation breaking
 		# in case, when user use gcc-4.7.3+pie+ccache:
@@ -95,11 +104,7 @@ src_compile() {
 		ewarn "to disable ccache instead."
 	fi
 
-	if use optimization; then
-		emake amalg || die "emake failed!"
-	else
-		emake || die "emake failed!"
-	fi
+	emake "${opt}"
 }
 
 src_install() {
@@ -114,7 +119,7 @@ pkg_postinst() {
 		einfo "You'd probably want to install dev-lua/iluajit to";
 		ewarn "get fully functional interactive shell for LuaJIT";
 	fi
-	if has_version app-editors/emacs || app-editors/xemacs; then
+	if has_version app-editors/emacs || has_version app-editors/xemacs; then
 		einfo "You'd probably want to install app-emacs/lua-mode to";
 		ewarn "get Lua completion in emacs.";
 	fi
