@@ -15,7 +15,7 @@ KEYWORDS="~amd64 ~x86"
 
 LICENSE="MIT"
 SLOT="2"
-IUSE="emacs +optimization +interactive"
+IUSE="emacs +optimization +interactive lua52compat"
 
 DEPEND="
 	${CDEPEND}
