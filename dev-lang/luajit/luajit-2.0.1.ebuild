@@ -28,8 +28,8 @@ check_req() {
 		CHECKREQS_MEMORY="200M"
 		ewarn "Optimized (amalgamated) build wants at least 200MB of RAM"
 		ewarn "If you have no such RAM - try to disable 'optimization' flag"
+		check-reqs_pkg_${1}	
 	fi
-	check-reqs_pkg_${1}	
 }
 
 pkg_pretend() {
@@ -74,7 +74,7 @@ src_compile() {
 	local opt;
 	use optimization && opt="amalg";
 
-	if has_version '=sys-devel/gcc-4.7.3' && gcc-specs-pie && has ccache ${FEATURES}; then
+	if gcc-fullversion 4 7 3 && gcc-specs-pie && has ccache ${FEATURES}; then
 		# It is three ways to avoid compilation breaking
 		# in case, when user use gcc-4.7.3+pie+ccache:
 		# a) append -fPIC to CFLAGS, to use it even for temporary
@@ -112,8 +112,8 @@ src_compile() {
 }
 
 src_install() {
-	einstall DESTDIR="${D}"
-	pax-mark m "${D}usr/bin/${P}"
+	default
+	host-is-pax && pax-mark m "${D}usr/bin/${P}"
 	dosym "luajit-${PV}" "/usr/bin/${PN}"
 	newbin "${FILESDIR}/luac.jit" "luac-${P}"
 }
