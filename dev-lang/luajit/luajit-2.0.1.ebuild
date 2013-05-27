@@ -6,27 +6,21 @@ EAPI="5"
 
 inherit eutils multilib flag-o-matic check-reqs pax-utils
 
-MY_P="LuaJIT-${PV/_/-}"
 DESCRIPTION="Just-In-Time Compiler for the Lua programming language"
 HOMEPAGE="http://luajit.org/"
 SRC_URI="http://luajit.org/download/${MY_P}.tar.gz"
 
-KEYWORDS="~amd64 ~x86"
-
 LICENSE="MIT"
 SLOT="2"
-IUSE="emacs +optimization +interactive lua52compat"
+KEYWORDS="~amd64 ~x86"
+IUSE="+optimization lua52compat"
 
 DEPEND="
 	${CDEPEND}
-	emacs? ( app-emacs/lua-mode )
 "
 PDEPEND="
-	interactive? ( dev-lua/iluajit )
 	virtual/lua[luajit]
 "
-
-S="${WORKDIR}/${MY_P}"
 
 # Workaround for CHECKREQS_MEMORY
 pkg_setup() { :; }
@@ -60,6 +54,8 @@ src_prepare(){
 	# removing strip
 	sed -e '/$(Q)$(TARGET_STRIP)/d' -i src/Makefile \
 		|| die "failed to remove forced strip"
+
+	# fixing pkg-config file (Lua-replacing compatibility)
 	sed -r \
 		-e 's#(INSTALL_CMOD=.*)#\1\nINSTALL_INC=${includedir}#' \
 		-i etc/luajit.pc || die "failed to fix pkgconfig file"
@@ -116,6 +112,13 @@ src_install() {
 	newbin "${FILESDIR}/luac.jit" "luac-${P}"
 }
 
-#pkg_postinst() {
-#	"${ROOT}"/usr/bin/eselect lua set "${P}"
-#}
+pkg_postinst() {
+	if ! has_version dev-lua/iluajit; then
+		einfo "You'd probably want to install dev-lua/iluajit to";
+		ewarn "get fully functional interactive shell for LuaJIT";
+	fi
+	if has_version app-editors/emacs || app-editors/xemacs; then
+		einfo "You'd probably want to install app-emacs/lua-mode to";
+		ewarn "get Lua completion in emacs.";
+	fi
+}

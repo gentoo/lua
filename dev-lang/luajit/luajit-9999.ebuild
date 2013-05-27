@@ -14,14 +14,12 @@ EGIT_REPO_URI="http://luajit.org/git/luajit-2.0.git"
 LICENSE="MIT"
 SLOT="2"
 KEYWORDS=""
-IUSE="emacs +optimization +interactive lua52compat"
+IUSE="+optimization lua52compat"
 
 DEPEND="
 	${CDEPEND}
-	emacs? ( app-emacs/lua-mode )
 "
 PDEPEND="
-	interactive? ( dev-lua/iluajit )
 	virtual/lua[luajit]
 "
 
@@ -57,6 +55,8 @@ src_prepare(){
 	# removing strip
 	sed -e '/$(Q)$(TARGET_STRIP)/d' -i src/Makefile \
 		|| die "failed to remove forced strip"
+
+	# fixing pkg-config file (Lua-replacing compatibility)
 	sed -r \
 		-e 's#(INSTALL_CMOD=.*)#\1\nINSTALL_INC=${includedir}#' \
 		-i etc/luajit.pc || die "failed to fix pkgconfig file"
@@ -111,6 +111,13 @@ src_install() {
 	newbin "${FILESDIR}/luac.jit" "luac-${P}"
 }
 
-#pkg_postinst() {
-#        "${ROOT}"/usr/bin/eselect lua set "${P}"
-#}
+pkg_postinst() {
+	if ! has_version dev-lua/iluajit; then
+		einfo "You'd probably want to install dev-lua/iluajit to";
+		ewarn "get fully functional interactive shell for LuaJIT";
+	fi
+	if has_version app-editors/emacs || app-editors/xemacs; then
+		einfo "You'd probably want to install app-emacs/lua-mode to";
+		ewarn "get Lua completion in emacs.";
+	fi
+}
