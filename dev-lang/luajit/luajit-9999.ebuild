@@ -16,9 +16,7 @@ SLOT="2"
 KEYWORDS=""
 IUSE="+optimization lua52compat"
 
-DEPEND="
-	${CDEPEND}
-"
+DEPEND=""
 PDEPEND="
 	virtual/lua[luajit]
 "

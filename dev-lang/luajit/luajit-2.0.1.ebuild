@@ -6,6 +6,7 @@ EAPI="5"
 
 inherit eutils multilib flag-o-matic check-reqs pax-utils
 
+MY_P="LuaJIT-${PV/_/-}"
 DESCRIPTION="Just-In-Time Compiler for the Lua programming language"
 HOMEPAGE="http://luajit.org/"
 SRC_URI="http://luajit.org/download/${MY_P}.tar.gz"
@@ -15,12 +16,12 @@ SLOT="2"
 KEYWORDS="~amd64 ~x86"
 IUSE="+optimization lua52compat"
 
-DEPEND="
-	${CDEPEND}
-"
+DEPEND=""
 PDEPEND="
 	virtual/lua[luajit]
 "
+
+S="${WORKDIR}/${MY_P}"
 
 # Workaround for CHECKREQS_MEMORY
 pkg_setup() { :; }
