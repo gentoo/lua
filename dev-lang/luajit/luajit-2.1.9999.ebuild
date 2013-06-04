@@ -4,31 +4,33 @@
 
 EAPI="5"
 
-inherit eutils multilib flag-o-matic check-reqs pax-utils
+inherit base multilib pax-utils versionator toolchain-funcs flag-o-matic check-reqs git-2
 
-MY_P="LuaJIT-${PV/_/-}"
+MY_PV="2.1.0-alpha"
+
 DESCRIPTION="Just-In-Time Compiler for the Lua programming language"
 HOMEPAGE="http://luajit.org/"
-SRC_URI="http://luajit.org/download/${MY_P}.tar.gz"
+SRC_URI=""
+EGIT_REPO_URI="http://luajit.org/git/luajit-2.0.git"
+EGIT_BRANCH="v2.1"
 
 LICENSE="MIT"
 SLOT="2"
-KEYWORDS="~amd64 ~x86"
-IUSE="+optimization lua52compat"
+KEYWORDS=""
+IUSE="lua52compat +optimization"
 
-DEPEND=""
 PDEPEND="
 	virtual/lua[luajit]
 "
 
-S="${WORKDIR}/${MY_P}"
+HTML_DOCS=( "doc/" )
 
 check_req() {
 	if use optimization; then
 		CHECKREQS_MEMORY="200M"
 		ewarn "Optimized (amalgamated) build wants at least 200MB of RAM"
 		ewarn "If you have no such RAM - try to disable 'optimization' flag"
-		check-reqs_pkg_${1}	
+		check-reqs_pkg_${1}
 	fi
 }
 
@@ -37,37 +39,20 @@ pkg_pretend() {
 }
 
 pkg_setup() {
-	check_req setup	
+	check_req setup
 }
 
 src_prepare(){
 	# fixing prefix and version
-	sed -e "s|/usr/local|/usr|" \
+	sed \
+		-e "s|/usr/local|/usr|" \
 		-e "s|/lib|/$(get_libdir)|" \
-		-e "s|VERSION=.*|VERSION= ${PV}|" \
 		-i Makefile || die "failed to fix prefix in Makefile"
 
-	sed -e "s|\(share/luajit\)-[^\"]*|\1-${PV}/|g" \
+	sed \
 		-e "s|/usr/local|/usr|" \
 		-e "s|lib/|$(get_libdir)/|" \
 		-i src/luaconf.h || die "failed to fix prefix in luaconf.h"
-
-	if use lua52compat; then
-		sed \
-			-e "/LUAJIT_ENABLE_LUA52COMPAT/s|#||" \
-			-i src/Makefile || die "Lua-5.2 compat fix failed"
-	fi
-
-	# removing strip
-	sed -e '/$(Q)$(TARGET_STRIP)/d' -i src/Makefile \
-		|| die "failed to remove forced strip"
-
-	# fixing pkg-config file (Lua-replacing compatibility)
-	sed -r \
-		-e 's#(INSTALL_CMOD=.*)#\1\nINSTALL_INC=${includedir}#' \
-		-i etc/luajit.pc || die "failed to fix pkgconfig file"
-
-	epatch "${FILESDIR}/v${PV}_hotfix1.patch"
 }
 
 src_compile() {
@@ -88,9 +73,11 @@ src_compile() {
 		# ebuild, I choose method "a"
 		# (since it is more secure on hardened systems, imho) +
 		# + ewarn user, that he really should disable ccache.
+		#	 append-ldflags -nopie
 
 #	       append-ldflags -nopie
 		append-cflags -fPIC
+
 		ewarn "As we detected, that you're using gcc-4.7.3+pie+ccache,"
 		ewarn "we need to either:"
 		ewarn "  a) add -fPIC to CFLAGS, or"
@@ -108,23 +95,23 @@ src_compile() {
 		ewarn "to disable ccache instead."
 	fi
 
-	emake "${opt}"
+	emake \
+		Q= \
+		HOST_CC="$(tc-getBUILD_CC)" \
+		STATIC_CC="$(tc-getCC)" \
+		DYNAMIC_CC="$(tc-getCC) -fPIC" \
+		TARGET_LD="$(tc-getCC)" \
+		TARGET_AR="$(tc-getAR) rcus" \
+		TARGET_STRIP="true" \
+		XCFLAGS="$(usex lua52compat "-DLUAJIT_ENABLE_LUA52COMPAT" "")" \
+		"${opt}"
 }
 
 src_install() {
 	default
-	host-is-pax && pax-mark m "${D}usr/bin/${P}"
-	dosym "luajit-${PV}" "/usr/bin/${PN}"
-	newbin "${FILESDIR}/luac.jit" "luac-${P}"
-}
+	base_src_install_docs
 
-pkg_postinst() {
-	if ! has_version dev-lua/iluajit; then
-		einfo "You'd probably want to install dev-lua/iluajit to";
-		ewarn "get fully functional interactive shell for LuaJIT";
-	fi
-	if has_version app-editors/emacs || has_version app-editors/xemacs; then
-		einfo "You'd probably want to install app-emacs/lua-mode to";
-		ewarn "get Lua completion in emacs.";
-	fi
+	host-is-pax && pax-mark m "${ED}usr/bin/${PN}-${MY_PV}"
+	dosym "${PN}-${MY_PV}" "/usr/bin/${PN}"
+	newbin "${FILESDIR}/luac.jit" "luac-${MY_PV}"
 }
