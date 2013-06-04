@@ -8,8 +8,8 @@ inherit multilib toolchain-funcs mercurial eutils
 
 DESCRIPTION="XMPP client library written in Lua."
 HOMEPAGE="http://code.mathewwild.co.uk/"
-#EHG_REPO_URI="http://code.matthewwild.co.uk/lua-expat/"
-EHG_REPO_URI="https://bitbucket.org/mva/luaexpat-temp"
+EHG_REPO_URI="http://code.matthewwild.co.uk/lua-expat/"
+#EHG_REPO_URI="https://bitbucket.org/mva/luaexpat-temp"
 
 LICENSE="MIT"
 SLOT="0"
