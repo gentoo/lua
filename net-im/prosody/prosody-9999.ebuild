@@ -53,6 +53,10 @@ src_prepare() {
 	sed -e "s!INSTALLEDMODULES = \$(PREFIX)/lib/!INSTALLEDMODULES = \$(PREFIX)/$(get_libdir)/!" -i Makefile
 	sed -e 's!\(os.execute(\)\(CFG_SOURCEDIR.."/../../bin/prosody"\)\();\)!\1"/usr/bin/prosody"\3!' -i util/prosodyctl.lua
 	sed -e 's!\(desired_user = .* or "\)\(prosody\)\(";\)!\1jabber\3!' -i prosodyctl
+
+	use luajit && {
+		find . -type f -name "*.lua" -print0 | xargs -0 sed -re "1s%#!.*%#!/usr/bin/env luajit%" -i
+	}
 }
 
 src_configure() {
@@ -101,6 +105,8 @@ src_install() {
 		insinto $($(tc-getPKG_CONFIG) lua --variable INSTALL_LMOD)
 		doins tools/erlparse.lua
 		rm tools/erlparse.lua
+		fowners "jabber:jabber" -R "/usr/$(get_libdir)/${PN}"
+		fperms "775" -R "/usr/$(get_libdir)/${PN}"
 		insinto "/usr/$(get_libdir)/${PN}"
 		doins -r tools
 	)
