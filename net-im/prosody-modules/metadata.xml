@@ -8,9 +8,10 @@
  </description>
  <name>Vadim A. Misbakh-Soloviov</name>
 </maintainer>
-<longdescription>FIXME</longdescription>
+<longdescription>Prosody IM server's community-writen modules</longdescription>
 <use>
 	<flag name='addressing'>This module is a partial implementation of <a href="http://xmpp.org/extensions/xep-0033.html" rel="nofollow">XEP-0033: Extended Stanza Addressing</a>.</flag>
+	<flag name='adhoc_account_management'>No module description on upstream wiki yet.</flag>
 	<flag name='admin_web'>This module provides a basic web administration interface. It currently gives you access to Ad-Hoc commands on any virtual host or component that you are set as an administrator for in the Prosody config file. It also provides a live list of all S2S and C2S connections.</flag>
 	<flag name='auth_ccert'>No module description on upstream wiki yet.</flag>
 	<flag name='auth_custom_http'>No module description on upstream wiki yet.</flag>
@@ -85,6 +86,7 @@
 	<flag name='muc_limits'>This module allows you to control the maximum rate of &#x27;events&#x27; in a MUC room. This makes it useful to prevent room floods (whether malicious or accidental).</flag>
 	<flag name='muc_log'>This module logs the conversation of chatrooms running on the server to Prosody&#x27;s data store. To view them you will need a module such as <a href="https://code.google.com/p/prosody-modules/wiki/mod_muc_log_http">mod_muc_log_http</a>.</flag>
 	<flag name='muc_log_http'>This module provides a built-in web interface to view chatroom logs stored by <a href="https://code.google.com/p/prosody-modules/wiki/mod_muc_log">mod_muc_log</a>.</flag>
+	<flag name='net_dovecotauth'>No module description on upstream wiki yet.</flag>
 	<flag name='offline_email'>Quite often when I am out and about, I&#x27;m not able to connect to Jabber. It is usually much more likely I can access my email though (whether via the web, or a mobile client).</flag>
 	<flag name='onhold'>Enable mod_onhold to allow temporarily placing messages from particular JIDs &quot;on hold&quot; -- i.e. store them, but do not deliver them until the hold status is taken away.</flag>
 	<flag name='onions'>This plugin allows Prosody to connect to other servers that are running as a Tor hidden service. Running Prosody on a hidden service works without this module, this module is only necessary to allow Prosody to federate to hidden XMPP servers.</flag>
@@ -112,6 +114,7 @@
 	<flag name='s2s_idle_timeout'>Some people find it preferable to close server-to-server connections after they have been silent for a while.</flag>
 	<flag name='s2s_log_certs'>No module description on upstream wiki yet.</flag>
 	<flag name='s2s_never_encrypt_blacklist'>No module description on upstream wiki yet.</flag>
+	<flag name='s2soutinjection'>No module description on upstream wiki yet.</flag>
 	<flag name='s2s_reload_newcomponent'>Currently, module:reload command in console doesn&#x27;t load new components. This module will automatically load the new components (if any) when the config:reload command is run in the console.</flag>
 	<flag name='saslauth_muc'>No module description on upstream wiki yet.</flag>
 	<flag name='seclabels'>This module implements <a href="http://xmpp.org/extensions/xep-0258.htmla" rel="nofollow">XEP-0258: Security Labels in XMPP</a>.</flag>
@@ -131,6 +134,7 @@
 	<flag name='support_contact'>This Prosody plugin adds a default contact to newly registered accounts.</flag>
 	<flag name='swedishchef'>This module does some conversions on message bodys passed through it causing them to look like our beloved swedish chef had typed them.</flag>
 	<flag name='tcpproxy'>It happens occasionally that I would like to use the XMPP server as a generic proxy for connecting to another service. It is especially awkward in some environments, and impossible in (for example) Javascript inside a web browser.</flag>
+	<flag name='telnet_tlsinfo'>No module description on upstream wiki yet.</flag>
 	<flag name='throttle_presence'>No module description on upstream wiki yet.</flag>
 	<flag name='turncredentials'>No module description on upstream wiki yet.</flag>
 	<flag name='twitter'>Twitter has simple API to use, so I tried to deal with it via Prosody. I didn&#x27;t manage to finish this module, but it is nice example of component that accepts registrations, unregistrations, does HTTP polling and so on. Maybe someone will finnish this idea.</flag>
