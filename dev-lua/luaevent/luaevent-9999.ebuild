@@ -29,7 +29,7 @@ src_prepare() {
 		|| die "sed failed"
 	sed -i "/^LDFLAGS/a CC = $(tc-getCC)" "${S}/Makefile" \
 		|| die "sed failed"
-	sed -i "s:^LUA_INC_DIR ?=.*:LUA_INC_DIR ?= $($(tc-getPKG_CONFIG) --variable INSTALL_INC ${lua}):" "${S}/Makefile" \
+	sed -i "s:^LUA_INC_DIR ?=.*:LUA_INC_DIR ?= $($(tc-getPKG_CONFIG) --variable includedir ${lua}):" "${S}/Makefile" \
 		|| die "sed failed"
 	sed -i "s:^INSTALL_DIR_LUA ?=.*:INSTALL_DIR_LUA ?= $($(tc-getPKG_CONFIG) --variable INSTALL_LMOD ${lua}):" "${S}/Makefile" \
 		|| die "sed failed"
