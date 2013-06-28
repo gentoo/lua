@@ -37,6 +37,6 @@ src_prepare() {
 }
 
 src_install() {
-	emake PREFIX="${ED}usr" install || die
-	use doc && dohtml doc/us/* || die
+	emake PREFIX="${ED}usr" install
+	use doc && dohtml doc/us/*
 }
