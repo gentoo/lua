@@ -32,7 +32,7 @@ src_compile() {
 		CC="$(tc-getCC)" \
 		LDFLAGS="${LDFLAGS}" \
 		CFLAGS="${CFLAGS}"  \
-		LUA_INC="-I$($(tc-getPKG_CONFIG) --variable INSTALL_INC ${lua})" || die "Compiling failed"}
+		LUA_INC="$($(tc-getPKG_CONFIG) --cflags ${lua})" || die "Compiling failed"}
 }
 
 src_install() {
