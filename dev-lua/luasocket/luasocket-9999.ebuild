@@ -4,13 +4,11 @@
 
 EAPI="5"
 
-inherit multilib toolchain-funcs flag-o-matic eutils git-2
+inherit base multilib toolchain-funcs flag-o-matic eutils git-2
 
 DESCRIPTION="Networking support library for the Lua language."
 HOMEPAGE="http://www.tecgraf.puc-rio.br/~diego/professional/luasocket/"
-#EHG_REPO_URI="http://code.matthewwild.co.uk/luasocket2-hg/"
 EGIT_REPO_URI="https://github.com/diegonehab/luasocket git://github.com/diegonehab/luasocket"
-EGIT_BRANCH="unstable"
 
 LICENSE="MIT"
 SLOT="0"
@@ -21,19 +19,20 @@ RDEPEND="|| ( >=dev-lang/lua-5.1 dev-lang/luajit:2 )"
 DEPEND="${RDEPEND}
 	dev-util/pkgconfig"
 
+DOCS=( "NEW" "README" )
+HTML_DOCS=( "doc/" )
 src_compile() {
-	local inc=/usr/include
-	use luajit && inc=/usr/include/luajit-2.0
+	local lua=lua;
+	use luajit && lua=luajit;
 
 	use debug && export DEBUG="DEBUG"
 
 	emake linux \
 		prefix=/usr \
-		LUAINC_linux="${inc}" \
-		LUALIB_linux=/usr/lib \
+		LUAINC_linux="$($(tc-getPKG_CONFIG) --variable includedir ${lua})" \
+		LUALIB_linux="/usr/$(get_libdir)" \
 		CC="$(tc-getCC)" \
-		LD="$(tc-getCC) -shared" \
-		|| die
+		LD="$(tc-getCC) -shared"
 }
 
 src_install() {
@@ -41,8 +40,7 @@ src_install() {
 	use luajit && lua=luajit;
 	emake install \
 		INSTALL_TOP_SHARE="${D}/$($(tc-getPKG_CONFIG) --variable INSTALL_LMOD ${lua})" \
-		INSTALL_TOP_LIB="${D}/$($(tc-getPKG_CONFIG) --variable INSTALL_CMOD ${lua} | sed -e "s:lib/:$(get_libdir)/:")" || die
+		INSTALL_TOP_LIB="${D}/$($(tc-getPKG_CONFIG) --variable INSTALL_CMOD ${lua})"
 
-	dodoc NEW README || die
-	dohtml doc/* || die
+	base_src_install_docs
 }

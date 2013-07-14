@@ -53,6 +53,11 @@ src_prepare(){
 		-e "s|/usr/local|/usr|" \
 		-e "s|lib/|$(get_libdir)/|" \
 		-i src/luaconf.h || die "failed to fix prefix in luaconf.h"
+
+        sed \
+                -e "s|/usr/local|/usr|" \
+                -e "s|lib/|$(get_libdir)/|" \
+                -i etc/luajit.pc || die "failed to fix prefix in pkg-config file"
 }
 
 src_compile() {
@@ -73,7 +78,6 @@ src_compile() {
 		# ebuild, I choose method "a"
 		# (since it is more secure on hardened systems, imho) +
 		# + ewarn user, that he really should disable ccache.
-		#	 append-ldflags -nopie
 
 #	       append-ldflags -nopie
 		append-cflags -fPIC
@@ -113,5 +117,5 @@ src_install() {
 
 	host-is-pax && pax-mark m "${ED}usr/bin/${PN}-${MY_PV}"
 	dosym "${PN}-${MY_PV}" "/usr/bin/${PN}"
-	newbin "${FILESDIR}/luac.jit" "luac-${MY_PV}"
+	dobin "${FILESDIR}/luac.jit"
 }
