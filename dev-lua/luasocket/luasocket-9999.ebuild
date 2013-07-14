@@ -28,7 +28,7 @@ src_compile() {
 	use debug && export DEBUG="DEBUG"
 
 	emake linux \
-		prefix=/usr \
+		prefix="/usr" \
 		LUAINC_linux="$($(tc-getPKG_CONFIG) --variable includedir ${lua})" \
 		LUALIB_linux="/usr/$(get_libdir)" \
 		CC="$(tc-getCC)" \
@@ -39,8 +39,8 @@ src_install() {
 	local lua=lua;
 	use luajit && lua=luajit;
 	emake install \
-		INSTALL_TOP_SHARE="${D}/$($(tc-getPKG_CONFIG) --variable INSTALL_LMOD ${lua})" \
-		INSTALL_TOP_LIB="${D}/$($(tc-getPKG_CONFIG) --variable INSTALL_CMOD ${lua})"
+		INSTALL_TOP_LDIR="${D}/$($(tc-getPKG_CONFIG) --variable INSTALL_LMOD ${lua})" \
+		INSTALL_TOP_CDIR="${D}/$($(tc-getPKG_CONFIG) --variable INSTALL_CMOD ${lua})"
 
 	base_src_install_docs
 }
