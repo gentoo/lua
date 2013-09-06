@@ -7,7 +7,7 @@ EAPI="5"
 inherit multilib toolchain-funcs flag-o-matic mercurial eutils
 
 DESCRIPTION="Lua Asynchronous HTTP Library."
-HOMEPAGE="http://code.mathewwild.co.uk/"
+HOMEPAGE="http://code.matthewwild.co.uk/"
 EHG_REPO_URI="http://code.matthewwild.co.uk/${PN}/"
 
 LICENSE="MIT"

@@ -7,7 +7,7 @@ EAPI="5"
 inherit multilib toolchain-funcs mercurial eutils
 
 DESCRIPTION="XMPP client library written in Lua."
-HOMEPAGE="http://code.mathewwild.co.uk/"
+HOMEPAGE="http://code.matthewwild.co.uk/"
 EHG_REPO_URI="http://code.matthewwild.co.uk/lua-expat/"
 #EHG_REPO_URI="https://bitbucket.org/mva/luaexpat-temp"
 

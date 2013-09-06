@@ -7,7 +7,7 @@ EAPI="5"
 inherit multilib toolchain-funcs flag-o-matic mercurial eutils
 
 DESCRIPTION="Lua to HTML code converter written in Lua."
-HOMEPAGE="http://code.mathewwild.co.uk/"
+HOMEPAGE="http://code.matthewwild.co.uk/"
 EHG_REPO_URI="http://code.matthewwild.co.uk/${PN}/"
 
 LICENSE="MIT"
