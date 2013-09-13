@@ -13,7 +13,7 @@ SRC_URI="https://prosody.im/downloads/source/prosody-0.9.1.tar.gz"
 
 LICENSE="MIT"
 SLOT="0"
-KEYWORDS=""
+KEYWORDS="x86 amd64 mips arm sparc"
 IUSE="doc +libevent mysql postgres sqlite +ssl +zlib luajit ipv6 migration"
 
 DEPEND="
