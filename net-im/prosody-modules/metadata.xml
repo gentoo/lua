@@ -21,6 +21,7 @@
 	<flag name='auth_joomla'>No module description on upstream wiki yet.</flag>
 	<flag name='auth_ldap'>This is a Prosody authentication plugin which uses LDAP as the backend.</flag>
 	<flag name='auth_ldap2'>See <a href="https://code.google.com/p/prosody-modules/wiki/mod_lib_ldap">mod_lib_ldap</a> for more information.</flag>
+	<flag name='auth_pam'>This module makes Prosody authenticate users against PAM (Linux Pluggable Authentication Modules)</flag>
 	<flag name='auth_phpbb3'>No module description on upstream wiki yet.</flag>
 	<flag name='auth_sql'>Allow client authentication to be handled by an SQL database query.</flag>
 	<flag name='auth_wordpress'>No module description on upstream wiki yet.</flag>
@@ -57,6 +58,7 @@
 	<flag name='firewall'>A firewall is an invaluable tool in the sysadmin&#x27;s toolbox. However while low-level firewalls such as iptables and pf are incredibly good at what they do, they are generally not able to handle application-layer rules.</flag>
 	<flag name='flash_policy'>This Prosody plugin adds support for flash socket policies. When connecting with a flash client (from a webpage, not an exe) to prosody the flash client requests for an xml &quot;file&quot; on port 584 or the connecting port (5222 in the case of default xmpp). Responding on port 584 is tricky because it requires root priviliges to set up a socket on a port &lt; 1024.</flag>
 	<flag name='group_bookmarks'><a href="http://prosody.im/doc/modules/mod_groups" rel="nofollow">mod_groups</a> allows you to insert contacts into users&#x27; contact lists. Well mod_group_bookmarks allows you to insert chatrooms into the user&#x27;s bookmarks. These are fetched by their client and automatically joined when the log in.</flag>
+	<flag name='host_blacklist'>No module description on upstream wiki yet.</flag>
 	<flag name='host_guard'>No module description on upstream wiki yet.</flag>
 	<flag name='http_dir_listing'>This module generates directory listings when invoked by <tt>mod_http_files</tt>. See <a href="http://prosody.im/doc/modules/mod_http_files" rel="nofollow">documentation on `mod_http_files`</a>.</flag>
 	<flag name='http_favicon'>This simple module serves a <tt>favicon.ico</tt> from prosodys HTTP server and  nothing else.</flag>
@@ -110,7 +112,8 @@
 	<flag name='roster_command'>This module allows you to perform various actions on user rosters via prosodyctl.</flag>
 	<flag name='s2s_auth_compat'>This module is a workaround for servers that try to do s2s authentication with certificates and SASL EXTERNAL, but do not send correct stream headers.  Notably Openfire versions since 3.7 or 3.8.</flag>
 	<flag name='s2s_auth_dnssec_srv'>This module implements Secure Delegation using DNS SRV as described in  <a href="http://tools.ietf.org/html/draft-miller-xmpp-dnssec-prooftype" rel="nofollow">Using DNS Security Extensions (DNSSEC) and DNS-based Authentication of Named Entities (DANE) as a Prooftype for XMPP Domain Name Associations</a>.</flag>
-	<flag name='s2s_auth_fingerprint'>This module allows you to explicitly say that you trust remote servers if they show a certificate with a known fingerprint.</flag>
+	<flag name='s2s_auth_fingerprint'>This module allows you to explicitly say that you trust remote servers if they show a certificate with a known fingerprint. This is useful if you have many connections to servers that use self-signed certificates.</flag>
+	<flag name='s2s_blacklist'>No module description on upstream wiki yet.</flag>
 	<flag name='s2s_idle_timeout'>Some people find it preferable to close server-to-server connections after they have been silent for a while.</flag>
 	<flag name='s2s_keepalive'>No module description on upstream wiki yet.</flag>
 	<flag name='s2s_log_certs'>This module produces info level log messages with the certificate status and fingerprint every time an s2s connection is established.  It can also optionally store this in persistant storage.</flag>
@@ -119,6 +122,7 @@
 	<flag name='s2s_reload_newcomponent'>Currently, module:reload command in console doesn&#x27;t load new components. This module will automatically load the new components (if any) when the config:reload command is run in the console.</flag>
 	<flag name='saslauth_muc'>No module description on upstream wiki yet.</flag>
 	<flag name='seclabels'>This module implements <a href="http://xmpp.org/extensions/xep-0258.htmla" rel="nofollow">XEP-0258: Security Labels in XMPP</a>.</flag>
+	<flag name='secure_interfaces'>No module description on upstream wiki yet.</flag>
 	<flag name='server_contact_info'>This module implements <a href="http://xmpp.org/extensions/xep-0157.html" rel="nofollow">XEP-0157: Contact Addresses for XMPP Services</a>.</flag>
 	<flag name='server_status'>This module fetches the current status of configured hosts and/or stanza statistics from <a href="http://code.google.com/p/prosody-modules/wiki/mod_stanza_counter#" rel="nofollow">mod_stanza_counter</a>. And outputs it in either XML or JSON format.</flag>
 	<flag name='service_directories'>No module description on upstream wiki yet.</flag>
@@ -141,6 +145,7 @@
 	<flag name='twitter'>Twitter has simple API to use, so I tried to deal with it via Prosody. I didn&#x27;t manage to finish this module, but it is nice example of component that accepts registrations, unregistrations, does HTTP polling and so on. Maybe someone will finnish this idea.</flag>
 	<flag name='uptime_presence'>No module description on upstream wiki yet.</flag>
 	<flag name='vjud'>Basic implementation of <a href="http://xmpp.org/extensions/xep-0055.html" rel="nofollow">XEP-0055: Jabber Search</a>.</flag>
+	<flag name='watchuntrusted'>Similar to mod_watchregistrations, this module warns admins when an s2s connection fails due for encryption or trust reasons.</flag>
 	<flag name='webpresence'>Quite often you may want to publish your Jabber status to your blog or website. mod_webpresence allows you to do exactly this.</flag>
 	<flag name='websocket'><a href="http://en.wikipedia.org/wiki/WebSocket" rel="nofollow">WebSockets</a> is a new protocol for providing web pages with simple two-way communication with a web server.</flag>
 </use>
