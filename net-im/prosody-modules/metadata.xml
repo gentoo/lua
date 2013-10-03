@@ -17,6 +17,7 @@
 	<flag name='auth_custom_http'>No module description on upstream wiki yet.</flag>
 	<flag name='auth_dovecot'>This is a Prosody authentication plugin which uses Dovecot as the backend.</flag>
 	<flag name='auth_external'>Allow client authentication to be handled by an external script/process.</flag>
+	<flag name='auth_imap'>No module description on upstream wiki yet.</flag>
 	<flag name='auth_internal_yubikey'>A <a href="http://www.yubico.com/yubikey" rel="nofollow">YubiKey</a> is a small USB one-time-password (OTP) generator.</flag>
 	<flag name='auth_joomla'>No module description on upstream wiki yet.</flag>
 	<flag name='auth_ldap'>This is a Prosody authentication plugin which uses LDAP as the backend.</flag>
@@ -116,6 +117,7 @@
 	<flag name='s2s_blacklist'>No module description on upstream wiki yet.</flag>
 	<flag name='s2s_idle_timeout'>Some people find it preferable to close server-to-server connections after they have been silent for a while.</flag>
 	<flag name='s2s_keepalive'>No module description on upstream wiki yet.</flag>
+	<flag name='s2s_keysize_policy'>No module description on upstream wiki yet.</flag>
 	<flag name='s2s_log_certs'>This module produces info level log messages with the certificate status and fingerprint every time an s2s connection is established.  It can also optionally store this in persistant storage.</flag>
 	<flag name='s2s_never_encrypt_blacklist'>No module description on upstream wiki yet.</flag>
 	<flag name='s2soutinjection'>No module description on upstream wiki yet.</flag>
