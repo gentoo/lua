@@ -50,7 +50,7 @@ src_compile() {
 			CFLAGS="${CFLAGS}"  \
 			LUA_LMOD="$($(tc-getPKG_CONFIG) --variable INSTALL_LMOD ${lua})" \
 			LUA_CMOD="$($(tc-getPKG_CONFIG) --variable INSTALL_CMOD ${lua})" \
-			LUA_INC="-I$($(tc-getPKG_CONFIG) --variable INSTALL_INC ${lua})" \
+			LUA_INC="-I$($(tc-getPKG_CONFIG) --variable includedir ${lua})" \
 			PSQL_INC="-I/usr/include/postgresql/server" \
 			MYQL_INC="-I/usr/include/mysql" \
 			${driver} \
