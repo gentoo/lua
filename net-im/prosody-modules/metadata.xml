@@ -61,6 +61,7 @@
 	<flag name='group_bookmarks'><a href="http://prosody.im/doc/modules/mod_groups" rel="nofollow">mod_groups</a> allows you to insert contacts into users&#x27; contact lists. Well mod_group_bookmarks allows you to insert chatrooms into the user&#x27;s bookmarks. These are fetched by their client and automatically joined when the log in.</flag>
 	<flag name='host_blacklist'>No module description on upstream wiki yet.</flag>
 	<flag name='host_guard'>No module description on upstream wiki yet.</flag>
+	<flag name='http_altconnect'>No module description on upstream wiki yet.</flag>
 	<flag name='http_dir_listing'>This module generates directory listings when invoked by <tt>mod_http_files</tt>. See <a href="http://prosody.im/doc/modules/mod_http_files" rel="nofollow">documentation on `mod_http_files`</a>.</flag>
 	<flag name='http_favicon'>This simple module serves a <tt>favicon.ico</tt> from prosodys HTTP server and  nothing else.</flag>
 	<flag name='incidents_handling'>This module implements <a href="http://xmpp.org/extensions/xep-0268.html" rel="nofollow">XEP-268</a>.</flag>
@@ -97,11 +98,12 @@
 	<flag name='password_policy'>No module description on upstream wiki yet.</flag>
 	<flag name='pastebin'>Pastebins are used very often in IM, especially in chat rooms. You have a long log or command output which you need to send to someone over IM, and don&#x27;t want to fill their message window with it. Put it on a pastebin site, and give them the URL instead, simple.</flag>
 	<flag name='post_msg'>Sometimes it&#x27;s useful to have different interfaces to access XMPP.</flag>
-	<flag name='pubsub_eventsource'>No module description on upstream wiki yet.</flag>
+	<flag name='pubsub_eventsource'><a href="https://en.wikipedia.org/wiki/Server-sent_events" rel="nofollow">Server-Sent Events</a> is a simple HTTP/line-based protocol supported in HTML5, making it easy to receive a stream of &quot;events&quot; in realtime using the Javascript <a href="https://developer.mozilla.org/en-US/docs/Web/API/EventSource" rel="nofollow">EventSource API</a>.</flag>
 	<flag name='pubsub_feeds'>This module allows Prosody to fetch Atom and RSS feeds for you, and push new results to subscribers over XMPP.</flag>
 	<flag name='pubsub_github'>No module description on upstream wiki yet.</flag>
 	<flag name='pubsub_googlecode'>No module description on upstream wiki yet.</flag>
 	<flag name='pubsub_hub'>This module implements a <a href="http://pubsubhubbub.googlecode.com/svn/trunk/pubsubhubbub-core-0.3.html" rel="nofollow">PubSubHubbub</a> (PuSH) hub, allowing PuSH clients to subscribe to local XMPP <a href="http://xmpp.org/extensions/xep-0060.html" rel="nofollow">Publish-Subscribe</a> nodes stored by <a href="http://prosody.im/doc/modules/mod_pubsub" rel="nofollow">mod_pubsub</a>.</flag>
+	<flag name='pubsub_mqtt'><a href="http://mqtt.org/" rel="nofollow">MQTT</a> is a lightweight binary pubsub protocol suited to embedded devices. This module provides a way for MQTT clients to connect to Prosody and publish or subscribe to local pubsub nodes.</flag>
 	<flag name='pubsub_pivotaltracker'>No module description on upstream wiki yet.</flag>
 	<flag name='pubsub_twitter'>Twitter has an open &#x27;realtime&#x27; search API, but it requires polling (within their rate limits). This module allows Prosody to poll for you, and push new results to subscribers over XMPP.</flag>
 	<flag name='readonly'>No module description on upstream wiki yet.</flag>
@@ -124,7 +126,7 @@
 	<flag name='s2s_reload_newcomponent'>Currently, module:reload command in console doesn&#x27;t load new components. This module will automatically load the new components (if any) when the config:reload command is run in the console.</flag>
 	<flag name='saslauth_muc'>No module description on upstream wiki yet.</flag>
 	<flag name='seclabels'>This module implements <a href="http://xmpp.org/extensions/xep-0258.htmla" rel="nofollow">XEP-0258: Security Labels in XMPP</a>.</flag>
-	<flag name='secure_interfaces'>No module description on upstream wiki yet.</flag>
+	<flag name='secure_interfaces'>Sometimes you might run clients without encryption on the same machine or LAN as Prosody - and you want Prosody to treat them as secure (e.g. allowing plaintext authentication) even though they are not encrypted.</flag>
 	<flag name='server_contact_info'>This module implements <a href="http://xmpp.org/extensions/xep-0157.html" rel="nofollow">XEP-0157: Contact Addresses for XMPP Services</a>.</flag>
 	<flag name='server_status'>This module fetches the current status of configured hosts and/or stanza statistics from <a href="http://code.google.com/p/prosody-modules/wiki/mod_stanza_counter#" rel="nofollow">mod_stanza_counter</a>. And outputs it in either XML or JSON format.</flag>
 	<flag name='service_directories'>No module description on upstream wiki yet.</flag>
