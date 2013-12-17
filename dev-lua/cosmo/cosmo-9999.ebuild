@@ -4,7 +4,7 @@
 
 EAPI="5"
 
-inherit multilib eutils git-2
+inherit multilib eutils git-r3
 
 DESCRIPTION="safe-template engine for lua"
 HOMEPAGE="https://github.com/mascarenhas/cosmo"

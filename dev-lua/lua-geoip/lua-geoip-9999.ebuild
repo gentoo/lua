@@ -4,7 +4,7 @@
 
 EAPI="5"
 
-inherit autotools eutils git-2
+inherit autotools eutils git-r3
 
 DESCRIPTION="Lua GeoIP Library"
 HOMEPAGE="https://github.com/msva/lua-geoip"

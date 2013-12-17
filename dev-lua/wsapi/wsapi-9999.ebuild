@@ -4,7 +4,7 @@
 
 EAPI="5"
 
-inherit multilib eutils git-2
+inherit multilib eutils git-r3
 
 DESCRIPTION="Lua WSAPI Library"
 HOMEPAGE="https://github.com/keplerproject/wsapi"

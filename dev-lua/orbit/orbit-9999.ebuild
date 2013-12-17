@@ -4,7 +4,7 @@
 
 EAPI="5"
 
-inherit multilib eutils git-2
+inherit multilib eutils git-r3
 
 DESCRIPTION="MVC Web Framework for Lua"
 HOMEPAGE="https://github.com/keplerproject/orbit"

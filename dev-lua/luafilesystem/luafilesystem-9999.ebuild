@@ -3,7 +3,7 @@
 # $Header: This ebuild is from Lua overlay; Bumped by mva; $
 
 EAPI="5"
-inherit multilib eutils git-2
+inherit multilib eutils git-r3
 
 DESCRIPTION="File System Library for the Lua Programming Language"
 HOMEPAGE="http://keplerproject.github.com/luafilesystem/"

@@ -4,7 +4,7 @@
 
 EAPI="5"
 
-inherit git-2
+inherit git-r3
 
 DESCRIPTION="Lua bindings to zziplib"
 HOMEPAGE="http://github.com/luaforge/luazip"

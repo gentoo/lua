@@ -4,7 +4,7 @@
 
 EAPI="5"
 
-inherit eutils git-2
+inherit eutils git-r3
 
 DESCRIPTION="A deployment and management system for Lua modules"
 HOMEPAGE="http://www.luarocks.org"

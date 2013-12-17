@@ -4,7 +4,7 @@
 
 EAPI="5"
 
-inherit cmake-utils git-2
+inherit cmake-utils git-r3
 
 DESCRIPTION="Lua bindings to libzip"
 HOMEPAGE="http://github.com/brimworks/lua-zip"

@@ -4,7 +4,7 @@
 
 EAPI="5"
 
-inherit eutils git-2
+inherit eutils git-r3
 
 DESCRIPTION="A set of pure Lua libraries focusing on input data handling, functional programming and OS path management."
 HOMEPAGE="https://github.com/stevedonovan/Penlight"

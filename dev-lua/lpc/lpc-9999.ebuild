@@ -4,7 +4,7 @@
 
 EAPI="5"
 
-inherit base multilib toolchain-funcs git-2
+inherit base multilib toolchain-funcs git-r3
 
 DESCRIPTION="Allows Lua scripts to call external processes while capturing both their input and output."
 HOMEPAGE="http://lua.net-core.org/sputnik.lua?p=Telesto:About"

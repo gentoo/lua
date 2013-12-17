@@ -4,7 +4,7 @@
 
 EAPI="5"
 
-inherit git-2 eutils
+inherit git-r3 eutils
 
 DESCRIPTION="Lua JSON Library, written in C"
 HOMEPAGE="https://github.com/justincormack/ljsyscall"

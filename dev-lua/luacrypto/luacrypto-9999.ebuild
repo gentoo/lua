@@ -6,7 +6,7 @@ EAPI="5"
 
 LANGS=" en ru"
 
-inherit eutils git-2
+inherit eutils git-r3
 
 DESCRIPTION="Lua Crypto Library"
 HOMEPAGE="https://github.com/msva/lua-crypto"

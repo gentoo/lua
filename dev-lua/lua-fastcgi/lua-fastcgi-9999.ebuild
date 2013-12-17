@@ -4,7 +4,7 @@
 
 EAPI="5"
 
-inherit eutils git-2
+inherit eutils git-r3
 
 DESCRIPTION="A FastCGI server for Lua, written in C"
 HOMEPAGE="https://github.com/cramey/lua-fastcgi"

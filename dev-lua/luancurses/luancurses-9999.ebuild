@@ -4,7 +4,7 @@
 
 EAPI="5"
 
-inherit eutils git-2
+inherit eutils git-r3
 
 DESCRIPTION="Lua NCurses Library"
 HOMEPAGE="https://github.com/msva/lua-ncurses"

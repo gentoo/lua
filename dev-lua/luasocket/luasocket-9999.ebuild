@@ -4,7 +4,7 @@
 
 EAPI="5"
 
-inherit base multilib toolchain-funcs flag-o-matic eutils git-2
+inherit base multilib toolchain-funcs flag-o-matic eutils git-r3
 
 DESCRIPTION="Networking support library for the Lua language."
 HOMEPAGE="http://www.tecgraf.puc-rio.br/~diego/professional/luasocket/"

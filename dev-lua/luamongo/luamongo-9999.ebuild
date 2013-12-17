@@ -4,7 +4,7 @@
 
 EAPI="5"
 
-inherit base git-2 toolchain-funcs
+inherit base git-r3 toolchain-funcs
 
 DESCRIPTION="Lua driver for MongoDB"
 HOMEPAGE="https://github.com/mwild1/luamongo/"

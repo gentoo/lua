@@ -4,7 +4,7 @@
 
 EAPI="5"
 
-inherit eutils git-2
+inherit eutils git-r3
 
 DESCRIPTION="A set of Lua bindings for the Fast Artificial Neural Network (FANN) library."
 HOMEPAGE="https://github.com/msva/lua-fann"

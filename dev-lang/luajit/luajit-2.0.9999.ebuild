@@ -4,7 +4,7 @@
 
 EAPI="5"
 
-inherit base multilib pax-utils versionator toolchain-funcs flag-o-matic check-reqs git-2
+inherit base multilib pax-utils versionator toolchain-funcs flag-o-matic check-reqs git-r3
 
 MY_PV="2.0.1"
 

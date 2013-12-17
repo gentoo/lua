@@ -4,7 +4,7 @@
 
 EAPI="5"
 
-inherit autotools eutils git-2
+inherit autotools eutils git-r3
 
 DESCRIPTION="inotify bindings for Lua"
 HOMEPAGE="https://github.com/hoelzro/linotify"

@@ -4,7 +4,7 @@
 
 EAPI="5"
 
-inherit eutils git-2
+inherit eutils git-r3
 
 DESCRIPTION="Readline powered shell for LuaJIT"
 HOMEPAGE="https://github.com/jdesgats/ILuaJIT"

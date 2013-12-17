@@ -4,7 +4,7 @@
 
 EAPI="5"
 
-inherit multilib toolchain-funcs eutils git-2
+inherit multilib toolchain-funcs eutils git-r3
 
 DESCRIPTION="Lua binding for OpenSSL library to provide TLS/SSL communication."
 HOMEPAGE="http://www.inf.puc-rio.br/~brunoos/luasec/"

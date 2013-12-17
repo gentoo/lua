@@ -4,14 +4,13 @@
 
 EAPI="5"
 
-inherit base git-2 toolchain-funcs
+inherit base git-r3 toolchain-funcs eutils
 
 DESCRIPTION="POSIX binding, including curses, for Lua 5.1 and 5.2"
 HOMEPAGE="https://github.com/luaposix/luaposix"
 SRC_URI=""
 
-EGIT_REPO_URI="https://github.com/luaposix/luaposix.git git://github.com/luaposix/luaposix.git"
-EGIT_BOOTSTRAP="./bootstrap"
+EGIT_REPO_URI="https://github.com/luaposix/luaposix.git"
 
 LICENSE="MIT"
 SLOT="0"
@@ -19,20 +18,30 @@ KEYWORDS=""
 IUSE="luajit ncurses"
 
 RDEPEND="
-	|| ( >=dev-lang/lua-5.1 dev-lang/luajit:2 )
+	!luajit? ( >=dev-lang/lua-5.1 )
+	luajit? ( dev-lang/luajit:2 )
 "
 DEPEND="${RDEPEND}"
 
 DOCS=( "README.md" "NEWS" )
 
+src_prepare() {
+	if [[ -n ${EVCS_OFFLINE} ]]; then
+		die "Unfortunately, upstream uses buildsystem which depends on external submodules, so you won't be able to build package in offline mode. Sorry."
+	fi
+
+	./bootstrap
+}
+
 src_configure() {
 	local lua=lua;
 	use luajit && lua=luajit;
-
-	econf \
-		--datadir="$($(tc-getPKG_CONFIG) --variable INSTALL_LMOD ${lua})" \
-		--libdir="$($(tc-getPKG_CONFIG) --variable INSTALL_CMOD ${lua})" \
-		$(use_with ncurses) \
-		LUA="${lua}" \
-		LUA_INCLUDE="-I$($(tc-getPKG_CONFIG) --variable includedir ${lua})"
+	myeconfargs=(
+		"--datadir=$($(tc-getPKG_CONFIG) --variable INSTALL_LMOD ${lua})" \
+		"--libdir=$($(tc-getPKG_CONFIG) --variable INSTALL_CMOD ${lua})" \
+		"$(use_with ncurses)"
+		"LUA=${lua}" \
+		"LUA_INCLUDE=-I$($(tc-getPKG_CONFIG) --variable includedir ${lua})"
+	)
+	base_src_configure "${myeconfargs[@]}"
 }
