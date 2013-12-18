@@ -56,7 +56,7 @@ src_prepare(){
 
         sed \
                 -e "s|/usr/local|/usr|" \
-                -e "s|lib/|$(get_libdir)/|" \
+                -e "s|=lib|=$(get_libdir)|" \
                 -i etc/luajit.pc || die "failed to fix prefix in pkg-config file"
 }
 
