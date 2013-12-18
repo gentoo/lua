@@ -11,7 +11,7 @@ MY_PV="2.0.1"
 DESCRIPTION="Just-In-Time Compiler for the Lua programming language"
 HOMEPAGE="http://luajit.org/"
 SRC_URI=""
-EGIT_REPO_URI="http://luajit.org/git/luajit-2.0.git"
+EGIT_REPO_URI="git://repo.or.cz/luajit-2.0.git"
 
 LICENSE="MIT"
 SLOT="2"
@@ -44,20 +44,10 @@ pkg_setup() {
 
 src_prepare(){
 	# fixing prefix and version
-	sed \
-		-e "s|/usr/local|/usr|" \
-		-e "s|/lib|/$(get_libdir)|" \
+	sed -r \
+		-e "s|( PREFIX)=.*|\1=/usr|" \
+		-e "s|( MULTILIB)=.*|\1=$(get_libdir)|" \
 		-i Makefile || die "failed to fix prefix in Makefile"
-
-	sed \
-		-e "s|/usr/local|/usr|" \
-		-e "s|lib/|$(get_libdir)/|" \
-		-i src/luaconf.h || die "failed to fix prefix in luaconf.h"
-
-        sed \
-                -e "s|/usr/local|/usr|" \
-                -e "s|=lib|=$(get_libdir)|" \
-                -i etc/luajit.pc || die "failed to fix prefix in pkg-config file"
 }
 
 src_compile() {
