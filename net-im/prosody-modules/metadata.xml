@@ -151,6 +151,6 @@
 	<flag name='vjud'>Basic implementation of <a href="http://xmpp.org/extensions/xep-0055.html" rel="nofollow">XEP-0055: Jabber Search</a>.</flag>
 	<flag name='watchuntrusted'>Similar to mod_watchregistrations, this module warns admins when an s2s connection fails due for encryption or trust reasons.</flag>
 	<flag name='webpresence'>Quite often you may want to publish your Jabber status to your blog or website. mod_webpresence allows you to do exactly this.</flag>
-	<flag name='websocket'><a href="http://en.wikipedia.org/wiki/WebSocket" rel="nofollow">WebSockets</a> is a new protocol for providing web pages with simple two-way communication with a web server.</flag>
+	<flag name='websocket'><a href="http://en.wikipedia.org/wiki/WebSocket" rel="nofollow">WebSockets</a> is a new protocol for providing web pages with simple two-way communication with a web server. This module allows browsers to communicate with Prosody via XMPP over WebSockets. This usually has less overhead then using <a href="https://prosody.im/doc/modules/mod_bosh" rel="nofollow">BOSH</a>. Note that the <a href="https://tools.ietf.org/html/draft-ietf-xmpp-websocket" rel="nofollow">XMPP over !WebSocket specification</a> has not been finalized yet, and is still evolving.</flag>
 </use>
 </pkgmetadata>
