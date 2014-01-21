@@ -12,6 +12,7 @@
 <use>
 	<flag name='addressing'>This module is a partial implementation of <a href="http://xmpp.org/extensions/xep-0033.html" rel="nofollow">XEP-0033: Extended Stanza Addressing</a>.</flag>
 	<flag name='adhoc_account_management'>This module adds an ad-hoc command that lets an user change their  password.  This is useful for clients that don&#x27;t have support for <a href="http://xmpp.org/extensions/xep-0077.html" rel="nofollow">XEP-0077</a> style password changing.  In the future, it may provide other account management  commands.</flag>
+	<flag name='admin_probe'>No module description on upstream wiki yet.</flag>
 	<flag name='admin_web'>This module provides a basic web administration interface. It currently gives you access to Ad-Hoc commands on any virtual host or component that you are set as an administrator for in the Prosody config file. It also provides a live list of all S2S and C2S connections.</flag>
 	<flag name='auth_ccert'>This module implements PKI-style client certificate authentication.  You will therefore need your own Certificate Authority. How to set that up is beyond the current scope of this document.</flag>
 	<flag name='auth_custom_http'>No module description on upstream wiki yet.</flag>
@@ -64,6 +65,8 @@
 	<flag name='http_altconnect'>No module description on upstream wiki yet.</flag>
 	<flag name='http_dir_listing'>This module generates directory listings when invoked by <tt>mod_http_files</tt>. See <a href="http://prosody.im/doc/modules/mod_http_files" rel="nofollow">documentation on `mod_http_files`</a>.</flag>
 	<flag name='http_favicon'>This simple module serves a <tt>favicon.ico</tt> from prosodys HTTP server and  nothing else.</flag>
+	<flag name='http_user_count'>No module description on upstream wiki yet.</flag>
+	<flag name='idlecompat'>This module adds <a href="http://xmpp.org/extensions/xep-0319.html" rel="nofollow">XEP-0319</a> idle tags to presence stanzas containing <a href="http://xmpp.org/extensions/xep-0012.html" rel="nofollow">XEP-0012: Last Activity</a> tags for idle indication (e.g. supported by libpurple clients). It works on outgoing and incoming presence stanzas.</flag>
 	<flag name='incidents_handling'>This module implements <a href="http://xmpp.org/extensions/xep-0268.html" rel="nofollow">XEP-268</a>.</flag>
 	<flag name='inotify_reload'>No module description on upstream wiki yet.</flag>
 	<flag name='ipcheck'>Sometimes for various reasons a client might want to know its IP address as it appears to the server. This <a href="http://xmpp.org/extensions/xep-0279.html" rel="nofollow">simple XEP</a> allows the client to ask the server for the IP address it is connected from.</flag>
@@ -74,6 +77,7 @@
 	<flag name='latex'>This module intercepts messages between users and into chatrooms, and attaches a links to a rendered version of any <a href="http://en.wikipedia.org/wiki/LaTeX" rel="nofollow">LaTeX</a> in the message. This requires client support for <a href="http://xmpp.org/extensions/xep-0071.html" rel="nofollow">XHTML-IM</a>, and fetching images via HTTP.</flag>
 	<flag name='lib_ldap'>This module is used by other modules to access an LDAP server.  It&#x27;s pretty useless on its own; you should use it if you want to write your own LDAP-related module, or if you want to use one of mine (<a href="https://code.google.com/p/prosody-modules/wiki/mod_auth_ldap2">mod_auth_ldap2</a>, <a href="/p/prosody-modules/wiki/mod_storage_ldap">mod_storage_ldap</a>).</flag>
 	<flag name='limits'>On some servers, especially public ones, it is desired to make sure that everyone gets their fair share of system resources (and no more).</flag>
+	<flag name='list_inactive'>No module description on upstream wiki yet.</flag>
 	<flag name='listusers'>No module description on upstream wiki yet.</flag>
 	<flag name='log_auth'>Prosody doesn&#x27;t write IP addresses to its log file by default for privacy reasons (unless debug logging is enabled).</flag>
 	<flag name='log_messages_sql'>No module description on upstream wiki yet.</flag>
@@ -114,6 +118,7 @@
 	<flag name='remote_roster'>No module description on upstream wiki yet.</flag>
 	<flag name='roster_command'>This module allows you to perform various actions on user rosters via prosodyctl.</flag>
 	<flag name='s2s_auth_compat'>This module is a workaround for servers that try to do s2s authentication with certificates and SASL EXTERNAL, but do not send correct stream headers.  Notably Openfire versions since 3.7 or 3.8.</flag>
+	<flag name='s2s_auth_dane'>This module implements DANE as described in  <a href="http://tools.ietf.org/html/draft-miller-xmpp-dnssec-prooftype" rel="nofollow">Using DNS Security Extensions (DNSSEC) and DNS-based Authentication of Named Entities (DANE) as a Prooftype for XMPP Domain Name Associations</a>.</flag>
 	<flag name='s2s_auth_dnssec_srv'>This module implements Secure Delegation using DNS SRV as described in  <a href="http://tools.ietf.org/html/draft-miller-xmpp-dnssec-prooftype" rel="nofollow">Using DNS Security Extensions (DNSSEC) and DNS-based Authentication of Named Entities (DANE) as a Prooftype for XMPP Domain Name Associations</a>.</flag>
 	<flag name='s2s_auth_fingerprint'>This module allows you to explicitly say that you trust remote servers if they show a certificate with a known fingerprint. This is useful if you have many connections to servers that use self-signed certificates.</flag>
 	<flag name='s2s_blacklist'>No module description on upstream wiki yet.</flag>
@@ -125,6 +130,7 @@
 	<flag name='s2soutinjection'>No module description on upstream wiki yet.</flag>
 	<flag name='s2s_reload_newcomponent'>Currently, module:reload command in console doesn&#x27;t load new components. This module will automatically load the new components (if any) when the config:reload command is run in the console.</flag>
 	<flag name='saslauth_muc'>No module description on upstream wiki yet.</flag>
+	<flag name='saslname'>No module description on upstream wiki yet.</flag>
 	<flag name='seclabels'>This module implements <a href="http://xmpp.org/extensions/xep-0258.htmla" rel="nofollow">XEP-0258: Security Labels in XMPP</a>.</flag>
 	<flag name='secure_interfaces'>Sometimes you might run clients without encryption on the same machine or LAN as Prosody - and you want Prosody to treat them as secure (e.g. allowing plaintext authentication) even though they are not encrypted.</flag>
 	<flag name='server_contact_info'>This module implements <a href="http://xmpp.org/extensions/xep-0157.html" rel="nofollow">XEP-0157: Contact Addresses for XMPP Services</a>.</flag>
@@ -137,6 +143,7 @@
 	<flag name='stanza_counter'>This module counts incoming and outgoing stanzas from when the instance started, and makes the data available to other modules by creating a global prosody. object</flag>
 	<flag name='statistics'>No module description on upstream wiki yet.</flag>
 	<flag name='storage_ldap'>See <a href="https://code.google.com/p/prosody-modules/wiki/mod_lib_ldap">mod_lib_ldap</a> for more information.</flag>
+	<flag name='storage_memory'>No module description on upstream wiki yet.</flag>
 	<flag name='storage_mongodb'>This is a storage backend that uses MongoDB. Depends on <a href="https://github.com/mwild1/luamongo" rel="nofollow">luamongo bindings</a></flag>
 	<flag name='streamstats'>No module description on upstream wiki yet.</flag>
 	<flag name='strict_https'>This module implements <a href="https://tools.ietf.org/html/rfc6797" rel="nofollow">HTTP Strict Transport Security</a> and responds to all non-HTTPS requests with a <tt>301 Moved Permanently</tt> redirect to the HTTPS equivalent of the path.</flag>

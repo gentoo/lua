@@ -14,8 +14,8 @@ LICENSE="MIT"
 SLOT="0"
 KEYWORDS=""
 PROSODY_MODULES="
-	addressing adhoc_account_management admin_web auth_ccert
-	auth_custom_http auth_dovecot auth_external auth_imap
+	addressing adhoc_account_management admin_probe admin_web
+	auth_ccert auth_custom_http auth_dovecot auth_external auth_imap
 	auth_internal_yubikey auth_joomla auth_ldap auth_ldap2 auth_pam
 	auth_phpbb3 auth_sql auth_wordpress auto_accept_subscriptions
 	auto_activate_hosts bidi blocking block_registrations
@@ -26,23 +26,24 @@ PROSODY_MODULES="
 	component_roundrobin conformance_restricted couchdb data_access
 	default_bookmarks default_vcard discoitems dwd extdisco firewall
 	flash_policy group_bookmarks host_blacklist host_guard
-	http_altconnect http_dir_listing http_favicon incidents_handling
-	inotify_reload ipcheck isolate_host jid_prep json_streams lastlog
-	latex lib_ldap limits listusers log_auth log_messages_sql mam
-	mam_adhoc mam_muc mam_muc_sql mam_sql message_logging
-	motd_sequential muc_ban_ip muc_config_restrict muc_intercom
-	muc_limits muc_log muc_log_http net_dovecotauth offline_email
-	onhold onions openid password_policy pastebin post_msg
-	pubsub_eventsource pubsub_feeds pubsub_github pubsub_googlecode
-	pubsub_hub pubsub_mqtt pubsub_pivotaltracker pubsub_twitter
-	readonly register_json register_redirect register_web
-	reload_modules remote_roster roster_command s2s_auth_compat
-	s2s_auth_dnssec_srv s2s_auth_fingerprint s2s_blacklist
-	s2s_idle_timeout s2s_keepalive s2s_keysize_policy s2s_log_certs
-	s2s_never_encrypt_blacklist s2soutinjection
-	s2s_reload_newcomponent saslauth_muc seclabels secure_interfaces
-	server_contact_info server_status service_directories sift smacks
-	sms_clickatell srvinjection stanza_counter statistics storage_ldap
+	http_altconnect http_dir_listing http_favicon http_user_count
+	idlecompat incidents_handling inotify_reload ipcheck isolate_host
+	jid_prep json_streams lastlog latex lib_ldap limits list_inactive
+	listusers log_auth log_messages_sql mam mam_adhoc mam_muc
+	mam_muc_sql mam_sql message_logging motd_sequential muc_ban_ip
+	muc_config_restrict muc_intercom muc_limits muc_log muc_log_http
+	net_dovecotauth offline_email onhold onions openid password_policy
+	pastebin post_msg pubsub_eventsource pubsub_feeds pubsub_github
+	pubsub_googlecode pubsub_hub pubsub_mqtt pubsub_pivotaltracker
+	pubsub_twitter readonly register_json register_redirect
+	register_web reload_modules remote_roster roster_command
+	s2s_auth_compat s2s_auth_dane s2s_auth_dnssec_srv
+	s2s_auth_fingerprint s2s_blacklist s2s_idle_timeout s2s_keepalive
+	s2s_keysize_policy s2s_log_certs s2s_never_encrypt_blacklist
+	s2soutinjection s2s_reload_newcomponent saslauth_muc saslname
+	seclabels secure_interfaces server_contact_info server_status
+	service_directories sift smacks sms_clickatell srvinjection
+	stanza_counter statistics storage_ldap storage_memory
 	storage_mongodb streamstats strict_https support_contact
 	swedishchef tcpproxy telnet_tlsinfo throttle_presence
 	turncredentials twitter uptime_presence vjud watchuntrusted
