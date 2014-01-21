@@ -17,7 +17,7 @@ EGIT_BRANCH="v2.1"
 LICENSE="MIT"
 SLOT="2"
 KEYWORDS=""
-IUSE="lua52compat +optimization"
+IUSE="debug lua52compat +optimization"
 
 PDEPEND="
 	virtual/lua[luajit]
@@ -48,6 +48,12 @@ src_prepare(){
 		-e "s|( PREFIX)=.*|\1=/usr|" \
 		-e "s|( MULTILIB)=.*|\1=$(get_libdir)|" \
 		-i Makefile || die "failed to fix prefix in Makefile"
+
+	use debug && (
+		sed -r \
+			-e 's/#(CCDEBUG= -g)/\1 -ggdb/' \
+			-i src/Makefile || die "Failed to enable debug"
+		)
 }
 
 src_compile() {

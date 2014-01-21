@@ -23,7 +23,7 @@ SRC_URI="
 LICENSE="MIT"
 SLOT="2"
 KEYWORDS="~amd64 ~x86 ~amd64-linux ~x86-linux"
-IUSE="lua52compat +optimization"
+IUSE="debug lua52compat +optimization"
 
 DEPEND=""
 PDEPEND="
@@ -67,10 +67,16 @@ src_prepare() {
 		-e "s|lib/|$(get_libdir)/|" \
 		-i src/luaconf.h || die "failed to fix prefix in luaconf.h"
 
-        sed \
-                -e "s|/usr/local|/usr|" \
-                -e "s|lib/|$(get_libdir)/|" \
-                -i etc/luajit.pc || die "failed to fix prefix in pkg-config file"
+	sed \
+		-e "s|/usr/local|/usr|" \
+		-e "s|lib/|$(get_libdir)/|" \
+		-i etc/luajit.pc || die "failed to fix prefix in pkg-config file"
+
+	use debug && (
+		sed -r \
+			-e 's/#(CCDEBUG= -g)/\1 -ggdb/' \
+			-i src/Makefile || die "Failed to enable debug"
+		)
 }
 
 src_compile() {
