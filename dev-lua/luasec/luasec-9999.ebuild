@@ -9,8 +9,8 @@ inherit multilib toolchain-funcs eutils git-r3
 DESCRIPTION="Lua binding for OpenSSL library to provide TLS/SSL communication."
 HOMEPAGE="http://www.inf.puc-rio.br/~brunoos/luasec/"
 #EGIT_REPO_URI="https://github.com/msva/luasec"
-EGIT_REPO_URI="https://github.com/mwild1/luasec"
-#EGIT_REPO_URI="https://github.com/brunoos/luasec"
+#EGIT_REPO_URI="https://github.com/mwild1/luasec"
+EGIT_REPO_URI="https://github.com/brunoos/luasec"
 
 LICENSE="MIT"
 SLOT="0"
