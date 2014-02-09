@@ -14,6 +14,7 @@
 	<flag name='adhoc_account_management'>This module adds an ad-hoc command that lets an user change their  password.  This is useful for clients that don&#x27;t have support for <a href="http://xmpp.org/extensions/xep-0077.html" rel="nofollow">XEP-0077</a> style password changing.  In the future, it may provide other account management  commands.</flag>
 	<flag name='admin_probe'>No module description on upstream wiki yet.</flag>
 	<flag name='admin_web'>This module provides a basic web administration interface. It currently gives you access to Ad-Hoc commands on any virtual host or component that you are set as an administrator for in the Prosody config file. It also provides a live list of all S2S and C2S connections.</flag>
+	<flag name='auth_any'>No module description on upstream wiki yet.</flag>
 	<flag name='auth_ccert'>This module implements PKI-style client certificate authentication.  You will therefore need your own Certificate Authority. How to set that up is beyond the current scope of this document.</flag>
 	<flag name='auth_custom_http'>No module description on upstream wiki yet.</flag>
 	<flag name='auth_dovecot'>This is a Prosody authentication plugin which uses Dovecot as the backend.</flag>
@@ -81,11 +82,13 @@
 	<flag name='listusers'>No module description on upstream wiki yet.</flag>
 	<flag name='log_auth'>Prosody doesn&#x27;t write IP addresses to its log file by default for privacy reasons (unless debug logging is enabled).</flag>
 	<flag name='log_messages_sql'>No module description on upstream wiki yet.</flag>
+	<flag name='log_sasl_mech'>No module description on upstream wiki yet.</flag>
 	<flag name='mam'>Implementation of <a href="http://xmpp.org/extensions/xep-0313.html" rel="nofollow">XEP-0313: Message Archive Management</a>. Like <a href="https://code.google.com/p/prosody-modules/wiki/mod_archive">mod_archive</a> but much simpler.</flag>
 	<flag name='mam_adhoc'>This module complements mod_mam by allowing clients to change archiving preferences through an Ad-hoc command.</flag>
 	<flag name='mam_muc'>No module description on upstream wiki yet.</flag>
 	<flag name='mam_muc_sql'>No module description on upstream wiki yet.</flag>
 	<flag name='mam_sql'>Implementation of <a href="http://xmpp.org/extensions/xep-0313.html" rel="nofollow">XEP-0313: Message Archive Management</a> backed by a SQL database.  Like <a href="https://code.google.com/p/prosody-modules/wiki/mod_mam">mod_mam</a>, but using SQL.</flag>
+	<flag name='manifesto'>No module description on upstream wiki yet.</flag>
 	<flag name='message_logging'>No module description on upstream wiki yet.</flag>
 	<flag name='motd_sequential'>No module description on upstream wiki yet.</flag>
 	<flag name='muc_ban_ip'>One frequent complaint about XMPP chatrooms (MUCs) compared to IRC is the inability for a room admin to ban a user based on their IP address. This is because an XMPP user is not identified on the network by their IP address, only their JID.</flag>
@@ -116,6 +119,7 @@
 	<flag name='register_web'>There are various reasons to prefer web registration instead of &quot;in-band&quot; account registration over XMPP. For example the lack of CAPTCHA support in clients and servers.</flag>
 	<flag name='reload_modules'>No module description on upstream wiki yet.</flag>
 	<flag name='remote_roster'>No module description on upstream wiki yet.</flag>
+	<flag name='require_otr'>No module description on upstream wiki yet.</flag>
 	<flag name='roster_command'>This module allows you to perform various actions on user rosters via prosodyctl.</flag>
 	<flag name='s2s_auth_compat'>This module is a workaround for servers that try to do s2s authentication with certificates and SASL EXTERNAL, but do not send correct stream headers.  Notably Openfire versions since 3.7 or 3.8.</flag>
 	<flag name='s2s_auth_dane'>This module implements DANE as described in  <a href="http://tools.ietf.org/html/draft-miller-xmpp-dnssec-prooftype" rel="nofollow">Using DNS Security Extensions (DNSSEC) and DNS-based Authentication of Named Entities (DANE) as a Prooftype for XMPP Domain Name Associations</a>.</flag>
@@ -129,6 +133,7 @@
 	<flag name='s2s_never_encrypt_blacklist'>No module description on upstream wiki yet.</flag>
 	<flag name='s2soutinjection'>No module description on upstream wiki yet.</flag>
 	<flag name='s2s_reload_newcomponent'>Currently, module:reload command in console doesn&#x27;t load new components. This module will automatically load the new components (if any) when the config:reload command is run in the console.</flag>
+	<flag name='s2s_whitelist'>No module description on upstream wiki yet.</flag>
 	<flag name='saslauth_muc'>No module description on upstream wiki yet.</flag>
 	<flag name='saslname'>No module description on upstream wiki yet.</flag>
 	<flag name='seclabels'>This module implements <a href="http://xmpp.org/extensions/xep-0258.htmla" rel="nofollow">XEP-0258: Security Labels in XMPP</a>.</flag>
