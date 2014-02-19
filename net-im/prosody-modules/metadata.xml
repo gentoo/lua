@@ -88,7 +88,7 @@
 	<flag name='mam_muc'>No module description on upstream wiki yet.</flag>
 	<flag name='mam_muc_sql'>No module description on upstream wiki yet.</flag>
 	<flag name='mam_sql'>Implementation of <a href="http://xmpp.org/extensions/xep-0313.html" rel="nofollow">XEP-0313: Message Archive Management</a> backed by a SQL database.  Like <a href="https://code.google.com/p/prosody-modules/wiki/mod_mam">mod_mam</a>, but using SQL.</flag>
-	<flag name='manifesto'>No module description on upstream wiki yet.</flag>
+	<flag name='manifesto'>This module informs users about the XMPP Test day and whether their contacts are affected.  For mor info about the test day, see <a href="https://stpeter.im/journal/1496.html" rel="nofollow">https://stpeter.im/journal/1496.html</a></flag>
 	<flag name='message_logging'>No module description on upstream wiki yet.</flag>
 	<flag name='motd_sequential'>No module description on upstream wiki yet.</flag>
 	<flag name='muc_ban_ip'>One frequent complaint about XMPP chatrooms (MUCs) compared to IRC is the inability for a room admin to ban a user based on their IP address. This is because an XMPP user is not identified on the network by their IP address, only their JID.</flag>
