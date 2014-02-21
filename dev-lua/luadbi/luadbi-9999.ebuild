@@ -65,7 +65,16 @@ src_install() {
 	use sqlite && drivers="${drivers} sqlite3"
 
 	for driver in ${drivers} ; do
-		emake DESTDIR="${D}" "install_${driver// /}" \
+		emake \
+			CC="$(tc-getCC) -fPIC -DPIC" \
+			LDFLAGS="${LDFLAGS}" \
+			CFLAGS="${CFLAGS}"  \
+			LUA_LMOD="$($(tc-getPKG_CONFIG) --variable INSTALL_LMOD ${lua})" \
+			LUA_CMOD="$($(tc-getPKG_CONFIG) --variable INSTALL_CMOD ${lua})" \
+			LUA_INC="-I$($(tc-getPKG_CONFIG) --variable includedir ${lua})" \
+			PSQL_INC="-I/usr/include/postgresql/server" \
+			MYSQL_INC="-I/usr/include/mysql -L/usr/$(get_libdir)/mysql" \
+			DESTDIR="${D}" "install_${driver// /}" \
 			|| die "Install of driver '${drivers// /}' failed"
 	done
 }
