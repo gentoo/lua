@@ -52,7 +52,7 @@ src_compile() {
 			LUA_CMOD="$($(tc-getPKG_CONFIG) --variable INSTALL_CMOD ${lua})" \
 			LUA_INC="-I$($(tc-getPKG_CONFIG) --variable includedir ${lua})" \
 			PSQL_INC="-I/usr/include/postgresql/server" \
-			MYQL_INC="-I/usr/include/mysql -L/usr/$(get_libdir)/mysql" \
+			MYSQL_INC="-I/usr/include/mysql -L/usr/$(get_libdir)/mysql" \
 			${driver} \
 			|| die "Compiling driver '${drivers// /}' failed"
 	done
