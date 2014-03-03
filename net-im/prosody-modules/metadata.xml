@@ -49,7 +49,7 @@
 	<flag name='compat_muc_admin'>No module description on upstream wiki yet.</flag>
 	<flag name='compat_vcard'>No module description on upstream wiki yet.</flag>
 	<flag name='component_client'>No module description on upstream wiki yet.</flag>
-	<flag name='component_roundrobin'>No module description on upstream wiki yet.</flag>
+	<flag name='component_roundrobin'>This module enables multiple instances of external components to connect at the same time, and does round-robin load-balancing of incoming stanzas.</flag>
 	<flag name='conformance_restricted'>This module sends processing instructions, comments, DTDs and a non predefined entity (defined by the DTD) to the requesting entity.</flag>
 	<flag name='couchdb'>This is an experimental Prosody backend for CouchDB.</flag>
 	<flag name='data_access'>This module gives HTTP access to prosody’s storage mechanism.  It uses normal HTTP verbs and <a href="http://tools.ietf.org/html/rfc2617" rel="nofollow">Basic HTTP authentication</a>, so you could call it RESTful if you like buzzwords.</flag>
