@@ -13,6 +13,7 @@ EHG_REPO_URI="https://prosody-modules.googlecode.com/hg/"
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS=""
+
 PROSODY_MODULES="
 	addressing adhoc_account_management admin_probe admin_web auth_any
 	auth_ccert auth_custom_http auth_dovecot auth_external auth_imap
@@ -20,12 +21,12 @@ PROSODY_MODULES="
 	auth_phpbb3 auth_sql auth_wordpress auto_accept_subscriptions
 	auto_activate_hosts bidi blocking block_registrations
 	block_s2s_subscriptions block_strangers block_subscribes
-	block_subscriptions broadcast c2s_conn_throttle candy carbons
-	carbons_adhoc carbons_copies checkcerts client_certs compat_bind
-	compat_muc_admin compat_vcard component_client
+	block_subscriptions broadcast c2s_conn_throttle c2s_limit_sessions
+	candy carbons carbons_adhoc carbons_copies checkcerts client_certs
+	compat_bind compat_muc_admin compat_vcard component_client
 	component_roundrobin conformance_restricted couchdb data_access
-	default_bookmarks default_vcard discoitems dwd extdisco firewall
-	flash_policy group_bookmarks host_blacklist host_guard
+	default_bookmarks default_vcard discoitems dwd email_pass extdisco
+	firewall flash_policy group_bookmarks host_blacklist host_guard
 	http_altconnect http_dir_listing http_favicon http_user_count
 	idlecompat incidents_handling inotify_reload ipcheck isolate_host
 	jid_prep json_streams lastlog latex lib_ldap limits list_inactive

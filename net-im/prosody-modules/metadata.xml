@@ -32,13 +32,14 @@
 	<flag name='auto_activate_hosts'>By default Prosody does not automatically activate/deactivate hosts when they are added to and removed from the configuration.</flag>
 	<flag name='bidi'>This module implements <a href="http://xmpp.org/extensions/xep-0288.html" rel="nofollow">XEP-0288: Bidirectional Server-to-Server Connections</a>.  It allows servers to use a single connection for sending stanzas to each other, instead of two connections (one for stanzas in each direction).</flag>
 	<flag name='blocking'>Privacy lists are a widely implemented protocol for instructing your server on blocking communications with selected users and services.</flag>
-	<flag name='block_registrations'>On a server with public registration it is usually desirable to prevent registration of certain &quot;reserved&quot; accounts, such as &quot;admin&quot;.</flag>
+	<flag name='block_registrations'>On a server with public registration it is usually desirable to prevent registration of certain "reserved" accounts, such as "admin".</flag>
 	<flag name='block_s2s_subscriptions'>No module description on upstream wiki yet.</flag>
 	<flag name='block_strangers'>No module description on upstream wiki yet.</flag>
 	<flag name='block_subscribes'>No module description on upstream wiki yet.</flag>
 	<flag name='block_subscriptions'>No module description on upstream wiki yet.</flag>
 	<flag name='broadcast'>No module description on upstream wiki yet.</flag>
 	<flag name='c2s_conn_throttle'>This module allows to throttle those client connections which exceed a n*seconds limit.</flag>
+	<flag name='c2s_limit_sessions'>No module description on upstream wiki yet.</flag>
 	<flag name='candy'>This is a very simple demo module showing how to serve a BOSH-using web app from prosody.</flag>
 	<flag name='carbons'>This module implements <a href="http://xmpp.org/extensions/xep-0280.html" rel="nofollow">XEP-0280: Message Carbons</a>, allowing users to maintain a shared and synchronized view of all conversations across all their online clients and devices.</flag>
 	<flag name='carbons_adhoc'>No module description on upstream wiki yet.</flag>
@@ -57,9 +58,10 @@
 	<flag name='default_vcard'>No module description on upstream wiki yet.</flag>
 	<flag name='discoitems'>This Prosody plugin lets you manually override the service discovery items for a host.</flag>
 	<flag name='dwd'>This module implements an optimization of the Dialback protocol, by skipping the dialback step for servers presenting a valid certificate.</flag>
+	<flag name='email_pass'>This module aims to help in the procedure of user password restoration. To start the restoration, the user must go to an URL provided by this module, fill the JID and email and submit the request.</flag>
 	<flag name='extdisco'>No module description on upstream wiki yet.</flag>
 	<flag name='firewall'>A firewall is an invaluable tool in the sysadmin&#x27;s toolbox. However while low-level firewalls such as iptables and pf are incredibly good at what they do, they are generally not able to handle application-layer rules.</flag>
-	<flag name='flash_policy'>This Prosody plugin adds support for flash socket policies. When connecting with a flash client (from a webpage, not an exe) to prosody the flash client requests for an xml &quot;file&quot; on port 584 or the connecting port (5222 in the case of default xmpp). Responding on port 584 is tricky because it requires root priviliges to set up a socket on a port &lt; 1024.</flag>
+	<flag name='flash_policy'>This Prosody plugin adds support for flash socket policies. When connecting with a flash client (from a webpage, not an exe) to prosody the flash client requests for an xml "file" on port 584 or the connecting port (5222 in the case of default xmpp). Responding on port 584 is tricky because it requires root priviliges to set up a socket on a port < 1024.</flag>
 	<flag name='group_bookmarks'><a href="http://prosody.im/doc/modules/mod_groups" rel="nofollow">mod_groups</a> allows you to insert contacts into users&#x27; contact lists. Well mod_group_bookmarks allows you to insert chatrooms into the user&#x27;s bookmarks. These are fetched by their client and automatically joined when the log in.</flag>
 	<flag name='host_blacklist'>No module description on upstream wiki yet.</flag>
 	<flag name='host_guard'>No module description on upstream wiki yet.</flag>
@@ -99,13 +101,13 @@
 	<flag name='muc_log_http'>This module provides a built-in web interface to view chatroom logs stored by <a href="https://code.google.com/p/prosody-modules/wiki/mod_muc_log">mod_muc_log</a>.</flag>
 	<flag name='net_dovecotauth'>No module description on upstream wiki yet.</flag>
 	<flag name='offline_email'>Quite often when I am out and about, I&#x27;m not able to connect to Jabber. It is usually much more likely I can access my email though (whether via the web, or a mobile client).</flag>
-	<flag name='onhold'>Enable mod_onhold to allow temporarily placing messages from particular JIDs &quot;on hold&quot; -- i.e. store them, but do not deliver them until the hold status is taken away.</flag>
+	<flag name='onhold'>Enable mod_onhold to allow temporarily placing messages from particular JIDs "on hold" -- i.e. store them, but do not deliver them until the hold status is taken away.</flag>
 	<flag name='onions'>This plugin allows Prosody to connect to other servers that are running as a Tor hidden service. Running Prosody on a hidden service works without this module, this module is only necessary to allow Prosody to federate to hidden XMPP servers.</flag>
 	<flag name='openid'><a href="http://openid.net/" rel="nofollow">OpenID</a> is an decentralized authentication mechanism for the Web.  mod_openid turns Prosody into an OpenID <i>provider</i>, allowing users to use their Prosody credentials to authenticate with various third party websites.</flag>
 	<flag name='password_policy'>No module description on upstream wiki yet.</flag>
 	<flag name='pastebin'>Pastebins are used very often in IM, especially in chat rooms. You have a long log or command output which you need to send to someone over IM, and don&#x27;t want to fill their message window with it. Put it on a pastebin site, and give them the URL instead, simple.</flag>
 	<flag name='post_msg'>Sometimes it&#x27;s useful to have different interfaces to access XMPP.</flag>
-	<flag name='pubsub_eventsource'><a href="https://en.wikipedia.org/wiki/Server-sent_events" rel="nofollow">Server-Sent Events</a> is a simple HTTP/line-based protocol supported in HTML5, making it easy to receive a stream of &quot;events&quot; in realtime using the Javascript <a href="https://developer.mozilla.org/en-US/docs/Web/API/EventSource" rel="nofollow">EventSource API</a>.</flag>
+	<flag name='pubsub_eventsource'><a href="https://en.wikipedia.org/wiki/Server-sent_events" rel="nofollow">Server-Sent Events</a> is a simple HTTP/line-based protocol supported in HTML5, making it easy to receive a stream of "events" in realtime using the Javascript <a href="https://developer.mozilla.org/en-US/docs/Web/API/EventSource" rel="nofollow">EventSource API</a>.</flag>
 	<flag name='pubsub_feeds'>This module allows Prosody to fetch Atom and RSS feeds for you, and push new results to subscribers over XMPP.</flag>
 	<flag name='pubsub_github'>No module description on upstream wiki yet.</flag>
 	<flag name='pubsub_googlecode'>No module description on upstream wiki yet.</flag>
@@ -116,13 +118,13 @@
 	<flag name='readonly'>No module description on upstream wiki yet.</flag>
 	<flag name='register_json'>This module let&#x27;s you activate a httpserver interface to handle data from webforms with POST and Base64 encoded JSON.</flag>
 	<flag name='register_redirect'>Registration Redirect as explained in the <a href="http://xmpp.org/extensions/xep-0077.html#redirect" rel="nofollow">IBR XEP</a>.</flag>
-	<flag name='register_web'>There are various reasons to prefer web registration instead of &quot;in-band&quot; account registration over XMPP. For example the lack of CAPTCHA support in clients and servers.</flag>
+	<flag name='register_web'>There are various reasons to prefer web registration instead of "in-band" account registration over XMPP. For example the lack of CAPTCHA support in clients and servers.</flag>
 	<flag name='reload_modules'>No module description on upstream wiki yet.</flag>
 	<flag name='remote_roster'>No module description on upstream wiki yet.</flag>
 	<flag name='require_otr'>No module description on upstream wiki yet.</flag>
 	<flag name='roster_command'>This module allows you to perform various actions on user rosters via prosodyctl.</flag>
 	<flag name='s2s_auth_compat'>This module is a workaround for servers that try to do s2s authentication with certificates and SASL EXTERNAL, but do not send correct stream headers.  Notably Openfire versions since 3.7 or 3.8.</flag>
-	<flag name='s2s_auth_dane'>This module implements DANE as described in  <a href="http://tools.ietf.org/html/draft-miller-xmpp-dnssec-prooftype" rel="nofollow">Using DNS Security Extensions (DNSSEC) and DNS-based Authentication of Named Entities (DANE) as a Prooftype for XMPP Domain Name Associations</a>.</flag>
+	<flag name='s2s_auth_dane'>This module implements DANE as described in <a href="http://tools.ietf.org/html/draft-miller-xmpp-dnssec-prooftype" rel="nofollow">Using DNS Security Extensions (DNSSEC) and DNS-based Authentication of Named Entities (DANE) as a Prooftype for XMPP Domain Name Associations</a>.</flag>
 	<flag name='s2s_auth_dnssec_srv'>This module implements Secure Delegation using DNS SRV as described in  <a href="http://tools.ietf.org/html/draft-miller-xmpp-dnssec-prooftype" rel="nofollow">Using DNS Security Extensions (DNSSEC) and DNS-based Authentication of Named Entities (DANE) as a Prooftype for XMPP Domain Name Associations</a>.</flag>
 	<flag name='s2s_auth_fingerprint'>This module allows you to explicitly say that you trust remote servers if they show a certificate with a known fingerprint. This is useful if you have many connections to servers that use self-signed certificates.</flag>
 	<flag name='s2s_blacklist'>No module description on upstream wiki yet.</flag>
