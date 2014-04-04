@@ -29,8 +29,8 @@ src_prepare() {
 	local lua=lua;
 	use luajit && lua=luajit-5.1;
 	echo "LIBS = ['${lua}', 'dl', 'm']" > ${S}/custom.py
-	sed \
-		-e 's|\(if\) \(rawtype(arg\[1\])\)|\1 arg and \2|' \
+	sed -r \
+		-e 's|(if rawtype.*arg.*)|\tlocal arg = {n=select('#', ...), ...};\n\1|' \
 		-i src/bin/lua/compat.lua
 }
 
