@@ -45,11 +45,11 @@ PROSODY_MODULES="
 	s2s_reload_newcomponent s2s_whitelist saslauth_muc saslname
 	seclabels secure_interfaces server_contact_info server_status
 	service_directories sift smacks sms_clickatell srvinjection
-	stanza_counter statistics storage_ldap storage_memory
-	storage_mongodb streamstats strict_https support_contact
-	swedishchef tcpproxy telnet_tlsinfo throttle_presence
-	turncredentials twitter uptime_presence vjud watchuntrusted
-	webpresence websocket
+	stanza_counter statistics statistics_cputotal statistics_mem
+	storage_ldap storage_memory storage_mongodb streamstats
+	strict_https support_contact swedishchef tcpproxy telnet_tlsinfo
+	throttle_presence turncredentials twitter uptime_presence vjud
+	watchuntrusted webpresence websocket
 "
 
 

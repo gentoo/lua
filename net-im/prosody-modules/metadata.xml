@@ -149,6 +149,8 @@
 	<flag name='srvinjection'>This Prosody plugin lets you manually override SRV records used for a remote host.</flag>
 	<flag name='stanza_counter'>This module counts incoming and outgoing stanzas from when the instance started, and makes the data available to other modules by creating a global prosody. object</flag>
 	<flag name='statistics'>No module description on upstream wiki yet.</flag>
+	<flag name='statistics_cputotal'>No module description on upstream wiki yet.</flag>
+	<flag name='statistics_mem'>No module description on upstream wiki yet.</flag>
 	<flag name='storage_ldap'>See <a href="https://code.google.com/p/prosody-modules/wiki/mod_lib_ldap">mod_lib_ldap</a> for more information.</flag>
 	<flag name='storage_memory'>No module description on upstream wiki yet.</flag>
 	<flag name='storage_mongodb'>This is a storage backend that uses MongoDB. Depends on <a href="https://github.com/mwild1/luamongo" rel="nofollow">luamongo bindings</a></flag>
