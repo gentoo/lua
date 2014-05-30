@@ -19,6 +19,7 @@
 	<flag name='auth_custom_http'>No module description on upstream wiki yet.</flag>
 	<flag name='auth_dovecot'>This is a Prosody authentication plugin which uses Dovecot as the backend.</flag>
 	<flag name='auth_external'>Allow client authentication to be handled by an external script/process.</flag>
+	<flag name='auth_http_async'>No module description on upstream wiki yet.</flag>
 	<flag name='auth_imap'>No module description on upstream wiki yet.</flag>
 	<flag name='auth_internal_yubikey'>A <a href="http://www.yubico.com/yubikey" rel="nofollow">YubiKey</a> is a small USB one-time-password (OTP) generator.</flag>
 	<flag name='auth_joomla'>No module description on upstream wiki yet.</flag>
@@ -108,6 +109,7 @@
 	<flag name='password_policy'>No module description on upstream wiki yet.</flag>
 	<flag name='pastebin'>Pastebins are used very often in IM, especially in chat rooms. You have a long log or command output which you need to send to someone over IM, and don`t want to fill their message window with it. Put it on a pastebin site, and give them the URL instead, simple.</flag>
 	<flag name='post_msg'>Sometimes it`s useful to have different interfaces to access XMPP.</flag>
+	<flag name='profile'>This module provides a replacement for mod_vcard.  In addition to the ageing protocol defined by <a href="http://xmpp.org/extensions/xep-0054.html" rel="nofollow">XEP-0054</a>, it also supports the <a href="http://xmpp.org/extensions/xep-0292.html" rel="nofollow">new vCard 4 based protocol</a> and integrates with <a href="http://xmpp.org/extensions/xep-0163.html" rel="nofollow">Personal Eventing Protocol</a>.  The vCard 4, <a href="http://xmpp.org/extensions/xep-0084.html" rel="nofollow">User Avatar</a> and <a href="http://xmpp.org/extensions/xep-0172.html" rel="nofollow">User Nickname</a> PEP nodes are updated when the vCard is changed..</flag>
 	<flag name='pubsub_eventsource'><a href="https://en.wikipedia.org/wiki/Server-sent_events" rel="nofollow">Server-Sent Events</a> is a simple HTTP/line-based protocol supported in HTML5, making it easy to receive a stream of "events" in realtime using the Javascript <a href="https://developer.mozilla.org/en-US/docs/Web/API/EventSource" rel="nofollow">EventSource API</a>.</flag>
 	<flag name='pubsub_feeds'>This module allows Prosody to fetch Atom and RSS feeds for you, and push new results to subscribers over XMPP.</flag>
 	<flag name='pubsub_github'>No module description on upstream wiki yet.</flag>
@@ -127,6 +129,7 @@
 	<flag name='s2s_auth_compat'>This module is a workaround for servers that try to do s2s authentication with certificates and SASL EXTERNAL, but do not send correct stream headers.  Notably Openfire versions since 3.7 or 3.8.</flag>
 	<flag name='s2s_auth_dane'>This module implements DANE as described in <a href="http://tools.ietf.org/html/draft-miller-xmpp-dnssec-prooftype" rel="nofollow">Using DNS Security Extensions (DNSSEC) and DNS-based Authentication of Named Entities (DANE) as a Prooftype for XMPP Domain Name Associations</a>.</flag>
 	<flag name='s2s_auth_fingerprint'>This module allows you to manually pin certificate fingerprints of remote servers.</flag>
+	<flag name='s2s_auth_monkeysphere'><a href="http://web.monkeysphere.info/" rel="nofollow">Monkeysphere</a> is a project aiming to introduce PGP`s web of trust to protocols such as SSH and TLS (which XMPP uses).</flag>
 	<flag name='s2s_blacklist'>No module description on upstream wiki yet.</flag>
 	<flag name='s2s_idle_timeout'>Some people find it preferable to close server-to-server connections after they have been silent for a while.</flag>
 	<flag name='s2s_keepalive'>No module description on upstream wiki yet.</flag>
