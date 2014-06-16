@@ -18,13 +18,20 @@ KEYWORDS=""
 IUSE="luajit"
 
 RDEPEND="
-	|| ( >=dev-lang/lua-5.1[deprecated] dev-lang/luajit:2 )
+	!luajit? ( >=dev-lang/lua-5.1[deprecated] )
+	luajit? ( dev-lang/luajit:2 )
 	dev-lua/luasocket
 	dev-libs/openssl
 "
 DEPEND="
 	${RDEPEND}
-	dev-util/pkgconfig"
+	dev-util/pkgconfig
+"
+
+
+src_prepare() {
+	epatch "${FILESDIR}/fix_removed_destdir_support.patch" || die "Probably, Upstream finally returned DESTDIR instalation back. Please, report that."
+}
 
 src_compile() {
 	local lua=lua;
