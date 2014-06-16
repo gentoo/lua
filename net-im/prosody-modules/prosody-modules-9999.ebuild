@@ -15,8 +15,8 @@ SLOT="0"
 KEYWORDS=""
 
 PROSODY_MODULES="
-	addressing adhoc_account_management admin_probe admin_web auth_any
-	auth_ccert auth_custom_http auth_dovecot auth_external
+	misc addressing adhoc_account_management admin_probe admin_web
+	auth_any auth_ccert auth_custom_http auth_dovecot auth_external
 	auth_http_async auth_imap auth_internal_yubikey auth_joomla
 	auth_ldap auth_ldap2 auth_pam auth_phpbb3 auth_sql auth_wordpress
 	auto_accept_subscriptions auto_activate_hosts bidi blocking

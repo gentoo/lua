@@ -10,6 +10,7 @@
 </maintainer>
 <longdescription>Prosody IM server's community-writen modules</longdescription>
 <use>
+	<flag name='misc'>No module description on upstream wiki yet.</flag>
 	<flag name='addressing'>This module is a partial implementation of <a href="http://xmpp.org/extensions/xep-0033.html" rel="nofollow">XEP-0033: Extended Stanza Addressing</a>.</flag>
 	<flag name='adhoc_account_management'>This module adds an ad-hoc command that lets an user change their password.  This is useful for clients that don`t have support for <a href="http://xmpp.org/extensions/xep-0077.html" rel="nofollow">XEP-0077</a> style password changing.  In the future, it may provide other account management commands.</flag>
 	<flag name='admin_probe'>No module description on upstream wiki yet.</flag>
