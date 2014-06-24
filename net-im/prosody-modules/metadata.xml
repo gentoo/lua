@@ -15,7 +15,7 @@
 	<flag name='adhoc_account_management'>This module adds an ad-hoc command that lets an user change their password.  This is useful for clients that don`t have support for <a href="http://xmpp.org/extensions/xep-0077.html" rel="nofollow">XEP-0077</a> style password changing.  In the future, it may provide other account management commands.</flag>
 	<flag name='admin_probe'>No module description on upstream wiki yet.</flag>
 	<flag name='admin_web'>This module provides a basic web administration interface. It currently gives you access to Ad-Hoc commands on any virtual host or component that you are set as an administrator for in the Prosody config file. It also provides a live list of all S2S and C2S connections.</flag>
-	<flag name='auth_any'>No module description on upstream wiki yet.</flag>
+	<flag name='auth_any'>This module accepts any username and password, which can be useful for testing.</flag>
 	<flag name='auth_ccert'>This module implements PKI-style client certificate authentication. You will therefore need your own Certificate Authority. How to set that up is beyond the current scope of this document.</flag>
 	<flag name='auth_custom_http'>No module description on upstream wiki yet.</flag>
 	<flag name='auth_dovecot'>This is a Prosody authentication plugin which uses Dovecot as the backend.</flag>
@@ -23,13 +23,13 @@
 	<flag name='auth_http_async'>No module description on upstream wiki yet.</flag>
 	<flag name='auth_imap'>No module description on upstream wiki yet.</flag>
 	<flag name='auth_internal_yubikey'>A <a href="http://www.yubico.com/yubikey" rel="nofollow">YubiKey</a> is a small USB one-time-password (OTP) generator.</flag>
-	<flag name='auth_joomla'>No module description on upstream wiki yet.</flag>
+	<flag name='auth_joomla'>This module allows you to authenticate against an Joomla database.</flag>
 	<flag name='auth_ldap'>This is a Prosody authentication plugin which uses LDAP as the backend.</flag>
 	<flag name='auth_ldap2'>See <a href="https://code.google.com/p/prosody-modules/wiki/mod_lib_ldap">mod_lib_ldap</a> for more information.</flag>
 	<flag name='auth_pam'>This module makes Prosody authenticate users against PAM (Linux Pluggable Authentication Modules)</flag>
-	<flag name='auth_phpbb3'>No module description on upstream wiki yet.</flag>
+	<flag name='auth_phpbb3'>This module allows you to authenticate against an PHPBB3 database.</flag>
 	<flag name='auth_sql'>Allow client authentication to be handled by an SQL database query.</flag>
-	<flag name='auth_wordpress'>No module description on upstream wiki yet.</flag>
+	<flag name='auth_wordpress'>This module allows you to authenticate against an Wordpress database.</flag>
 	<flag name='auto_accept_subscriptions'>In some environments where all users on the system have mutual trust in each other, it`s sometimes fine to skip the usual authorization process to add someone to your contact list and see their status.</flag>
 	<flag name='auto_activate_hosts'>By default Prosody does not automatically activate/deactivate hosts when they are added to and removed from the configuration.</flag>
 	<flag name='bidi'>This module implements <a href="http://xmpp.org/extensions/xep-0288.html" rel="nofollow">XEP-0288: Bidirectional Server-to-Server Connections</a>.  It allows servers to use a single connection for sending stanzas to each other, instead of two connections (one for stanzas in each direction).</flag>
@@ -119,6 +119,7 @@
 	<flag name='pubsub_mqtt'><a href="http://mqtt.org/" rel="nofollow">MQTT</a> is a lightweight binary pubsub protocol suited to embedded devices. This module provides a way for MQTT clients to connect to Prosody and publish or subscribe to local pubsub nodes.</flag>
 	<flag name='pubsub_pivotaltracker'>No module description on upstream wiki yet.</flag>
 	<flag name='pubsub_twitter'>Twitter has an open `realtime` search API, but it requires polling (within their rate limits). This module allows Prosody to poll for you, and push new results to subscribers over XMPP.</flag>
+	<flag name='rawdebug'>No module description on upstream wiki yet.</flag>
 	<flag name='readonly'>No module description on upstream wiki yet.</flag>
 	<flag name='register_json'>This module let`s you activate a httpserver interface to handle data from webforms with POST and Base64 encoded JSON.</flag>
 	<flag name='register_redirect'>Registration Redirect as explained in the <a href="http://xmpp.org/extensions/xep-0077.html#redirect" rel="nofollow">IBR XEP</a>.</flag>
@@ -141,7 +142,7 @@
 	<flag name='s2s_reload_newcomponent'>Currently, module:reload command in console doesn`t load new components. This module will automatically load the new components (if any) when the config:reload command is run in the console.</flag>
 	<flag name='s2s_whitelist'>No module description on upstream wiki yet.</flag>
 	<flag name='saslauth_muc'>No module description on upstream wiki yet.</flag>
-	<flag name='saslname'>No module description on upstream wiki yet.</flag>
+	<flag name='saslname'>This module implements <a href="http://xmpp.org/extensions/xep-0233.html" rel="nofollow">XEP-0233: Domain-Based Service Names in XMPP SASL Negotiation</a>.</flag>
 	<flag name='seclabels'>This module implements <a href="http://xmpp.org/extensions/xep-0258.htmla" rel="nofollow">XEP-0258: Security Labels in XMPP</a>.</flag>
 	<flag name='secure_interfaces'>Sometimes you might run clients without encryption on the same machine or LAN as Prosody - and you want Prosody to treat them as secure (e.g. allowing plaintext authentication) even though they are not encrypted.</flag>
 	<flag name='server_contact_info'>This module implements <a href="http://xmpp.org/extensions/xep-0157.html" rel="nofollow">XEP-0157: Contact Addresses for XMPP Services</a>.</flag>
@@ -153,8 +154,10 @@
 	<flag name='srvinjection'>This Prosody plugin lets you manually override SRV records used for a remote host.</flag>
 	<flag name='stanza_counter'>This module counts incoming and outgoing stanzas from when the instance started, and makes the data available to other modules by creating a global prosody. object</flag>
 	<flag name='statistics'>No module description on upstream wiki yet.</flag>
+	<flag name='statistics_auth'>No module description on upstream wiki yet.</flag>
 	<flag name='statistics_cputotal'>No module description on upstream wiki yet.</flag>
 	<flag name='statistics_mem'>No module description on upstream wiki yet.</flag>
+	<flag name='statsd'>No module description on upstream wiki yet.</flag>
 	<flag name='storage_ldap'>See <a href="https://code.google.com/p/prosody-modules/wiki/mod_lib_ldap">mod_lib_ldap</a> for more information.</flag>
 	<flag name='storage_memory'>No module description on upstream wiki yet.</flag>
 	<flag name='storage_mongodb'>This is a storage backend that uses MongoDB. Depends on <a href="https://github.com/mwild1/luamongo" rel="nofollow">luamongo bindings</a></flag>

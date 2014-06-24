@@ -38,7 +38,7 @@ PROSODY_MODULES="
 	onhold onions openid password_policy pastebin post_msg profile
 	pubsub_eventsource pubsub_feeds pubsub_github pubsub_googlecode
 	pubsub_hub pubsub_mqtt pubsub_pivotaltracker pubsub_twitter
-	readonly register_json register_redirect register_web
+	rawdebug readonly register_json register_redirect register_web
 	reload_modules remote_roster require_otr roster_command
 	s2s_auth_compat s2s_auth_dane s2s_auth_fingerprint
 	s2s_auth_monkeysphere s2s_blacklist s2s_idle_timeout s2s_keepalive
@@ -46,11 +46,12 @@ PROSODY_MODULES="
 	s2soutinjection s2s_reload_newcomponent s2s_whitelist saslauth_muc
 	saslname seclabels secure_interfaces server_contact_info
 	server_status service_directories sift smacks sms_clickatell
-	srvinjection stanza_counter statistics statistics_cputotal
-	statistics_mem storage_ldap storage_memory storage_mongodb
-	streamstats strict_https support_contact swedishchef tcpproxy
-	telnet_tlsinfo throttle_presence turncredentials twitter
-	uptime_presence vjud watchuntrusted webpresence websocket
+	srvinjection stanza_counter statistics statistics_auth
+	statistics_cputotal statistics_mem statsd storage_ldap
+	storage_memory storage_mongodb streamstats strict_https
+	support_contact swedishchef tcpproxy telnet_tlsinfo
+	throttle_presence turncredentials twitter uptime_presence vjud
+	watchuntrusted webpresence websocket
 "
 
 
