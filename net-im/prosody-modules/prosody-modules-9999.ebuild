@@ -14,8 +14,10 @@ LICENSE="MIT"
 SLOT="0"
 KEYWORDS=""
 
+IUSE="misc"
+
 PROSODY_MODULES="
-	misc addressing adhoc_account_management admin_probe admin_web
+	addressing adhoc_account_management admin_probe admin_web
 	auth_any auth_ccert auth_custom_http auth_dovecot auth_external
 	auth_http_async auth_imap auth_internal_yubikey auth_joomla
 	auth_ldap auth_ldap2 auth_pam auth_phpbb3 auth_sql auth_wordpress
@@ -177,7 +179,11 @@ src_install() {
 	for m in ${PROSODY_MODULES}; do
 		if use prosody_modules_${m}; then
 			insinto /usr/lib/prosody/modules;
-			doins -r "mod_${m}" || die
+			doins -r "mod_${m}"
 		fi
 	done
+	use misc && (
+		insinto /usr/lib/prosody/modules
+		doins -r misc
+	)
 }
