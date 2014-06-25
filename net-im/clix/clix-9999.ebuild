@@ -26,7 +26,7 @@ DEPEND="${RDEPEND}"
 src_prepare() {
 	use luajit && sed -r \
 		-e 's:(env lua):\1jit:' \
-		-i clix.lua || die
+		-i clix.lua
 }
 
 src_compile() {
@@ -34,6 +34,6 @@ src_compile() {
 }
 
 src_install() {
-	newbin clix.bin clix || die
-	dodoc README || die
+	newbin clix.bin clix
+	dodoc README
 }
