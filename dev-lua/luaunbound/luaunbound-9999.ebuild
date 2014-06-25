@@ -26,11 +26,6 @@ DEPEND="
 	dev-util/pkgconfig
 "
 
-REQUIRED_USE=" prosody? ( luajit )"
-
-# Actually, it is not required to work, just not-FFI way assumes replacing prosody-owned files,
-# so it will be two ways: patch prosody ebuild or patch ./squis.sh
-
 DOCS=( "README.markdown" )
 
 src_compile() {
