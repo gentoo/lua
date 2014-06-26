@@ -15,7 +15,7 @@ EGIT_REPO_URI="https://github.com/brunoos/luasec"
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS=""
-IUSE="luajit"
+IUSE="examples luajit"
 
 RDEPEND="
 	!luajit? ( >=dev-lang/lua-5.1[deprecated] )
@@ -48,4 +48,6 @@ src_compile() {
 
 src_install() {
 	emake DESTDIR="${D}" install || die "Install failed"
+	docompress -x /usr/share/doc/${PF}/samples
+	dodoc -r samples
 }
