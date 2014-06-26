@@ -49,5 +49,5 @@ src_compile() {
 src_install() {
 	emake DESTDIR="${D}" install || die "Install failed"
 	docompress -x /usr/share/doc/${PF}/samples
-	dodoc -r samples
+	use examples && dodoc -r samples
 }
