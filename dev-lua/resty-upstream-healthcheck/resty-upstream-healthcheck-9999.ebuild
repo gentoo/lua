@@ -4,32 +4,29 @@
 
 EAPI="5"
 
-inherit eutils toolchain-funcs
+inherit eutils toolchain-funcs git-r3
 
-DESCRIPTION="Lua WebSocket implementation for the NginX lua module"
-HOMEPAGE="https://github.com/agentzh/lua-${PN}"
-SRC_URI="https://github.com/agentzh/lua-${PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz"
+DESCRIPTION="Health Checker for Nginx Upstream Servers in Pure Lua"
+HOMEPAGE="https://github.com/openresty/lua-${PN}"
+SRC_URI=""
+
+EGIT_REPO_URI="https://github.com/openresty/lua-${PN}"
 
 LICENSE="BSD"
 SLOT="0"
-KEYWORDS="x86 amd64"
-IUSE="luajit"
+KEYWORDS=""
+IUSE=""
 
 RDEPEND="
-	!luajit? ( >=dev-lang/lua-5.1 )
-	luajit?  ( dev-lang/luajit:2 )
-	www-servers/nginx[nginx_modules_http_lua]
+	www-servers/nginx[nginx_modules_http_lua,nginx_modules_http_lua_upsteam]
 "
 DEPEND="
 	${RDEPEND}
 	dev-util/pkgconfig
 "
 
-S="${WORKDIR}/lua-${P}"
-
 src_prepare() {
-	local lua=lua;
-        use luajit && lua=luajit;
+	local lua=luajit;
 
 	sed -r \
 		-e "1,6s#(PREFIX).*#\1=/usr#" \

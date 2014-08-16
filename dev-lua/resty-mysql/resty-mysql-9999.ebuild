@@ -7,10 +7,10 @@ EAPI="5"
 inherit eutils toolchain-funcs git-r3
 
 DESCRIPTION="Lua MySQL client driver for ngx_lua based on the cosocket API"
-HOMEPAGE="https://github.com/agentzh/lua-${PN}"
+HOMEPAGE="https://github.com/openresty/lua-${PN}"
 SRC_URI=""
 
-EGIT_REPO_URI="https://github.com/agentzh/lua-${PN}"
+EGIT_REPO_URI="https://github.com/openresty/lua-${PN}"
 
 LICENSE="BSD"
 SLOT="0"
