@@ -4,13 +4,13 @@
 
 EAPI="5"
 
-inherit cmake-utils git-r3
+inherit git-r3
 
 DESCRIPTION="Lua cURL Library"
-HOMEPAGE="https://github.com/msva/lua-curl"
+HOMEPAGE="https://github.com/Lua-cURL/Lua-cURLv3"
 SRC_URI=""
 
-EGIT_REPO_URI="git://github.com/msva/lua-curl.git"
+EGIT_REPO_URI="https://github.com/Lua-cURL/Lua-cURLv3"
 
 LICENSE="MIT"
 SLOT="0"
@@ -21,33 +21,35 @@ RDEPEND="
 	|| ( =dev-lang/lua-5.1* dev-lang/luajit:2 )
 	luajit? ( dev-lang/luajit:2 )
 	!luajit? ( =dev-lang/lua-5.1* )
+	net-misc/curl
 "
 DEPEND="${RDEPEND}
-	net-misc/curl"
+	dev-util/pkgconfig
+"
 
 src_prepare() {
 	epatch_user
-	cmake-utils_src_prepare
-}
-
-src_compile() {
-	cmake-utils_src_compile
 }
 
 src_configure() {
-	mycmakeargs=(
-		$(cmake-utils_use_use luajit)
-	)
-	cmake-utils_src_configure
+	local lua="lua";
+	use luajit && lua="luajit";
+	echo "LUA_IMPL=${lua}" > ${S}/.config;
 }
 
+
 src_install() {
-	if use doc; then
-		dodoc -r doc || die "dodoc failed"
-	fi
-	if use examples; then
-		insinto /usr/share/doc/"${P}";
-		doins -r examples
-	fi
-	cmake-utils_src_install
+	local lua=lua;
+	use luajit && lua=luajit
+	use examples && {
+		docompress -x /usr/share/doc/${PF}/examples
+		dodoc -r examples
+	}
+	use doc && (
+		docompress -x /usr/share/doc/${PF}/html
+		cd doc
+#		luadoc . -d html
+#		dohtml -r html
+	)
+	default
 }
