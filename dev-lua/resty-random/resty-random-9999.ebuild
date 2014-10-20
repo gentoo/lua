@@ -30,6 +30,7 @@ DOCS=( "README.md" )
 
 src_install() {
 	insinto "$($(tc-getPKG_CONFIG) --variable INSTALL_LMOD luajit)"
+	mv lib/resty/random.lua lib/resty/resty_random.lua
 	doins -r lib/resty
 
 	base_src_install_docs
