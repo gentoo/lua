@@ -13,14 +13,27 @@ EHG_REPO_URI="http://hg.prosody.im/trunk"
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS=""
-IUSE="doc +libevent mysql postgres sqlite +ssl +zlib luajit ipv6 migration"
+IUSE="doc +libevent mysql postgres sqlite +ssl +zlib luajit ipv6 migration -lua52"
 
 DEPEND="
-	|| ( dev-lang/luajit:2 =dev-lang/lua-5.1* )
+	luajit? (
+		dev-lang/luajit:2
+	)
+	!luajit? (
+		lua52? (
+			=dev-lang/lua-5.2*
+		)
+		!lua52? (
+			=dev-lang/lua-5.1*
+			dev-lua/LuaBitOp
+		)
+	)
 	net-im/jabber-base
-	luajit? ( dev-lang/luajit:2 )
 	>=net-dns/libidn-1.1
-	>=dev-libs/openssl-0.9.8
+	|| (
+		>=dev-libs/openssl-0.9.8z
+		>=dev-libs/openssl-1.0.1j
+	)
 "
 
 RDEPEND="
@@ -92,7 +105,6 @@ src_compile() {
 
 src_install() {
 	default
-#	DESTDIR="${D}" emake install || die "make failed"
 	newinitd "${FILESDIR}/${PN}".initd "${PN}"
 	insinto /etc/logrotate.d
 	newins "${FILESDIR}/${PN}".logrotate "${PN}"

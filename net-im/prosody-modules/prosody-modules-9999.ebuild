@@ -123,13 +123,6 @@ RDEPEND="
 		)
 		dev-lua/yubikey-lua
 	)
-	prosody_modules_websocket? (
-		|| (
-			>=dev-lang/lua-5.2
-			dev-lang/luajit:2
-			dev-lua/LuaBitOp
-		)
-	)
 	prosody_modules_auth_dovecot? (
 		dev-lua/luasocket
 	)
