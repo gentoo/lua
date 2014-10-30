@@ -17,8 +17,8 @@ KEYWORDS=""
 IUSE="misc"
 
 PROSODY_MODULES="
-	addressing adhoc_account_management admin_probe admin_web
-	auth_any auth_ccert auth_custom_http auth_dovecot auth_external
+	addressing adhoc_account_management admin_probe admin_web auth_any
+	auth_ccert auth_custom_http auth_dovecot auth_external auth_ha1
 	auth_http_async auth_imap auth_internal_yubikey auth_joomla
 	auth_ldap auth_ldap2 auth_pam auth_phpbb3 auth_sql auth_wordpress
 	auto_accept_subscriptions auto_activate_hosts bidi blocking
@@ -27,17 +27,19 @@ PROSODY_MODULES="
 	c2s_limit_sessions candy captcha_registration carbons
 	carbons_adhoc carbons_copies checkcerts client_certs compat_bind
 	compat_muc_admin compat_vcard component_client
-	component_roundrobin conformance_restricted couchdb data_access
-	default_bookmarks default_vcard discoitems dwd email_pass extdisco
-	firewall flash_policy group_bookmarks host_blacklist host_guard
-	http_altconnect http_dir_listing http_favicon http_user_count
-	idlecompat incidents_handling inotify_reload ipcheck isolate_host
-	jid_prep json_streams lastlog latex lib_ldap limits list_inactive
-	listusers log_auth log_messages_sql log_sasl_mech mam mam_adhoc
+	component_roundrobin conformance_restricted couchdb csi csi_compat
+	data_access default_bookmarks default_vcard disable_tls discoitems
+	dwd email_pass extdisco filter_chatstates firewall flash_policy
+	group_bookmarks host_blacklist host_guard http_altconnect
+	http_dir_listing http_favicon http_user_count idlecompat
+	incidents_handling inotify_reload ipcheck isolate_host jid_prep
+	json_streams lastlog latex lib_ldap limits list_inactive listusers
+	log_auth log_messages_sql log_sasl_mech mam mam_adhoc mam_archive
 	mam_muc mam_muc_sql mam_sql manifesto message_logging
 	motd_sequential muc_ban_ip muc_config_restrict muc_intercom
 	muc_limits muc_log muc_log_http net_dovecotauth offline_email
-	onhold onions openid password_policy pastebin post_msg profile
+	onhold onions openid password_policy pastebin post_msg
+	privacy_lists private_adhoc profile proxy65_whitelist
 	pubsub_eventsource pubsub_feeds pubsub_github pubsub_googlecode
 	pubsub_hub pubsub_mqtt pubsub_pivotaltracker pubsub_twitter
 	rawdebug readonly register_json register_redirect register_web
@@ -48,12 +50,12 @@ PROSODY_MODULES="
 	s2soutinjection s2s_reload_newcomponent s2s_whitelist saslauth_muc
 	saslname seclabels secure_interfaces server_contact_info
 	server_status service_directories sift smacks sms_clickatell
-	srvinjection stanza_counter statistics statistics_auth
+	srvinjection sslv3_warn stanza_counter statistics statistics_auth
 	statistics_cputotal statistics_mem statsd storage_ldap
-	storage_memory storage_mongodb streamstats strict_https
-	support_contact swedishchef tcpproxy telnet_tlsinfo
+	storage_memory storage_mongodb storage_multi streamstats
+	strict_https support_contact swedishchef tcpproxy telnet_tlsinfo
 	throttle_presence turncredentials twitter uptime_presence vjud
-	watchuntrusted webpresence websocket
+	watchuntrusted webpresence
 "
 
 
