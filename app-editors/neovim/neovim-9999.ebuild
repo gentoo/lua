@@ -6,7 +6,7 @@ EAPI=5
 
 inherit cmake-utils flag-o-matic git-r3
 
-EGIT_REPO_URI="git://github.com/neovim/neovim.git"
+EGIT_REPO_URI="https://github.com/neovim/neovim"
 KEYWORDS=""
 
 DESCRIPTION="Vim's rebirth for the 21st century"
@@ -23,21 +23,19 @@ RDEPEND="
 "
 DEPEND="
 	${RDEPEND}
-	|| (
-		dev-lang/luajit
-		dev-lang/lua
-	)
 	>=dev-libs/libuv-0.11.19
 	|| (
 		dev-lua/lpeg
 		dev-lua/lulpeg[lpeg_replace]
 	)
+	dev-lang/luajit
+	=dev-libs/msgpack-9999
 	dev-lua/messagepack
 "
 
-src_configure()  {
-	append-flags "-DNDEBUG -Wno-error -D_FORTIFY_SOURCE=1"
-	cmake-utils_src_configure
-}
+#src_configure()  {
+#	append-cppflags "-DNDEBUG -Wno-error -D_FORTIFY_SOURCE=1"
+#	cmake-utils_src_configure
+#}
 
 
