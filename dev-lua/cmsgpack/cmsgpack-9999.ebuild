@@ -4,35 +4,29 @@
 
 EAPI=5
 
-inherit toolchain-funcs
+inherit toolchain-funcs git-r3
 
 DESCRIPTION="A self contained Lua MessagePack C implementation"
 HOMEPAGE="https://github.com/antirez/lua-cmsgpack"
 
 MY_PN="lua_${PN}"
 
+EGIT_REPO_URI="https://github.com/antirez/lua-cmsgpack"
+KEYWORDS=""
+DOCS=( README.md )
+
 LICENSE="BSD-2"
 SLOT="0"
-IUSE="test"
+IUSE="luajit test"
 
-RDEPEND=">=dev-lang/lua-5.1"
-DEPEND="${RDEPEND}
-	dev-libs/msgpack"
-
-if [ "${PV}" = "9999" ]; then
-	EGIT_REPO_URI="git://github.com/antirez/lua-cmsgpack.git"
-	inherit git-r3
-	KEYWORDS=""
-	DOCS=( README.md )
-else
-	SRC_URI="https://github.com/antirez/lua-${PN}/archive/${PV}.tar.gz -> ${P}.tar.gz"
-	inherit vcs-snapshot
-	KEYWORDS="~amd64"
-	DOCS=( README )
-
-fi
+RDEPEND="
+	luajit? ( dev-lang/luajit:2 )
+	!luajit? ( >=dev-lang/lua-5.1 )
+"
+DEPEND="${RDEPEND}"
 
 src_compile() {
+	use luajit && CFLAGS="${CFLAGS} -I$($(tc-getPKG_CONFIG) --variable includedir luajit)"
 	$(tc-getCC) -fPIC ${CFLAGS} -c -o ${MY_PN}.o ${MY_PN}.c || die
 	$(tc-getCC) ${LDFLAGS} -shared -o ${PN}.so ${MY_PN}.o || die
 }
@@ -42,7 +36,9 @@ src_test() {
 }
 
 src_install() {
+	local lua=lua
+	use luajit && lua=luajit
 	default
-	insinto $($(tc-getPKG_CONFIG) --variable INSTALL_CMOD lua)
-	doins ${PN}.so
+	insinto "$($(tc-getPKG_CONFIG) --variable INSTALL_CMOD ${lua})"
+	doins "${PN}".so
 }
