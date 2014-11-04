@@ -4,7 +4,7 @@
 
 EAPI="5"
 
-inherit eutils git-r3
+inherit eutils toolchain-funcs git-r3
 
 DESCRIPTION="A deployment and management system for Lua modules"
 HOMEPAGE="http://www.luarocks.org"
@@ -13,19 +13,25 @@ EGIT_REPO_URI="git://github.com/keplerproject/luarocks.git"
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS=""
-IUSE="curl openssl"
+IUSE="curl openssl luajit"
 
-DEPEND="|| ( >=dev-lang/lua-5.1 dev-lang/luajit:2 )
+DEPEND="
+		!luajit? ( >=dev-lang/lua-5.1 )
+		luajit? ( dev-lang/luajit:2 )
 		curl? ( net-misc/curl )
-		openssl? ( dev-libs/openssl )"
+		openssl? ( dev-libs/openssl )
+"
 RDEPEND="${DEPEND}
-		app-arch/unzip"
+		app-arch/unzip
+		dev-util/pkg-config
+"
 
 src_configure() {
-	USE_MD5="md5sum"
-	USE_FETCH="wget"
-	use openssl && USE_MD5="openssl"
-	use curl && USE_FETCH="curl"
+	local lua=lua md5="md5sum" downloader="wget"
+
+	use curl && downloader="curl"
+	use openssl && md5="openssl"
+	use luajit && lua="luajit"
 
 	# econf doesn't work b/c it passes variables the custom configure can't
 	# handle
@@ -34,8 +40,10 @@ src_configure() {
 			--with-lua=/usr \
 			--with-lua-lib=/usr/$(get_libdir) \
 			--rocks-tree=/usr \
-			--with-downloader=$USE_FETCH \
-			--with-md5-checker=$USE_MD5 \
+			--with-downloader="${downloader}" \
+			--with-md5-checker="${md5}" \
+			$(use luajit && echo "--lua-suffix=jit") \
+			--with-lua-include="$($(tc-getPKG_CONFIG) --variable includedir ${lua})" \
 			--force-config || die "configure failed"
 }
 

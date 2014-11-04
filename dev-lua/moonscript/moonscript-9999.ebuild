@@ -32,6 +32,19 @@ DEPEND="
 
 HTML_DOCS=( "docs/" "README.md" )
 
+src_prepare() {
+	local lua=lua;
+	use luajit && lua=luajit;
+
+	sed -r \
+			-e "s/lua5.1/${lua}/" \
+			-i Makefile
+
+	sed -r \
+			-e "1s#(/usr/bin/env) lua#\1 ${lua}#" \
+			-i bin/moon bin/moonc
+}
+
 src_compile() {
 	emake compile
 }
@@ -44,6 +57,7 @@ src_install() {
 	doins -r moon.lua moonscript.lua moon moonscript
 
 	dobin bin/moon bin/moonc
+	newbin bin/splat.moon splat
 
 	base_src_install_docs
 }

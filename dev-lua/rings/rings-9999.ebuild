@@ -4,7 +4,7 @@
 
 EAPI="5"
 
-inherit multilib eutils git-r3
+inherit multilib toolchain-funcs flag-o-matic eutils git-r3
 
 DESCRIPTION="Lua Rings Library"
 HOMEPAGE="https://github.com/keplerproject/rings"
@@ -18,18 +18,21 @@ SLOT="0"
 KEYWORDS=""
 IUSE="luajit"
 
-RDEPEND=" || ( >=dev-lang/lua-5.1 dev-lang/luajit:2 )
-	luajit? ( dev-lang/luajit:2 )"
+RDEPEND="
+	!luajit? ( >=dev-lang/lua-5.1 )
+	luajit? ( dev-lang/luajit:2 )
+"
 DEPEND="${RDEPEND}"
 
 src_configure() {
-	LUA="lua";
-	use luajit && LUA="luajit"
-	cd "${S}"
-	./configure "${LUA}"
+	local lua="lua";
+	use luajit && lua="luajit"
+	./configure "${lua}"
 }
 
 src_compile() {
-	use luajit && INC="-I/usr/include/luajit-2.0/"
-	emake DESTDIR="${D}" CC="$(tc-getCC) -fPIC -DPIC" LDFLAGS="${LDFLAGS}" CFLAGS="${CFLAGS} ${INC}" || die "Can't copmile Rings library"
+	local lua="lua";
+	use luajit && lua="luajit"
+	append-cflags "-I$($(tc-getPKG_CONFIG) --variable includedir ${lua})"
+	emake CC="$(tc-getCC) -fPIC -DPIC" LDFLAGS="${LDFLAGS}" CFLAGS="${CFLAGS}" || die "Can't copmile Rings library"
 }

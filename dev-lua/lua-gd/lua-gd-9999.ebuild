@@ -16,19 +16,23 @@ SLOT="0"
 KEYWORDS=""
 IUSE="doc examples luajit"
 
-RDEPEND="|| ( >=dev-lang/lua-5.1 dev-lang/luajit:2 )
+RDEPEND="
+	!luahit? ( >=dev-lang/lua-5.1 )
+	luajit? ( dev-lang/luajit:2 )
 	media-libs/gd[png]"
 DEPEND="${RDEPEND}
 	dev-util/pkgconfig"
 
 src_prepare() {
-	epatch "${FILESDIR}/${P}-makefile.patch"
+	sed -r \
+		-e "s/^(CFLAGS=)-O3 -Wall /\1/" \
+		-i Makefile
 }
 
 src_compile() {
 	local lua=lua;
 	use luajit && lua=luajit;
-	emake LUAPKG="${lua}" CC="$(tc-getCC)"
+	emake LUAPKG="${lua}" LUABIN="${lua}" CC="$(tc-getCC)"
 }
 
 src_install() {

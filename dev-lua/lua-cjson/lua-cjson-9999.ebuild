@@ -10,7 +10,7 @@ DESCRIPTION="Lua JSON Library, written in C"
 HOMEPAGE="http://www.kyne.com.au/~mark/software/lua-cjson.php"
 SRC_URI=""
 
-EGIT_REPO_URI="git://github.com/msva/lua-cjson.git"
+EGIT_REPO_URI="https://github.com/msva/lua-cjson"
 
 LICENSE="MIT"
 SLOT="0"
@@ -18,8 +18,8 @@ KEYWORDS=""
 IUSE="examples luajit"
 
 RDEPEND="
-	!luajit? ( >=dev-lang/lua-5.1 )
 	luajit? ( dev-lang/luajit:2 )
+	!luajit? ( >=dev-lang/lua-5.1 )
 "
 DEPEND="${RDEPEND}"
 

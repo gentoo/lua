@@ -15,10 +15,15 @@ SLOT="0"
 KEYWORDS=""
 IUSE="luajit"
 
-RDEPEND="|| ( >=dev-lang/lua-5.1 dev-lang/luajit:2 )
-		sys-libs/zlib"
-DEPEND="${RDEPEND}
-		dev-util/pkgconfig"
+RDEPEND="
+	!luajit? ( >=dev-lang/lua-5.1 )
+	luajit? ( dev-lang/luajit:2 )
+	sys-libs/zlib
+"
+DEPEND="
+	${RDEPEND}
+	dev-util/pkgconfig
+"
 
 src_prepare() {
 	mv *-${PN}-* "${S}"
@@ -26,11 +31,10 @@ src_prepare() {
 
 src_configure() {
 	local lua=lua;
-	local myconf;
+	local mycmakeargs;
 	use luajit && lua="luajit";
 	mycmakeargs=(
 		-DINSTALL_CMOD=$($(tc-getPKG_CONFIG) --variable INSTALL_CMOD ${lua})
-		$(cmake-utils_use_use luajit)
 	)
 	cmake-utils_src_configure
 }

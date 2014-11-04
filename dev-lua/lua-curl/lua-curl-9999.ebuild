@@ -18,9 +18,8 @@ KEYWORDS=""
 IUSE="doc examples luajit"
 
 RDEPEND="
-	|| ( =dev-lang/lua-5.1* dev-lang/luajit:2 )
 	luajit? ( dev-lang/luajit:2 )
-	!luajit? ( =dev-lang/lua-5.1* )
+	!luajit? ( >=dev-lang/lua-5.1 )
 	net-misc/curl
 "
 DEPEND="${RDEPEND}
@@ -48,8 +47,8 @@ src_install() {
 	use doc && (
 		docompress -x /usr/share/doc/${PF}/html
 		cd doc
-#		luadoc . -d html
-#		dohtml -r html
+		ldoc .
+		dohtml -r html
 	)
 	default
 }

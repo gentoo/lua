@@ -21,7 +21,8 @@ IUSE="doc luajit"
 IUSE+="${LANGS// / linguas_}"
 
 RDEPEND="
-	|| ( >=dev-lang/lua-5.1 dev-lang/luajit:2 )
+	luajit? ( dev-lang/luajit:2 )
+	!luajit? ( >=dev-lang/lua-5.1 )
 	>=dev-libs/openssl-0.9.7
 "
 DEPEND="

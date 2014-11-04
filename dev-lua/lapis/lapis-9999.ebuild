@@ -37,7 +37,7 @@ DEPEND="
 HTML_DOCS=( "docs/" "README.md" )
 
 src_compile() {
-	emake build
+	use moonscript && emake build
 }
 
 src_install() {

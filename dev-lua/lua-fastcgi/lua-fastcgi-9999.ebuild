@@ -4,7 +4,7 @@
 
 EAPI="5"
 
-inherit eutils git-r3
+inherit toolchain-funcs eutils git-r3
 
 DESCRIPTION="A FastCGI server for Lua, written in C"
 HOMEPAGE="https://github.com/cramey/lua-fastcgi"
@@ -19,26 +19,26 @@ KEYWORDS=""
 IUSE="doc luajit"
 
 RDEPEND="
-	|| ( >=dev-lang/lua-5.1 dev-lang/luajit:2 )
+	!luajit? ( >=dev-lang/lua-5.1 )
 	luajit? ( dev-lang/luajit:2 )
 	dev-libs/fcgi
 "
 DEPEND="${RDEPEND}"
 
 src_prepare() {
-	if use luajit; then
-	LUA_LIB="luajit-5.1"
-	LUA_INC="luajit-2.0/"
-	else
-	LUA_LIB="lua"
-	LUA_INC=""
-	fi
-	sed -e "s/-Wl,[^ ]*//g"  -i Makefile
-	sed -e "s/lua5.1/${LUA_LIB}/g"  -i Makefile
-	sed -e "s#lua5.1/#${LUA_INC}#" -i src/config.c
-	sed -e "s#lua5.1/#${LUA_INC}#" -i src/lfuncs.c
-	sed -e "s#lua5.1/#${LUA_INC}#" -i src/lua.c
-	sed -e "s#lua5.1/#${LUA_INC}#" -i src/lua-fastcgi.c
+	local lua=lua
+	use luajit && lua=luajit
+
+	LUA_LIB="$($(tc-getPKG_CONFIG) --variable libname ${lua})"
+
+	sed -r \
+		-e "s#^(CFLAGS=.*)#\1 $($(tc-getPKG_CONFIG) --variable cflags ${lua}) -I$($(tc-getPKG_CONFIG) --variable includedir ${lua})#" \
+		-e "s/-Wl,[^ ]*//g" \
+		-e "s#lua5.1#${LUA_LIB}#g" \
+		-i Makefile
+	sed \
+		-e "s#lua5.1/##" \
+		-i src/config.c src/lfuncs.c src/lua.c src/lua-fastcgi.c
 }
 
 src_install() {
