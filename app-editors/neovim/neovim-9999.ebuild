@@ -23,19 +23,19 @@ RDEPEND="
 "
 DEPEND="
 	${RDEPEND}
-	>=dev-libs/libuv-0.11.19
+	>=dev-libs/libuv-0.11.29
 	|| (
 		dev-lua/lpeg
 		dev-lua/lulpeg[lpeg_replace]
 	)
-	dev-lang/luajit
+	dev-lang/luajit:2
 	=dev-libs/msgpack-9999
 	dev-lua/messagepack
 "
 
-#src_configure()  {
-#	append-cppflags "-DNDEBUG -Wno-error -D_FORTIFY_SOURCE=1"
-#	cmake-utils_src_configure
-#}
+src_configure()  {
+	append-cflags "-D_FORTIFY_SOURCE=1"
+	cmake-utils_src_configure
+}
 
 
