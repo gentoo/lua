@@ -18,7 +18,7 @@ IUSE="mysql postgres sqlite luajit"
 
 RDEPEND="	|| ( >=dev-lang/lua-5.1 dev-lang/luajit:2 )
 		mysql? ( || ( dev-db/mysql dev-db/mariadb ) )
-		postgres? ( dev-db/postgresql-base )
+		postgres? ( dev-db/postgresql )
 		sqlite? ( >=dev-db/sqlite-3 )"
 DEPEND="${RDEPEND}
 	dev-util/pkgconfig"
