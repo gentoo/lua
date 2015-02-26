@@ -7,8 +7,8 @@ EAPI="5"
 inherit eutils multilib mercurial
 
 DESCRIPTION="Add-on modules for Prosody IM Server written in Lua."
-HOMEPAGE="http://prosody-modules.googlecode.com/"
-EHG_REPO_URI="https://prosody-modules.googlecode.com/hg/"
+HOMEPAGE="https://prosody-modules.googlecode.com/"
+EHG_REPO_URI="https://hg.prosody.im/prosody-modules"
 
 LICENSE="MIT"
 SLOT="0"
@@ -17,45 +17,48 @@ KEYWORDS=""
 IUSE="misc"
 
 PROSODY_MODULES="
-	addressing adhoc_account_management admin_probe admin_web auth_any
-	auth_ccert auth_custom_http auth_dovecot auth_external auth_ha1
-	auth_http_async auth_imap auth_internal_yubikey auth_joomla
-	auth_ldap auth_ldap2 auth_pam auth_phpbb3 auth_sql auth_wordpress
-	auto_accept_subscriptions auto_activate_hosts bidi blocking
-	block_registrations block_s2s_subscriptions block_strangers
-	block_subscribes block_subscriptions broadcast c2s_conn_throttle
-	c2s_limit_sessions candy captcha_registration carbons
-	carbons_adhoc carbons_copies checkcerts client_certs compat_bind
-	compat_muc_admin compat_vcard component_client
-	component_roundrobin conformance_restricted couchdb csi csi_compat
-	data_access default_bookmarks default_vcard disable_tls discoitems
-	dwd email_pass extdisco filter_chatstates firewall flash_policy
-	group_bookmarks host_blacklist host_guard http_altconnect
-	http_dir_listing http_favicon http_user_count idlecompat
-	incidents_handling inotify_reload ipcheck isolate_host jid_prep
-	json_streams lastlog latex lib_ldap limits list_inactive listusers
-	log_auth log_messages_sql log_sasl_mech mam mam_adhoc mam_archive
-	mam_muc mam_muc_sql mam_sql manifesto message_logging
-	motd_sequential muc_ban_ip muc_config_restrict muc_intercom
-	muc_limits muc_log muc_log_http net_dovecotauth offline_email
-	onhold onions openid password_policy pastebin post_msg
-	privacy_lists private_adhoc profile proxy65_whitelist
+	addressing adhoc_account_management admin_message admin_probe
+	admin_web auth_any auth_ccert auth_custom_http auth_dovecot
+	auth_external auth_ha1 auth_http_async auth_imap
+	auth_internal_yubikey auth_joomla auth_ldap auth_ldap2 auth_pam
+	auth_phpbb3 auth_sql auth_wordpress auto_accept_subscriptions
+	auto_activate_hosts bidi blocking block_registrations
+	block_s2s_subscriptions block_strangers block_subscribes
+	block_subscriptions broadcast c2s_conn_throttle c2s_limit_sessions
+	candy captcha_registration carbons carbons_adhoc carbons_copies
+	checkcerts client_certs compat_bind compat_muc_admin compat_vcard
+	component_client component_roundrobin conformance_restricted
+	couchdb csi csi_compat data_access default_bookmarks default_vcard
+	disable_tls discoitems dwd email_pass extdisco filter_chatstates
+	firewall flash_policy group_bookmarks host_blacklist host_guard
+	http_altconnect http_dir_listing http_favicon http_index
+	http_muc_log http_user_count idlecompat incidents_handling
+	inotify_reload ipcheck isolate_host jid_prep json_streams lastlog
+	latex lib_ldap limit_auth limits list_inactive listusers log_auth
+	log_messages_sql log_sasl_mech mam mam_adhoc mam_archive mam_muc
+	mam_muc_sql mam_sql manifesto message_logging motd_sequential
+	muc_ban_ip muc_config_restrict muc_intercom muc_limits muc_log
+	muc_log_http muc_restrict_rooms net_dovecotauth offline_email
+	onhold onions openid password_policy pastebin pep_vcard_avatar
+	post_msg privacy_lists private_adhoc profile proxy65_whitelist
 	pubsub_eventsource pubsub_feeds pubsub_github pubsub_googlecode
 	pubsub_hub pubsub_mqtt pubsub_pivotaltracker pubsub_twitter
-	rawdebug readonly register_json register_redirect register_web
-	reload_modules remote_roster require_otr roster_command
-	s2s_auth_compat s2s_auth_dane s2s_auth_fingerprint
-	s2s_auth_monkeysphere s2s_blacklist s2s_idle_timeout s2s_keepalive
-	s2s_keysize_policy s2s_log_certs s2s_never_encrypt_blacklist
-	s2soutinjection s2s_reload_newcomponent s2s_whitelist saslauth_muc
-	saslname seclabels secure_interfaces server_contact_info
-	server_status service_directories sift smacks sms_clickatell
-	srvinjection sslv3_warn stanza_counter statistics statistics_auth
-	statistics_cputotal statistics_mem statsd storage_ldap
-	storage_memory storage_mongodb storage_multi streamstats
-	strict_https support_contact swedishchef tcpproxy telnet_tlsinfo
-	throttle_presence turncredentials twitter uptime_presence vjud
-	watchuntrusted webpresence
+	query_client_ver rawdebug readonly register_json register_redirect
+	register_web reload_modules remote_roster require_otr
+	roster_allinall roster_command s2s_auth_compat s2s_auth_dane
+	s2s_auth_fingerprint s2s_auth_monkeysphere s2s_blacklist
+	s2s_idle_timeout s2s_keepalive s2s_keysize_policy s2s_log_certs
+	s2s_never_encrypt_blacklist s2soutinjection
+	s2s_reload_newcomponent s2s_whitelist saslauth_muc saslname
+	seclabels secure_interfaces server_contact_info server_status
+	service_directories sift smacks sms_clickatell srvinjection
+	sslv3_warn stanza_counter statistics statistics_auth
+	statistics_cputotal statistics_mem statsd storage_gdbm
+	storage_ldap storage_memory storage_mongodb storage_muc_log
+	storage_multi streamstats strict_https support_contact swedishchef
+	tcpproxy telnet_tlsinfo throttle_presence tls_policy
+	turncredentials twitter uptime_presence vjud watchuntrusted
+	webpresence
 "
 
 
