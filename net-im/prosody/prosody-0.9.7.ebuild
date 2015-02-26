@@ -9,7 +9,7 @@ inherit eutils multilib toolchain-funcs versionator
 DESCRIPTION="Prosody is a flexible communications server for Jabber/XMPP written in Lua."
 HOMEPAGE="http://prosody.im/"
 
-SRC_URI="https://prosody.im/downloads/source/prosody-0.9.1.tar.gz"
+SRC_URI="https://prosody.im/downloads/source/${P}.tar.gz"
 
 LICENSE="MIT"
 SLOT="0"
@@ -92,6 +92,8 @@ src_compile() {
 }
 
 src_install() {
+	local lua=lua
+	use luajit && lua=luajit
 	default
 #	DESTDIR="${D}" emake install || die "make failed"
 	newinitd "${FILESDIR}/${PN}".initd "${PN}"
@@ -103,7 +105,7 @@ src_install() {
 		DESTDIR="${D}" emake install || die "migrator install failed"
 		cd "${S}"
 		rm -rf tools/migration
-		insinto $($(tc-getPKG_CONFIG) lua --variable INSTALL_LMOD)
+		insinto $($(tc-getPKG_CONFIG) ${lua} --variable INSTALL_LMOD)
 		doins tools/erlparse.lua
 		rm tools/erlparse.lua
 		fowners "jabber:jabber" -R "/usr/$(get_libdir)/${PN}"

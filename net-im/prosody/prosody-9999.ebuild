@@ -104,6 +104,9 @@ src_compile() {
 }
 
 src_install() {
+	local lua=lua
+	use luajit && lua=luajit
+
 	default
 	newinitd "${FILESDIR}/${PN}".initd "${PN}"
 	insinto /etc/logrotate.d
@@ -114,7 +117,7 @@ src_install() {
 		DESTDIR="${D}" emake install || die "migrator install failed"
 		cd "${S}"
 		rm -rf tools/migration
-		insinto $($(tc-getPKG_CONFIG) lua --variable INSTALL_LMOD)
+		insinto $($(tc-getPKG_CONFIG) ${lua} --variable INSTALL_LMOD)
 		doins tools/erlparse.lua
 		rm tools/erlparse.lua
 		fowners "jabber:jabber" -R "/usr/$(get_libdir)/${PN}"
