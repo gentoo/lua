@@ -1,0 +1,11 @@
+Title: Removing NeoVIM
+Author: Vadim A. Misbakh-Soloviov <mva@mva.name>
+Content-Type: text/plain
+Posted: 2015-03-16
+Revision: 1
+News-Item-Format: 1.0
+Display-If-Installed: =app-editors/neovim-9999
+
+app-editors/neovim now has "stable" (snapshoted) release in the tree and
+live (9999) version is now in it's maintainer dev-repo, called yngwin.
+Please, reemerge neovim from either the tree or yngwin's repo.
