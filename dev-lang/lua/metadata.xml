@@ -2,6 +2,10 @@
 <!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
 <pkgmetadata>
 <maintainer>
+	<email>mva@gentoo.ru</email>
+	<name>Vadim A. Misbakh-Soloviov</name>
+</maintainer>
+<maintainer>
 	<email>mabi@gentoo.org</email>
 	<name>Matti Bickel</name>
 </maintainer>
