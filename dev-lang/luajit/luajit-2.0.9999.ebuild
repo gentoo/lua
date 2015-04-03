@@ -4,26 +4,34 @@
 
 EAPI="5"
 
-inherit base multilib pax-utils versionator toolchain-funcs flag-o-matic check-reqs git-r3
-
-MY_PV="2.0.2"
+inherit base eutils multilib multilib-minimal portability pax-utils toolchain-funcs versionator flag-o-matic check-reqs git-r3
 
 DESCRIPTION="Just-In-Time Compiler for the Lua programming language"
 HOMEPAGE="http://luajit.org/"
 SRC_URI=""
 EGIT_REPO_URI="git://repo.or.cz/luajit-2.0.git"
+SLOT="2.0"
+#EGIT_BRANCH="v${SLOT}"
 
 LICENSE="MIT"
-SLOT="2"
 KEYWORDS=""
-IUSE="debug lua52compat +optimization"
+IUSE="debug valgrind lua52compat +optimization"
 
-DEPEND=""
+RDEPEND="
+	valgrind? ( dev-util/valgrind )
+"
+DEPEND="${RDEPEND}"
+
 PDEPEND="
 	virtual/lua[luajit]
 "
 
 HTML_DOCS=( "doc/" )
+
+MULTILIB_WRAPPED_HEADERS=(
+    /usr/include/luajit-${SLOT}/luaconf.h
+)
+
 
 check_req() {
 	if use optimization; then
@@ -45,72 +53,59 @@ pkg_setup() {
 src_prepare(){
 	# fixing prefix and version
 	sed -r \
-		-e "s|( PREFIX)=.*|\1=/usr|" \
-		-e "s|( MULTILIB)=.*|\1=$(get_libdir)|" \
+		-e 's|(VERSION)=.*|\1=$(MAJVER).$(MINVER)|' \
+		-e 's|(FILE_MAN)=.*|\1='${PN}'-$(VERSION).1|' \
+		-e 's|\$\(MAJVER\)\.\$\(MINVER\)\.\$\(RELVER\)|$(VERSION)|' \
+		-e 's|(INSTALL_PCNAME)=.*|\1='${PN}'-$(VERSION).pc|' \
+		-e 's|( PREFIX)=.*|\1=/usr|' \
 		-i Makefile || die "failed to fix prefix in Makefile"
+#		-e "s|( MULTILIB)=.*|\1=$(get_libdir)|" \
+
+
 	use debug && (
 		sed -r \
 			-e 's/#(CCDEBUG= -g)/\1 -ggdb/' \
 			-i src/Makefile || die "Failed to enable debug"
 		)
+	mv "${S}"/etc/${PN}.1 "${S}"/etc/${PN}-${SLOT}.1
+
+	multilib_copy_sources
 }
 
-src_compile() {
-	local opt;
+multilib_src_compile() {
+	local opt xcflags;
 	use optimization && opt="amalg";
 
-	if gcc-fullversion 4 7 3 && gcc-specs-pie && has ccache ${FEATURES}; then
-		# It is three ways to avoid compilation breaking
-		# in case, when user use gcc-4.7.3+pie+ccache:
-		# a) append -fPIC to CFLAGS, to use it even for temporary
-		# build-time only static host/* bins and luajit binary itself.
-		# b) append -nopie to LDFLAGS
-		#    (for same binaries and same reason)
-		# c) disable ccache (even in per-package basis).
-		#    This will slow down amalgamated build, but is prefered and
-		#    recommended by upstream method.
-		# So, since it is impossible to use method "c" directly from
-		# ebuild, I choose method "a"
-		# (since it is more secure on hardened systems, imho) +
-		# + ewarn user, that he really should disable ccache.
+	tc-export CC
+#		STATIC_CC="$(tc-getCC)" \
+#		DYNAMIC_CC="$(tc-getCC) -fPIC" \
+#		TARGET_LD="$(tc-getCC)" \
+#		TARGET_AR="$(tc-getAR) rcus" \
 
-#	       append-ldflags -nopie
-		append-cflags -fPIC
-
-		ewarn "As we detected, that you're using gcc-4.7.3+pie+ccache,"
-		ewarn "we need to either:"
-		ewarn "  a) add -fPIC to CFLAGS, or"
-		ewarn "  b) add -nopie to LDFLAGS, or"
-		ewarn "  c) disable ccache (even on per-package basis)."
-		ewarn ""
-		ewarn "We suggest you to use variant 'c' and disable it via"
-		ewarn "/etc/portage/{,package.}env (read portage manual)"
-		ewarn ""
-		ewarn "But, since we can't do that from ebuild, we'll continue"
-		ewarn "with -fPIC (variant 'a') for now, since it gives more security"
-		ewarn "on hardened systems (in our opinion)."
-		ewarn ""
-		ewarn "But, anyway, we still *HIGHLY* recommend you"
-		ewarn "to disable ccache instead."
-	fi
+	xcflags=(
+		$(usex lua52compat "-DLUAJIT_ENABLE_LUA52COMPAT" "")
+		$(usex debug "-DLUAJIT_USE_GDBJIT" "")
+		$(usex valgrind "-DLUAJIT_USE_VALGRIND" "")
+		$(usex valgrind "-DLUAJIT_USE_SYSMALLOC" "")
+	)
 
 	emake \
 		Q= \
-		HOST_CC="$(tc-getBUILD_CC)" \
-		STATIC_CC="$(tc-getCC)" \
-		DYNAMIC_CC="$(tc-getCC) -fPIC" \
-		TARGET_LD="$(tc-getCC)" \
-		TARGET_AR="$(tc-getAR) rcus" \
+		HOST_CC="$(tc-getCC)" \
+		CC="${CC}" \
 		TARGET_STRIP="true" \
-		XCFLAGS="$(usex lua52compat "-DLUAJIT_ENABLE_LUA52COMPAT" "")" \
-		"${opt}"
+		XCFLAGS="${xcflags[*]}" "${opt}"
 }
 
-src_install() {
-	default
+multilib_src_install() {
+	local lua_abi="5.1";
+	emake DESTDIR="${D}" MULTILIB="$(get_libdir)" install
+
 	base_src_install_docs
 
-	host-is-pax && pax-mark m "${ED}usr/bin/${PN}-${MY_PV}"
-	dosym "${PN}-${MY_PV}" "/usr/bin/${PN}"
-	dobin "${FILESDIR}/luac.jit"
+	host-is-pax && pax-mark m "${ED}usr/bin/${PN}-${SLOT}"
+	dosym "${PN}-${SLOT}" "/usr/bin/${PN}"
+	dosym "lib${PN}-${lua_abi}.so.${SLOT}" "/usr/$(get_libdir)/lib${PN}-${SLOT}.so" 
+	dosym "${PN}-${SLOT}.1" "/usr/share/man/man1/luacjit-${SLOT}.1"
+	newbin "${FILESDIR}/luac.jit" "luacjit-${SLOT}"
 }
