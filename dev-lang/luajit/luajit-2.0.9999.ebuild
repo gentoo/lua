@@ -24,6 +24,7 @@ DEPEND="${RDEPEND}"
 
 PDEPEND="
 	virtual/lua[luajit]
+	app-eselect/eselect-luajit
 "
 
 HTML_DOCS=( "doc/" )
@@ -35,9 +36,7 @@ MULTILIB_WRAPPED_HEADERS=(
 
 check_req() {
 	if use optimization; then
-		CHECKREQS_MEMORY="200M"
-		ewarn "Optimized (amalgamated) build wants at least 200MB of RAM"
-		ewarn "If you have no such RAM - try to disable 'optimization' flag"
+		CHECKREQS_MEMORY="300M"
 		check-reqs_pkg_${1}
 	fi
 }
@@ -53,23 +52,40 @@ pkg_setup() {
 src_prepare(){
 	# fixing prefix and version
 	sed -r \
-		-e 's|(VERSION)=.*|\1=$(MAJVER).$(MINVER)|' \
-		-e 's|(FILE_MAN)=.*|\1='${PN}'-$(VERSION).1|' \
+		-e 's|^(VERSION)=.*|\1=$(MAJVER).$(MINVER)|' \
+		-e 's|^(FILE_MAN)=.*|\1=${PN}-$(VERSION).1|' \
 		-e 's|\$\(MAJVER\)\.\$\(MINVER\)\.\$\(RELVER\)|$(VERSION)|' \
-		-e 's|(INSTALL_PCNAME)=.*|\1='${PN}'-$(VERSION).pc|' \
+		-e 's|^(INSTALL_PCNAME)=.*|\1=${PN}-$(VERSION).pc|' \
+		-e 's|^(INSTALL_SOSHORT)=.*|\1=lib${PN}-${SLOT}.so|' \
+		-e 's|^(INSTALL_ANAME)=.*|\1=lib${PN}-${SLOT}.a|' \
+		-e 's|^(INSTALL_SONAME)=.*|\1=lib${PN}-${SLOT}.so.${PV}|' \
 		-e 's|( PREFIX)=.*|\1=/usr|' \
+		-e '/\$\(SYMLINK\)\ \$\(INSTALL_TNAME\)\ \$\(INSTALL_TSYM\)/d' \
 		-i Makefile || die "failed to fix prefix in Makefile"
-#		-e "s|( MULTILIB)=.*|\1=$(get_libdir)|" \
 
+	sed -r \
+		-e 's|^(libname=.*-)\$\{abiver\}|\1${majver}.${minver}|' \
+		-i "etc/${PN}.pc" || die "Failed to slottify"
+
+	sed -r \
+		-e 's|^(TARGET_SONAME)=.*|\1=lib${PN}-${SLOT}.so.${PV}|' \
+		-i src/Makefile || die "Failed to slottify"
 
 	use debug && (
 		sed -r \
 			-e 's/#(CCDEBUG= -g)/\1 -ggdb/' \
 			-i src/Makefile || die "Failed to enable debug"
-		)
+	)
 	mv "${S}"/etc/${PN}.1 "${S}"/etc/${PN}-${SLOT}.1
 
 	multilib_copy_sources
+}
+
+multilib_src_configure() {
+	sed -r \
+		-e "s|^(prefix)=.*|\1=/usr|" \
+		-e "s|^(multilib)=.*|\1=$(get_libdir)|" \
+		-i "etc/${PN}.pc" || die "Failed to slottify"
 }
 
 multilib_src_compile() {
@@ -77,10 +93,6 @@ multilib_src_compile() {
 	use optimization && opt="amalg";
 
 	tc-export CC
-#		STATIC_CC="$(tc-getCC)" \
-#		DYNAMIC_CC="$(tc-getCC) -fPIC" \
-#		TARGET_LD="$(tc-getCC)" \
-#		TARGET_AR="$(tc-getAR) rcus" \
 
 	xcflags=(
 		$(usex lua52compat "-DLUAJIT_ENABLE_LUA52COMPAT" "")
@@ -98,14 +110,12 @@ multilib_src_compile() {
 }
 
 multilib_src_install() {
-	local lua_abi="5.1";
 	emake DESTDIR="${D}" MULTILIB="$(get_libdir)" install
 
 	base_src_install_docs
 
 	host-is-pax && pax-mark m "${ED}usr/bin/${PN}-${SLOT}"
-	dosym "${PN}-${SLOT}" "/usr/bin/${PN}"
-	dosym "lib${PN}-${lua_abi}.so.${SLOT}" "/usr/$(get_libdir)/lib${PN}-${SLOT}.so" 
-	dosym "${PN}-${SLOT}.1" "/usr/share/man/man1/luacjit-${SLOT}.1"
+	newman "etc/${PN}-${SLOT}.1" "luacjit-${SLOT}.1"
 	newbin "${FILESDIR}/luac.jit" "luacjit-${SLOT}"
+	[[ ! -e "/usr/bin/luajit" ]] && dosym "${PN}-${SLOT}" "${ED}usr/bin/${PN}"
 }

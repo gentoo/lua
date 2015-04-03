@@ -3,6 +3,8 @@
 # Distributed under the terms of the GNU General Public License v2 or later
 # $Id: luajit.eselect mva $
 
+inherit config multilib
+
 DESCRIPTION="Manage the LuaJIT symlink"
 MAINTAINER="mva@mva.name"
 VERSION="1"
@@ -24,13 +26,30 @@ find_targets() {
 	done | sort_luajit_versions
 }
 
+get_libdirs() {
+	local dir libdirs
+	for dir in $(list_libdirs); do
+		[[ -L ${EROOT}/usr/${dir} ]] && continue
+		ls "${EROOT}"/usr/${dir}/libluajit*.* > /dev/null 2>&1 || continue
+
+		libdirs+=' '/usr/${dir}
+	done
+	echo ${libdirs:-/usr/lib}
+}
+
+
 # remove the luajit symlink
-remove_symlink() {
-	rm "${EROOT}/usr/bin/luajit"
+remove_symlinks() {
+	for dir in $(get_libdirs) ; do
+		[[ -L "${dir}/libluajit-5.1.so" ]] && rm "${dir}/libluajit-5.1.so"
+		[[ -L "${dir}/libluajit-5.1.a" ]] && rm "${dir}/libluajit-5.1.a"
+	done
+	[[ -L "${EROOT}/usr/bin/luajit" ]] && rm "${EROOT}/usr/bin/luajit"
+	rm -f "${EROOT}"/usr/share/man/man1/luajit.1{,.gz,.bz2,.lzma} &>/dev/null
 }
 
 # set the luajit symlink
-set_symlink() {
+set_symlinks() {
 	local target=$1
 
 	if is_number "${target}"; then
@@ -42,10 +61,13 @@ set_symlink() {
 		die -q "Target \"$1\" doesn't appear to be valid!"
 	elif [[ -f ${EROOT}/usr/bin/${target} ]]; then
 		ln -s "${target}" "${EROOT}/usr/bin/luajit"
-		[[ -f "${EROOT}/usr/lib32/lib${target}.so" ]] && ln -s "lib${target}.so" "${EROOT}/usr/lib32/libluajit-5.1.so"
-		[[ -f "${EROOT}/usr/lib32/lib${target}.a" ]] && ln -s "lib${target}.a" "${EROOT}/usr/lib32/libluajit-5.1.a"
-		[[ -f "${EROOT}/usr/lib/lib${target}.so" ]] && ln -s "lib${target}.so" "${EROOT}/usr/lib/libluajit-5.1.so"
-		[[ -f "${EROOT}/usr/lib/lib${target}.a" ]] && ln -s "lib${target}.a" "${EROOT}/usr/lib/libluajit-5.1.a"
+		for dir in $(get_libdirs) ; do
+			[[ -f "${dir}/lib${target}.so" ]] && ln -s "lib${target}.so" "${dir}/libluajit-5.1.so"
+			[[ -f "${dir}/lib${target}.a" ]] && ln -s "lib${target}.a" "${dir}/libluajit-5.1.a"
+		done
+		for orig in "${EROOT}"/usr/share/man/man1/$target.1* ; do
+			ln -s "$(basename ${orig})" "${orig/$target/luajit}"
+		done
 	else
 		die -q "Target \"$1\" doesn't appear to be valid!"
 	fi
@@ -106,12 +128,12 @@ do_set() {
 
 	if [[ -L ${EROOT}/usr/bin/luajit ]]; then
 		# existing symlink
-		remove_symlink || die -q "Couldn't remove existing symlink"
-		set_symlink "$1" || die -q "Couldn't set a new symlink"
+		remove_symlinks || die -q "Couldn't remove existing symlink"
+		set_symlinks "$1" || die -q "Couldn't set a new symlink"
 	elif [[ -e ${EROOT}/usr/bin/luajit ]]; then
 		# we have something strange
 		die -q "${EROOT}/usr/bin/luajit exists but is not a symlink"
 	else
-		set_symlink "$1" || die -q "Couldn't set a new symlink"
+		set_symlinks "$1" || die -q "Couldn't set a new symlink"
 	fi
 }
