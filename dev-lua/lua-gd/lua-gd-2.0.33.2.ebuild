@@ -16,10 +16,13 @@ SRC_URI="http://luaforge.net/frs/download.php/1592/${MY_P}.tar.gz
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
-IUSE="doc examples"
+IUSE="doc examples luajit"
 
-RDEPEND="|| ( >=dev-lang/lua-5.1 dev-lang/luajit:2 )
-	media-libs/gd[png]"
+RDEPEND="
+	luajit? ( dev-lang/luajit:2 )
+	!luajit? ( >=dev-lang/lua-5.1 )
+	media-libs/gd[png]
+"
 DEPEND="${RDEPEND}
 	dev-util/pkgconfig"
 
@@ -30,11 +33,19 @@ src_prepare() {
 }
 
 src_compile() {
-	emake LUAPKG=lua CC="$(tc-getCC)"
+	local lua=lua;
+	use luajit && lua=luajit;
+	emake LUAPKG="${lua}" LUABIN="${lua}" CC="$(tc-getCC)"
 }
 
 src_install() {
-	emake install LUAPKG=lua DESTDIR="${D}"
+	local lua=lua;
+	use luajit && lua=luajit;
+	emake \
+		LUAPKG="${lua}"\
+		DESTDIR="${D}"\
+		INSTALL_PATH="$($(tc-getPKG_CONFIG) --variable INSTALL_CMOD ${lua})"\
+		install
 	dodoc README
 
 	if use doc; then
