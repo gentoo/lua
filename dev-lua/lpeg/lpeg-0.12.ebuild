@@ -1,8 +1,8 @@
-# Copyright 1999-2014 Gentoo Foundation
+# Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/dev-lua/lpeg/lpeg-0.12.ebuild,v 1.7 2014/06/22 22:40:01 radhermit Exp $
+# $Header: This ebuild is from Lua overlay; Bumped by mva; $
 
-EAPI=5
+EAPI="5"
 
 inherit flag-o-matic toolchain-funcs eutils multilib
 

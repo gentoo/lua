@@ -1,6 +1,6 @@
-# Copyright 1999-2012 Gentoo Foundation
+# Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/dev-lua/toluapp/toluapp-1.0.93.ebuild,v 1.2 2012/11/18 23:28:11 rafaelmartins Exp $
+# $Header: This ebuild is from Lua overlay; Bumped by mva; $
 
 EAPI="5"
 

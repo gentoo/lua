@@ -1,8 +1,8 @@
-# Copyright 1999-2012 Gentoo Foundation
+# Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: This ebuild is from Lua overlay; Bumped by mva; $
 
-EAPI="4"
+EAPI="5"
 
 DESCRIPTION="Manages LuaJIT symlinks"
 HOMEPAGE="http://www.gentoo.org/"

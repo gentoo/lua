@@ -1,8 +1,8 @@
-# Copyright 1999-2014 Gentoo Foundation
+# Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/dev-lang/lua/lua-5.2.3-r1.ebuild,v 1.1 2014/06/12 21:46:47 mgorny Exp $
+# $Header: This ebuild is from Lua overlay; Bumped by mva; $
 
-EAPI=5
+EAPI="5"
 
 inherit eutils autotools multilib multilib-minimal portability toolchain-funcs versionator
 
