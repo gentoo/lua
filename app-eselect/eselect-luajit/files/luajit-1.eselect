@@ -43,6 +43,7 @@ remove_symlinks() {
 	for dir in $(get_libdirs) ; do
 		[[ -L "${dir}/libluajit-5.1.so" ]] && rm "${dir}/libluajit-5.1.so"
 		[[ -L "${dir}/libluajit-5.1.a" ]] && rm "${dir}/libluajit-5.1.a"
+		[[ -L "${dir}/pkgconfig/luajit.pc" ]] && rm "${dir}/pkgconfig/luajit.pc"
 	done
 	[[ -L "${EROOT}/usr/bin/luajit" ]] && rm "${EROOT}/usr/bin/luajit"
 	rm -f "${EROOT}"/usr/share/man/man1/luajit.1{,.gz,.bz2,.lzma} &>/dev/null
@@ -62,8 +63,9 @@ set_symlinks() {
 	elif [[ -f ${EROOT}/usr/bin/${target} ]]; then
 		ln -s "${target}" "${EROOT}/usr/bin/luajit"
 		for dir in $(get_libdirs) ; do
-			[[ -f "${dir}/lib${target}.so" ]] && ln -s "lib${target}.so" "${dir}/libluajit-5.1.so"
-			[[ -f "${dir}/lib${target}.a" ]] && ln -s "lib${target}.a" "${dir}/libluajit-5.1.a"
+			[[ -e "${dir}/lib${target}.so" ]] && ln -s "lib${target}.so" "${dir}/libluajit-5.1.so"
+			[[ -e "${dir}/lib${target}.a" ]] && ln -s "lib${target}.a" "${dir}/libluajit-5.1.a"
+			[[ -e "${dir}/pkgconfig/${target}.pc" ]] && ln -s "${target}.pc" "${dir}/pkgconfig/luajit.pc"
 		done
 		for orig in "${EROOT}"/usr/share/man/man1/$target.1* ; do
 			ln -s "$(basename ${orig})" "${orig/$target/luajit}"
