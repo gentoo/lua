@@ -40,6 +40,8 @@ src_prepare() {
 		sed -i -e '/#define LUA_USE_READLINE/d' src/luaconf.h || die
 	fi
 
+	sed -i -e 's/\(LIB_VERSION = \)6:1:1/\10:0:0/' src/Makefile || die
+
 	# Using dynamic linked lua is not recommended for performance
 	# reasons. http://article.gmane.org/gmane.comp.lang.lua.general/18519
 	# Mainly, this is of concern if your arch is poor with GPRs, like x86
@@ -82,7 +84,8 @@ multilib_src_compile() {
 	cd src
 
 	local myCFLAGS=""
-	use deprecated && myCFLAGS="-DLUA_COMPAT_ALL"
+	use deprecated && myCFLAGS="-DLUA_COMPAT_5_2 -DLUA_COMPAT_5_1"
+# -DLUA_COMPAT_FLOATSTRING"
 
 	case "${CHOST}" in
 		*-mingw*) : ;;
