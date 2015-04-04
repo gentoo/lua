@@ -32,7 +32,7 @@
 	<flag name='auth_sql'>Allow client authentication to be handled by an SQL database query.</flag>
 	<flag name='auth_wordpress'>This module allows you to authenticate against an Wordpress database.</flag>
 	<flag name='auto_accept_subscriptions'>In some environments where all users on the system have mutual trust in each other, it`s sometimes fine to skip the usual authorization process to add someone to your contact list and see their status.</flag>
-	<flag name='auto_activate_hosts'>No module description on upstream wiki yet.</flag>
+	<flag name='auto_activate_hosts'>By default Prosody does not automatically activate/deactivate hosts when they are added to and removed from the configuration.</flag>
 	<flag name='bidi'>This module implements <a href="http://xmpp.org/extensions/xep-0288.html" rel="nofollow">XEP-0288: Bidirectional Server-to-Server Connections</a>.  It allows servers to use a single connection for sending stanzas to each other, instead of two connections (one for stanzas in each direction).</flag>
 	<flag name='blocking'>Privacy lists are a widely implemented protocol for instructing your server on blocking communications with selected users and services.</flag>
 	<flag name='block_registrations'>On a server with public registration it is usually desirable to prevent registration of certain "reserved" accounts, such as "admin".</flag>
@@ -94,6 +94,7 @@
 	<flag name='list_inactive'>No module description on upstream wiki yet.</flag>
 	<flag name='listusers'>No module description on upstream wiki yet.</flag>
 	<flag name='log_auth'>Prosody doesn`t write IP addresses to its log file by default for privacy reasons (unless debug logging is enabled).</flag>
+	<flag name='log_events'>No module description on upstream wiki yet.</flag>
 	<flag name='log_messages_sql'>No module description on upstream wiki yet.</flag>
 	<flag name='log_sasl_mech'>No module description on upstream wiki yet.</flag>
 	<flag name='mam'>Implementation of <a href="http://xmpp.org/extensions/xep-0313.html" rel="nofollow">XEP-0313: Message Archive Management</a>.</flag>
@@ -103,6 +104,7 @@
 	<flag name='mam_muc_sql'>No module description on upstream wiki yet.</flag>
 	<flag name='mam_sql'>Implementation of (an older version of) <a href="http://xmpp.org/extensions/xep-0313.html" rel="nofollow">XEP-0313: Message Archive Management</a> backed by a SQL database.  Like <a href="https://code.google.com/p/prosody-modules/wiki/mod_mam">mod_mam</a>, but using SQL.</flag>
 	<flag name='manifesto'>This module informs users about the XMPP Test day and whether their contacts are affected.  For mor info about the test day, see <a href="https://stpeter.im/journal/1496.html" rel="nofollow">https://stpeter.im/journal/1496.html</a></flag>
+	<flag name='measure_memory'>No module description on upstream wiki yet.</flag>
 	<flag name='message_logging'>Often service administrators need to log their users` messages for reasons such as auditing and compliance. This module simply logs user messages to simple text files, which can be easily searched, archived or removed on a regular basis.</flag>
 	<flag name='motd_sequential'>mod_motd_sequential is a variant of <a href="https://prosody.im/doc/modules/mod_motd" rel="nofollow">mod_motd</a> that lets you specify a sequence of MOTD messages instead of a single static one.  Each message is only sent once and the module keeps track of who as seen which message.</flag>
 	<flag name='muc_ban_ip'>One frequent complaint about XMPP chatrooms (MUCs) compared to IRC is the inability for a room admin to ban a user based on their IP address. This is because an XMPP user is not identified on the network by their IP address, only their JID.</flag>
@@ -112,6 +114,7 @@
 	<flag name='muc_log'>This module logs the conversation of chatrooms running on the server to Prosody`s data store. To view them you will need a module such as <a href="https://code.google.com/p/prosody-modules/wiki/mod_muc_log_http">mod_muc_log_http</a>.</flag>
 	<flag name='muc_log_http'>This module provides a built-in web interface to view chatroom logs stored by <a href="https://code.google.com/p/prosody-modules/wiki/mod_muc_log">mod_muc_log</a>.</flag>
 	<flag name='muc_restrict_rooms'>This module allows disabling room creation based on regexp patterns defined in configuration. </flag>
+	<flag name='munin'>No module description on upstream wiki yet.</flag>
 	<flag name='net_dovecotauth'>mod_net_dovecotauth is a server implementation of the Dovecot authentication protocol. It allows you to authenticate eg Postfix against your Prosody installation.</flag>
 	<flag name='offline_email'>Quite often when I am out and about, I`m not able to connect to Jabber. It is usually much more likely I can access my email though (whether via the web, or a mobile client).</flag>
 	<flag name='onhold'>Enable mod_onhold to allow temporarily placing messages from particular JIDs "on hold" -- i.e. store them, but do not deliver them until the hold status is taken away.</flag>
@@ -132,6 +135,7 @@
 	<flag name='pubsub_hub'>This module implements a <a href="http://pubsubhubbub.googlecode.com/svn/trunk/pubsubhubbub-core-0.3.html" rel="nofollow">PubSubHubbub</a> (PuSH) hub, allowing PuSH clients to subscribe to local XMPP <a href="http://xmpp.org/extensions/xep-0060.html" rel="nofollow">Publish-Subscribe</a> nodes stored by <a href="http://prosody.im/doc/modules/mod_pubsub" rel="nofollow">mod_pubsub</a>.</flag>
 	<flag name='pubsub_mqtt'><a href="http://mqtt.org/" rel="nofollow">MQTT</a> is a lightweight binary pubsub protocol suited to embedded devices. This module provides a way for MQTT clients to connect to Prosody and publish or subscribe to local pubsub nodes.</flag>
 	<flag name='pubsub_pivotaltracker'>No module description on upstream wiki yet.</flag>
+	<flag name='pubsub_post'>No module description on upstream wiki yet.</flag>
 	<flag name='pubsub_twitter'>Twitter has an open `realtime` search API, but it requires polling (within their rate limits). This module allows Prosody to poll for you, and push new results to subscribers over XMPP.</flag>
 	<flag name='query_client_ver'>No module description on upstream wiki yet.</flag>
 	<flag name='rawdebug'>No module description on upstream wiki yet.</flag>
@@ -141,7 +145,7 @@
 	<flag name='register_web'>There are various reasons to prefer web registration instead of "in-band" account registration over XMPP. For example the lack of CAPTCHA support in clients and servers.</flag>
 	<flag name='reload_modules'>By default Prosody does not reload modules at runtime unless instructed to via one of its admin interfaces. However sometimes you want to easily reload a module to apply new settings when the config changes.</flag>
 	<flag name='remote_roster'>No module description on upstream wiki yet.</flag>
-	<flag name='require_otr'>No module description on upstream wiki yet.</flag>
+	<flag name='require_otr'><a href="https://otr.cypherpunks.ca/" rel="nofollow">OTR, "Off The Record"</a>, encryption allows clients to encrypt messages such that the server cannot read/modify them.</flag>
 	<flag name='roster_allinall'>This module is similar in purpouse to mod_groups, for when you want all users on the server to be in each others roster.  </flag>
 	<flag name='roster_command'>This module allows you to perform various actions on user rosters via prosodyctl.</flag>
 	<flag name='s2s_auth_compat'>This module is a workaround for servers that try to do s2s authentication with certificates and SASL EXTERNAL, but do not send correct stream headers.  Notably Openfire versions since 3.7 or 3.8.</flag>
@@ -174,6 +178,7 @@
 	<flag name='statistics_auth'>No module description on upstream wiki yet.</flag>
 	<flag name='statistics_cputotal'>No module description on upstream wiki yet.</flag>
 	<flag name='statistics_mem'>No module description on upstream wiki yet.</flag>
+	<flag name='statistics_statsd'>No module description on upstream wiki yet.</flag>
 	<flag name='statsd'>No module description on upstream wiki yet.</flag>
 	<flag name='storage_gdbm'>No module description on upstream wiki yet.</flag>
 	<flag name='storage_ldap'>See <a href="https://code.google.com/p/prosody-modules/wiki/mod_lib_ldap">mod_lib_ldap</a> for more information.</flag>

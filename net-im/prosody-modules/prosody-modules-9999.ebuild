@@ -35,14 +35,15 @@ PROSODY_MODULES="
 	http_muc_log http_user_count idlecompat incidents_handling
 	inotify_reload ipcheck isolate_host jid_prep json_streams lastlog
 	latex lib_ldap limit_auth limits list_inactive listusers log_auth
-	log_messages_sql log_sasl_mech mam mam_adhoc mam_archive mam_muc
-	mam_muc_sql mam_sql manifesto message_logging motd_sequential
-	muc_ban_ip muc_config_restrict muc_intercom muc_limits muc_log
-	muc_log_http muc_restrict_rooms net_dovecotauth offline_email
-	onhold onions openid password_policy pastebin pep_vcard_avatar
-	post_msg privacy_lists private_adhoc profile proxy65_whitelist
-	pubsub_eventsource pubsub_feeds pubsub_github pubsub_googlecode
-	pubsub_hub pubsub_mqtt pubsub_pivotaltracker pubsub_twitter
+	log_events log_messages_sql log_sasl_mech mam mam_adhoc
+	mam_archive mam_muc mam_muc_sql mam_sql manifesto measure_memory
+	message_logging motd_sequential muc_ban_ip muc_config_restrict
+	muc_intercom muc_limits muc_log muc_log_http muc_restrict_rooms
+	munin net_dovecotauth offline_email onhold onions openid
+	password_policy pastebin pep_vcard_avatar post_msg privacy_lists
+	private_adhoc profile proxy65_whitelist pubsub_eventsource
+	pubsub_feeds pubsub_github pubsub_googlecode pubsub_hub
+	pubsub_mqtt pubsub_pivotaltracker pubsub_post pubsub_twitter
 	query_client_ver rawdebug readonly register_json register_redirect
 	register_web reload_modules remote_roster require_otr
 	roster_allinall roster_command s2s_auth_compat s2s_auth_dane
@@ -53,12 +54,12 @@ PROSODY_MODULES="
 	seclabels secure_interfaces server_contact_info server_status
 	service_directories sift smacks sms_clickatell srvinjection
 	sslv3_warn stanza_counter statistics statistics_auth
-	statistics_cputotal statistics_mem statsd storage_gdbm
-	storage_ldap storage_memory storage_mongodb storage_muc_log
-	storage_multi streamstats strict_https support_contact swedishchef
-	tcpproxy telnet_tlsinfo throttle_presence tls_policy
-	turncredentials twitter uptime_presence vjud watchuntrusted
-	webpresence
+	statistics_cputotal statistics_mem statistics_statsd statsd
+	storage_gdbm storage_ldap storage_memory storage_mongodb
+	storage_muc_log storage_multi streamstats strict_https
+	support_contact swedishchef tcpproxy telnet_tlsinfo
+	throttle_presence tls_policy turncredentials twitter
+	uptime_presence vjud watchuntrusted webpresence
 "
 
 
