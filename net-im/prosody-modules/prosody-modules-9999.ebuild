@@ -14,7 +14,7 @@ LICENSE="MIT"
 SLOT="0"
 KEYWORDS=""
 
-IUSE="misc"
+IUSE="misc luajit"
 
 PROSODY_MODULES="
 	addressing adhoc_account_management admin_message admin_probe
