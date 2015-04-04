@@ -11,7 +11,6 @@ HOMEPAGE="http://luajit.org/"
 SRC_URI=""
 EGIT_REPO_URI="git://repo.or.cz/luajit-2.0.git"
 SLOT="2.0"
-#EGIT_BRANCH="v${SLOT}"
 
 LICENSE="MIT"
 KEYWORDS=""
@@ -70,6 +69,10 @@ src_prepare(){
 	sed -r \
 		-e 's|^(TARGET_SONAME)=.*|\1=lib${PN}-${SLOT}.so.${PV}|' \
 		-i src/Makefile || die "Failed to slottify"
+
+	sed -r \
+		-e 's|^(#define.*LUA_LJDIR).*|\1 "/'${PN}-${SLOT}'/"|' \
+		-i src/luaconf.h || die "Failed to slotify"
 
 	use debug && (
 		sed -r \

@@ -71,6 +71,10 @@ src_prepare(){
 		-e 's|^(TARGET_SONAME)=.*|\1=lib${PN}-${SLOT}.so.${PV}|' \
 		-i src/Makefile || die "Failed to slottify"
 
+	sed -r \
+		-e 's|^(#define.*LUA_LJDIR).*|\1 "/'${PN}-${SLOT}'/"|' \
+		-i src/luaconf.h || die "Failed to slotify"
+
 	use debug && (
 		sed -r \
 			-e 's/#(CCDEBUG= -g)/\1 -ggdb/' \
