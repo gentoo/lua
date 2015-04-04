@@ -52,7 +52,7 @@ find_targets() {
 	local dirs
 	local prefix="${EROOT}/usr/bin/lua"
 	for f in ${prefix}{5,jit-2}* ; do
-		dirs="${dirs} ${f##$prefix}"
+		[[ -f "${f}" ]] && dirs="${dirs} ${f##$prefix}"
 	done
 	echo $dirs
 }
@@ -67,7 +67,7 @@ resolv_target() {
 }
 
 get_active_version() {
-	readlink -e "${EROOT}"/usr/bin/lua | sed -ne "s:.*/usr/bin/lua\([\d.-]*\):\1:p"
+	readlink -e "${EROOT}"/usr/bin/lua | sed -ne "s:.*/usr/bin/lua\([\w.-]*\):\1:p"
 }
 
 ## Actual actions

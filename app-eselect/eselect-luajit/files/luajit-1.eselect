@@ -22,7 +22,7 @@ sort_luajit_versions() {
 find_targets() {
 	local f
 	for f in $(find "${EROOT}"/usr/bin/ -type f -iname 'luajit-[[:digit:]]*'); do
-	basename "${f}"
+		basename "${f}"
 	done | sort_luajit_versions
 }
 
