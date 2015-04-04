@@ -14,29 +14,20 @@ EGIT_REPO_URI="https://github.com/fperrad/lua-MessagePack.git"
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
-IUSE="luajit lua53"
+IUSE="luajit"
 
 RDEPEND="
-	!luajit? (
-		!lua53? (
-			|| (
-				=dev-lang/lua-5.1*
-				=dev-lang/lua-5.2*
-			)
-		)
-		lua53? ( =dev-lang/lua-5.3* )
-	)
-	luajit?  ( dev-lang/luajit:2 )
+	virtual/lua[luajit=]
 "
 DEPEND="${RDEPEND}
-		dev-util/pkgconfig"
+		virtual/pkgconfig"
 
 src_install() {
 	local lua=lua
 	use luajit && lua=luajit
 
 	insinto "$($(tc-getPKG_CONFIG) --variable INSTALL_LMOD ${lua})"
-	if use lua53; then
+	if [[ "${lua}" = "lua" ]] && [[ $(${lua} -v 2>&1) =~ "5.3" ]]; then
 		doins src5.3/MessagePack.lua
 	else
 		doins src/MessagePack.lua

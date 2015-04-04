@@ -18,13 +18,13 @@ KEYWORDS=""
 IUSE=""
 
 RDEPEND="
-	dev-lang/luajit:2
+	virtual/lua[luajit]
 	www-servers/nginx[nginx_modules_http_lua]
 	dev-libs/openssl
 "
 DEPEND="
 	${RDEPEND}
-	dev-util/pkgconfig
+	virtual/pkgconfig
 "
 
 src_prepare() {

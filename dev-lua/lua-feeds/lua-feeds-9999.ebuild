@@ -16,12 +16,13 @@ KEYWORDS=""
 IUSE="luajit"
 
 RDEPEND="
-	|| ( dev-lang/lua dev-lang/luajit:2 )
+	virtual/lua[luajit=]
 "
+
 DEPEND="
 	${RDEPEND}
 	dev-lua/squish
-	dev-util/pkgconfig
+	virtual/pkgconfig
 "
 
 DOCS=( "demo.lua" "demo_string.lua" )

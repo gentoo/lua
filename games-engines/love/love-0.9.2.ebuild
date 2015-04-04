@@ -15,8 +15,9 @@ SLOT="0"
 KEYWORDS="~amd64 ~x86"
 IUSE="luajit"
 
-RDEPEND="dev-games/physfs
-	dev-lang/lua
+RDEPEND="
+	dev-games/physfs
+	virtual/lua[luajit=]
 	media-libs/devil[mng,tiff]
 	media-libs/freetype
 	media-libs/libmodplug
@@ -24,10 +25,13 @@ RDEPEND="dev-games/physfs
 	media-libs/libvorbis
 	media-libs/openal
 	media-sound/mpg123
-	virtual/opengl"
-DEPEND="${RDEPEND}
+	virtual/opengl
+"
+DEPEND="
+	${RDEPEND}
 	media-libs/libmng
-	media-libs/tiff"
+	media-libs/tiff
+"
 
 S=${WORKDIR}/${PN}-HEAD
 

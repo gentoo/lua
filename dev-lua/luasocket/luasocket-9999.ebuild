@@ -15,9 +15,11 @@ SLOT="0"
 KEYWORDS=""
 IUSE="debug luajit"
 
-RDEPEND="|| ( >=dev-lang/lua-5.1 dev-lang/luajit:2 )"
-DEPEND="${RDEPEND}
-	dev-util/pkgconfig"
+RDEPEND="virtual/lua[luajit=]"
+DEPEND="
+	${RDEPEND}
+	virtual/pkgconfig
+"
 
 DOCS=( "NEW" "README" )
 HTML_DOCS=( "doc/" )

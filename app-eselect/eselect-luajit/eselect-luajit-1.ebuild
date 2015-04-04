@@ -13,7 +13,10 @@ SLOT="0"
 KEYWORDS="~amd64 ~ia64 ~ppc ~ppc64 ~x86 ~x86-fbsd ~x86-freebsd ~amd64-linux ~x86-linux ~sparc-solaris ~x86-solaris"
 IUSE=""
 
-RDEPEND=">=app-admin/eselect-1.2.3"
+RDEPEND="
+	!!dev-lang/luajit:2
+	>=app-admin/eselect-1.2.3
+"
 
 S="${WORKDIR}"
 

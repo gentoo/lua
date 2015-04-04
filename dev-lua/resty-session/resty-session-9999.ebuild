@@ -18,14 +18,14 @@ KEYWORDS=""
 IUSE=""
 
 RDEPEND="
-	dev-lang/luajit:2
+	virtual/lua[luajit]
 	www-servers/nginx[nginx_modules_http_lua]
 	dev-lua/lua-cjson
 	dev-lua/resty-string
 "
 DEPEND="
 	${RDEPEND}
-	dev-util/pkgconfig
+	virtual/pkgconfig
 "
 
 DOCS=( "README.md" )

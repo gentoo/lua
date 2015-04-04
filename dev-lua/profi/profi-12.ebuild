@@ -16,11 +16,12 @@ KEYWORDS="x86 amd64 ppc mips arm"
 IUSE="luajit"
 
 RDEPEND="
-	|| ( virtual/lua dev-lang/luajit:2 =dev-lang/lua-5.1* )
+	virtual/lua[luajit=]
+"
+DEPEND="
+	${RDEPEND}
 	virtual/pkgconfig
 "
-DEPEND="${RDEPEND}"
-
 src_install() {
 	local lua=lua;
 	use luajit && lua=luajit

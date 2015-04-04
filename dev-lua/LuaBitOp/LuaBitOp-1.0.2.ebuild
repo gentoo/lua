@@ -3,7 +3,7 @@
 # $Header: This ebuild is from Lua overlay; Bumped by mva; $
 
 EAPI="5"
-inherit eutils multilib
+inherit eutils multilib toolchain-funcs
 
 DESCRIPTION="Bit Operations Library for the Lua Programming Language"
 HOMEPAGE="http://bitop.luajit.org"
@@ -12,9 +12,9 @@ SRC_URI="http://bitop.luajit.org/download/${P}.tar.gz"
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
-IUSE=""
+IUSE="luajit"
 
-DEPEND="|| ( >=dev-lang/lua-5.1 dev-lang/luajit:2 )"
+DEPEND="virtual/lua[luajit=]"
 RDEPEND="${DEPEND}"
 
 src_prepare() {
@@ -33,7 +33,9 @@ src_test() {
 }
 
 src_install() {
-	exeinto /usr/$(get_libdir)/lua/5.1
+	local lua=lua
+	use luajit && lua=luajit
+	exeinto "$($(tc-getPKG_CONFIG) --variable INSTALL_CMOD ${lua})"
 	doexe bit.so
 	dohtml -r doc/*
 }

@@ -20,15 +20,12 @@ RDEPEND="
 	dev-lua/luasocket
 	dev-lua/luaexpat
 	dev-lua/luafilesystem
-	!luajit? (
-		dev-lua/LuaBitOp
-		=dev-lang/lua-5.1*
-	)
-	luajit? (
-		dev-lang/luajit:2
-	)
+	virtual/lua[bit,luajit=]
 "
-DEPEND="${RDEPEND}"
+DEPEND="
+	${RDEPEND}
+	virtual/pkgconfig
+"
 
 src_compile() {
 	squish --use-http

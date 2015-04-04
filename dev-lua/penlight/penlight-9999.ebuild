@@ -20,12 +20,13 @@ IUSE="doc +examples test luajit"
 # TODO: Lua 5.2 handling
 
 RDEPEND="
-	|| ( virtual/lua dev-lang/luajit:2 =dev-lang/lua-5.1* )
+	virtual/lua[luajit=]
 	doc? ( dev-lua/luadoc )
+"
+DEPEND="
+	${RDEPEND}
 	virtual/pkgconfig
 "
-DEPEND="${RDEPEND}"
-
 DOCS=( README.md CHANGES.md CONTRIBUTING.md )
 
 src_test() {

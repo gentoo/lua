@@ -15,10 +15,14 @@ SLOT="0"
 KEYWORDS=""
 IUSE="luajit"
 
-RDEPEND="|| ( >=dev-lang/lua-5.1 dev-lang/luajit:2 )
-	>=dev-libs/libevent-1.4"
-DEPEND="${RDEPEND}
-	dev-util/pkgconfig"
+RDEPEND="
+	virtual/lua[luajit=]
+	>=dev-libs/libevent-1.4
+"
+DEPEND="
+	${RDEPEND}
+	virtual/pkgconfig
+"
 
 src_prepare() {
 	local lua=lua;

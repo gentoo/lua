@@ -19,12 +19,13 @@ KEYWORDS="~amd64 ~x86"
 IUSE="doc examples luajit"
 
 RDEPEND="
-	luajit? ( dev-lang/luajit:2 )
-	!luajit? ( >=dev-lang/lua-5.1 )
+	virtual/lua[luajit=]
 	media-libs/gd[png]
 "
-DEPEND="${RDEPEND}
-	dev-util/pkgconfig"
+DEPEND="
+	${RDEPEND}
+	virtual/pkgconfig
+"
 
 S=${WORKDIR}/${MY_P}
 

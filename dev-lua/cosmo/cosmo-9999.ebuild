@@ -4,37 +4,52 @@
 
 EAPI="5"
 
-inherit multilib eutils git-r3
+inherit multilib eutils git-r3 toolchain-funcs
 
 DESCRIPTION="safe-template engine for lua"
 HOMEPAGE="https://github.com/mascarenhas/cosmo"
 SRC_URI=""
 
-EGIT_REPO_URI="git://github.com/msva/cosmo.git https://github.com/msva/cosmo.git"
+EGIT_REPO_URI="https://github.com/msva/cosmo.git"
 
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS=""
 IUSE="doc luajit"
 
-RDEPEND=" || ( >=dev-lang/lua-5.1 dev-lang/luajit:2 )"
-DEPEND="${RDEPEND}"
+RDEPEND="
+	virtual/lua[luajit=]
+	|| (
+		dev-lua/lpeg
+		dev-lua/lulpeg[lpeg-compat]
+	)
+"
+DEPEND="
+	${RDEPEND}
+	virtual/pkgconfig
+"
+
+src_prepare() {
+    local lua=lua
+    use luajit && lua=luajit
+    echo "
+        LUA_DIR=$($(tc-getPKG_CONFIG) --variable INSTALL_LMOD ${lua})
+        DESTDIR=${ED}
+    " > "${S}/config"
+}
 
 src_configure() {
-	local lua=lua;
-	use luajit && lua=luajit;
-	./configure "${lua}"
+    :
 }
 
 src_install() {
-	docompress -x /usr/share/doc
-	emake DESTDIR="${D}" install || die "Can't install Cosmo"
-        use doc && (
-                insinto /usr/share/doc/${PF}/examples
-                doins -r samples/*
-                insinto /usr/share/doc/${PF}
-                doins -r doc/*
-        )
-
-#emake DESTDIR="${D}" PREFIX="/usr/share/doc/${P}" install-doc install-samples
+    docompress -x /usr/share/doc
+    default
+    use doc && (
+        insinto /usr/share/doc/${PF}/examples
+        doins -r samples/*
+        insinto /usr/share/doc/${PF}
+        doins -r doc/*
+    )
 }
+

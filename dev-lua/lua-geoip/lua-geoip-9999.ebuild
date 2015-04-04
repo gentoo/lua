@@ -4,7 +4,7 @@
 
 EAPI="5"
 
-inherit autotools eutils git-r3
+inherit autotools eutils git-r3 toolchain-funcs
 
 DESCRIPTION="Lua GeoIP Library"
 HOMEPAGE="https://github.com/msva/lua-geoip"
@@ -17,16 +17,19 @@ SLOT="0"
 KEYWORDS=""
 IUSE="luajit"
 
-RDEPEND="|| ( >=dev-lang/lua-5.1 dev-lang/luajit:2 )"
-DEPEND="${RDEPEND}
-	dev-libs/geoip"
+RDEPEND="virtual/lua[luajit=]"
+DEPEND="
+	${RDEPEND}
+	dev-libs/geoip
+"
 
 src_prepare() {
-	LUA="lua"
+	local lua="lua"
+	use luajit && lua="luajit";
 	default
 	epatch_user
-	use luajit && export LUA_INCLUDE_DIR="/usr/$(get_libdir)/luajit-2.0"
-	use luajit && export LUA="luajit"
+	export LUA_INCLUDE_DIR="$($(tc-getPKG_CONFIG) --variable includedir ${lua})"
+	export LUA="${lua}"
 }
 
 #Temporarily(?) broken on city database checking
@@ -35,6 +38,6 @@ src_prepare() {
 #}
 
 src_install() {
-	dodoc README.md TODO || die "dodoc failed"
 	default
+	dodoc README.md TODO || die "dodoc failed"
 }

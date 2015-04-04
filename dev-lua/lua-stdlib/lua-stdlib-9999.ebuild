@@ -18,8 +18,7 @@ KEYWORDS=""
 IUSE="luajit"
 
 RDEPEND="
-	!luajit? ( >=dev-lang/lua-5.1 )
-	luajit? ( dev-lang/luajit:2 )
+	virtual/lua[luajit=]
 "
 DEPEND="${RDEPEND}"
 

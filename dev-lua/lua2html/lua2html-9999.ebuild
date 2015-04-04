@@ -13,17 +13,27 @@ EHG_REPO_URI="http://code.matthewwild.co.uk/${PN}/"
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS=""
-IUSE=""
+IUSE="luajit"
 
-RDEPEND="|| ( >=dev-lang/lua-5.1 dev-lang/luajit:2 )
-	dev-lua/squish"
+RDEPEND="
+	virtual/lua[luajit=]
+	dev-lua/squish
+"
 DEPEND="${RDEPEND}"
+
+src_prepare() {
+	local lua=lua
+	use luajit && lua=luajit;
+	sed -r \
+		-e "1s|^(!#.*) lua|\1 ${lua}|" \
+		-i lua2html.lua
+}
 
 src_compile() {
 	squish
 }
 
 src_install() {
-	dobin lua2html || die
-	dodoc README || die
+	dobin lua2html
+	dodoc README
 }

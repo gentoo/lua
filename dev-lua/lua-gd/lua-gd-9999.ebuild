@@ -17,11 +17,13 @@ KEYWORDS=""
 IUSE="doc examples luajit"
 
 RDEPEND="
-	!luajit? ( >=dev-lang/lua-5.1 )
-	luajit? ( dev-lang/luajit:2 )
-	media-libs/gd[png]"
-DEPEND="${RDEPEND}
-	dev-util/pkgconfig"
+	virtual/lua[luajit=]
+	media-libs/gd[png]
+"
+DEPEND="
+	${RDEPEND}
+	virtual/pkgconfig
+"
 
 QA_PREBUILT="usr/$(get_libdir)/*"
 # ^ sorry for that, but upstream prestrips module, and it is impossible to ask

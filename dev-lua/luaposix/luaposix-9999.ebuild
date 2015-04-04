@@ -18,16 +18,8 @@ KEYWORDS=""
 IUSE="luajit ncurses"
 
 RDEPEND="
-	!luajit? (
-		|| (
-			(
-				=dev-lang/lua-5.1*
-				dev-lua/LuaBitOp
-			)
-			>=dev-lang/lua-5.2
-		)
-	)
-	luajit? ( dev-lang/luajit:2 )
+	virtual/lua[bit,luajit=]
+	ncurses? ( sys-libs/ncurses )
 "
 #	dev-lua/ldoc
 #	dev-lua/specl
@@ -74,11 +66,3 @@ src_configure() {
 	base_src_configure "${myeconfargs[@]}"
 }
 
-#src_compile() {
-#	emake all-am
-#}
-#
-#src_install() {
-#	emake install-am
-##	insinto $($(tc-getPKG_CONFIG) --variable includedir ${LUA})"
-#}

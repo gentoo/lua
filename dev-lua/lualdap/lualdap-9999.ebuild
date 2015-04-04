@@ -18,7 +18,7 @@ KEYWORDS=""
 IUSE="luajit"
 
 RDEPEND="
-	|| ( >=dev-lang/lua-5.1 dev-lang/luajit:2 )
+	virtual/lua[luajit=]
 	net-nds/openldap
 "
 DEPEND="${RDEPEND}"

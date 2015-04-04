@@ -13,11 +13,13 @@ EHG_REPO_URI="http://code.matthewwild.co.uk/${PN}/"
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS=""
-IUSE=""
+IUSE="luajit"
 
-RDEPEND="|| ( >=dev-lang/lua-5.1 dev-lang/luajit:2 )
+RDEPEND="
+	virtual/lua[luajit=]
 	dev-lua/squish
-	dev-lua/luasocket"
+	dev-lua/luasocket
+"
 DEPEND="${RDEPEND}"
 
 src_compile() {
@@ -25,6 +27,8 @@ src_compile() {
 }
 
 src_install() {
-	insinto $($(tc-getPKG_CONFIG) --variable INSTALL_LMOD lua)
+	local lua=lua;
+	use luajit && lua=luajit;
+	insinto "$($(tc-getPKG_CONFIG) --variable INSTALL_LMOD ${lua})"
 	doins lahttp.lua || die
 }

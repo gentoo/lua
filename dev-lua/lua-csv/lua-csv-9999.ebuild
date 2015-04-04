@@ -18,8 +18,7 @@ KEYWORDS=""
 IUSE="luajit +lpeg_replace"
 
 RDEPEND="
-	luajit? ( dev-lang/luajit:2 )
-	!luajit? ( >=dev-lang/lua-5.1 )
+	virtual/lua[luajit=]
 "
 DEPEND="${RDEPEND}"
 

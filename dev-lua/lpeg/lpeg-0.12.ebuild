@@ -16,8 +16,7 @@ KEYWORDS="amd64 ~arm ~hppa ~mips x86"
 IUSE="debug doc luajit"
 
 RDEPEND="
-	luajit? ( dev-lang/luajit:2 )
-	!luajit? ( >=dev-lang/lua-5.1 )
+	virtual/lua[luajit=]
 "
 DEPEND="${RDEPEND}
 	virtual/pkgconfig"

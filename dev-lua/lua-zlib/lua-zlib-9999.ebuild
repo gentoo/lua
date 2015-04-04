@@ -4,7 +4,7 @@
 
 EAPI="5"
 
-inherit cmake-utils git-r3
+inherit cmake-utils git-r3 toolchain-funcs
 
 DESCRIPTION="Lua bindings to zlib"
 HOMEPAGE="http://github.com/brimworks/lua-zlib"
@@ -16,13 +16,12 @@ KEYWORDS=""
 IUSE="luajit"
 
 RDEPEND="
-	!luajit? ( >=dev-lang/lua-5.1 )
-	luajit? ( dev-lang/luajit:2 )
+	virtual/lua[luajit=]
 	sys-libs/zlib
 "
 DEPEND="
 	${RDEPEND}
-	dev-util/pkgconfig
+	virtual/pkgconfig
 "
 
 src_prepare() {

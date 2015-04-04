@@ -15,12 +15,12 @@ SLOT="0"
 KEYWORDS=""
 IUSE="luajit"
 
-RDEPEND="|| ( >=dev-lang/lua-5.1 dev-lang/luajit:2 )"
+RDEPEND="virtual/lua[luajit=]"
 DEPEND="${RDEPEND}"
 
 src_prepare() {
 	use luajit && sed -r \
-		-e 's:(env lua):\1jit:' \
+		-e '1s:(env lua):\1jit:' \
 		-i squish.lua make_squishy
 }
 

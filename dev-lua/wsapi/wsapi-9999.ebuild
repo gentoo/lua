@@ -4,22 +4,21 @@
 
 EAPI="5"
 
-inherit multilib eutils git-r3
+inherit multilib eutils git-r3 toolchain-funcs
 
 DESCRIPTION="Lua WSAPI Library"
 HOMEPAGE="https://github.com/keplerproject/wsapi"
 SRC_URI=""
 
-#s/msva/keplerproject/ somewhen in the future
-EGIT_REPO_URI="git://github.com/msva/wsapi.git https://github.com/msva/wsapi.git"
+EGIT_REPO_URI="https://github.com/keplerproject/wsapi.git"
 
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS=""
 IUSE="luajit doc uwsgi +fcgi"
 #TODO: xavante"
-RDEPEND=" || ( >=dev-lang/lua-5.1 dev-lang/luajit:2 )
-	luajit? ( dev-lang/luajit:2 )
+RDEPEND="
+	virtual/lua[luajit=]
 	fcgi? (
 		dev-libs/fcgi
 		virtual/httpd-fastcgi
@@ -28,38 +27,42 @@ RDEPEND=" || ( >=dev-lang/lua-5.1 dev-lang/luajit:2 )
 		www-servers/uwsgi
 	)
 	dev-lua/rings
-	dev-lua/coxpcall"
+	dev-lua/coxpcall
+"
 #TODO:	xavante? ( dev-lua/xavante )"
 DEPEND="${RDEPEND}"
 
 src_prepare() {
-	use luajit && \
-	sed -e "s///g" -e "s%#!.*lua$%#!/usr/bin/env luajit%g" \
-	-i src/launcher/wsapi{,.cgi,.fcgi}
+	local lua=lua
+	use luajit && lua=luajit
+	sed -r \
+		-e "s///g" \
+		-e "1s%#!#.*lua$%#!/usr/bin/env ${lua}%g" \
+		-i src/launcher/wsapi{,.cgi,.fcgi}
+	echo "
+		LIB_OPTION=-shared -fPIC
+		BIN_DIR=/usr/bin
+		LUA_DIR=$($(tc-getPKG_CONFIG) --variable INSTALL_LMOD ${lua})
+		LUA_LIBDIR=$($(tc-getPKG_CONFIG) --variable INSTALL_CMOD ${lua})
+		INC=-I$($(tc-getPKG_CONFIG) --variable includedir ${lua})
+		CC=$(tc-getCC) -fPIC -DPIC
+		LDFLAGS=${LDFLAGS}
+		CFLAGS=${CFLAGS}
+		DESTDIR=${ED}
+	" > "${S}/config"
 }
 
 src_configure() {
-	LUA="lua";
-	use luajit && LUA="luajit"
-	cd "${S}"
-	./configure "${LUA}"
-}
-
-src_compile() {
-	use luajit && INC="-I/usr/include/luajit-2.0/"
-	emake DESTDIR="${D}" CC="$(tc-getCC) -fPIC -DPIC" LDFLAGS="${LDFLAGS}" INC="${INC}" CFLAGS="${CFLAGS}" || die "Can't copmile Lua-FCGI library"
+	:
 }
 
 src_install() {
-        docompress -x /usr/share/doc
-	emake DESTDIR="${D}" install
-	emake DESTDIR="${D}" install-fcgi
-        use doc && (
-                insinto /usr/share/doc/${PF}/examples
-                doins -r samples/*
-                insinto /usr/share/doc/${PF}
-                doins -r doc/*
-        )
-
-#emake DESTDIR="${D}" PREFIX="/usr/share/doc/${P}" install-doc install-samples
+	docompress -x /usr/share/doc
+	default
+	use doc && (
+		insinto /usr/share/doc/${PF}/examples
+		doins -r samples/*
+		insinto /usr/share/doc/${PF}
+		doins -r doc/*
+	)
 }

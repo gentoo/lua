@@ -4,46 +4,54 @@
 
 EAPI="5"
 
-inherit multilib eutils git-r3
+inherit multilib eutils git-r3 toolchain-funcs
 
 DESCRIPTION="MVC Web Framework for Lua"
 HOMEPAGE="https://github.com/keplerproject/orbit"
 SRC_URI=""
 
-EGIT_REPO_URI="git://github.com/msva/orbit.git https://github.com/msva/orbit.git"
+EGIT_REPO_URI="https://github.com/keplerproject/orbit.git"
 
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS=""
 IUSE="luajit doc"
 
-RDEPEND=" || ( >=dev-lang/lua-5.1 dev-lang/luajit:2 )
+RDEPEND="
+	virual/lua[luajit=]
 	dev-lua/wsapi
-	dev-lua/cosmo"
-DEPEND="${RDEPEND}"
+	dev-lua/cosmo
+"
+DEPEND="
+	${RDEPEND}
+	virtual/pkgconfig
+"
 
 src_prepare() {
-	use luajit && \
-	sed -e "s%#!.*lua$%#!/usr/bin/env luajit%g" \
-	-i src/launchers/ob{.cgi,.fcgi} src/launchers/orbit
+    local lua=lua
+    use luajit && lua=luajit
+    sed -r \
+        -e "s/^M//g" \
+        -e "1s%#!#.*lua$%#!/usr/bin/env ${lua}%g" \
+        -i src/launchers/ob{.cgi,.fcgi} src/launchers/orbit
+    echo "
+        BIN_DIR=${ED}/usr/bin
+        LUA_DIR=${ED}/$($(tc-getPKG_CONFIG) --variable INSTALL_LMOD ${lua})
+    " > "${S}/config"
 }
 
 src_configure() {
-	LUA="lua";
-	use luajit && LUA="luajit"
-	cd "${S}"
-	./configure "${LUA}"
+    :
 }
 
 src_install() {
-        docompress -x /usr/share/doc
-	emake DESTDIR="${D}" install || die "Can't install Orbit"
-        use doc && (
-                insinto /usr/share/doc/${PF}/examples
-                doins -r samples/*
-                insinto /usr/share/doc/${PF}
-                doins -r doc/*
-        )
-
-#emake DESTDIR="${D}" PREFIX="/usr/share/doc/${P}" install-doc install-samples
+    docompress -x /usr/share/doc
+    default
+    use doc && (
+        insinto /usr/share/doc/${PF}/examples
+        doins -r samples/*
+        insinto /usr/share/doc/${PF}
+        doins -r doc/*
+    )
 }
+

@@ -16,14 +16,13 @@ KEYWORDS=""
 IUSE="prosody luajit"
 
 RDEPEND="
-	!luajit? ( >=dev-lang/lua-5.1 )
-	luajit? ( dev-lang/luajit:2 )
+	virtual/lua[luajit=]
 	net-dns/unbound
 	prosody? ( net-im/prosody )
 "
 DEPEND="
 	${RDEPEND}
-	dev-util/pkgconfig
+	virtual/pkgconfig
 "
 
 DOCS=( "README.markdown" )

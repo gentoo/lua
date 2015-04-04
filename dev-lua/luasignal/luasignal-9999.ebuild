@@ -10,16 +10,18 @@ DESCRIPTION="Lua signal Library"
 HOMEPAGE="https://github.com/msva/lua-signal"
 SRC_URI=""
 
-EGIT_REPO_URI="git://github.com/msva/lua-signal.git"
+EGIT_REPO_URI="https://github.com/msva/lua-signal.git"
 
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS=""
 IUSE="luajit"
 
-RDEPEND="|| ( >=dev-lang/lua-5.1 dev-lang/luajit:2 )"
-DEPEND="${RDEPEND}
-	virtual/pkgconfig"
+RDEPEND="virtual/lua[luajit=]"
+DEPEND="
+	${RDEPEND}
+	virtual/pkgconfig
+"
 
 src_configure() {
 	local lua=lua;

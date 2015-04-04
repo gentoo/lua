@@ -15,7 +15,7 @@ SLOT="0"
 KEYWORDS=""
 IUSE="luajit"
 
-RDEPEND="|| ( >=dev-lang/lua-5.1 dev-lang/luajit:2 )"
+RDEPEND="virtual/lua[luajit=]"
 DEPEND="${RDEPEND}"
 
 src_compile() {

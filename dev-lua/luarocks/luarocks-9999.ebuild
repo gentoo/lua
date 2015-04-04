@@ -8,7 +8,7 @@ inherit eutils toolchain-funcs git-r3
 
 DESCRIPTION="A deployment and management system for Lua modules"
 HOMEPAGE="http://www.luarocks.org"
-EGIT_REPO_URI="git://github.com/keplerproject/luarocks.git"
+EGIT_REPO_URI="https://github.com/keplerproject/luarocks.git"
 
 LICENSE="MIT"
 SLOT="0"
@@ -16,14 +16,13 @@ KEYWORDS=""
 IUSE="curl openssl luajit"
 
 DEPEND="
-		!luajit? ( >=dev-lang/lua-5.1 )
-		luajit? ( dev-lang/luajit:2 )
-		curl? ( net-misc/curl )
-		openssl? ( dev-libs/openssl )
+	virtual/lua[luajit=]
+	curl? ( net-misc/curl )
+	openssl? ( dev-libs/openssl )
 "
 RDEPEND="${DEPEND}
-		app-arch/unzip
-		dev-util/pkg-config
+	app-arch/unzip
+	virtual/pkgconfig
 "
 
 src_configure() {

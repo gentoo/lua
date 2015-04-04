@@ -17,7 +17,9 @@ SLOT="0"
 KEYWORDS="alpha amd64 ppc ppc64 sparc x86"
 IUSE="luajit"
 
-RDEPEND="|| ( =dev-lang/lua-5.1*[deprecated] dev-lang/luajit:2 )"
+RDEPEND="
+	virtual/lua[luajit=]
+"
 DEPEND="
 	${RDEPEND}
 	dev-util/scons
@@ -27,7 +29,7 @@ S="${WORKDIR}/${MY_P}"
 
 src_prepare() {
 	local lua=lua;
-	use luajit && lua=luajit-5.1;
+	use luajit && lua=$($(tc-getPKG_CONFIG) --variable libname luajit);
 	echo "LIBS = ['${lua}', 'dl', 'm']" > ${S}/custom.py
 	sed -r \
 		-e 's|(if rawtype.*arg.*)|\tlocal arg = {n=select('#', ...), ...};\n\1|' \

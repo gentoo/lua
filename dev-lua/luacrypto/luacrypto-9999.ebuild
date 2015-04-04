@@ -21,13 +21,12 @@ IUSE="doc luajit"
 IUSE+="${LANGS// / linguas_}"
 
 RDEPEND="
-	luajit? ( dev-lang/luajit:2 )
-	!luajit? ( >=dev-lang/lua-5.1 )
+	virtual/lua[luajit=]
 	>=dev-libs/openssl-0.9.7
 "
 DEPEND="
 	${RDEPEND}
-	dev-util/pkgconfig
+	virtual/pkgconfig
 "
 
 src_prepare() {

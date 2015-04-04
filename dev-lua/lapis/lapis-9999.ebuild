@@ -18,8 +18,7 @@ KEYWORDS=""
 IUSE="luajit moonscript"
 
 RDEPEND="
-	!luajit? ( >=dev-lang/lua-5.1 )
-	luajit?  ( dev-lang/luajit:2 )
+	virtual/lua[luajit=]
 	moonscript? ( dev-lua/moonscript )
 	dev-lua/ansicolors
 	dev-lua/luasocket
@@ -31,7 +30,7 @@ RDEPEND="
 "
 DEPEND="
 	${RDEPEND}
-	dev-util/pkgconfig
+	virtual/pkgconfig
 "
 
 HTML_DOCS=( "docs/" "README.md" )

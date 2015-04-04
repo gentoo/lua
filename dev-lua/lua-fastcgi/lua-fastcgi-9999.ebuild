@@ -10,7 +10,7 @@ DESCRIPTION="A FastCGI server for Lua, written in C"
 HOMEPAGE="https://github.com/cramey/lua-fastcgi"
 SRC_URI=""
 
-EGIT_REPO_URI="git://github.com/cramey/lua-fastcgi.git"
+EGIT_REPO_URI="https://github.com/cramey/lua-fastcgi.git"
 EGIT_BRANCH="public"
 
 LICENSE="MIT"
@@ -19,8 +19,7 @@ KEYWORDS=""
 IUSE="doc luajit"
 
 RDEPEND="
-	!luajit? ( >=dev-lang/lua-5.1 )
-	luajit? ( dev-lang/luajit:2 )
+	virtual/lua[luajit]
 	dev-libs/fcgi
 "
 DEPEND="${RDEPEND}"
@@ -29,12 +28,12 @@ src_prepare() {
 	local lua=lua
 	use luajit && lua=luajit
 
-	LUA_LIB="$($(tc-getPKG_CONFIG) --variable libname ${lua})"
+	LUA_LIB="$($(tc-getPKG_CONFIG) libs ${lua})"
 
 	sed -r \
-		-e "s#^(CFLAGS=.*)#\1 $($(tc-getPKG_CONFIG) --variable cflags ${lua}) -I$($(tc-getPKG_CONFIG) --variable includedir ${lua})#" \
+		-e "s#^(CFLAGS=.*)#\1 $($(tc-getPKG_CONFIG) --variable cflags ${lua})#" \
 		-e "s/-Wl,[^ ]*//g" \
-		-e "s#lua5.1#${LUA_LIB}#g" \
+		-e "s#-llua5.1#${LUA_LIB}#g" \
 		-i Makefile
 	sed \
 		-e "s#lua5.1/##" \

@@ -18,8 +18,7 @@ KEYWORDS=""
 IUSE="luajit +inotify"
 
 RDEPEND="
-	!luajit? ( >=dev-lang/lua-5.1 )
-	luajit?  ( dev-lang/luajit:2 )
+	virtual/lua[luajit=]
 	dev-lua/lpeg
 	dev-lua/luafilesystem
 	dev-lua/alt-getopt
@@ -27,7 +26,7 @@ RDEPEND="
 "
 DEPEND="
 	${RDEPEND}
-	dev-util/pkgconfig
+	virtual/pkgconfig
 "
 
 HTML_DOCS=( "docs/" "README.md" )

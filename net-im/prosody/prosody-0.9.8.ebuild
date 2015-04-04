@@ -17,9 +17,8 @@ KEYWORDS="x86 amd64 mips arm sparc"
 IUSE="doc +libevent mysql postgres sqlite +ssl +zlib luajit ipv6 migration"
 
 DEPEND="
-	|| ( dev-lang/luajit:2 =dev-lang/lua-5.1* )
 	net-im/jabber-base
-	luajit? ( dev-lang/luajit:2 )
+	virtual/lua[luajit=]
 	>=net-dns/libidn-1.1
 	>=dev-libs/openssl-0.9.8
 "

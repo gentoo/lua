@@ -14,8 +14,31 @@ KEYWORDS="~alpha ~amd64 ~arm ~hppa ~ia64 ~mips ~ppc ~ppc64 ~s390 ~sh ~sparc ~x86
 IUSE="lua luajit"
 
 RDEPEND="
-	|| ( >=dev-lang/lua-5 dev-lang/luajit:2 )
-	luajit? ( dev-lang/luajit:2 app-eselect/eselect-luajit )
+	!luajit? (
+		|| (
+			dev-lang/lua:5.1[deprecated]
+			dev-lang/lua:5.2[deprecared]
+			dev-lang/lua:5.3[deprecated]
+		)
+	)
+	bit? (
+		|| (
+			dev-lang/lua:5.2[deprecated]
+			dev-lang/lua:5.3[deprecated]
+			dev-lang/luajit:2.0
+			dev-lang/luajit:2.1
+			dev-lua/LuaBitOp
+		)
+	)
+	luajit? (
+		|| (
+			dev-lang/luajit:2.0
+			dev-lang/luajit:2.1
+		)
+		app-eselect/eselect-luajit
+	)
 	app-eselect/eselect-lua
+	!!dev-lang/lua:0
+	!!dev-lang/luajit:2
 "
 DEPEND="${RDEPEND}"

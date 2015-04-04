@@ -17,10 +17,12 @@ SLOT="0"
 KEYWORDS=""
 IUSE="luajit"
 
-RDEPEND="|| ( >=dev-lang/lua-5.1 dev-lang/luajit:2 )
-	sys-libs/ncurses"
+RDEPEND="
+	virtual/lua[luajit=]
+	sys-libs/ncurses
+"
 DEPEND="${RDEPEND}
-	dev-util/pkgconfig"
+	virtual/pkgconfig"
 
 src_prepare() {
 	local lua=lua;

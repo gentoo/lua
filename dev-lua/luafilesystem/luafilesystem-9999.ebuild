@@ -3,7 +3,7 @@
 # $Header: This ebuild is from Lua overlay; Bumped by mva; $
 
 EAPI="5"
-inherit multilib eutils git-r3
+inherit multilib eutils git-r3 toolchain-funcs
 
 DESCRIPTION="File System Library for the Lua Programming Language"
 HOMEPAGE="http://keplerproject.github.com/luafilesystem/"
@@ -16,9 +16,7 @@ SLOT="0"
 KEYWORDS=""
 IUSE="doc luajit"
 
-DEPEND="
-	!luajit? ( dev-lang/lua )
-	luajit? ( dev-lang/luajit:2 )"
+DEPEND="virtual/lua[luajit=]"
 RDEPEND="${DEPEND}"
 
 DOCS=( README )

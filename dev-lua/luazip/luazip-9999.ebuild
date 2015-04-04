@@ -4,27 +4,31 @@
 
 EAPI="5"
 
-inherit git-r3
+inherit git-r3 toolchain-funcs
 
 DESCRIPTION="Lua bindings to zziplib"
-HOMEPAGE="http://github.com/luaforge/luazip"
-EGIT_REPO_URI="git://github.com/luaforge/luazip.git"
+HOMEPAGE="https://github.com/luaforge/luazip"
+EGIT_REPO_URI="https://github.com/luaforge/luazip.git"
 
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS=""
 IUSE="luajit"
 
-RDEPEND="|| ( >=dev-lang/lua-5.1 dev-lang/luajit:2 )
-		dev-libs/zziplib"
-DEPEND="${RDEPEND}
-		dev-util/pkgconfig"
+RDEPEND="
+	virtual/lua[luajit=]
+	dev-libs/zziplib
+"
+DEPEND="
+	${RDEPEND}
+	virtual/pkgconfig
+"
 
 src_configure() {
-	local LUA_INC="/usr/include"
-	use luajit && LUA_INC="/usr/include/luajit-2.0"
+	local lua=lua;
+	use luajit && lua=luajit;
 	sed -r \
-		-e "s#(LUA_INC)=.*#\1=${LUA_INC}#" \
+		-e "s#(LUA_INC)=.*#\1=$($(tc-getPKG_CONFIG) --variable includedir ${lua})#" \
 		-e 's#(PREFIX) =.*#\1=$(DESTDIR)/usr#' \
 		-e "s#(ZZLIB_INC)=.*#\1=/usr/include#" \
 		-e "s#(LUA_VERSION_NUM)=.*#\1=510#" \

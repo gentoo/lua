@@ -18,13 +18,12 @@ KEYWORDS=""
 IUSE="luajit"
 
 RDEPEND="
-	!luajit? ( >=dev-lang/lua-5.1 )
-	luajit?  ( dev-lang/luajit:2 )
+	virtual/lua[luajit=]
 	www-servers/nginx[nginx_modules_http_lua]
 "
 DEPEND="
 	${RDEPEND}
-	dev-util/pkgconfig
+	virtual/pkgconfig
 "
 
 src_prepare() {

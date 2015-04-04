@@ -4,9 +4,9 @@
 
 EAPI="5"
 
-inherit multilib
+inherit multilib toolchain-funcs
 DESCRIPTION="LuaDoc is a documentation tool for Lua source code"
-HOMEPAGE="http://luadoc.luaforge.net/"
+HOMEPAGE="http://keplerproject.github.io/luadoc/"
 SRC_URI="http://luaforge.net/frs/download.php/3185/${P}.tar.gz"
 
 LICENSE="MIT"
@@ -16,25 +16,27 @@ IUSE="luajit"
 
 DEPEND=""
 RDEPEND="
-	!luajit? ( >=dev-lang/lua-5.1.3 )
-	luajit? ( dev-lang/luajit:2 )
-	dev-lua/luafilesystem"
+	virtual/lua[luajit=]
+	dev-lua/luafilesystem
+"
 
 src_prepare() {
-	cd "${S}"
-	sed \
-		-e "s|/usr/local|\$(DESTDIR)/usr|" \
-		-e "s|lib|$(get_libdir)|" \
-		-e "s|lua5.1|lua|" \
-		-i config || die
+	local lua=lua;
+	use luajit && lua=luajit;
 
-	use luajit && sed \
-		-e "s|#!/usr/bin/env lua|#! /usr/bin/env luajit|" \
+	echo "
+		PREFIX=/usr
+		LUA_LIBDIR=$($(tc-getPKG_CONFIG) --variable INSTALL_CMOD ${lua})
+		LUA_DIR=$($(tc-getPKG_CONFIG) --variable INSTALL_LMOD ${lua})
+		SYS_BINDIR= ${EROOT}/usr/bin
+	" > "${S}/config"
+
+	sed -r \
+		-e "1s|^(#!.* ) lua|\1 ${lua}|" \
 		-i src/luadoc.lua.in
 
 	# lua-5.1.3
-	find . -name '*.lua' | xargs sed -i -e "s/gfind/gmatch/g" || die
-
+	find . -name '*.lua' | xargs sed -e "s/gfind/gmatch/g" -i || die
 }
 
 src_install() {

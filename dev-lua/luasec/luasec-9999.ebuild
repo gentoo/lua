@@ -18,14 +18,13 @@ KEYWORDS=""
 IUSE="examples luajit"
 
 RDEPEND="
-	!luajit? ( >=dev-lang/lua-5.1[deprecated] )
-	luajit? ( dev-lang/luajit:2 )
+	virtual/lua[luajit]
 	dev-lua/luasocket
 	dev-libs/openssl
 "
 DEPEND="
 	${RDEPEND}
-	dev-util/pkgconfig
+	virtual/pkgconfig
 "
 
 

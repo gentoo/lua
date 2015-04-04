@@ -18,7 +18,7 @@ KEYWORDS=""
 IUSE="test"
 
 RDEPEND="
-	dev-lang/luajit:2
+	virtual/lua[luajit]
 	|| (
 		sys-libs/glibc[arm=,x86=,amd64=,ppc=,mips=]
 		sys-libs/musl[arm=,x86=,amd64=,ppc=,mips=]

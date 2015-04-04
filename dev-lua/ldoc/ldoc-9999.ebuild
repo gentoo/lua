@@ -18,12 +18,11 @@ KEYWORDS=""
 IUSE="luajit doc"
 
 RDEPEND="
-	luajit? ( dev-landg/luajit:2 )
-	!luajit? ( >=dev-lang/lua-5.1 )
+	virtual/lua[luajit=]
 "
 DEPEND="
 	${RDEPEND}
-	dev-util/pkgconfig
+	virtual/pkgconfig
 "
 
 src_prepare() {

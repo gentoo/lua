@@ -20,13 +20,14 @@ SLOT="0"
 IUSE="luajit test"
 
 RDEPEND="
-	luajit? ( dev-lang/luajit:2 )
-	!luajit? ( >=dev-lang/lua-5.1 )
+	virtual/lua[luajit=]
 "
 DEPEND="${RDEPEND}"
 
 src_compile() {
-	use luajit && CFLAGS="${CFLAGS} -I$($(tc-getPKG_CONFIG) --variable includedir luajit)"
+	local lua="lua";
+	use luajit && lua="luajit";
+	export CFLAGS="${CFLAGS} $($(tc-getPKG_CONFIG) --cflags ${lua})"
 	$(tc-getCC) -fPIC ${CFLAGS} -c -o ${MY_PN}.o ${MY_PN}.c || die
 	$(tc-getCC) ${LDFLAGS} -shared -o ${PN}.so ${MY_PN}.o || die
 }

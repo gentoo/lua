@@ -13,21 +13,10 @@ EHG_REPO_URI="http://hg.prosody.im/trunk"
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS=""
-IUSE="doc +libevent mysql postgres sqlite +ssl +zlib luajit ipv6 migration -lua52"
+IUSE="doc +libevent mysql postgres sqlite +ssl +zlib luajit ipv6 migration"
 
 DEPEND="
-	luajit? (
-		dev-lang/luajit:2
-	)
-	!luajit? (
-		lua52? (
-			=dev-lang/lua-5.2*
-		)
-		!lua52? (
-			=dev-lang/lua-5.1*
-			dev-lua/LuaBitOp
-		)
-	)
+	virtual/lua[luajit=,bit]
 	net-im/jabber-base
 	>=net-dns/libidn-1.1
 	|| (

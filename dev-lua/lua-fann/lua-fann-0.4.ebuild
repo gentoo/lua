@@ -4,30 +4,33 @@
 
 EAPI="5"
 
-inherit eutils
+inherit eutils toolchain-funcs
 
-P_SHA="0265161"
 DESCRIPTION="A set of Lua bindings for the Fast Artificial Neural Network (FANN) library."
 HOMEPAGE="https://github.com/msva/lua-fann"
-SRC_URI="https://github.com/msva/${PN}/tarball/${PV} -> ${P}.tgz"
+SRC_URI="https://github.com/msva/{$PN}/archive/${PV}.tar.gz -> ${P}.tgz"
 
 LICENSE="LGPL-2.1"
 SLOT="0"
 KEYWORDS=""
 IUSE="doc luajit"
 
-RDEPEND="|| ( >=dev-lang/lua-5.1 dev-lang/luajit:2 )
-	sci-mathematics/fann"
-DEPEND="${RDEPEND}"
-
-S="${WORKDIR}/msva-${PN}-${P_SHA}"
+RDEPEND="
+	virtual/lua[luajit=]
+	sci-mathematics/fann
+"
+DEPEND="
+	${RDEPEND}
+	virtual/pkgconfig
+"
 
 src_prepare() {
-	LUABIN="lua"
+	local lua=lua;
+	use luajit && lua=luajit;
 	default
 	epatch_user
-	use luajit && export LUA_INCLUDE_DIR="/usr/$(get_libdir)/luajit-2.0"
-	use luajit && export LUABIN="luajit"
+	export LUA_INCLUDE_DIR="$($(tc-getPKG_CONFIG) --variable includedir ${lua})"
+	export LUABIN="${lua}"
 }
 
 src_test() {

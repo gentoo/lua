@@ -16,12 +16,11 @@ KEYWORDS=""
 IUSE="luajit"
 
 RDEPEND="
-	!luajit? ( dev-lang/lua )
-	luajit? ( dev-lang/luajit:2 )
+	virtual/lua[luajit=]
 "
 DEPEND="
 	${RDEPEND}
-	dev-util/pkgconfig
+	virtual/pkgconfig
 "
 
 

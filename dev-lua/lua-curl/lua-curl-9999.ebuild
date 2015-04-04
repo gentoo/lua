@@ -18,12 +18,11 @@ KEYWORDS=""
 IUSE="doc examples luajit"
 
 RDEPEND="
-	luajit? ( dev-lang/luajit:2 )
-	!luajit? ( >=dev-lang/lua-5.1 )
+	virtual/lua[luajit=]
 	net-misc/curl
 "
 DEPEND="${RDEPEND}
-	dev-util/pkgconfig
+	virtual/pkgconfig
 "
 
 src_prepare() {
@@ -38,8 +37,6 @@ src_configure() {
 
 
 src_install() {
-	local lua=lua;
-	use luajit && lua=luajit
 	use examples && {
 		docompress -x /usr/share/doc/${PF}/examples
 		dodoc -r examples

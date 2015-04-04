@@ -100,11 +100,7 @@ RDEPEND="
 		dev-lua/luafilesystem
 	)
 	prosody_modules_onions? (
-		|| (
-			>=dev-lang/lua-5.2
-			dev-lang/luajit:2
-			dev-lua/LuaBitOp
-		)
+		virtual/lua[bit]
 	)
 	prosody_modules_couchdb? (
 		dev-lua/luasocket
@@ -120,11 +116,7 @@ RDEPEND="
 		dev-lua/luasec
 	)
 	prosody_modules_auth_internal_yubikey? (
-		|| (
-			>=dev-lang/lua-5.2
-			dev-lang/luajit:2
-			dev-lua/LuaBitOp
-		)
+		virtual/lua[bit,luajit=]
 		dev-lua/yubikey-lua
 	)
 	prosody_modules_auth_dovecot? (
