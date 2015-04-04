@@ -1,0 +1,6 @@
+slotmove =dev-lang/luajit-2.0.9999 2 2.0
+slotmove =dev-lang/luajit-2.1.9999 2 2.1
+slotmove =dev-lang/lua-5.1* 0 5.1
+slotmove =dev-lang/lua-5.2* 0 5.2
+slotmove =dev-lang/lua-5.3* 0 5.3
+
