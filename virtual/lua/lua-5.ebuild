@@ -4,6 +4,8 @@
 
 EAPI="5"
 
+inherit multilib-minimal
+
 DESCRIPTION="Virtual for Lua programming language"
 HOMEPAGE=""
 SRC_URI=""
@@ -16,24 +18,24 @@ IUSE="luajit bit"
 RDEPEND="
 	!luajit? (
 		|| (
-			dev-lang/lua:5.1[deprecated]
-			dev-lang/lua:5.2[deprecared]
-			dev-lang/lua:5.3[deprecated]
+			dev-lang/lua:5.1[deprecated,${MULTILIB_USEDEP}]
+			dev-lang/lua:5.2[deprecared,${MULTILIB_USEDEP}]
+			dev-lang/lua:5.3[deprecated,${MULTILIB_USEDEP}]
 		)
 	)
 	bit? (
 		|| (
-			dev-lang/lua:5.2[deprecated]
-			dev-lang/lua:5.3[deprecated]
-			dev-lang/luajit:2.0
-			dev-lang/luajit:2.1
-			dev-lua/LuaBitOp
+			dev-lang/lua:5.2[deprecated,${MULTILIB_USEDEP}]
+			dev-lang/lua:5.3[deprecated,${MULTILIB_USEDEP}]
+			dev-lang/luajit:2.0[${MULTILIB_USEDEP}]
+			dev-lang/luajit:2.1[${MULTILIB_USEDEP}]
+			dev-lua/LuaBitOp[${MULTILIB_USEDEP}]
 		)
 	)
 	luajit? (
 		|| (
-			dev-lang/luajit:2.0
-			dev-lang/luajit:2.1
+			dev-lang/luajit:2.0[${MULTILIB_USEDEP}]
+			dev-lang/luajit:2.1[${MULTILIB_USEDEP}]
 		)
 		app-eselect/eselect-luajit
 	)
