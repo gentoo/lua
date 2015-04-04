@@ -15,7 +15,7 @@ IUSE="lua luajit"
 
 RDEPEND="
 	|| ( >=dev-lang/lua-5 dev-lang/luajit:2 )
-	luajit? ( dev-lang/luajit:2 app-eselect/luajit )
-	app-eselect/lua
+	luajit? ( dev-lang/luajit:2 app-eselect/eselect-luajit )
+	app-eselect/eselect-lua
 "
 DEPEND="${RDEPEND}"
