@@ -72,7 +72,7 @@ src_prepare(){
 		-i src/Makefile || die "Failed to slottify"
 
 	sed -r \
-		-e 's|^(#define.*LUA_LJDIR).*|\1 "/'${PN}-${SLOT}'/"|' \
+		-e 's|^(#define LUA_LJDIR).*|\1 "/'${PN}-${SLOT}'/"|' \
 		-i src/luaconf.h || die "Failed to slotify"
 
 	use debug && (
