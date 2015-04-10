@@ -39,5 +39,5 @@ src_install() {
 	insinto "${lmod}"
 	doins *.lua
 
-	make_wrapper "${PN}" "luajit \${@} ${lmod}/${PN}.lua"
+	make_wrapper "${PN}" "luajit ${lmod}/${PN}.lua"
 }
