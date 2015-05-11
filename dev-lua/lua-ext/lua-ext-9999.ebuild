@@ -6,11 +6,11 @@ EAPI=5
 
 inherit toolchain-funcs eutils git-r3
 
-DESCRIPTION="Parse HTML text into a tree of elements with selectors"
-HOMEPAGE="https://github.com/msva/lua-htmlparser"
+DESCRIPTION="Some useful extensions to Lua classes"
+HOMEPAGE="https://github.com/thenumbernine/lua-ext"
 SRC_URI=""
 
-EGIT_REPO_URI="https://github.com/msva/lua-htmlparser"
+EGIT_REPO_URI="https://github.com/thenumbernine/ext"
 
 LICENSE="MIT"
 SLOT="0"
@@ -20,7 +20,6 @@ IUSE="luajit"
 DEPEND="
 	virtual/lua[luajit=]
 	virtual/pkgconfig
-	dev-lua/lua-set
 "
 RDEPEND="
 	${DEPEND}
@@ -29,6 +28,7 @@ RDEPEND="
 src_install() {
 	local lua="lua";
 	use luajit && lua="luajit";
-	insinto "$($(tc-getPKG_CONFIG) --variable INSTALL_LMOD ${lua})"
-	doins -r src/*
+	insinto "$($(tc-getPKG_CONFIG) --variable INSTALL_LMOD ${lua})/ext"
+	doins *.lua
+	dodoc README
 }

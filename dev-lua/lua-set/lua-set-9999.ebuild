@@ -6,11 +6,11 @@ EAPI=5
 
 inherit toolchain-funcs eutils git-r3
 
-DESCRIPTION="Parse HTML text into a tree of elements with selectors"
-HOMEPAGE="https://github.com/msva/lua-htmlparser"
+DESCRIPTION="Straightforward Set library for Lua"
+HOMEPAGE="https://github.com/wscherphof/lua-set"
 SRC_URI=""
 
-EGIT_REPO_URI="https://github.com/msva/lua-htmlparser"
+EGIT_REPO_URI="https://github.com/wscherphof/lua-set"
 
 LICENSE="MIT"
 SLOT="0"
@@ -20,7 +20,6 @@ IUSE="luajit"
 DEPEND="
 	virtual/lua[luajit=]
 	virtual/pkgconfig
-	dev-lua/lua-set
 "
 RDEPEND="
 	${DEPEND}
