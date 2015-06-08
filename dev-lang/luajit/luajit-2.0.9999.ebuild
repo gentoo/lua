@@ -122,3 +122,12 @@ multilib_src_install() {
 	newbin "${FILESDIR}/luac.jit" "luacjit-${SLOT}"
 	[[ ! -e "/usr/bin/luajit" ]] && dosym "${PN}-${SLOT}" "${EROOT}usr/bin/${PN}"
 }
+
+pkg_postinst() {
+	if [[ ! -n $(readlink "${ROOT}"usr/bin/luajit) ]] ; then
+		eselect luajit set luajit-${SLOT}
+	fi
+	if [[ ! -n $(readlink "${ROOT}"usr/bin/lua) ]] ; then
+		eselect lua set jit-${SLOT}
+	fi
+}
