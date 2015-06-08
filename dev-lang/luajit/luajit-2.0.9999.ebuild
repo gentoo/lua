@@ -19,11 +19,14 @@ IUSE="debug valgrind lua52compat +optimization"
 RDEPEND="
 	valgrind? ( dev-util/valgrind )
 "
-DEPEND="${RDEPEND}"
+DEPEND="
+	${RDEPEND}
+	app-eselect/eselect-luajit
+	app-eselect/eselect-lua
+"
 
 PDEPEND="
 	virtual/lua[luajit]
-	app-eselect/eselect-luajit
 "
 
 HTML_DOCS=( "doc/" )
@@ -120,7 +123,6 @@ multilib_src_install() {
 	host-is-pax && pax-mark m "${ED}usr/bin/${PN}-${SLOT}"
 	newman "etc/${PN}-${SLOT}.1" "luacjit-${SLOT}.1"
 	newbin "${FILESDIR}/luac.jit" "luacjit-${SLOT}"
-	[[ ! -e "/usr/bin/luajit" ]] && dosym "${PN}-${SLOT}" "${EROOT}usr/bin/${PN}"
 }
 
 pkg_postinst() {
