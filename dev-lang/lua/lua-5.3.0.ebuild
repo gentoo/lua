@@ -107,11 +107,11 @@ multilib_src_install() {
 
 	# We want packages to find our things...
 	cp "${FILESDIR}/lua.pc" "${WORKDIR}"
-	sed -i \
-		-e "s:^V=.*:V= ${PATCH_PV}:" \
+	sed \
+		-e "s:^V=.*:V= ${SLOT}:" \
 		-e "s:^R=.*:R= ${PV}:" \
 		-e "s:/,lib,:/$(get_libdir):g" \
-		"${WORKDIR}/lua.pc"
+		-i "${WORKDIR}/lua.pc"
 
 	insinto "/usr/$(get_libdir)/pkgconfig"
 	newins "${WORKDIR}/lua.pc" "lua${SLOT}.pc"
