@@ -20,7 +20,6 @@ IUSE="luajit"
 DEPEND="
 	virtual/lua[luajit=]
 	virtual/pkgconfig
-	dev-lua/lua-set
 "
 RDEPEND="
 	${DEPEND}
