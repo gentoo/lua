@@ -10,7 +10,7 @@ DESCRIPTION="Just-In-Time Compiler for the Lua programming language"
 HOMEPAGE="http://luajit.org/"
 SRC_URI=""
 EGIT_REPO_URI="git://repo.or.cz/luajit-2.0.git"
-SLOT="2.0"
+SLOT="2"
 
 LICENSE="MIT"
 KEYWORDS=""
@@ -53,28 +53,36 @@ pkg_setup() {
 
 src_prepare(){
 	# fixing prefix and version
+#	sed -r \
+#		-e 's|^(VERSION)=.*|\1=$(MAJVER).$(MINVER)|' \
+#		-e 's|\$\(MAJVER\)\.\$\(MINVER\)\.\$\(RELVER\)|$(VERSION)|' \
+#		-e 's|^(FILE_MAN)=.*|\1=${PN}-$(VERSION).1|' \
+#		-e 's|^(INSTALL_PCNAME)=.*|\1=${PN}-$(VERSION).pc|' \
+#		-e 's|^(INSTALL_SOSHORT)=.*|\1=lib${PN}-${SLOT}.so|' \
+#		-e 's|^(INSTALL_ANAME)=.*|\1=lib${PN}-${SLOT}.a|' \
+#		-e 's|^(INSTALL_SONAME)=.*|\1=lib${PN}-${SLOT}.so.${PV}|' \
+#		-e 's|( PREFIX)=.*|\1=/usr|' \
+#		-e '/\$\(SYMLINK\)\ \$\(INSTALL_TNAME\)\ \$\(INSTALL_TSYM\)/d' \
+#		-i Makefile || die "failed to fix prefix in Makefile"
+
 	sed -r \
-		-e 's|^(VERSION)=.*|\1=$(MAJVER).$(MINVER)|' \
-		-e 's|^(FILE_MAN)=.*|\1=${PN}-$(VERSION).1|' \
+		-e 's|^(VERSION)=.*|\1=${PV}|' \
 		-e 's|\$\(MAJVER\)\.\$\(MINVER\)\.\$\(RELVER\)|$(VERSION)|' \
-		-e 's|^(INSTALL_PCNAME)=.*|\1=${PN}-$(VERSION).pc|' \
-		-e 's|^(INSTALL_SOSHORT)=.*|\1=lib${PN}-${SLOT}.so|' \
-		-e 's|^(INSTALL_ANAME)=.*|\1=lib${PN}-${SLOT}.a|' \
-		-e 's|^(INSTALL_SONAME)=.*|\1=lib${PN}-${SLOT}.so.${PV}|' \
+		-e 's|^(INSTALL_PCNAME)=.*|\1=${P}.pc|' \
 		-e 's|( PREFIX)=.*|\1=/usr|' \
-		-e '/\$\(SYMLINK\)\ \$\(INSTALL_TNAME\)\ \$\(INSTALL_TSYM\)/d' \
+		-e 's|^(FILE_MAN)=.*|\1=${P}.1|' \
 		-i Makefile || die "failed to fix prefix in Makefile"
 
-	sed -r \
-		-e 's|^(libname=.*-)\$\{abiver\}|\1${majver}.${minver}|' \
-		-i "etc/${PN}.pc" || die "Failed to slottify"
+#	sed -r \
+#		-e 's|^(libname=.*-)\$\{abiver\}|\1${majver}.${minver}|' \
+#		-i "etc/${PN}.pc" || die "Failed to slottify"
+
+#	sed -r \
+#		-e 's|^(TARGET_SONAME)=.*|\1=lib${PN}-${SLOT}.so.${PV}|' \
+#		-i src/Makefile || die "Failed to slottify"
 
 	sed -r \
-		-e 's|^(TARGET_SONAME)=.*|\1=lib${PN}-${SLOT}.so.${PV}|' \
-		-i src/Makefile || die "Failed to slottify"
-
-	sed -r \
-		-e 's|^(#define LUA_LJDIR).*|\1 "/'${PN}-${SLOT}'/"|' \
+		-e 's|^(#define LUA_LJDIR).*|\1 "/'${P}'/"|' \
 		-i src/luaconf.h || die "Failed to slotify"
 
 	use debug && (
@@ -82,7 +90,7 @@ src_prepare(){
 			-e 's/#(CCDEBUG= -g)/\1 -ggdb/' \
 			-i src/Makefile || die "Failed to enable debug"
 	)
-	mv "${S}"/etc/${PN}.1 "${S}"/etc/${PN}-${SLOT}.1
+	mv "${S}"/etc/${PN}.1 "${S}"/etc/${P}.1
 
 	multilib_copy_sources
 }
@@ -120,16 +128,17 @@ multilib_src_install() {
 
 	base_src_install_docs
 
-	host-is-pax && pax-mark m "${ED}usr/bin/${PN}-${SLOT}"
-	newman "etc/${PN}-${SLOT}.1" "luacjit-${SLOT}.1"
-	newbin "${FILESDIR}/luac.jit" "luacjit-${SLOT}"
+	host-is-pax && pax-mark m "${ED}usr/bin/${P}"
+	newman "etc/${P}.1" "luacjit-${PV}.1"
+	newbin "${FILESDIR}/luac.jit" "luacjit-${PV}"
+	ln -s "${P}" "${ED}usr/bin/${PN}-${SLOT}"
 }
 
 pkg_postinst() {
 	if [[ ! -n $(readlink "${ROOT}"usr/bin/luajit) ]] ; then
-		eselect luajit set luajit-${SLOT}
+		eselect luajit set luajit-${PV}
 	fi
 	if [[ ! -n $(readlink "${ROOT}"usr/bin/lua) ]] ; then
-		eselect lua set jit-${SLOT}
+		eselect lua set jit-${PV}
 	fi
 }

@@ -27,21 +27,16 @@ RDEPEND="
 		|| (
 			dev-lang/lua:5.2[deprecated,${MULTILIB_USEDEP}]
 			dev-lang/lua:5.3[deprecated,${MULTILIB_USEDEP}]
-			dev-lang/luajit:2.0[${MULTILIB_USEDEP}]
-			dev-lang/luajit:2.1[${MULTILIB_USEDEP}]
+			dev-lang/luajit:2[${MULTILIB_USEDEP}]
 			dev-lua/LuaBitOp[${MULTILIB_USEDEP}]
 		)
 	)
 	luajit? (
-		|| (
-			dev-lang/luajit:2.0[${MULTILIB_USEDEP}]
-			dev-lang/luajit:2.1[${MULTILIB_USEDEP}]
-		)
+		dev-lang/luajit:2[${MULTILIB_USEDEP}]
 		app-eselect/eselect-luajit
 	)
 	app-eselect/eselect-lua
 	!!dev-lang/lua:0
-	!!dev-lang/luajit:2
 "
 DEPEND="${RDEPEND}"
 S="${WORKDIR}"

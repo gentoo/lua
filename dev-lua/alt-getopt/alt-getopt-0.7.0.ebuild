@@ -4,41 +4,27 @@
 
 EAPI="5"
 
-inherit base toolchain-funcs
+inherit lua
 
 DESCRIPTION="Lua bindings to getopt_long"
 HOMEPAGE="http://luaforge.net/projects/alt-getopt"
-SRC_URI="mirror://luaforge/${PN}/${PN}/${PN}-${PV}/lua-${PN}-${PV}.tar.gz"
+MY_P="lua-${P}"
+SRC_URI="mirror://luaforge/${PN}/${PN}/${P}/${MY_P}.tar.gz"
 
 LICENSE="MIT"
 SLOT="0"
-KEYWORDS="x86 amd64"
-IUSE="luajit"
+KEYWORDS="~x86 ~amd64"
+IUSE=""
 
-RDEPEND="
-	virtual/lua[luajit=]
-"
-DEPEND="
-	${RDEPEND}
-	virtual/pkgconfig
-"
+READMES=( README )
 
-DOCS=( "README" )
+S="${WORKDIR}/all/${MY_P}"
+LUA_S="${MY_P}"
 
-S="${WORKDIR}/lua-${P}"
-
-src_compile() {
-	:
+each_lua_install() {
+	dolua alt_getopt.lua
 }
 
-src_install() {
-	local lua=lua;
-	use luajit && lua=luajit;
-
-	insinto "$($(tc-getPKG_CONFIG) --variable INSTALL_LMOD ${lua})"
-	doins alt_getopt.lua
-
+all_lua_install() {
 	dobin alt_getopt
-
-	base_src_install_docs
 }

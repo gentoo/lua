@@ -4,7 +4,8 @@
 
 EAPI="5"
 
-inherit base toolchain-funcs git-r3
+VCS="git-r3"
+inherit lua
 
 DESCRIPTION="A web framework for Lua/MoonScript."
 HOMEPAGE="https://github.com/leafo/lapis"
@@ -15,10 +16,9 @@ EGIT_REPO_URI="https://github.com/leafo/lapis"
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS=""
-IUSE="luajit moonscript"
+IUSE="doc moonscript"
 
 RDEPEND="
-	virtual/lua[luajit=]
 	moonscript? ( dev-lua/moonscript )
 	dev-lua/ansicolors
 	dev-lua/luasocket
@@ -33,24 +33,21 @@ DEPEND="
 	virtual/pkgconfig
 "
 
-HTML_DOCS=( "docs/" "README.md" )
+DOCS=( docs/ README.md )
 
-src_compile() {
+all_lua_prepare() {
+	use moonscript || find "${S}" -type -name '*.moon' -delete
+}
+
+each_lua_compile() {
 	use moonscript && emake build
 }
 
-src_install() {
-	local lua=lua;
-	use luajit && lua=luajit;
+each_lua_install() {
+	use moonscript && dolua lapis.moon
+	dolua lapis
+}
 
-	use moonscript || find "${S}" -type -name '*.moon' -delete
-
-	insinto "$($(tc-getPKG_CONFIG) --variable INSTALL_LMOD ${lua})"
-	doins -r lapis
-
+all_lua_install() {
 	dobin bin/lapis
-
-	use moonscript && doins lapis.moon
-
-	base_src_install_docs
 }

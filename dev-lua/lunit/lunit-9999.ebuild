@@ -15,7 +15,7 @@ EGIT_REPO_URI="https://github.com/dcurrie/${PN}"
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS=""
-IUSE="luajit +samples"
+IUSE="luajit +examples"
 
 RDEPEND="
 	virtual/lua[luajit=]

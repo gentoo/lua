@@ -4,52 +4,32 @@
 
 EAPI="5"
 
-inherit multilib eutils git-r3 toolchain-funcs
+VCS="git-r3"
+inherit lua
 
 DESCRIPTION="safe-template engine for lua"
 HOMEPAGE="https://github.com/mascarenhas/cosmo"
 SRC_URI=""
 
-EGIT_REPO_URI="https://github.com/msva/cosmo.git"
+EGIT_REPO_URI="https://github.com/mascarenhas/cosmo.git"
 
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS=""
-IUSE="doc luajit"
+IUSE="doc +examples"
 
 RDEPEND="
-	virtual/lua[luajit=]
 	|| (
 		dev-lua/lpeg
 		dev-lua/lulpeg[lpeg-compat]
 	)
 "
-DEPEND="
-	${RDEPEND}
-	virtual/pkgconfig
-"
 
-src_prepare() {
-    local lua=lua
-    use luajit && lua=luajit
-    echo "
-        LUA_DIR=$($(tc-getPKG_CONFIG) --variable INSTALL_LMOD ${lua})
-        DESTDIR=${ED}
-    " > "${S}/config"
-}
+DOCS=( README doc/cosmo.md )
+HTML_DOCS=( doc/index.html doc/cosmo.png )
+EXAMPLES=( samples/sample.lua )
 
-src_configure() {
-    :
-}
-
-src_install() {
-    docompress -x /usr/share/doc
-    default
-    use doc && (
-        insinto /usr/share/doc/${PF}/examples
-        doins -r samples/*
-        insinto /usr/share/doc/${PF}
-        doins -r doc/*
-    )
+each_lua_install() {
+	dolua src/*
 }
 

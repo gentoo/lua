@@ -4,42 +4,34 @@
 
 EAPI="5"
 
-inherit toolchain-funcs git-r3
+IS_MULTILIB=true
+VCS="git-r3"
+
+inherit lua
 
 DESCRIPTION="A self contained Lua MessagePack C implementation"
 HOMEPAGE="https://github.com/antirez/lua-cmsgpack"
 
-MY_PN="lua_${PN}"
-
 EGIT_REPO_URI="https://github.com/antirez/lua-cmsgpack"
 KEYWORDS=""
-DOCS=( README.md )
+READMES=( README.md )
 
 LICENSE="BSD-2"
 SLOT="0"
-IUSE="luajit test"
+IUSE="test"
 
-RDEPEND="
-	virtual/lua[luajit=]
-"
-DEPEND="${RDEPEND}"
+each_lua_compile() {
+	_lua_setCFLAGS
+	local MY_PN="lua_${PN}"
 
-src_compile() {
-	local lua="lua";
-	use luajit && lua="luajit";
-	export CFLAGS="${CFLAGS} $($(tc-getPKG_CONFIG) --cflags ${lua})"
 	$(tc-getCC) -fPIC ${CFLAGS} -c -o ${MY_PN}.o ${MY_PN}.c || die
 	$(tc-getCC) ${LDFLAGS} -shared -o ${PN}.so ${MY_PN}.o || die
 }
 
-src_test() {
-	lua test.lua || die
+each_lua_test() {
+	${LUA} test.lua || die
 }
 
-src_install() {
-	local lua=lua
-	use luajit && lua=luajit
-	default
-	insinto "$($(tc-getPKG_CONFIG) --variable INSTALL_CMOD ${lua})"
-	doins "${PN}".so
+each_lua_install() {
+	dolua "${PN}.so"
 }

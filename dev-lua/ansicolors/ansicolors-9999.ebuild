@@ -4,7 +4,8 @@
 
 EAPI="5"
 
-inherit base toolchain-funcs git-r3
+VCS=git-r3
+inherit lua
 
 DESCRIPTION="A simple Lua function for printing to the console in color."
 HOMEPAGE="https://github.com/kikito/ansicolors.lua"
@@ -15,24 +16,10 @@ EGIT_REPO_URI="https://github.com/kikito/ansicolors.lua"
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS=""
-IUSE="luajit"
+IUSE=""
 
-RDEPEND="
-	virtual/lua[luajit=]
-"
-DEPEND="
-	${RDEPEND}
-	virtual/pkgconfig
-"
+READMES=( "README.textile" )
 
-HTML_DOCS=( "README.textile" )
-
-src_install() {
-	local lua=lua;
-	use luajit && lua=luajit;
-
-	insinto "$($(tc-getPKG_CONFIG) --variable INSTALL_LMOD ${lua})"
-	doins -r ansicolors.lua
-
-	base_src_install_docs
+each_lua_install() {
+	dolua ansicolors.lua
 }

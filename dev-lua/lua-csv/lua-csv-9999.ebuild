@@ -4,7 +4,8 @@
 
 EAPI="5"
 
-inherit toolchain-funcs git-r3
+VCS="git-r3"
+inherit lua
 
 DESCRIPTION="a Lua module for reading delimited text files"
 HOMEPAGE="https://github.com/geoffleyland/lua-csv"
@@ -15,23 +16,10 @@ EGIT_REPO_URI="https://github.com/geoffleyland/lua-csv"
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS=""
-IUSE="luajit +lpeg_replace"
+IUSE=""
 
-RDEPEND="
-	virtual/lua[luajit=]
-"
-DEPEND="${RDEPEND}"
+READMES=( README.md )
 
-src_prepare() {
-	epatch_user
-}
-
-src_install() {
-	local lua=lua
-	use luajit && lua=luajit
-
-	insinto "$($(tc-getPKG_CONFIG) --variable INSTALL_LMOD ${lua})"
-	doins -r lua/csv.lua
-
-	dodoc README.md || die "dodoc failed"
+each_lua_install() {
+	dolua lua/csv.lua
 }

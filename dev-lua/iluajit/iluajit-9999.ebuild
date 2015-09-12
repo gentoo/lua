@@ -4,7 +4,10 @@
 
 EAPI="5"
 
-inherit eutils git-r3 toolchain-funcs
+LUA_COMPAT="luajit2"
+VCS="git-r3"
+
+inherit lua
 
 DESCRIPTION="Readline powered shell for LuaJIT"
 HOMEPAGE="https://github.com/jdesgats/ILuaJIT"
@@ -19,26 +22,24 @@ IUSE="doc +completion"
 
 RDEPEND="
 	doc? ( dev-lua/luadoc )
-	virtual/lua[luajit]
 	dev-lua/penlight
 	sys-libs/readline
 	completion? ( dev-lua/luafilesystem )
-	virtual/pkgconfig
 "
 DEPEND="${RDEPEND}"
 
-src_install() {
-	local lmod="$($(tc-getPKG_CONFIG) --variable INSTALL_LMOD luajit)"
+READMES=( README.md )
+HTML_DOCS=( html/ )
 
-	dodoc README.md || die "dodoc failed"
-	use doc && (
-		luadoc . -d html
-		dohtml -r html
-	)
+all_lua_prepare() {
+	use doc && luadoc . -d html
+}
 
-	insinto "${lmod}"
-	doins *.lua
+each_lua_install() {
+	dolua *.lua
+}
 
+all_lua_install() {
 #	make_wrapper "${PN}" "luajit -l ${PN}"
 	dobin ${FILESDIR}/${PN}
 }

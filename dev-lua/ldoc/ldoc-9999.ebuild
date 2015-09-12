@@ -4,7 +4,8 @@
 
 EAPI="5"
 
-inherit eutils toolchain-funcs git-r3
+VCS="git-r3"
+inherit lua
 
 DESCRIPTION="A LuaDoc-compatible documentation generation system"
 HOMEPAGE="https://github.com/stevedonovan/LDoc/"
@@ -15,33 +16,29 @@ EGIT_REPO_URI="https://github.com/stevedonovan/LDoc/"
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS=""
-IUSE="luajit doc"
+IUSE="doc"
 
 RDEPEND="
-	virtual/lua[luajit=]
-"
-DEPEND="
-	${RDEPEND}
-	virtual/pkgconfig
+	dev-lua/penlight
 "
 
-src_prepare() {
-	local lua=lua
-	use luajit && lua=luajit
+DOCS=( doc/doc.md readme.md )
 
-	sed -r \
-		-e "1s#(/usr/bin/env).*#\1 ${lua}#" \
-		-i ldoc.lua
+HTML_DOCS=( doc_html/ ldoc_html/ )
+
+all_lua_prepare() {
+	local lua="$(lua_get_implementation)"
+
+	cd doc; ${lua} ../ldoc.lua . -d ../doc_html; cd ..
+	cd ldoc; ${lua} ../ldoc.lua . -d ../ldoc_html; cd ..
+
+	rm ldoc/{SciTE.properties,config.ld}
 }
 
-src_compile() { :; }
+each_lua_install() {
+	dolua ldoc ldoc.lua
+}
 
-src_install() {
-	local lua=lua
-	use luajit && lua=luajit
-
-	insinto "$($(tc-getPKG_CONFIG) --variable INSTALL_LMOD ${lua})"
-	doins -r ldoc ldoc.lua
-
+all_lua_install() {
 	newbin ldoc.lua ldoc
 }

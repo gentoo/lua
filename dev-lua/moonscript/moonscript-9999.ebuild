@@ -4,7 +4,8 @@
 
 EAPI="5"
 
-inherit base toolchain-funcs git-r3
+VCS="git-r3"
+inherit lua
 
 DESCRIPTION="A programmer friendly language that compiles into Lua."
 HOMEPAGE="https://github.com/leafo/moonscript"
@@ -15,48 +16,40 @@ EGIT_REPO_URI="https://github.com/leafo/moonscript"
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS=""
-IUSE="luajit +inotify"
+IUSE="+doc +inotify"
 
 RDEPEND="
-	virtual/lua[luajit=]
-	dev-lua/lpeg
+	|| (
+		dev-lua/lpeg
+		dev-lua/lulpeg[lpeg-compat]
+	)
 	dev-lua/luafilesystem
 	dev-lua/alt-getopt
 	inotify? ( dev-lua/linotify )
 "
-DEPEND="
-	${RDEPEND}
-	virtual/pkgconfig
-"
+DEPEND="${RDEPEND}"
 
-HTML_DOCS=( "docs/" "README.md" )
+DOCS=( docs/ README.md )
 
-src_prepare() {
-	local lua=lua;
-	use luajit && lua=luajit;
-
-	sed -r \
-			-e "s/lua5.1/${lua}/" \
-			-i Makefile
-
-	sed -r \
-			-e "1s#(/usr/bin/env) lua#\1 ${lua}#" \
-			-i bin/moon bin/moonc
+each_lua_compile() {
+	local lua="$(lua_get_implementation)"
+	${lua} bin/moonc moon/ moonscript/
 }
 
-src_compile() {
-	emake compile
+all_lua_compile() {
+	local lua="$(lua_get_implementation)"
+
+	echo "#!/usr/bin/env lua" > bin/moon
+	${lua} bin/moonc -p bin/moon.moon >> bin/moon
+	echo "-- vim: set filetype=lua:" >> bin/moon
+
+	${lua} bin/moonc -p bin/splat.moon >> bin/splat
 }
 
-src_install() {
-	local lua=lua;
-	use luajit && lua=luajit;
+each_lua_install() {
+	dolua moon{,script}{,.lua}
+}
 
-	insinto "$($(tc-getPKG_CONFIG) --variable INSTALL_LMOD ${lua})"
-	doins -r moon.lua moonscript.lua moon moonscript
-
-	dobin bin/moon bin/moonc
-	newbin bin/splat.moon splat
-
-	base_src_install_docs
+all_lua_install() {
+	dobin bin/{moon,moonc,splat}
 }

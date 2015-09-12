@@ -4,34 +4,29 @@
 
 EAPI="5"
 
-inherit git-r3 eutils
+VCS="git-r3"
+LUA_COMPAT="luajit2"
+inherit lua
 
-DESCRIPTION="Lua JSON Library, written in C"
+DESCRIPTION="LuaJIT Unix syscall FFI"
 HOMEPAGE="https://github.com/justincormack/ljsyscall"
 SRC_URI=""
 
-EGIT_REPO_URI="https://github.com/justincormack/ljsyscall git://github.com/justincormack/ljsyscall"
+EGIT_REPO_URI="https://github.com/justincormack/ljsyscall"
 
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS=""
-IUSE="test"
+IUSE="doc +examples test"
 
 RDEPEND="
-	virtual/lua[luajit]
-	|| (
-		sys-libs/glibc[arm=,x86=,amd64=,ppc=,mips=]
-		sys-libs/musl[arm=,x86=,amd64=,ppc=,mips=]
-		sys-libs/uclibc[arm=,x86=,amd64=,ppc=,mips=]
-	)
+	virtual/libc
 "
-REQUIRED_USE="^^ ( arm x86 amd64 ppc mips )"
 DEPEND="${RDEPEND}"
 
-DOCS=( "${S}"/README.md )
+DOCS=( README.md doc/)
+EXAMPLES=( examples/* )
 
-src_install() {
-	insinto "$($(tc-getPKG_CONFIG) --variable INSTALL_LMOD luajit)"
-	doins -r syscall syscall.lua
-	default
+each_lua_install() {
+	dolua syscall syscall.lua
 }

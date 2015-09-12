@@ -4,7 +4,10 @@
 
 EAPI="5"
 
-inherit multilib toolchain-funcs flag-o-matic eutils mercurial
+LUA_COMPAT="lua51 lua52 luajit2"
+IS_MULTILIB=true
+VCS="mercurial"
+inherit lua
 
 DESCRIPTION="DBI module for Lua"
 HOMEPAGE="https://code.google.com/p/luadbi"
@@ -14,29 +17,28 @@ EHG_REPO_URI="https://bitbucket.org/mva/luadbi-temp"
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS=""
-IUSE="mysql postgres sqlite luajit"
+IUSE="mysql postgres sqlite oracle"
 
 RDEPEND="
-	virtual/lua[luajit=]
 	mysql? ( || ( dev-db/mysql dev-db/mariadb ) )
 	postgres? ( dev-db/postgresql )
 	sqlite? ( >=dev-db/sqlite-3 )
+	oracle? ( dev-db/oracle-instantclient-basic )
 "
-DEPEND="${RDEPEND}
-	virtual/pkgconfig"
+DEPEND="${RDEPEND}"
 
-S="${WORKDIR}"
+#S="${WORKDIR}"
 
-src_compile() {
-	local lua=lua;
-	use luajit && lua=luajit;
+each_lua_compile() {
+	_lua_setCFLAGS
 
-	local drivers=""
-	use mysql && drivers="${drivers} mysql"
-	use postgres && drivers="${drivers} psql"
-	use sqlite && drivers="${drivers} sqlite3"
+	local drivers=()
+	use mysql && drivers+=( "mysql" )
+	use postgres && drivers+=( "psql" )
+	use sqlite && drivers+=( "sqlite3" )
+	use oracle && drivers+=( "oracle" )
 
-	if [ -z "${drivers// /}" ] ; then
+	if [[ -z "${drivers[@]}" ]] ; then
 		eerror
 		eerror "No driver was selected, cannot build."
 		eerror "Please set USE flags to build any driver."
@@ -45,38 +47,27 @@ src_compile() {
 		die "No driver selected"
 	fi
 
-	for driver in "${drivers}" ; do
-		emake \
-			CC="$(tc-getCC) -fPIC -DPIC" \
+	for driver in "${drivers[@]}"; do
+		local buildme;
+		if [[ ${driver} = "psql" && ${ABI} = "x86" ]]; then
+			# FIXME: when postgres and perl (as postgres dep) will have multilib support
+			buildme=no
+		fi
+
+#			LUA_INC="$($(tc-getPKG_CONFIG) --cflags ${lua_impl})" \
+
+		[[ ${buildme} = "no" ]] || emake \
+			CC="${CC}" \
 			LDFLAGS="${LDFLAGS}" \
 			CFLAGS="${CFLAGS}"  \
-			LUA_LMOD="$($(tc-getPKG_CONFIG) --variable INSTALL_LMOD ${lua})" \
-			LUA_CMOD="$($(tc-getPKG_CONFIG) --variable INSTALL_CMOD ${lua})" \
-			LUA_INC="-I$($(tc-getPKG_CONFIG) --variable includedir ${lua})" \
 			PSQL_INC="-I/usr/include/postgresql/server" \
 			MYSQL_INC="-I/usr/include/mysql -L/usr/$(get_libdir)/mysql" \
-			${driver} \
-			|| die "Compiling driver '${drivers// /}' failed"
+			${driver}
+
+		unset buildme
 	done
 }
 
-src_install() {
-	local drivers=""
-	use mysql && drivers="${drivers} mysql"
-	use postgres && drivers="${drivers} psql"
-	use sqlite && drivers="${drivers} sqlite3"
-
-	for driver in ${drivers} ; do
-		emake \
-			CC="$(tc-getCC) -fPIC -DPIC" \
-			LDFLAGS="${LDFLAGS}" \
-			CFLAGS="${CFLAGS}"  \
-			LUA_LMOD="$($(tc-getPKG_CONFIG) --variable INSTALL_LMOD ${lua})" \
-			LUA_CMOD="$($(tc-getPKG_CONFIG) --variable INSTALL_CMOD ${lua})" \
-			LUA_INC="-I$($(tc-getPKG_CONFIG) --variable includedir ${lua})" \
-			PSQL_INC="-I/usr/include/postgresql/server" \
-			MYSQL_INC="-I/usr/include/mysql -L/usr/$(get_libdir)/mysql" \
-			DESTDIR="${D}" "install_${driver// /}" \
-			|| die "Install of driver '${drivers// /}' failed"
-	done
+each_lua_install() {
+	dolua *.so DBI.lua
 }

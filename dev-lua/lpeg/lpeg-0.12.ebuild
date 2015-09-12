@@ -4,7 +4,8 @@
 
 EAPI="5"
 
-inherit flag-o-matic toolchain-funcs eutils multilib
+IS_MULTILIB=true
+inherit lua
 
 DESCRIPTION="Parsing Expression Grammars for Lua"
 HOMEPAGE="http://www.inf.puc-rio.br/~roberto/lpeg/"
@@ -13,44 +14,25 @@ SRC_URI="http://www.inf.puc-rio.br/~roberto/${PN}/${P}.tar.gz"
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS="amd64 ~arm ~hppa ~mips x86"
-IUSE="debug doc luajit"
+IUSE="debug doc"
 
-RDEPEND="
-	virtual/lua[luajit=]
-"
-DEPEND="${RDEPEND}
-	virtual/pkgconfig"
+PATCHES=( "${FILESDIR}"/${P}-makefile.patch )
+DOCS=( HISTORY )
+HTML_DOCS=( {lpeg,re}.html )
 
-src_prepare() {
-	local lua=lua
-	use luajit && lua=luajit
-
-	epatch "${FILESDIR}"/${P}-makefile.patch
-	sed -r \
-		-e "2s#^(LUADIR).*#\1 = $($(tc-getPKG_CONFIG) --variable includedir ${lua})#" \
-		-i makefile
+all_lua_prepare() {
 	use debug && append-cflags -DLPEG_DEBUG
 }
 
-src_compile() {
-	emake CC="$(tc-getCC)"
+each_lua_compile() {
+	_lua_setCFLAGS
+	emake CC="$(tc-getCC)" DLLFLAGS="${CFLAGS} ${LDFLAGS}" lpeg.so
 }
 
-src_test() {
-	local lua=lua
-	use luajit && lua=luajit
-
-	${lua} test.lua || die
+each_lua_test() {
+	${LUA} test.lua
 }
 
-src_install() {
-	local lua=lua
-	use luajit && lua=luajit
-
-	exeinto "$($(tc-getPKG_CONFIG) --variable INSTALL_CMOD ${lua})"
-	doexe lpeg.so
-
-	dodoc HISTORY
-
-	use doc && dohtml *.html
+each_lua_install() {
+	dolua lpeg.so
 }

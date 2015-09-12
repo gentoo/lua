@@ -4,7 +4,8 @@
 
 EAPI="5"
 
-inherit git-r3
+VCS="git-r3"
+inherit lua
 
 DESCRIPTION="Lua cURL Library"
 HOMEPAGE="https://github.com/Lua-cURL/Lua-cURLv3"
@@ -15,37 +16,32 @@ EGIT_REPO_URI="https://github.com/Lua-cURL/Lua-cURLv3"
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS=""
-IUSE="doc examples luajit"
+IUSE="doc +examples"
 
 RDEPEND="
-	virtual/lua[luajit=]
 	net-misc/curl
 "
-DEPEND="${RDEPEND}
-	virtual/pkgconfig
+DEPEND="
+	doc? ( dev-lua/luadoc )
+	${RDEPEND}
 "
 
-src_prepare() {
-	epatch_user
+EXAMPLES=( examples/* )
+HTML_DOCS=( html/ )
+READMES=( README.md )
+
+each_lua_compile() {
+	_lua_setCFLAGS
+	emake LUA_IMPL="${lua_impl}"
 }
-
-src_configure() {
-	local lua="lua";
-	use luajit && lua="luajit";
-	echo "LUA_IMPL=${lua}" > ${S}/.config;
-}
-
-
-src_install() {
-	use examples && {
-		docompress -x /usr/share/doc/${PF}/examples
-		dodoc -r examples
-	}
+all_lua_compile() {
 	use doc && (
-		docompress -x /usr/share/doc/${PF}/html
 		cd doc
-		ldoc .
-		dohtml -r html
+		ldoc . -d ../html
 	)
-	default
+}
+
+
+each_lua_install() {
+	emake LUA_IMPL="${lua_impl}" DESTDIR="${D}" install
 }

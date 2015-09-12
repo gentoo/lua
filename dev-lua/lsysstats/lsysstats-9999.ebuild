@@ -4,7 +4,8 @@
 
 EAPI="5"
 
-inherit multilib toolchain-funcs flag-o-matic mercurial eutils
+VCS="mercurial"
+inherit lua
 
 DESCRIPTION="System statistics library for Lua"
 HOMEPAGE="http://code.matthewwild.co.uk/"
@@ -13,18 +14,19 @@ EHG_REPO_URI="http://code.matthewwild.co.uk/${PN}/"
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS=""
-IUSE="luajit"
+IUSE="+examples"
 
-RDEPEND="
-	virtual/lua[luajit=]
-	dev-lua/squish
-	dev-lua/luasocket
-"
-DEPEND="${RDEPEND}"
+EXAMPLES=( demo.lua )
 
-src_install() {
-	local lua=lua;
-	use luajit && lua=luajit;
-	insinto $($(tc-getPKG_CONFIG) --variable INSTALL_LMOD ${lua})/${PN}/;
-	doins *.lua || die
+all_lua_prepare() {
+	sed -r \
+		-e "s#(require.*)(proc.*)#\1${PN}.\2#" \
+		-i init.lua
+
+	mkdir -p ${PN}
+	mv {init,proc}.lua ${PN}
+}
+
+each_lua_install() {
+	dolua ${PN}
 }

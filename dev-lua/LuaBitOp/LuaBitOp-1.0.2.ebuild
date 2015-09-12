@@ -3,7 +3,11 @@
 # $Header: This ebuild is from Lua overlay; Bumped by mva; $
 
 EAPI="5"
-inherit eutils multilib toolchain-funcs
+
+IS_MULTILIB=true
+#LUA_COMPAT="lua51" #actually. But lj, l52 and l53 can load it too
+
+inherit lua
 
 DESCRIPTION="Bit Operations Library for the Lua Programming Language"
 HOMEPAGE="http://bitop.luajit.org"
@@ -12,30 +16,20 @@ SRC_URI="http://bitop.luajit.org/download/${P}.tar.gz"
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
-IUSE="luajit"
+IUSE="doc"
 
-DEPEND="virtual/lua[luajit=]"
-RDEPEND="${DEPEND}"
+READMES=( README )
+HTML_DOCS=( doc/ )
 
-src_prepare() {
-	sed -i \
-		-e '/^CFLAGS.*=/s/=/ +=/' \
-		-e '/^CFLAGS/s/-O2 -fomit-frame-pointer //' \
-		Makefile || die "sed failed"
+each_lua_compile() {
+	_lua_setCFLAGS
+	emake CC="$(tc-getCC)" CFLAGS="${CFLAGS}" LDFLAGS="${LDFLAGS}"
 }
 
-src_compile() {
-	emake CC="$(tc-getCC)"
+each_lua_test() {
+	emake LUA=${LUA} test
 }
 
-src_test() {
-	make test
-}
-
-src_install() {
-	local lua=lua
-	use luajit && lua=luajit
-	exeinto "$($(tc-getPKG_CONFIG) --variable INSTALL_CMOD ${lua})"
-	doexe bit.so
-	dohtml -r doc/*
+each_lua_install() {
+	dolua bit.so
 }

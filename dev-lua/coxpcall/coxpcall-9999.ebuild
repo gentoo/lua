@@ -4,30 +4,23 @@
 
 EAPI="5"
 
-inherit multilib eutils git-r3
+VCS="git-r3"
+inherit lua
 
 DESCRIPTION="Lua coxpcall Library"
 HOMEPAGE="https://github.com/keplerproject/coxpcall"
 SRC_URI=""
 
 #s/msva/keplerproject/ when they apply pull-request
-EGIT_REPO_URI="git://github.com/msva/coxpcall.git https://github.com/msva/coxpcall.git"
+EGIT_REPO_URI="https://github.com/msva/coxpcall.git"
 
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS=""
-IUSE="doc luajit"
+IUSE="doc"
 
-RDEPEND="virtual/lua[luajit=]"
-DEPEND="${RDEPEND}"
+HTML_DOCS=( doc/us/ )
 
-src_configure() {
-	local lua="lua";
-	use luajit && lua="luajit";
-	./configure "${lua}"
-}
-
-src_install() {
-	emake DESTDIR="${D}" install
-	use doc && emake DESTDIR="${D}" DOC_PREFIX=/usr/share/doc/${PF}/ install-doc
+each_lua_install() {
+	dolua src/*
 }

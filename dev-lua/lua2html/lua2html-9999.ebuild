@@ -4,7 +4,8 @@
 
 EAPI="5"
 
-inherit multilib toolchain-funcs flag-o-matic mercurial eutils
+VCS="mercurial"
+inherit lua
 
 DESCRIPTION="Lua to HTML code converter written in Lua."
 HOMEPAGE="http://code.matthewwild.co.uk/"
@@ -13,27 +14,19 @@ EHG_REPO_URI="http://code.matthewwild.co.uk/${PN}/"
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS=""
-IUSE="luajit"
+IUSE=""
 
 RDEPEND="
-	virtual/lua[luajit=]
 	dev-lua/squish
 "
 DEPEND="${RDEPEND}"
 
-src_prepare() {
-	local lua=lua
-	use luajit && lua=luajit;
-	sed -r \
-		-e "1s|^(!#.*) lua|\1 ${lua}|" \
-		-i lua2html.lua
-}
+DOCS=( README )
 
-src_compile() {
+all_lua_compile() {
 	squish
 }
 
-src_install() {
+all_lua_install() {
 	dobin lua2html
-	dodoc README
 }

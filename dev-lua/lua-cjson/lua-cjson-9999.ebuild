@@ -4,35 +4,36 @@
 
 EAPI="5"
 
-inherit cmake-utils git-r3
+VCS="git-r3"
+IS_MULTILIB=true
+LUA_COMPAT="lua51 luajit2"
+inherit cmake-utils lua
 
 DESCRIPTION="Lua JSON Library, written in C"
 HOMEPAGE="http://www.kyne.com.au/~mark/software/lua-cjson.php"
 SRC_URI=""
 
-EGIT_REPO_URI="https://github.com/msva/lua-cjson"
+EGIT_REPO_URI="https://github.com/openresty/lua-cjson"
 
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS=""
-IUSE="examples luajit"
+IUSE="+examples"
 
-RDEPEND="
-	virtual/lua[luajit=]
-"
-DEPEND="${RDEPEND}"
+EXAMPLES=( tests/* lua/{json2lua,lua2json}.lua )
 
-src_configure() {
+each_lua_configure() {
 	mycmakeargs=(
-		$(cmake-utils_use_use luajit)
+		-DUSE_INTERNAL_FPCONV=ON
 	)
 	cmake-utils_src_configure
 }
 
-src_install() {
-	if use examples; then
-		insinto /usr/share/doc/"${P}"
-		doins -r tests
-	fi
-	cmake-utils_src_install
+each_lua_compile() {
+	emake
+}
+
+each_lua_install() {
+	dolua lua/cjson cjson.so
+#	cmake-utils_src_install
 }

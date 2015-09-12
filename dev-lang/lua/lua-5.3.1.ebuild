@@ -4,7 +4,7 @@
 
 EAPI="5"
 
-inherit eutils autotools multilib multilib-minimal portability toolchain-funcs versionator
+inherit eutils autotools multilib multilib-minimal portability toolchain-funcs
 
 DESCRIPTION="A powerful light-weight programming language designed for extending applications"
 HOMEPAGE="http://www.lua.org/"
@@ -16,7 +16,7 @@ KEYWORDS="~alpha ~amd64 ~arm ~hppa ~ia64 ~mips ~ppc ~ppc64 ~s390 ~sh ~sparc ~x86
 IUSE="+deprecated emacs readline static"
 
 RDEPEND="readline? ( sys-libs/readline )
-	app-admin/eselect-lua
+	app-eselect/eselect-lua
 	!dev-lang/lua:0"
 DEPEND="${RDEPEND}
 	sys-devel/libtool"
@@ -27,7 +27,7 @@ MULTILIB_WRAPPED_HEADERS=(
 )
 
 src_prepare() {
-	local PATCH_PV=$(get_version_component_range 1-2)
+	local PATCH_PV=${SLOT}
 
 	epatch "${FILESDIR}"/${PN}-${PATCH_PV}-make.patch
 
@@ -97,7 +97,7 @@ multilib_src_compile() {
 			RPATH="${EPREFIX}/usr/$(get_libdir)/" \
 			LUA_LIBS="${mylibs}" \
 			LIB_LIBS="${liblibs}" \
-			V=$(get_version_component_range 1-2) \
+			V=${SLOT} \
 			gentoo_all
 }
 
