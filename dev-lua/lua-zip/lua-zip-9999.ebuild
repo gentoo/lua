@@ -4,32 +4,31 @@
 
 EAPI="5"
 
-inherit cmake-utils git-r3
+VCS="git-r3"
+inherit cmake-utils lua
 
 DESCRIPTION="Lua bindings to libzip"
-HOMEPAGE="http://github.com/brimworks/lua-zip"
-EGIT_REPO_URI="git://github.com/brimworks/lua-zip.git"
+HOMEPAGE="https://github.com/brimworks/lua-zip"
+EGIT_REPO_URI="https://github.com/brimworks/lua-zip.git"
 
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS=""
-IUSE="luajit"
+IUSE=""
 
 RDEPEND="
-	virtual/lua[luajit=]
-	dev-libs/libzip"
-DEPEND="
-	${RDEPEND}
-	virtual/pkgconfig
+	dev-libs/libzip
 "
 
-src_prepare() {
-	mv *-${PN}-* "${S}"
-}
+DEPEND="
+	${RDEPEND}
+"
 
-src_configure() {
-	local lua="lua"
-	use luajit && lua="luajit"
-	MYCMAKEARGS="-DINSTALL_CMOD='$($(tc-getPKG_CONFIG) --variable INSTALL_CMOD ${lua})'"
+READMES=( README )
+
+each_lua_configure() {
+	mycmakeargs=(
+		-DINSTALL_CMOD="$(lua_get_pkgvar INSTALL_CMOD)"
+	)
 	cmake-utils_src_configure
 }

@@ -19,7 +19,7 @@ KEYWORDS=""
 IUSE="jpeg png +examples"
 
 READMES=( README.md )
-EXAMPLES=( examples/* )
+EXAMPLES=( examples/ )
 
 RDEPEND="
 	dev-lua/lua-gd

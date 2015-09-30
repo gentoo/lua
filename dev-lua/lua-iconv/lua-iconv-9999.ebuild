@@ -4,39 +4,21 @@
 
 EAPI="5"
 
-inherit eutils git-r3
+VCS="git-r3"
+IS_MULTILIB=true
+inherit lua
 
-DESCRIPTION="Lua cURL Library"
+DESCRIPTION="Lua bindings for POSIX iconv"
 HOMEPAGE="http://ittner.github.com/lua-iconv"
 SRC_URI=""
 
-EGIT_REPO_URI="https://github.com/ittner/lua-iconv.git"
+EGIT_REPO_URI="https://github.com/ittner/lua-iconv"
 
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS=""
-IUSE="luajit"
+IUSE=""
 
-RDEPEND="virtual/lua[luajit=]"
-DEPEND="
-	${RDEPEND}
-	virtual/pkgconfig
-"
-
-src_prepare() {
-	epatch_user
-	sed -e "s/install -D -s/install -D/" -i Makefile
-	sed -e "/make test/d" -i Makefile
-}
-
-src_compile() {
-	local lua=lua;
-	use luajit && lua=luajit;
-	emake LUAPKG="${lua}" || die "Can't compile"
-}
-
-src_install() {
-	local lua=lua;
-	use luajit && lua=luajit;
-	emake DESTDIR="${D}" INSTALL_PATH="$($(tc-getPKG_CONFIG) --variable INSTALL_CMOD ${lua})" install || die "Can't install"
+each_lua_install() {
+	dolua iconv.so
 }

@@ -4,7 +4,8 @@
 
 EAPI="5"
 
-inherit toolchain-funcs git-r3
+VCS="git-r3"
+inherit lua
 
 DESCRIPTION="Lua getopt module (simplified)"
 HOMEPAGE="https://github.com/jjensen/lua-getopt"
@@ -13,20 +14,8 @@ EGIT_REPO_URI="https://github.com/jjensen/lua-getopt"
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS=""
-IUSE="luajit"
+IUSE=""
 
-RDEPEND="
-	virtual/lua[luajit=]
-"
-DEPEND="
-	${RDEPEND}
-	virtual/pkgconfig
-"
-
-
-src_install() {
-	local lua=lua;
-	use luajit && lua=luajit;
-	insinto "$($(tc-getPKG_CONFIG) --variable INSTALL_LMOD ${lua})"
-	doins src/getopt.lua
+each_lua_install() {
+	dolua src/getopt.lua
 }

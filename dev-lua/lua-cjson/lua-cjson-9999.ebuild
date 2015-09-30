@@ -20,17 +20,13 @@ SLOT="0"
 KEYWORDS=""
 IUSE="+examples"
 
-EXAMPLES=( tests/* lua/{json2lua,lua2json}.lua )
+EXAMPLES=( tests/ lua/{json2lua,lua2json}.lua )
 
 each_lua_configure() {
 	mycmakeargs=(
 		-DUSE_INTERNAL_FPCONV=ON
 	)
 	cmake-utils_src_configure
-}
-
-each_lua_compile() {
-	emake
 }
 
 each_lua_install() {

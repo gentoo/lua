@@ -4,7 +4,8 @@
 
 EAPI="5"
 
-inherit eutils toolchain-funcs git-r3
+VCS="git-r3"
+inherit lua
 
 DESCRIPTION="A deployment and management system for Lua modules"
 HOMEPAGE="http://www.luarocks.org"
@@ -13,39 +14,51 @@ EGIT_REPO_URI="https://github.com/keplerproject/luarocks.git"
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS=""
-IUSE="curl openssl luajit"
+IUSE="curl openssl"
 
 DEPEND="
-	virtual/lua[luajit=]
 	curl? ( net-misc/curl )
+	!curl? ( net-misc/wget )
 	openssl? ( dev-libs/openssl )
+	!openssl? ( sys-apps/coreutils )
 "
-RDEPEND="${DEPEND}
+RDEPEND="
+	${DEPEND}
 	app-arch/unzip
-	virtual/pkgconfig
 "
 
-src_configure() {
-	local lua=lua md5="md5sum" downloader="wget"
+all_lua_prepare() {
+	sed -r \
+		-e "/die.*Unknown flag:/d" \
+		-i configure
+}
+
+each_lua_configure() {
+	local md5 downloader lua incdir
+	md5="md5sum"
+	downloader="wget"
+	lua="$(lua_get_lua)"
+	incdir=$(lua_get_pkgvar includedir)
 
 	use curl && downloader="curl"
 	use openssl && md5="openssl"
-	use luajit && lua="luajit"
 
-	# econf doesn't work b/c it passes variables the custom configure can't
-	# handle
-	./configure \
-			--prefix=/usr \
-			--with-lua=/usr \
-			--with-lua-lib=/usr/$(get_libdir) \
-			--rocks-tree=/usr \
-			--with-downloader="${downloader}" \
-			--with-md5-checker="${md5}" \
-			$(use luajit && echo "--lua-suffix=jit") \
-			--with-lua-include="$($(tc-getPKG_CONFIG) --variable includedir ${lua})" \
-			--force-config || die "configure failed"
+	myeconfargs=()
+	myeconfargs+=(
+		--prefix=/usr
+		--with-lua=/usr
+		--with-lua-lib="/usr/$(get_libdir)"
+		--rocks-tree=/usr
+		--with-downloader="${downloader}"
+		--with-md5-checker="${md5}"
+		--lua-suffix="${lua//lua}"
+		--lua-version="$(lua_get_abi)"
+		--with-lua-include="${incdir}"
+		--sysconfdir=/etc/${PN}
+	)
+	lua_default
 }
 
 pkg_preinst() {
-	find "${D}" -type f | xargs sed -i -e "s:${D}::g" || die "sed failed"
+	find "${D}" -type f | xargs sed -e "s:${D}::g" -i || die "sed failed"
 }

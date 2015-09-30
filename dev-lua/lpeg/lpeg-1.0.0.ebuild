@@ -5,6 +5,7 @@
 EAPI="5"
 
 IS_MULTILIB=true
+LUA_COMPAT="lua51 luajit2"
 inherit lua
 
 DESCRIPTION="Parsing Expression Grammars for Lua"
@@ -25,8 +26,7 @@ all_lua_prepare() {
 }
 
 each_lua_compile() {
-	_lua_setCFLAGS
-	emake CC="$(tc-getCC)" DLLFLAGS="${CFLAGS} ${LDFLAGS}" lpeg.so
+	lua_default DLLFLAGS="${CFLAGS} ${LDFLAGS}" lpeg.so
 }
 
 each_lua_test() {

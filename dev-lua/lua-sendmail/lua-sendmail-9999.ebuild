@@ -4,9 +4,10 @@
 
 EAPI="5"
 
-inherit base toolchain-funcs git-r3
+VCS="git-r3"
+inherit lua
 
-DESCRIPTION="A stream-based HTML template library for Lua."
+DESCRIPTION="Simple wrapper around luasoket smtp.send"
 HOMEPAGE="https://github.com/moteus/lua-sendmail"
 SRC_URI=""
 
@@ -15,25 +16,18 @@ EGIT_REPO_URI="https://github.com/moteus/lua-sendmail"
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS=""
-IUSE="luajit"
+IUSE="doc"
 
 RDEPEND="
-	virtual/lua[luajit=]
 	dev-lua/luasocket
 "
 DEPEND="
 	${RDEPEND}
-	virtual/pkgconfig
 "
 
-HTML_DOCS=( "docs/" )
+READMES=( README.md )
+HTML_DOCS=( docs/ )
 
-src_install() {
-	local lua=lua;
-	use luajit && lua=luajit;
-
-	insinto "$($(tc-getPKG_CONFIG) --variable INSTALL_LMOD ${lua})"
-	doins lua/sendmail.lua
-
-	base_src_install_docs
+each_lua_install() {
+	dolua lua/sendmail.lua
 }

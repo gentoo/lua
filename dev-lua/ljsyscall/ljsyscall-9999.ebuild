@@ -17,15 +17,15 @@ EGIT_REPO_URI="https://github.com/justincormack/ljsyscall"
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS=""
-IUSE="doc +examples test"
+IUSE="doc +examples"
 
 RDEPEND="
 	virtual/libc
 "
 DEPEND="${RDEPEND}"
 
-DOCS=( README.md doc/)
-EXAMPLES=( examples/* )
+DOCS=( README.md doc/ )
+EXAMPLES=( examples/ )
 
 each_lua_install() {
 	dolua syscall syscall.lua

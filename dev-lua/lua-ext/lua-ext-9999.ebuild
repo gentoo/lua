@@ -4,7 +4,8 @@
 
 EAPI=5
 
-inherit toolchain-funcs eutils git-r3
+VCS="git-r3"
+inherit lua
 
 DESCRIPTION="Some useful extensions to Lua classes"
 HOMEPAGE="https://github.com/thenumbernine/lua-ext"
@@ -15,20 +16,11 @@ EGIT_REPO_URI="https://github.com/thenumbernine/ext"
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS=""
-IUSE="luajit"
+IUSE=""
 
-DEPEND="
-	virtual/lua[luajit=]
-	virtual/pkgconfig
-"
-RDEPEND="
-	${DEPEND}
-"
+READMES=( README )
 
-src_install() {
-	local lua="lua";
-	use luajit && lua="luajit";
-	insinto "$($(tc-getPKG_CONFIG) --variable INSTALL_LMOD ${lua})/ext"
-	doins *.lua
-	dodoc README
+each_lua_install() {
+	_dolua_insdir="ext" \
+	dolua *.lua
 }

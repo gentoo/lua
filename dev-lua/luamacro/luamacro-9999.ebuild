@@ -4,7 +4,8 @@
 
 EAPI="5"
 
-inherit eutils toolchain-funcs git-r3
+VCS="git-r3"
+inherit lua
 
 DESCRIPTION="library and driver script for preprocessing and evaluating Lua code"
 HOMEPAGE="https://github.com/stevedonovan/LuaMacro/"
@@ -15,32 +16,19 @@ EGIT_REPO_URI="https://github.com/stevedonovan/LuaMacro/"
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS=""
-IUSE="luajit"
+IUSE=""
 
 RDEPEND="
-	virtual/lua[luajit=]
-"
-DEPEND="
-	${RDEPEND}
-	virtual/pkgconfig
+	|| (
+		dev-lua/lpeg
+		dev-lua/lulpeg[lpeg_replace]
+	)
 "
 
-src_prepare() {
-	local lua=lua
-	use luajit && lua=luajit
-
-	sed -r \
-		-e "1s#(/usr/bin/env) lua#\1 ${lua}#" \
-		-i luam
+each_lua_install() {
+	dolua macro{,.lua}
 }
 
-
-src_install() {
-	local lua=lua
-	use luajit && lua=luajit
-
-	insinto "$($(tc-getPKG_CONFIG) --variable INSTALL_LMOD ${lua})"
-	doins -r macro macro.lua
-
+all_lua_install() {
 	dobin luam
 }

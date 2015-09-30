@@ -4,7 +4,9 @@
 
 EAPI="5"
 
-inherit base toolchain-funcs git-r3
+VCS="git-r3"
+IS_MULTILIB=true
+inherit lua
 
 DESCRIPTION="Lua binding to media-libs/libharu (PDF generator)"
 HOMEPAGE="https://github.com/jung-kurt/luahpdf"
@@ -15,27 +17,27 @@ EGIT_REPO_URI="https://github.com/msva/luahpdf"
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS=""
-IUSE="doc luajit"
+IUSE="doc +examples"
 
 RDEPEND="
-	virtual/lua[luajit=]
 	media-libs/libharu
 "
-DEPEND="${RDEPEND}
-	virtual/pkgconfig"
+DEPEND="${RDEPEND}"
 
-DOCS=( README.md )
+DOCS=( README.md doc/text/. )
+HTML_DOCS=( doc/html/. )
+EXAMPLES=( demo/. )
 
-src_prepare() {
-	local lua=lua;
-	use luajit && lua=luajit;
+all_lua_prepare() {
+	sed -i -r \
+	-e 's#(_COMPILE=)cc#\1$(CC)#' \
+	-e 's#(_LINK=)cc#\1$(CC)#' \
+	-e 's#(_REPORT=).*#\1#' \
+	Makefile
 
-	echo "\
-		PREFIX=/usr
-		LUALIB=$($(tc-getPKG_CONFIG) --libs ${lua})
-		LUAINC=$($(tc-getPKG_CONFIG) --cflags ${lua})
-		MODDIR=$($(tc-getPKG_CONFIG) --variable INSTALL_CMOD ${lua})
-		DOCDIR=\$(PREFIX)/share/doc/${P}
-		LUA=luajit
-	" > .config
+	lua_default
+}
+
+each_lua_install() {
+	dolua hpdf.so
 }

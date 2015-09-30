@@ -3,39 +3,57 @@
 # $Header: This ebuild is from Lua overlay; Bumped by mva; $
 
 EAPI="5"
+VCS="git-r3"
 
-inherit base git-r3 toolchain-funcs
+# Incompatible with current mongo-driver
+
+# FIXME: when libmongo-drivers will be multilib
+#IS_MULTILIB=true
+
+inherit lua
 
 DESCRIPTION="Lua driver for MongoDB"
 HOMEPAGE="https://github.com/mwild1/luamongo/"
 SRC_URI=""
 
-EGIT_REPO_URI="https://github.com/mwild1/luamongo git://github.com/mwild1/luamongo"
+EGIT_REPO_URI="https://github.com/moai/luamongo"
 
 LICENSE="MIT"
 SLOT="0"
-KEYWORDS=""
-IUSE="luajit"
+KEYWORDS="-*"
+IUSE="+examples"
 
 RDEPEND="
-	virtual/lua[luajit=]
 	dev-libs/boost
-	dev-db/mongodb[sharedclient]
+	dev-libs/mongo-cxx-driver
 "
+#	dev-db/mongodb[sharedclient]
 DEPEND="${RDEPEND}"
 
-DOCS=( "README.md" )
+READMES=( README.md )
+EXAMPLES=( tests/ )
 
-src_compile() {
-	local lua=lua;
-	use luajit && lua=luajit;
-	emake LUA_INC="-I$($(tc-getPKG_CONFIG) --variable includedir ${lua})"
+all_lua_prepare() {
+	# Preparing makefile to default_prepare magic fix
+	sed -i -r \
+		-e '/^MONGOFLAGS/d' \
+		-e '/^LUAPKG/d' \
+		-e '/^LUAFLAGS/d' \
+		-e '/if . -z /d' \
+		-e 's#\$\(shell pkg-config --libs \$\(LUAPKG\)\)#-llua#' \
+		Makefile
+
+	lua_default
 }
 
-src_install() {
-	local lua=lua;
-	use luajit && lua=luajit;
-	insinto "$($(tc-getPKG_CONFIG) --variable INSTALL_CMOD ${lua})"
-	doins "mongo.so"
-	base_src_install_docs
+each_lua_configure() {
+	myeconfargs=()
+	myeconfargs+=(
+		LUAPKG="$(lua_get_lua)"
+	)
+	lua_default
+}
+
+each_lua_install() {
+	dolua mongo.so
 }

@@ -21,7 +21,7 @@ IUSE="+doc +inotify"
 RDEPEND="
 	|| (
 		dev-lua/lpeg
-		dev-lua/lulpeg[lpeg-compat]
+		dev-lua/lulpeg[lpeg_replace]
 	)
 	dev-lua/luafilesystem
 	dev-lua/alt-getopt

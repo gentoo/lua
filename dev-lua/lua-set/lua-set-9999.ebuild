@@ -4,7 +4,8 @@
 
 EAPI=5
 
-inherit toolchain-funcs eutils git-r3
+VCS="git-r3"
+inherit lua
 
 DESCRIPTION="Straightforward Set library for Lua"
 HOMEPAGE="https://github.com/wscherphof/lua-set"
@@ -15,19 +16,8 @@ EGIT_REPO_URI="https://github.com/wscherphof/lua-set"
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS=""
-IUSE="luajit"
+IUSE=""
 
-DEPEND="
-	virtual/lua[luajit=]
-	virtual/pkgconfig
-"
-RDEPEND="
-	${DEPEND}
-"
-
-src_install() {
-	local lua="lua";
-	use luajit && lua="luajit";
-	insinto "$($(tc-getPKG_CONFIG) --variable INSTALL_LMOD ${lua})"
-	doins -r src/*
+each_lua_install() {
+	dolua src/*
 }

@@ -21,11 +21,6 @@ IUSE="doc"
 READMES=( README )
 HTML_DOCS=( doc/ )
 
-each_lua_compile() {
-	_lua_setCFLAGS
-	emake CC="$(tc-getCC)" CFLAGS="${CFLAGS}" LDFLAGS="${LDFLAGS}"
-}
-
 each_lua_test() {
 	emake LUA=${LUA} test
 }

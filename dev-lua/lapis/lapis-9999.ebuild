@@ -30,7 +30,6 @@ RDEPEND="
 "
 DEPEND="
 	${RDEPEND}
-	virtual/pkgconfig
 "
 
 DOCS=( docs/ README.md )

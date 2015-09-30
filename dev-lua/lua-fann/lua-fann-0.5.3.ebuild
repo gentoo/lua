@@ -6,13 +6,11 @@ EAPI="5"
 
 # fixme when fann will be multilib
 #IS_MULTILIB=true
-VCS="git-r3"
 inherit lua
 
 DESCRIPTION="A set of Lua bindings for the Fast Artificial Neural Network (FANN) library."
 HOMEPAGE="https://github.com/msva/lua-fann"
-SRC_URI=""
-EGIT_REPO_URI="https://github.com/msva/${PN}"
+SRC_URI="https://github.com/msva/${PN}/archive/${PV}.tar.gz -> ${P}.tgz"
 
 LICENSE="LGPL-2.1"
 SLOT="0"
@@ -28,7 +26,7 @@ DEPEND="
 
 READMES=( README.md TODO )
 HTML_DOCS=( doc/luafann.html )
-EXAMPLES=( examples/* )
+EXAMPLES=( examples/ )
 
 all_lua_compile() {
 	use doc && (
@@ -37,13 +35,7 @@ all_lua_compile() {
 }
 
 each_lua_compile() {
-	_lua_setCFLAGS
-
-	emake \
-		CC="${CC}" \
-		CFLAGS="${CFLAGS}" \
-		LDFLAGS="${LDFLAGS}" \
-		PKG_CONFIG="${PKG_CONFIG}" \
+	lua_default \
 		LUA_IMPL="$(lua_get_lua)" \
 		LUA_BIN="${LUA}" \
 		LUA_INC="."

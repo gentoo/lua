@@ -4,7 +4,8 @@
 
 EAPI="5"
 
-inherit toolchain-funcs git-r3
+VCS="git-r3"
+inherit lua
 
 DESCRIPTION="A pure Lua port of LPeg, Roberto Ierusalimschy's Parsing Expression Grammars library"
 HOMEPAGE="https://github.com/pygy/LuLPeg"
@@ -15,29 +16,19 @@ EGIT_REPO_URI="https://github.com/pygy/LuLPeg"
 LICENSE="WTFPL"
 SLOT="0"
 KEYWORDS=""
-IUSE="luajit +lpeg_replace"
+IUSE="lpeg_replace"
 
-RDEPEND="
-	virtual/lua[luajit=]
-	lpeg_replace? ( !dev-lua/lpeg )
-"
-DEPEND="${RDEPEND}"
+READMES=( README.md TODO.md ABOUT )
 
-src_prepare() {
-	epatch_user
+each_lua_compile() {
+	#paranoid mode:
+	rm "${PN}.lua" && (
+		cd src
+		"${LUA}" ../scripts/pack.lua > ../"${PN}.lua"
+	)
 }
 
-src_install() {
-	local pkg_n=lulpeg
-	local lua=lua
-	use luajit && lua=luajit
-
-	use lpeg_replace && pkg_n=lpeg
-
-	mv src "${pkg_n}"
-
-	insinto "$($(tc-getPKG_CONFIG) --variable INSTALL_LMOD ${lua})"
-	doins -r "${pkg_n}"
-
-	dodoc README.md TODO.md ABOUT || die "dodoc failed"
+each_lua_install() {
+	dolua "${PN}".lua
+	use lpeg_replace && newlua "${PN}.lua" lpeg.lua
 }

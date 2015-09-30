@@ -4,43 +4,33 @@
 
 EAPI="5"
 
-inherit toolchain-funcs git-r3
+#LUA_COMPAT="lua51 lua52 luajit2"
+VCS="git-r3"
+IS_MULTILIB=true
+inherit lua
 
 DESCRIPTION="libevent bindings for Lua"
 HOMEPAGE="http://luaforge.net/projects/luaevent http://repo.or.cz/w/luaevent.git"
-EGIT_REPO_URI="https://github.com/harningt/luaevent git://github.com/harningt/luaevent.git"
+EGIT_REPO_URI="https://github.com/harningt/luaevent"
 
 LICENSE="LGPL-2.1"
 SLOT="0"
 KEYWORDS=""
-IUSE="luajit"
+IUSE=""
 
 RDEPEND="
-	virtual/lua[luajit=]
 	>=dev-libs/libevent-1.4
 "
 DEPEND="
 	${RDEPEND}
-	virtual/pkgconfig
 "
 
-src_prepare() {
-	local lua=lua;
-	use luajit && lua=luajit;
-	sed -i "s:^CFLAGS =:CFLAGS +=:" "${S}/Makefile" \
-		|| die "sed failed"
-	sed -i "s:^LDFLAGS =:LDFLAGS +=:" "${S}/Makefile" \
-		|| die "sed failed"
-	sed -i "/^LDFLAGS/a CC = $(tc-getCC)" "${S}/Makefile" \
-		|| die "sed failed"
-	sed -i "s:^LUA_INC_DIR ?=.*:LUA_INC_DIR ?= $($(tc-getPKG_CONFIG) --variable includedir ${lua}):" "${S}/Makefile" \
-		|| die "sed failed"
-	sed -i "s:^INSTALL_DIR_LUA ?=.*:INSTALL_DIR_LUA ?= $($(tc-getPKG_CONFIG) --variable INSTALL_LMOD ${lua}):" "${S}/Makefile" \
-		|| die "sed failed"
-	sed -i "s:^INSTALL_DIR_BIN ?=.*:INSTALL_DIR_BIN ?= $($(tc-getPKG_CONFIG) --variable INSTALL_CMOD ${lua}):" "${S}/Makefile" \
-		|| die "sed failed"
-}
+READMES=( README )
 
-src_install() {
-	emake DESTDIR="${D}" install || die "Install failed"
+PATCHES=( ${FILESDIR}/{gc-anchoring,lua5.3}.patch )
+
+each_lua_install() {
+	dolua lua/*
+	_dolua_insdir="${PN}" \
+	dolua core.so
 }

@@ -4,7 +4,10 @@
 
 EAPI="5"
 
-inherit multilib toolchain-funcs mercurial eutils
+LUA_COMPAT="lua51 luajit2"
+VCS="mercurial"
+IS_MULTILIB=true
+inherit lua
 
 DESCRIPTION="XMPP client library written in Lua."
 HOMEPAGE="http://code.matthewwild.co.uk/"
@@ -14,36 +17,18 @@ EHG_REPO_URI="http://code.matthewwild.co.uk/lua-expat/"
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS=""
-IUSE="luajit"
+IUSE="doc"
 
 RDEPEND="
-	virtual/lua[luajit=]
 	dev-libs/expat
 "
 DEPEND="
 	${RDEPEND}
-	virtual/pkgconfig
 "
 
-src_compile() {
-	local lua=lua;
-	use luajit && lua=luajit
-	emake \
-		CC="$(tc-getCC)" \
-		LDFLAGS="${LDFLAGS}" \
-		CFLAGS="${CFLAGS}"  \
-		LUA_INC="$($(tc-getPKG_CONFIG) --cflags ${lua})" || die "Compiling failed"}
-}
+READMES=( README )
+HTML_DOCS=( doc/ )
 
-src_install() {
-	local lua=lua;
-	use luajit && lua=luajit
-	emake \
-		LUA_LMOD="$($(tc-getPKG_CONFIG) --variable INSTALL_LMOD ${lua})" \
-		LUA_CMOD="$($(tc-getPKG_CONFIG) --variable INSTALL_CMOD ${lua})" \
-		DESTDIR="${D}" \
-		install || die "Install failed"
-	dodoc README || die
-	docompress -x "/usr/share/doc/${PF}/html"
-	dohtml -r doc/* || die
+each_lua_install() {
+	dolua src/lxp{,.so}
 }

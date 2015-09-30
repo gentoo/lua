@@ -5,7 +5,7 @@
 inherit config multilib
 
 DESCRIPTION="Manage lua symlinks"
-MAINTAINER="mabi@gentoo.org, mva@gentoo.ru"
+MAINTAINER="mabi@gentoo.org, lua-eclass@mva.name"
 
 HEADER_FILES="lauxlib.h luaconf.h lua.h lua.hpp lualib.h"
 
@@ -16,24 +16,46 @@ remove_symlinks() {
 		rm -f "${EROOT}"${dir}/pkgconfig/lua.pc &>/dev/null
 	done
 	for f in $HEADER_FILES ; do
-		rm -f "${EROOT}"/usr/include/$f
+		rm -f "${EROOT}"/usr/include/${f}
 	done
 	rm -f "${EROOT}"/usr/share/man/man1/{lua,luac}.1{,.gz,.bz2,.lzma} &>/dev/null
 }
 
+_dup() {
+	dirname ${1}/.
+}
+
 set_symlinks() {
 	local ver=$1
-	ln -s "${EROOT}"/usr/bin/lua{$ver,}
-	ln -s "${EROOT}"/usr/bin/luac{$ver,}
+	ln -s lua${ver} $(_dup "${EROOT}"/usr/bin/lua)
+	ln -s luac${ver} $(_dup "${EROOT}"/usr/bin/luac)
 	for dir in $(get_libdirs) ; do
-		ln -s "${dir}"/liblua{$ver,}.so
-		ln -s "${dir}"/pkgconfig/lua{$ver,}.pc
+		if has 'jit*' ${ver}; then
+			type -p lua${ver} &>/dev/null || die -q "It's something wrong with your lua${ver} installation: it's binary leads to broken symlink"
+			local abi=$(lua${ver} -e 'print(_VERSION:match("%d.%d"))')
+			local libname=libluajit-${abi}.so.${ver##jit-}
+			test -f "${EROOT}/${dir}/${libname}" || die -q "Can't find libluajit for lua${ver} (lua abi: ${abi})"
+			ln -s ${libname} $(_dup "${EROOT}/${dir}"/liblua.so)
+		else
+			ln -s liblua${ver}.so $(_dup "${EROOT}/${dir}"/liblua.so)
+		fi
+		ln -s lua${ver}.pc $(_dup "${EROOT}/${dir}"/pkgconfig/lua.pc)
 	done
-	for orig in "${EROOT}"/usr/share/man/man1/lua*$ver.1* ; do
-		ln -s "${orig}" "${orig//$ver}"
+	for manpage in "${EROOT}"/usr/share/man/man1/lua*${ver}.1* ; do
+		test -f ${manpage} &&
+		ln -s $(basename "${manpage}") $(_dup "${manpage//${ver}}")
 	done
-	for f in $HEADER_FILES ; do
-		ln -s "${EROOT}"/usr/include/lua$ver/$f "${EROOT}"/usr/include
+	for header in $HEADER_FILES ; do
+		local hdr;
+		if has 'jit*' ${ver}; then
+			type -p lua${ver} &>/dev/null || die -q "lua${ver} binary is missing (or leads to broken symlink)"
+			local jit_v=$(lua${ver} -e 'print(jit.version:match("%d.%d"))')
+			hdr=luajit-${jit_v}/${header};
+		else
+			hdr=lua${ver}/${header};
+		fi
+		test -f "${EROOT}/usr/include/${hdr}" || die -q "Missing header: ${header}"
+		ln -s "${hdr}" $(_dup "${EROOT}"/usr/include/${header})
 	done
 }
 
@@ -51,7 +73,7 @@ get_libdirs() {
 find_targets() {
 	local dirs
 	local prefix="${EROOT}/usr/bin/lua"
-	for f in ${prefix}{5,jit-2}* ; do
+	for f in ${prefix}{5,jit-2}.* ; do
 		[[ -f "${f}" ]] && dirs="${dirs} ${f##$prefix}"
 	done
 	echo $dirs

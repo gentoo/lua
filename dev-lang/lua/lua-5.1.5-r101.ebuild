@@ -17,7 +17,7 @@ IUSE="+deprecated emacs readline static"
 
 RDEPEND="readline? ( >=sys-libs/readline-6.2_p5-r1[${MULTILIB_USEDEP}] )
 	app-eselect/eselect-lua
-	!dev-lang/lua:0"
+	!!dev-lang/lua:0"
 DEPEND="${RDEPEND}
 	sys-devel/libtool"
 PDEPEND="emacs? ( app-emacs/lua-mode )"

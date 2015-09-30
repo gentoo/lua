@@ -24,8 +24,8 @@ each_lua_compile() {
 	_lua_setCFLAGS
 	local MY_PN="lua_${PN}"
 
-	$(tc-getCC) -fPIC ${CFLAGS} -c -o ${MY_PN}.o ${MY_PN}.c || die
-	$(tc-getCC) ${LDFLAGS} -shared -o ${PN}.so ${MY_PN}.o || die
+	${CC} ${CFLAGS} -c -o ${MY_PN}.o ${MY_PN}.c || die
+	${CC} ${LDFLAGS} -o ${PN}.so ${MY_PN}.o || die
 }
 
 each_lua_test() {

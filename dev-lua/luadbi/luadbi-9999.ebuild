@@ -4,7 +4,7 @@
 
 EAPI="5"
 
-LUA_COMPAT="lua51 lua52 luajit2"
+LUA_COMPAT="lua51 luajit2"
 IS_MULTILIB=true
 VCS="mercurial"
 inherit lua
@@ -30,8 +30,6 @@ DEPEND="${RDEPEND}"
 #S="${WORKDIR}"
 
 each_lua_compile() {
-	_lua_setCFLAGS
-
 	local drivers=()
 	use mysql && drivers+=( "mysql" )
 	use postgres && drivers+=( "psql" )
@@ -56,10 +54,7 @@ each_lua_compile() {
 
 #			LUA_INC="$($(tc-getPKG_CONFIG) --cflags ${lua_impl})" \
 
-		[[ ${buildme} = "no" ]] || emake \
-			CC="${CC}" \
-			LDFLAGS="${LDFLAGS}" \
-			CFLAGS="${CFLAGS}"  \
+		[[ ${buildme} = "no" ]] || lua_default \
 			PSQL_INC="-I/usr/include/postgresql/server" \
 			MYSQL_INC="-I/usr/include/mysql -L/usr/$(get_libdir)/mysql" \
 			${driver}

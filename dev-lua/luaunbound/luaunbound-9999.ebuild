@@ -4,7 +4,9 @@
 
 EAPI="5"
 
-inherit base toolchain-funcs flag-o-matic eutils mercurial
+VCS="mercurial"
+
+inherit lua
 
 DESCRIPTION="LuaJIT FFI bindings to net-dns/unbound"
 HOMEPAGE="http://code.zash.se/luaunbound/"
@@ -13,46 +15,44 @@ EHG_REPO_URI="http://code.zash.se/luaunbound/"
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS=""
-IUSE="prosody luajit"
+IUSE="prosody"
 
 RDEPEND="
-	virtual/lua[luajit=]
 	net-dns/unbound
 	prosody? ( net-im/prosody )
 "
 DEPEND="
 	${RDEPEND}
-	virtual/pkgconfig
 "
 
-DOCS=( "README.markdown" )
+READMES=( README.markdown )
 
-src_compile() {
+#all_lua_prepare() {
+#	
+#}
+
+each_lua_compile() {
 	# If we have LuaJIT in the system — we'd prefer FFI version
-	use luajit || emake
+	if ! lua_is_jit; then
+		lua_default
+	fi
+
+	if use prosody; then
+		lua_default prosody
+	fi
 }
 
-src_install() {
-	local lua=lua;
-	use luajit && lua=luajit;
-	if use luajit; then
-		insinto "$($(tc-getPKG_CONFIG) --variable INSTALL_LMOD ${lua})/util/"
-		newins util.lunbound.lua lunbound.lua
-		newins util.dns.lua dns.lua
-# something else to be useful outside prosody?..
+each_lua_install() {
+	if lua_is_jit; then
+		newlua_jit util.lunbound.lua lunbound.lua
 	else
-		insinto "$($(tc-getPKG_CONFIG) --variable INSTALL_CMOD ${lua})/util/"
-		doins "lunbound.so"
-		insinto "$($(tc-getPKG_CONFIG) --variable INSTALL_LMOD ${lua})/util/"
-		newins util.dns.lua dns.lua
+		dolua "lunbound.so"
 	fi
-# Actually, it is possible to patch prosody ebuild to remove dns utils if using it with lubound, just I'm not sure it is a best way.
+
 	if use prosody; then
-		./squish.sh > use_unbound.lua
 		insinto "/etc/jabber"
 		doins "use_unbound.lua"	
 	fi
-	base_src_install_docs
 }
 
 pkg_postinst() {

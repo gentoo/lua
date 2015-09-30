@@ -4,40 +4,36 @@
 
 EAPI="5"
 
-inherit autotools eutils git-r3 toolchain-funcs
+VCS="git-r3"
+
+# FIXME when GeoIP will be multilib
+#IS_MULTILIB=true
+inherit lua
 
 DESCRIPTION="Lua GeoIP Library"
-HOMEPAGE="https://github.com/msva/lua-geoip"
+HOMEPAGE="https://agladysh.github.io/lua-geoip"
 SRC_URI=""
 
-EGIT_REPO_URI="https://github.com/msva/lua-geoip git://github.com/msva/lua-geoip"
+EGIT_REPO_URI="https://github.com/msva/lua-geoip"
 
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS=""
-IUSE="luajit"
+IUSE=""
 
-RDEPEND="virtual/lua[luajit=]"
-DEPEND="
-	${RDEPEND}
+RDEPEND="
 	dev-libs/geoip
 "
+DEPEND="
+	${RDEPEND}
+"
 
-src_prepare() {
-	local lua="lua"
-	use luajit && lua="luajit";
-	default
-	epatch_user
-	export LUA_INCLUDE_DIR="$($(tc-getPKG_CONFIG) --variable includedir ${lua})"
-	export LUA="${lua}"
+READMES=( README.md HISTORY TODO )
+
+src_test() {
+	${LUA} test/test.lua /usr/share/GeoIP/Geo{IP,LiteCity}.dat
 }
 
-#Temporarily(?) broken on city database checking
-#src_test() {
-#	${LUA} test/test.lua
-#}
-
-src_install() {
-	default
-	dodoc README.md TODO || die "dodoc failed"
+each_lua_install() {
+	dolua geoip{,.so}
 }

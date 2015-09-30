@@ -36,7 +36,7 @@ all_lua_prepare() {
 }
 
 each_lua_install() {
-	dolua *.lua
+	dolua_jit *.lua
 }
 
 all_lua_install() {

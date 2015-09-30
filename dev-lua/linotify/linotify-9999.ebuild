@@ -24,11 +24,9 @@ RDEPEND="virtual/libc"
 READMES=( README.md )
 
 each_lua_compile() {
-	_lua_setCFLAGS
-	emake LUAPKG_CMD="${lua_impl}"
+	lua_default LUAPKG_CMD="${lua_impl}"
 }
 
 each_lua_install() {
 	dolua inotify.so
-#	emake LUAPKG_CMD="${lua_impl}" DESTDIR="${D}" install
 }

@@ -4,33 +4,47 @@
 
 EAPI="5"
 
-inherit git-r3 toolchain-funcs
+VCS="git-r3"
+
+# FIXME
+#IS_MULTILIB=true
+inherit lua
+
 
 DESCRIPTION="Lua bindings to zziplib"
-HOMEPAGE="https://github.com/luaforge/luazip"
-EGIT_REPO_URI="https://github.com/luaforge/luazip.git"
+HOMEPAGE="https://github.com/msva/luazip"
+EGIT_REPO_URI="https://github.com/msva/luazip"
 
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS=""
-IUSE="luajit"
+IUSE="doc +examples"
 
 RDEPEND="
-	virtual/lua[luajit=]
 	dev-libs/zziplib
 "
 DEPEND="
 	${RDEPEND}
-	virtual/pkgconfig
 "
 
-src_configure() {
-	local lua=lua;
-	use luajit && lua=luajit;
-	sed -r \
-		-e "s#(LUA_INC)=.*#\1=$($(tc-getPKG_CONFIG) --variable includedir ${lua})#" \
-		-e 's#(PREFIX) =.*#\1=$(DESTDIR)/usr#' \
-		-e "s#(ZZLIB_INC)=.*#\1=/usr/include#" \
-		-e "s#(LUA_VERSION_NUM)=.*#\1=510#" \
-		-i config
+READMES=( README )
+HTML_DOCS=( doc/us/ )
+EXAMPLES=( tests/ )
+
+all_lua_prepare() {
+	sed -i -e 'd' config
+	lua_default
+}
+
+each_lua_configure() {
+	myeconfargs=()
+	myeconfargs+=(
+		'LIB_OPTION=$(LDFLAGS)'
+		'LIBNAME=zip.so'
+	)
+	lua_default
+}
+
+each_lua_install() {
+	dolua src/*.so
 }

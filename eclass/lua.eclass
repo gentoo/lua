@@ -66,9 +66,16 @@
 # (e.g. selenium's firefox driver extension). When set this argument is
 # passed to "grep -E" to remove reporting of these shared objects.
 
+: ${GLOBAL_CFLAGS-${CFLAGS}}
+: ${GLOBAL_CXXFLAGS-${CXXFLAGS}}
+: ${GLOBAL_LDFLAGS-${LDFLAGS}}
+
+: ${NOCCACHE-false}
+: ${NODISTCC-false}
+
 [[ -n "${IS_MULTILIB}" ]] && multilib="multilib-minimal"
 
-inherit base eutils ${multilib} toolchain-funcs ${VCS}
+inherit base eutils ${multilib} toolchain-funcs flag-o-matic ${VCS}
 
 EXPORT_FUNCTIONS src_unpack src_prepare src_configure src_compile src_install pkg_setup
 
@@ -345,6 +352,8 @@ _lua_invoke_environment() {
 
 	my_WORKDIR="${WORKDIR}"/${environment}
 	S="${my_WORKDIR}"/"${sub_S}"
+	BUILD_DIR="${S}"
+	CMAKE_USE_DIR="${S}"
 
 	if [[ -d "${S}" ]]; then
 		pushd "$S" &>/dev/null
@@ -368,6 +377,7 @@ _lua_each_implementation() {
 		use lua_targets_${_lua_implementation} || continue
 
 		LUA=$(lua_implementation_command ${_lua_implementation})
+		TARGET=${_lua_implementation};
 		lua_impl=$(basename ${LUA})
 		invoked=yes
 
@@ -375,7 +385,7 @@ _lua_each_implementation() {
 			_lua_invoke_environment ${_lua_implementation} "$@"
 		fi
 
-		unset LUA lua_impl
+		unset LUA TARGET lua_impl
 	done
 
 	if [[ ${invoked} == "no" ]]; then
@@ -420,23 +430,6 @@ lua_src_unpack() {
 	popd &>/dev/null
 }
 
-_lua_apply_patches() {
-	for patch in "${LUA_PATCHES[@]}"; do
-		if [ -f "${patch}" ]; then
-			epatch "${patch}"
-		elif [ -f "${FILESDIR}/${patch}" ]; then
-			epatch "${FILESDIR}/${patch}"
-		else
-			die "Cannot find patch ${patch}"
-		fi
-	done
-
-	# This is a special case: instead of executing just in the special
-	# "all" environment, this will actually copy the effects on _all_
-	# the other environments, and is thus executed before the copy
-	type all_lua_prepare &>/dev/null && all_lua_prepare
-}
-
 _lua_source_copy() {
 	# Until we actually find a reason not to, we use hardlinks, this
 	# should reduce the amount of disk space that is wasted by this.
@@ -444,16 +437,43 @@ _lua_source_copy() {
 		|| die "Unable to copy ${_lua_implementation} environment"
 }
 
-_lua_setCFLAGS() {
+_lua_setFLAGS() {
 	local lua=$(readlink -fs $(type -p $(basename ${LUA:-lua} 2>/dev/null)) 2>/dev/null)
+
+	unset PKG_CONFIG LD
+# CC CXX CFLAGS CXXFLAGS LDFLAGS LUA_CF LUA_LF
+
+	PKG_CONFIG="$(tc-getPKG_CONFIG)"
 	CC="$(tc-getCC)"
 	CXX="$(tc-getCXX)"
 	LD="$(tc-getLD)"
-	PKG_CONFIG="$(tc-getPKG_CONFIG)"
-	CFLAGS="${CFLAGS} $($(tc-getPKG_CONFIG) --cflags $(basename ${lua})) -fPIC -DPIC"
-	CXXFLAGS="${CXXFLAGS} $($(tc-getPKG_CONFIG) --cflags $(basename ${lua})) -fPIC -DPIC"
-	LDFLAGS="${LDFLAGS} -shared -fPIC"
-	export CC CXX LC CFLAGS CXXFLAGS LDFLAGS PKG_CONFIG
+
+	LUA_CF="$(${PKG_CONFIG} --cflags $(basename ${lua}))"
+	LUA_LF="$(${PKG_CONFIG} --libs $(basename ${lua}))"
+	LUA_LF="${LUA_LF//-llua /-l$(lua_get_lua) }"
+
+	CFLAGS="${GLOBAL_CFLAGS} ${LUA_CF} -fPIC -DPIC"
+	CXXFLAGS="${GLOBAL_CXXFLAGS} ${LUA_CF} -fPIC -DPIC"
+	LDFLAGS="${GLOBAL_LDFLAGS} -shared -fPIC"
+
+	export CC CXX LD CFLAGS CXXFLAGS LDFLAGS PKG_CONFIG LUA_LF
+}
+
+lua_is_jit() {
+	if [[ "${TARGET}" =~ "luajit" ]]; then
+		return 0
+	else
+		return 1
+	fi
+}
+
+lua_default() {
+	local phase rep phase_def_fn;
+	rep=${FUNCNAME[1]%%_lua*};
+	phase=${EBUILD_PHASE};
+	phase_def_fn="_lua_default_${rep}_${phase}"
+
+	declare -f ${phase_def_fn} >/dev/null && "${phase_def_fn}" "${@}"
 }
 
 # @FUNCTION: lua_src_prepare
@@ -462,47 +482,54 @@ _lua_setCFLAGS() {
 # implementation. Also carry out common clean up tasks.
 lua_src_prepare() {
 	if [[ -n ${VCS} ]] && declare -f ${VCS}_src_prepare >/dev/null; then
-			_lua_invoke_environment all ${VCS}_src_prepare
+		_lua_invoke_environment all ${VCS}_src_prepare
 	fi
-	_lua_invoke_environment all epatch_user
-	_lua_invoke_environment all _lua_apply_patches
+
+	_lua_invoke_environment all base_src_prepare
+
+	if ! declare -f all_lua_prepare >/dev/null; then
+		all_lua_prepare() {
+			lua_default
+		}
+	fi
+	_lua_invoke_environment all all_lua_prepare
+
 
 	if [[ -n ${IS_MULTILIB} ]]; then
-		_lua_invoke_environment all multilib_copy_sources
+		_PHASE="multilib sources copy" \
+			_lua_invoke_environment all multilib_copy_sources
 	fi
 
-	_PHASE="source copy" \
+	_PHASE="sources copy" \
 		_lua_each_implementation _lua_source_copy
 
-	if type each_lua_prepare &>/dev/null; then
-		_lua_each_implementation each_lua_prepare
+
+	if ! declare -f each_lua_prepare >/dev/null; then
+		each_lua_prepare() {
+			lua_default
+		}
 	fi
+
+	_lua_each_implementation each_lua_prepare
 }
 
 # @FUNCTION: lua_src_configure
 # @DESCRIPTION:
 # Configure the package.
 lua_src_configure() {
-	if type each_lua_configure &>/dev/null; then
-		if [[ -n ${IS_MULTILIB} ]]; then
-			multilib_src_configure() {
-				each_lua_configure
-			}
-			_lua_each_implementation multilib-minimal_src_configure
-		else
-			_lua_each_implementation each_lua_configure
-		fi
+	if ! declare -f each_lua_configure >/dev/null; then
+		each_lua_configure() {
+			lua_default
+		}
 	fi
 
-	if type all_lua_configure &>/dev/null; then
-		if [[ -n ${IS_MULTILIB} ]]; then
-			multilib_src_configure() {
-				all_lua_configure
-			}
-			_lua_invoke_environment all multilib-minimal_src_configure
-		else
-			_lua_invoke_environment all all_lua_configure
-		fi
+	if [[ -n ${IS_MULTILIB} ]]; then
+		multilib_src_configure() {
+			each_lua_configure
+		}
+		_lua_each_implementation multilib-minimal_src_configure
+	else
+		_lua_each_implementation each_lua_configure
 	fi
 }
 
@@ -510,80 +537,83 @@ lua_src_configure() {
 # @DESCRIPTION:
 # Compile the package.
 lua_src_compile() {
-	if type each_lua_compile &>/dev/null; then
-		if [[ -n ${IS_MULTILIB} ]]; then
-			multilib_src_compile() {
-				each_lua_compile
-			}
-			_lua_each_implementation multilib-minimal_src_compile
-		else
-			_lua_each_implementation each_lua_compile
-		fi
+	if ! declare -f each_lua_compile >/dev/null; then
+		each_lua_compile() {
+			lua_default
+		}
 	fi
 
-	if type all_lua_compile &>/dev/null; then
-		if [[ -n ${IS_MULTILIB} ]]; then
-			multilib_src_compile() {
-				all_lua_compile
-			}
-			_lua_invoke_environment all multilib-minimal_src_compile
-		else
-			_lua_invoke_environment all all_lua_compile
-		fi
+	if [[ -n ${IS_MULTILIB} ]]; then
+		multilib_src_compile() {
+			each_lua_compile
+		}
+		_lua_each_implementation multilib-minimal_src_compile
+	else
+		_lua_each_implementation each_lua_compile
 	fi
+
+	if ! declare -f all_lua_compile >/dev/null; then
+		all_lua_compile() {
+			lua_default
+		}
+	fi
+	_lua_invoke_environment all all_lua_compile
 }
 
 # @FUNCTION: lua_src_test
 # @DESCRIPTION:
 # Run tests for the package.
 lua_src_test() {
-	if type each_lua_test &>/dev/null; then
-		if [[ -n ${IS_MULTILIB} ]]; then
-			multilib_src_test() {
-				each_lua_test
-			}
-			_lua_each_implementation multilib-minimal_src_test
-		else
-			_lua_each_implementation each_lua_test
-		fi
+	if ! declare each_lua_test >/dev/null; then
+		each_lua_test() {
+			lua_default
+		}
 	fi
 
-	if type all_lua_test &>/dev/null; then
-		if [[ -n ${IS_MULTILIB} ]]; then
-			multilib_src_test() {
-				all_lua_test
-			}
-			_lua_invoke_environment all multilib-minimal_src_test
-		else
-			_lua_invoke_environment all all_lua_test
-		fi
+	if [[ -n ${IS_MULTILIB} ]]; then
+		multilib_src_test() {
+			each_lua_test
+		}
+		_lua_each_implementation multilib-minimal_src_test
+	else
+		_lua_each_implementation each_lua_test
 	fi
+
+	if ! declare -f all_lua_test >/dev/null; then
+		all_lua_test() {
+			lua_default
+		}
+	fi
+	_lua_invoke_environment all all_lua_test
 }
 
 # @FUNCTION: lua_src_install
 # @DESCRIPTION:
 # Install the package for each lua target implementation.
 lua_src_install() {
-	if type each_lua_install &>/dev/null; then
-		if [[ -n ${IS_MULTILIB} ]]; then
-			multilib_src_install() {
-				each_lua_install
-			}
-			_lua_each_implementation multilib-minimal_src_install
-		else
-			_lua_each_implementation each_lua_install
-		fi
+	if ! declare -f each_lua_install >/dev/null; then
+		each_lua_install() {
+			lua_default
+		}
 	fi
 
-	if type all_lua_install &>/dev/null; then
-		if [[ -n ${IS_MULTILIB} ]]; then
-			multilib_src_install() {
-				all_lua_install
-			}
-			_lua_invoke_environment all multilib-minimal_src_install
-		else
-			_lua_invoke_environment all all_lua_install
-		fi
+	if ! declare -f all_lua_install >/dev/null; then
+		all_lua_install() {
+			lua_default
+		}
+	fi
+
+	if [[ -n ${IS_MULTILIB} ]]; then
+		multilib_src_install() {
+			each_lua_install
+		}
+		multilib_src_install_all() {
+			all_lua_install
+		}
+		_lua_each_implementation multilib-minimal_src_install
+	else
+		_lua_each_implementation each_lua_install
+		_lua_invoke_environment all all_lua_install
 	fi
 
 #### TODO: move this things to more general eclass, like docs or so ####
@@ -591,37 +621,38 @@ lua_src_install() {
 
 	README_DOCS=(${DOCS[@]});
 	OTHER_DOCS=(${DOCS[@]//README*});
-	MY_S="${WORKDIR}/all/${P}"
+#	MY_S="${WORKDIR}/all/${P}"
 	
 	unset DOCS;
 
 	for r in ${OTHER_DOCS[@]}; do
 		README_DOCS=("${README_DOCS[@]//${r}}")
 
-		if [[ -d ${MY_S}/${r} ]]; then
-			OTHER_DOCS=("${OTHER_DOCS[@]//${r}}")
-			for od in ${MY_S}/${r}/*; do
-				OTHER_DOCS+=("${od#${MY_S}/}")
-			done
-		fi
+#		if [[ -d ${MY_S}/${r} ]]; then
+##			for case if __strip_duplicate_slashes will be dropped from phase-helpers.sh:
+##			local rd=$(dirname ${r}/i-need-to-remove-trailing-slash)
+#			OTHER_DOCS=("${OTHER_DOCS[@]//${r}}")
+#			for od in ${MY_S}/${r}/*; do
+#				OTHER_DOCS+=("$(__strip_duplicate_slashes ${od#${MY_S}/})")
+#			done
+#		fi
 	done;
-
 	README_DOCS+=(${READMES[@]})
 
 	if [[ -n "${README_DOCS}" ]]; then
 		export DOCS=(${README_DOCS[@]});
-		_PHASE="install readmes" _lua_invoke_environment all base_src_install_docs
+		_PHASE="install readmes" _lua_invoke_environment all _lua_src_install_docs
 		unset DOCS;
 	fi
 
 	if [[ -n "${OTHER_DOCS[@]}" || -n "${HTML_DOCS[@]}" ]] && use doc; then
 		export DOCS=(${OTHER_DOCS[@]})
-		_PHASE="install docs" _lua_invoke_environment all base_src_install_docs
+		_PHASE="install docs" _lua_invoke_environment all _lua_src_install_docs
 		unset DOCS
 	fi
 
 	if [[ -n "${EXAMPLES[@]}" ]] && use examples; then
-		_PHASE="install samples" _lua_invoke_environment all _lua_src_install_examples
+		_PHASE="install examples" _lua_invoke_environment all _lua_src_install_examples
 	fi
 #### END  ####
 }
@@ -631,27 +662,68 @@ _lua_src_install_examples() {
 	debug-print-function $FUNCNAME "$@"
 
 	local x
+	local MY_S="${WORKDIR}/all/${P}"
 
-	pushd "${S}" >/dev/null
+	pushd "${MY_S}" >/dev/null
 
 	if [[ "$(declare -p EXAMPLES 2>/dev/null 2>&1)" == "declare -a"* ]]; then
 		for x in "${EXAMPLES[@]}"; do
 			debug-print "$FUNCNAME: docs: creating examples from ${x}"
 			docompress -x /usr/share/doc/${PF}/examples
-			insinto /usr/share/doc/${PF}/examples
-			if [[ "${x}" = *"/*" ]]; then
-				pushd $(dirname ${x}) >/dev/null
-				doins -r *
-				popd >/dev/null
-			else
-				doins -r "${x}"
-			fi || die "install examples failed"
+			docinto examples
+			dodoc -r "${x}"
 		done
 	fi
 
 	popd >/dev/null
 }
+
+_lua_src_install_docs() {
+	debug-print-function $FUNCNAME "$@"
+	local x
+
+	local MY_S="${WORKDIR}/all/${P}"
+	pushd "${MY_S}" >/dev/null
+
+	if [[ "$(declare -p DOCS 2>/dev/null 2>&1)" == "declare -a"* ]]; then
+		for x in "${DOCS[@]}"; do
+			debug-print "$FUNCNAME: docs: creating document from ${x}"
+			docinto .
+			dodoc -r "${x}"
+		done
+	fi
+	if [[ "$(declare -p HTML_DOCS 2>/dev/null 2>&1)" == "declare -a"* ]]; then
+		for x in "${HTML_DOCS[@]}"; do
+			debug-print "$FUNCNAME: docs: creating html document from ${x}"
+			docinto html
+			dodoc -r "${x}"
+		done
+	fi
+
+	popd >/dev/null
+}
+
 #### END ####
+
+
+# @FUNCTION: luainto
+# @USAGE: path
+# @DESCRIPTION:
+# Specifies installation path (under INSTALL_?MOD) for "dolua*" functions
+#luainto() {
+#	_dolua_indir="${1}"
+#}
+
+newlua() {
+	local tmp_S=$(mktemp -d -p ${T} tmp_S.${P}.XXXXX)
+	local src="${1}"
+	local dst="${2}"
+	cp -rl "${src}" "${tmp_S}/${dst}"
+	pushd "${tmp_S}" >/dev/null &&
+	dolua "${dst}" &&
+	popd >/dev/null &&
+	rm -rf "${tmp_S}"
+}
 
 # @FUNCTION: dolua
 # @USAGE: file [file...]
@@ -663,9 +735,6 @@ dolua() {
 	for f in "$@"; do
 		base_f="$(basename ${f})"
 		case ${base_f} in
-			*.lua|*.moon)
-				lmod+=(${f})
-				;;
 			*.so)
 				cmod+=(${f})
 				;;
@@ -674,19 +743,18 @@ dolua() {
 					local insdir="${_dolua_insdir}/${base_f}"
 					_dolua_insdir="${insdir}" dolua "${f}"/*
 				else
-					eerror "${f} is neither pure-lua module, nor moonscript library, nor C module, nor directory with them"
+					lmod+=(${f})
 				fi
 				;;
 		esac
 	done
-	test -n "${lmod}" && _dolua_insdir="${_dolua_insdir}" dolua_lmod ${lmod[@]}
-	test -n "${cmod}" && _dolua_insdir="${_dolua_insdir}" dolua_cmod ${cmod[@]}
+	test -n "${lmod}" && _dolua_insdir="${_dolua_insdir}" _lua_install_lmod ${lmod[@]}
+	test -n "${cmod}" && _dolua_insdir="${_dolua_insdir}" _lua_install_cmod ${cmod[@]}
 }
 
-dolua_lmod() {
-	[[ -z ${LUA} ]] && die "\$LUA is not set"
+_lua_install_lmod() {
 	has "${EAPI}" 2 && ! use prefix && EPREFIX=
-	local insdir="$($(tc-getPKG_CONFIG) --variable INSTALL_LMOD ${lua_impl})"
+	local insdir="$(lua_get_lmoddir)"
 	[[ -n "${_dolua_insdir}" ]] && insdir="${insdir}/${_dolua_insdir}"
 	(
 		insinto ${insdir#${EPREFIX}}
@@ -695,23 +763,68 @@ dolua_lmod() {
 	) || die "failed to install $@"
 }
 
-dolua_cmod() {
-	[[ -z ${LUA} ]] && die "\$LUA is not set"
+_lua_install_cmod() {
 	has "${EAPI}" 2 && ! use prefix && EPREFIX=
-	local insdir="$($(tc-getPKG_CONFIG) --variable INSTALL_CMOD ${lua_impl})"
+	local insdir="$(lua_get_cmoddir)"
 	[[ -n "${_dolua_insdir}" ]] && insdir="${insdir}/${_dolua_insdir}"
 	(
 		insinto ${insdir#${EPREFIX}}
 		insopts -m 0644
 		doins -r "$@"
 	) || die "failed to install $@"
+}
+
+_lua_jit_insopts() {
+	[[ "${LUA}" =~ "luajit" ]] || return 0
+	local insdir=$(${LUA} -e 'print(package.path:match(";(/[^;]+luajit[^;]+)/%?.lua;"))')
+	insinto ${insdir}
+	insopts -m 0644
+}
+
+dolua_jit() {
+	_lua_jit_insopts
+	doins "$@"
+}
+
+newlua_jit() {
+	_lua_jit_insopts
+	newins "$@"
+}
+
+# @FUNCTION: lua_get_pkgvar
+# @RETURN: The value of specified pkg-config variable for Lua interpreter in ${LUA}.
+lua_get_pkgvar() {
+	local var=$($(tc-getPKG_CONFIG) ${2:---variable} ${@} $(lua_get_lua))
+	echo "${var}"
+}
+
+# @FUNCTION: lua_get_lmoddir
+# @RETURN: The path for pure-lua modules installation for Lua interpreter in ${LUA}.
+lua_get_lmoddir() {
+	local ldir=$(lua_get_pkgvar INSTALL_LMOD)
+	echo "${ldir}"
+}
+
+# @FUNCTION: lua_get_cmoddir
+# @RETURN: The path for binary modules installation for Lua interpreter in ${LUA}.
+lua_get_cmoddir() {
+	local cdir=$(lua_get_pkgvar INSTALL_CMOD)
+	echo "${cdir}"
+}
+
+# @FUNCTION: lua_get_lua
+# @RETURN: The name of Lua interpreter in ${LUA}.
+lua_get_lua() {
+	[[ -z ${LUA} ]] && die "\$LUA is not set"
+	local impl="${lua_impl:-$(basename ${LUA})}"
+	echo "${impl}"
 }
 
 # @FUNCTION: lua_get_liblua
 # @RETURN: The location of liblua*.so belonging to the Lua interpreter in ${LUA}.
 lua_get_liblua() {
-	local libdir="$($(tc-getPKG_CONFIG) --variable libdir ${lua_impl})"
-	local libname="$($(tc-getPKG_CONFIG) --variable libname ${lua_impl})"
+	local libdir="$(lua_get_pkgvar libdir)"
+	local libname="$(lua_get_pkgvar libname)"
 	libname="${libname:-lua$(lua_get_abi)}"
 	echo "${libdir}/lib${libname}.so"
 }
@@ -719,7 +832,7 @@ lua_get_liblua() {
 # @FUNCTION: lua_get_incdir
 # @RETURN: The location of the header files belonging to the Lua interpreter in ${LUA}.
 lua_get_incdir() {
-	local incdir=$($(tc-getPKG_CONFIG) --variable includedir ${lua_impl})
+	local incdir=$(lua_get_pkgvar includedir)
 	echo "${incdir}"
 }
 
@@ -745,5 +858,114 @@ lua_get_implementation() {
 			echo "lua"
 			;;
 	esac
+}
+
+
+
+_lua_default_all_prepare() {
+	local prepargs=();
+	prepargs+=(
+		"${myeprepareargs[@]}"
+		"${@}"
+	)
+
+	[[ -x "${BOOTSTRAP}" ]] && ${BOOTSTRAP} "${prepargs[@]}"
+
+	for mf in Makefile GNUmakefile makefile; do
+		if [[ -f "${mf}" ]]; then
+			sed -i -r \
+				-e '1iinclude .lua_eclass_config' \
+				-e '/^CC[[:space:]]*=/d' \
+				-e '/^LD[[:space:]]*=/d' \
+				-e 's#(^CFLAGS[[:space:]]*)[[:punct:]]*=#\1+=#' \
+				-e 's#(^CXXFLAGS[[:space:]]*)[[:punct:]]*=#\1+=#' \
+				-e 's#(^LDFLAGS[[:space:]]*)[[:punct:]]*=#\1+=#' \
+				-e 's#(^LFLAGS[[:space:]]*)[[:punct:]]*=#\1+=$(LDCONFIG)#' \
+				-e 's#`pkg-config#`$(PKG_CONFIG)#g' \
+				-e 's#(shell[[:space:][:punct:]]*)pkg-config#\1$(PKG_CONFIG)#g' \
+				-e 's#lua5.[[:digit:]]#$(LUA_IMPL)#g' \
+				-e 's#-llua[[:digit:][:punct:]]*#__LESLPH__#g;s#__LESLPH__([[:alpha:]])#-llua\1#g;s#__LESLPH__#$(LUA_LINK_LIB)#g' \
+				"${mf}"
+		fi
+		touch ${T}/.lua_ecl_conf
+	done
+
+}
+
+_lua_default_all_compile() {
+	local doc_target="${DOC_MAKE_TARGET:=doc}"
+	has doc ${IUSE} &&
+	use doc &&
+	grep -qs "${doc_target}[[:space:]]*:" {GNUm,m,M}akefile && (
+		[[ -f ${T}/.lua_ecl_conf ]] && touch .lua_eclass_config
+		base_src_compile "${doc_target[@]}"
+	)
+}
+
+#lua_default_all_install() {
+#	
+#}
+
+_lua_default_each_configure() {
+	_lua_setFLAGS
+	local confargs=();
+	confargs+=("${myeconfargs[@]}")
+	confargs+=("${@}")
+
+	base_src_configure "${confargs[@]}"
+
+	if [[ -f ${T}/.lua_ecl_conf ]]; then
+		touch .lua_eclass_config
+		local ecl_confargs=();
+
+		ecl_confargs+=(
+			CC="${CC}"
+			CXX="${CXX}"
+			LD="${LD}"
+			CFLAGS="${CFLAGS}"
+			LDFLAGS="${LDFLAGS}"
+			CXXFLAGS="${CXXFLAGS}"
+			PKG_CONFIG="${PKG_CONFIG}"
+			LUA_IMPL="$(lua_get_lua)"
+			LUA_LINK_LIB="${LUA_LF}"
+		)
+
+		ecl_confargs+=("${confargs[@]}")
+
+		for carg in "${ecl_confargs[@]}"; do
+			echo "${carg}" >> .lua_eclass_config
+		done
+	fi
+}
+
+_lua_default_each_compile() {
+	local makeargs=();
+
+	makeargs+=(
+		"${myemakeargs[@]}"
+		"${@}"
+	)
+
+	if has ccache ${FEATURES} && [[ "${NOCCACHE}" = "true" ]]; then
+		export CCACHE_DISABLE=1;
+	fi
+
+	if has distcc ${FEATURES} && [[ "${NODISTCC}" = "true" ]]; then
+		export DISTCC_DISABLE=1;
+	fi
+
+	base_src_compile "${makeargs[@]}"
+}
+
+_lua_default_each_install() {
+	local instargs=();
+	instargs+=(
+		DESTDIR="${D}"
+		"${@}"
+		"${myeinstallargs[@]}"
+		install
+	)
+
+	base_src_make "${instargs[@]}"
 }
 

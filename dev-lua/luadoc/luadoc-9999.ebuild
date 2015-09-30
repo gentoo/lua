@@ -4,14 +4,18 @@
 
 EAPI="5"
 
+VCS="git-r3"
 inherit lua
+
 DESCRIPTION="LuaDoc is a documentation tool for Lua source code"
 HOMEPAGE="http://keplerproject.github.io/luadoc/"
-SRC_URI="http://luaforge.net/frs/download.php/3185/${P}.tar.gz"
+SRC_URI=""
+
+EGIT_REPO_URI="https://github.com/keplerproject/luadoc/"
 
 LICENSE="MIT"
 SLOT="0"
-KEYWORDS="amd64 arm ppc ppc64 x86 ~x86-fbsd"
+KEYWORDS=""
 IUSE="doc"
 
 DEPEND=""

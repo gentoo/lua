@@ -21,7 +21,7 @@ IUSE="doc +examples"
 RDEPEND="
 	|| (
 		dev-lua/lpeg
-		dev-lua/lulpeg[lpeg-compat]
+		dev-lua/lulpeg[lpeg_replace]
 	)
 "
 

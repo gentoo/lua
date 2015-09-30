@@ -4,7 +4,10 @@
 
 EAPI="5"
 
-inherit toolchain-funcs eutils git-r3
+VCS="git-r3"
+# FIXME when fcgi will be multilib
+#IS_MULTILIB=true
+inherit lua
 
 DESCRIPTION="A FastCGI server for Lua, written in C"
 HOMEPAGE="https://github.com/cramey/lua-fastcgi"
@@ -16,33 +19,32 @@ EGIT_BRANCH="public"
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS=""
-IUSE="doc luajit"
+IUSE="doc +examples"
 
 RDEPEND="
-	virtual/lua[luajit]
 	dev-libs/fcgi
 "
 DEPEND="${RDEPEND}"
 
-src_prepare() {
-	local lua=lua
-	use luajit && lua=luajit
+READMES=( README.md TODO )
+EXAMPLES=( ${PN}.lua )
 
-	LUA_LIB="$($(tc-getPKG_CONFIG) libs ${lua})"
-
+all_lua_prepare() {
 	sed -r \
-		-e "s#^(CFLAGS=.*)#\1 $($(tc-getPKG_CONFIG) --variable cflags ${lua})#" \
-		-e "s/-Wl,[^ ]*//g" \
-		-e "s#-llua5.1#${LUA_LIB}#g" \
+		-e 's#CFLAGS#CF#g' \
+		-e 's#LDFLAGS#LF#g' \
+		-e 's#^(CF=)#\1 $(CFLAGS) #' \
+		-e 's#^(LF=)#\1 $(LDFLAGS) #' \
+		-e 's/-Wl,[^ ]*//g' \
+		-e 's#-llua5.1#$(LUA_LINK_LIB)#g' \
 		-i Makefile
+
 	sed \
 		-e "s#lua5.1/##" \
 		-i src/config.c src/lfuncs.c src/lua.c src/lua-fastcgi.c
 }
 
-src_install() {
-	if use doc; then
-		dodoc README.md TODO lua-fastcgi.lua || die "dodoc failed"
-	fi
-	dobin lua-fastcgi
+each_lua_install() {
+	newbin ${PN} ${PN}-${TARGET}
+#-${ABI} #is it needed?
 }

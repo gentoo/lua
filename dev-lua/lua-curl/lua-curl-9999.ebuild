@@ -26,14 +26,14 @@ DEPEND="
 	${RDEPEND}
 "
 
-EXAMPLES=( examples/* )
+EXAMPLES=( examples/ )
 HTML_DOCS=( html/ )
 READMES=( README.md )
 
 each_lua_compile() {
-	_lua_setCFLAGS
-	emake LUA_IMPL="${lua_impl}"
+	lua_default LUA_IMPL="${lua_impl}"
 }
+
 all_lua_compile() {
 	use doc && (
 		cd doc
@@ -43,5 +43,5 @@ all_lua_compile() {
 
 
 each_lua_install() {
-	emake LUA_IMPL="${lua_impl}" DESTDIR="${D}" install
+	lua_default LUA_IMPL="${lua_impl}"
 }

@@ -4,7 +4,9 @@
 
 EAPI="5"
 
-inherit eutils toolchain-funcs git-r3 multilib
+VCS="git-r3"
+IS_MULTILIB=true
+inherit lua
 
 DESCRIPTION="Lua bindings to Thomas Boutell's gd library"
 HOMEPAGE="http://lua-gd.luaforge.net/"
@@ -14,50 +16,37 @@ EGIT_REPO_URI="https://github.com/ittner/lua-gd.git"
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS=""
-IUSE="doc examples luajit"
+IUSE="doc +examples"
 
 RDEPEND="
-	virtual/lua[luajit=]
 	media-libs/gd[png]
 "
 DEPEND="
 	${RDEPEND}
-	virtual/pkgconfig
 "
 
-QA_PREBUILT="usr/$(get_libdir)/*"
-# ^ sorry for that, but upstream prestrips module, and it is impossible to ask
-# pkgconfig here, since lua implementation is unknown atm
+READMES=( README )
+EXAMPLES=( demos/* )
+HTML_DOCS=( doc/ )
 
-src_prepare() {
+all_lua_prepare() {
 	sed -r \
-		-e "s/^(CFLAGS=)-O3 -Wall /\1/" \
+		-e 's#CFLAGS#CF#g' \
+		-e 's#LFLAGS#LF#g' \
+		-e 's/^(CF=.*)/\1 $(CFLAGS)/' \
+		-e 's/^(LF=.*)/\1 $(LDFLAGS)/' \
+		-e 's/`pkg-config/`$(PKG_CONFIG)/' \
 		-i Makefile
 }
 
-src_compile() {
-	local lua=lua;
-	use luajit && lua=luajit;
-	emake LUAPKG="${lua}" LUABIN="${lua}" CC="$(tc-getCC)"
+each_lua_compile() {
+	local lua=$(lua_get_lua)
+	lua_default \
+		LUAPKG="${lua}" \
+		LUABIN="${lua}" \
+			gd.so
 }
 
-src_install() {
-	local lua=lua;
-	use luajit && lua=luajit;
-	emake \
-		LUAPKG="${lua}"\
-		DESTDIR="${D}"\
-		INSTALL_PATH="$($(tc-getPKG_CONFIG) --variable INSTALL_CMOD ${lua})"\
-		install
-
-	dodoc README
-
-	if use doc; then
-		dohtml doc/*
-	fi
-
-	if use examples; then
-		insinto /usr/share/doc/${PF}
-		doins -r demos
-	fi
+each_lua_install() {
+	dolua gd.so
 }

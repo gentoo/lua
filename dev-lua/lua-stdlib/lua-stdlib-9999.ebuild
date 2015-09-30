@@ -4,7 +4,9 @@
 
 EAPI="5"
 
-inherit base git-r3 toolchain-funcs eutils
+VCS="git-r3"
+
+inherit lua
 
 DESCRIPTION="Standard Lua libraries"
 HOMEPAGE="https://github.com/lua-stdlib/lua-stdlib"
@@ -15,42 +17,22 @@ EGIT_REPO_URI="https://github.com/lua-stdlib/lua-stdlib"
 LICENSE="GPL"
 SLOT="0"
 KEYWORDS=""
-IUSE="luajit"
+IUSE=""
 
-RDEPEND="
-	virtual/lua[luajit=]
-"
-DEPEND="${RDEPEND}"
+READMES=( README.md NEWS.md HACKING )
 
-DOCS=( "README.md" "NEWS" )
-
-src_prepare() {
+all_lua_prepare() {
 	if [[ -n ${EVCS_OFFLINE} ]]; then
 		die "Unfortunately, upstream uses buildsystem which depends on external submodules, so you won't be able to build package in offline mode. Sorry."
 	fi
 
-	local lua=lua
-	use luajit && lua=luajit
-	export LUA="${lua}"
-
 	./bootstrap --skip-rock-checks
 }
 
-src_configure() {
-	myeconfargs=(
-		"--datadir=$($(tc-getPKG_CONFIG) --variable INSTALL_LMOD ${LUA})" \
-		"--libdir=$($(tc-getPKG_CONFIG) --variable INSTALL_CMOD ${LUA})" \
-		"LUA_INCLUDE=-I$($(tc-getPKG_CONFIG) --variable includedir ${LUA})"
-	)
-	base_src_configure "${myeconfargs[@]}"
-}
-
-src_compile() {
-	cd "${S}"
+each_lua_compile() {
 	./config.status --file=lib/std.lua
 }
 
-src_install() {
-	insinto "$($(tc-getPKG_CONFIG) --variable INSTALL_LMOD ${LUA})"
-	doins -r lib/std lib/std.lua
+each_lua_install() {
+	dolua lib/std lib/std.lua
 }

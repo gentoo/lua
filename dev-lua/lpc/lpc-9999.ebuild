@@ -10,17 +10,12 @@ inherit lua
 
 DESCRIPTION="Allows Lua scripts to call external processes while capturing both their input and output."
 HOMEPAGE="http://lua.net-core.org/sputnik.lua?p=Telesto:About"
-EGIT_REPO_URI="https://github.com/LuaDist/lpc"
+EGIT_REPO_URI="https://github.com/msva/lpc"
 
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS=""
 IUSE=""
-
-each_lua_compile() {
-	_lua_setCFLAGS
-	emake CC="${CC}" CFLAGS="${CFLAGS}" LDFLAGS="${LDFLAGS}"
-}
 
 each_lua_install() {
 	dolua ${PN}.so

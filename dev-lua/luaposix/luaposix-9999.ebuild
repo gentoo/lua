@@ -4,7 +4,11 @@
 
 EAPI="5"
 
-inherit base git-r3 toolchain-funcs eutils
+VCS="git-r3"
+IS_MULTILIB=true
+#AT_NOEAUTOMAKE=yes
+
+inherit autotools lua
 
 DESCRIPTION="POSIX binding, including curses, for Lua 5.1 and 5.2"
 HOMEPAGE="https://github.com/luaposix/luaposix"
@@ -15,32 +19,35 @@ EGIT_REPO_URI="https://github.com/luaposix/luaposix.git"
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS=""
-IUSE="luajit ncurses"
+IUSE="doc +examples ncurses"
 
 RDEPEND="
-	virtual/lua[bit,luajit=]
+	virtual/lua[bit]
 	ncurses? ( sys-libs/ncurses )
 "
-#	dev-lua/ldoc
+
+DEPEND="
+	${RDEPEND}
+	doc? ( dev-lua/ldoc )
+	dev-libs/gnulib
+"
 #	dev-lua/specl
 #	dev-lua/lyaml
 
-DEPEND="${RDEPEND}"
+READMES=( README.md NEWS.md )
+EXAMPLES=( examples/ )
+HTML_DOCS=( doc/ )
 
-DOCS=( "README.md" "NEWS" )
+all_lua_prepare() {
+	[[ -n "${EGIT_OFFLINE}" ]] && die "Upstream unfortunately uses buildsystem, which requires to fetch some git "
 
-src_prepare() {
-	if [[ -n ${EVCS_OFFLINE} ]]; then
-		die "Unfortunately, upstream uses buildsystem which depends on external submodules, so you won't be able to build package in offline mode. Sorry."
-	fi
-
+	# we'll check for ldoc ourslves
 	sed -r \
 		-e "s#(AC_PATH_PROG\(\[LDOC\],).*#\1 [echo], [false]\)#" \
 		-e "s#(AM_CONDITIONAL\(\[HAVE_LDOC\],).*#\1 [false]\)#" \
 		-i configure.ac
 
-# kludgy, but idk, how to drop that f**n broken documentation build
-#		-e 's#^(allhtml =).*#\1#' \
+	# we don't need and install documentation for each target, so we'll take care on this ourselves
 	sed -r \
 		-e 's#doc/.*html##' \
 		-e 's#doc/.*css##' \
@@ -49,20 +56,46 @@ src_prepare() {
 		-e 's#\$\(dist_.*_DATA\)##g' \
 		-i local.mk
 
-	./bootstrap --skip-rock-checks
+	myeprepareargs=(
+		--skip-rock-checks
+		--gnulib-srcdir=/usr/share/gnulib
+		-Wnone
+	)
+		#--skip-git
+#	AT_NOEAUTOMAKE=yes
+#	gnulib-tool  --no-changelog --avoid=dummy --aux-dir=build-aux --m4-base=m4 --source-base=unused --libtool --symlink --import warnings manywarnings
+#	eautoreconf
+
+	./bootstrap "${myeprepareargs[@]}"
+
+	# Unneded wrapper over ./bootstrap+./configure
+	rm GNUmakefile; ls
 }
 
-src_configure() {
-	local lua=lua;
-	use luajit && lua=luajit;
+all_lua_compile() {
+	use doc && (
+		cp build-aux/config.ld.in build-aux/config.ld
+		cp lib/posix.lua.in lib/posix/init.lua
 
-	myeconfargs=(
-		"--datadir=$($(tc-getPKG_CONFIG) --variable INSTALL_LMOD ${lua})" \
-		"--libdir=$($(tc-getPKG_CONFIG) --variable INSTALL_CMOD ${lua})" \
-		"$(use_with ncurses)"\
-		LUA="${lua}" \
-		LUA_INCLUDE="-I$($(tc-getPKG_CONFIG) --variable includedir ${lua})"
+		sed -r \
+			-e "s/@PACKAGE_STRING@/${P}/" \
+			-i build-aux/config.ld lib/posix/init.lua
+
+		cd build-aux && ldoc -d ../doc . && cd ..
+
+		rm build-aux/config.ld lib/posix/init.lua
 	)
-	base_src_configure "${myeconfargs[@]}"
+}
+
+each_lua_configure() {
+	myeconfargs=(
+		"$(use_with ncurses)" \
+		LUA="$(lua_get_lua)" \
+		LUA_INCLUDE="$(lua_get_pkgvar --cflags --cflags-only-I)" \
+		ax_cv_lua_luadir="$(lua_get_pkgvar INSTALL_LMOD)" \
+		ax_cv_lua_luaexecdir="$(lua_get_pkgvar INSTALL_CMOD)"
+		
+	)
+	base_src_configure
 }
 

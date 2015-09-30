@@ -4,10 +4,11 @@
 
 EAPI="5"
 
-inherit eutils toolchain-funcs git-r3
+VCS="git-r3"
+inherit lua
 
 DESCRIPTION="A unit testing framework for Lua"
-HOMEPAGE="https://github.com/dcurrie/${PN}"
+HOMEPAGE="https://github.com/dcurrie/lunit"
 SRC_URI=""
 
 EGIT_REPO_URI="https://github.com/dcurrie/${PN}"
@@ -15,41 +16,15 @@ EGIT_REPO_URI="https://github.com/dcurrie/${PN}"
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS=""
-IUSE="luajit +examples"
+IUSE="+examples"
 
-RDEPEND="
-	virtual/lua[luajit=]
-"
+EXAMPLES=( examples/. )
+READMES=( README README.lunitx DOCUMENTATION )
 
-DEPEND="
-	${RDEPEND}
-	virtual/pkgconfig
-"
-
-src_prepare() {
-	local lua=lua;
-	use luajit && lua=luajit;
-
-	sed -r \
-		-e "s/^(interpreter)=.*/\1=${lua}/" \
-		-i extra/lunit.sh
+each_lua_install() {
+	dolua lua/*
 }
 
-src_compile() { :; }
-
-src_install() {
-	local lua=lua;
-	use luajit && lua=luajit;
-
-	insinto "$($(tc-getPKG_CONFIG) --variable INSTALL_LMOD ${lua})"
-	doins -r lua/*
-
+all_lua_install() {
 	newbin "extra/${PN}.sh" "${PN}"
-
-	if use samples; then
-		docompress -x "/usr/share/doc/${PF}/examples"
-		dodoc -r examples
-	fi
-
-	dodoc DOCUMENTATION
 }

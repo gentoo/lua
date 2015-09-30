@@ -4,7 +4,10 @@
 
 EAPI="5"
 
-inherit multilib toolchain-funcs eutils git-r3
+VCS="git-r3"
+IS_MULTILIB=true
+
+inherit lua
 
 DESCRIPTION="Lua binding for OpenSSL library to provide TLS/SSL communication."
 HOMEPAGE="http://www.inf.puc-rio.br/~brunoos/luasec/"
@@ -15,38 +18,42 @@ EGIT_REPO_URI="https://github.com/brunoos/luasec"
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS=""
-IUSE="examples luajit"
+IUSE="+examples"
 
 RDEPEND="
-	virtual/lua[luajit]
 	dev-lua/luasocket
 	dev-libs/openssl
 "
 DEPEND="
 	${RDEPEND}
-	virtual/pkgconfig
 "
 
-
-src_prepare() {
-	epatch "${FILESDIR}/fix_removed_destdir_support.patch" || die "Probably, Upstream finally returned DESTDIR instalation back. Please, report that."
+all_lua_prepare() {
+	sed -i -r \
+		-e 's#(MAKE\)).*(install)#\1 \2#' \
+		Makefile
+#	epatch "${FILESDIR}/fix_removed_destdir_support.patch" || die "Probably, Upstream finally returned DESTDIR instalation back. Please, report that."
+	cd src
+	lua_default
 }
 
-src_compile() {
-	local lua=lua;
-	use luajit && lua=luajit;
-	emake \
-		CC="$(tc-getCC)" \
-		LD="$(tc-getCC) -shared" \
-		LUAPATH="$($(tc-getPKG_CONFIG) --variable INSTALL_LMOD ${lua})" \
-		LUACPATH="$($(tc-getPKG_CONFIG) --variable INSTALL_CMOD ${lua})" \
-		INC_PATH="-I$($(tc-getPKG_CONFIG) --variable includedir ${lua})" \
-		linux \
-		|| die
+each_lua_configure() {
+	cd src
+	myeconfargs=()
+	myeconfargs+=(
+		LD='$(CC)'
+		LUAPATH="\$(DESTDIR)/$(lua_get_pkgvar INSTALL_LMOD)"
+		LUACPATH="\$(DESTDIR)/$(lua_get_pkgvar INSTALL_CMOD)"
+	)
+		lua_default
 }
 
-src_install() {
-	emake DESTDIR="${D}" install || die "Install failed"
-	docompress -x /usr/share/doc/${PF}/samples
-	use examples && dodoc -r samples
+each_lua_compile() {
+	lua_default linux
 }
+
+#each_lua_install() {
+#	dolua ssl.so ssl.lua
+#	_dolua_insdir=ssl \
+#	dolua https.lua
+#}

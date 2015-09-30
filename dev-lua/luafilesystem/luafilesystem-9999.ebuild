@@ -3,38 +3,32 @@
 # $Header: This ebuild is from Lua overlay; Bumped by mva; $
 
 EAPI="5"
-inherit multilib eutils git-r3 toolchain-funcs
+
+VCS="git-r3"
+IS_MULTILIB="true"
+inherit lua
 
 DESCRIPTION="File System Library for the Lua Programming Language"
-HOMEPAGE="http://keplerproject.github.com/luafilesystem/"
-EGIT_REPO_URI="git://github.com/keplerproject/luafilesystem.git"
+HOMEPAGE="https://keplerproject.github.io/luafilesystem/"
+EGIT_REPO_URI="https://github.com/keplerproject/luafilesystem.git"
 SRC_URI=""
 #SRC_URI="https://github.com/downloads/keplerproject/luafilesystem/${P}.tar.gz"
 
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS=""
-IUSE="doc luajit"
+IUSE="doc"
 
-DEPEND="virtual/lua[luajit=]"
-RDEPEND="${DEPEND}"
+HTML_DOCS=( doc/us/ )
+READMES=( README )
 
-DOCS=( README )
-
-src_prepare() {
+all_lua_prepare() {
 	sed \
-		-e "s|/usr/local|/usr|" \
-		-e "s|/lib|/$(get_libdir)|" \
-		-e "s|-O2|${CFLAGS}|" \
-		-e "/^LIB_OPTION/s|= |= ${LDFLAGS} |" \
-		-e "s|gcc|$(tc-getCC)|" \
+		-e 's|-O2|${CFLAGS}|' \
+		-e '/^LIB_OPTION/s|= |= ${LDFLAGS} |' \
 		-i config || die "config fix failed"
-	use luajit && sed -r \
-		-e "s|(LUA_INC)=.*|\1 = $($(tc-getPKG_CONFIG) luajit --variable includedir)|" \
-		-i config || die "luajit include fix failed"
 }
 
-src_install() {
-	emake PREFIX="${ED}usr" install
-	use doc && dohtml doc/us/*
+each_lua_install() {
+	dolua src/lfs.so
 }
