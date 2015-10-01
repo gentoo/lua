@@ -4,7 +4,8 @@
 
 EAPI="5"
 
-inherit eutils git-r3
+VCS="git-r3"
+inherit lua
 
 DESCRIPTION="A set of pure Lua libraries focusing on input data handling, functional programming and OS path management."
 HOMEPAGE="https://github.com/stevedonovan/Penlight"
@@ -19,37 +20,26 @@ IUSE="doc +examples test luajit"
 
 # TODO: Lua 5.2 handling
 
-RDEPEND="
-	virtual/lua[luajit=]
-	doc? ( dev-lua/luadoc )
-"
 DEPEND="
 	${RDEPEND}
-	virtual/pkgconfig
+	doc? ( dev-lua/ldoc )
 "
-DOCS=( README.md CHANGES.md CONTRIBUTING.md )
 
-src_test() {
-	local lua=lua;
-	use luajit && lua=luajit
-	${lua} run.lua tests
+HTML_DOCS=( html/. )
+DOCS=( README.md CHANGES.md CONTRIBUTING.md )
+EXAMPLES=( examples/. )
+
+all_lua_compile() {
+	use doc && (
+		cd doc
+		ldoc . -d ../html
+	)
 }
 
-src_install() {
-	local lua=lua;
-	use luajit && lua=luajit
-	use examples && {
-		docompress -x /usr/share/doc/${PF}/examples
-		dodoc -r examples
-	}
-	use doc && (
-		docompress -x /usr/share/doc/${PF}/html
-		cd doc
-		dodoc -r manual
-# Still doesn't work
-#		luadoc . -d html
-#		dohtml -r html
-	)
-	insinto "$($(tc-getPKG_CONFIG) --variable INSTALL_LMOD ${lua})"
-	doins -r lua/pl
+each_lua_test() {
+	${LUA} run.lua tests
+}
+
+each_lua_install() {
+	dolua lua/pl
 }

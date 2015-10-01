@@ -29,7 +29,7 @@ RDEPEND="
 "
 DEPEND="${RDEPEND}"
 
-DOCS=( docs/ README.md )
+DOCS=( docs/. README.md )
 
 each_lua_compile() {
 	local lua="$(lua_get_implementation)"

@@ -4,8 +4,8 @@
 
 EAPI="5"
 
-
-inherit toolchain-funcs git-r3
+VCS="git-r3"
+inherit lua
 
 DESCRIPTION="A pure Lua implementation of msgpack.org"
 HOMEPAGE="https://fperrad.github.io/lua-MessagePack/"
@@ -13,24 +13,17 @@ EGIT_REPO_URI="https://github.com/fperrad/lua-MessagePack.git"
 
 LICENSE="MIT"
 SLOT="0"
-KEYWORDS="~amd64 ~x86"
-IUSE="luajit"
+KEYWORDS=""
+IUSE=""
 
-RDEPEND="
-	virtual/lua[luajit=]
-"
-DEPEND="${RDEPEND}
-		virtual/pkgconfig"
-
-src_install() {
-	local lua=lua
-	use luajit && lua=luajit
-
-	insinto "$($(tc-getPKG_CONFIG) --variable INSTALL_LMOD ${lua})"
-	if [[ "${lua}" = "lua" ]] && [[ $(${lua} -v 2>&1) =~ "5.3" ]]; then
-		doins src5.3/MessagePack.lua
+each_lua_install() {
+	local insfrom;
+	if [[ "${TARGET}" = "lua53" ]]; then
+		insfrom=src5.3
 	else
-		doins src/MessagePack.lua
+		insfrom=src
 	fi
+
+	dolua "${insfrom}"/MessagePack.lua
 }
 
