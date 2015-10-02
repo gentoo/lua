@@ -21,6 +21,8 @@ READMES=( README )
 S="${WORKDIR}/all/${MY_P}"
 LUA_S="${MY_P}"
 
+each_lua_compile() { :; }
+
 each_lua_install() {
 	dolua alt_getopt.lua
 }

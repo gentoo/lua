@@ -4,10 +4,11 @@
 
 EAPI="5"
 
-inherit base eutils toolchain-funcs git-r3
+VCS="git-r3"
+inherit lua
 
 DESCRIPTION="Templating Engine (HTML) for Lua and OpenResty."
-HOMEPAGE="https://github.com/bungle/lua-${PN}"
+HOMEPAGE="https://github.com/bungle/lua-resty-template"
 SRC_URI=""
 
 EGIT_REPO_URI="https://github.com/bungle/lua-${PN}"
@@ -15,25 +16,17 @@ EGIT_REPO_URI="https://github.com/bungle/lua-${PN}"
 LICENSE="BSD"
 SLOT="0"
 KEYWORDS=""
-IUSE="luajit"
+IUSE=""
 
 RDEPEND="
-	virtual/lua[luajit=]
 	www-servers/nginx[nginx_modules_http_lua]
 "
 DEPEND="
 	${RDEPEND}
-	virtual/pkgconfig
 "
 
-DOCS=( "README.md" )
+READMES=( "README.md" )
 
-src_install() {
-	local lua=lua;
-	use luajit && lua=luajit;
-
-	insinto "$($(tc-getPKG_CONFIG) --variable INSTALL_LMOD ${lua})"
-	doins -r lib/resty
-
-	base_src_install_docs
+each_lua_install() {
+	dolua lib/resty
 }

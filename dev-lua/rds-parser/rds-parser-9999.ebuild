@@ -4,10 +4,13 @@
 
 EAPI="5"
 
-inherit eutils toolchain-funcs git-r3
+VCS="git-r3"
+LUA_COMPAT="lua51 luajit2"
+IS_MULTILIB=true
+inherit lua
 
 DESCRIPTION="Resty-DBD-Stream (RDS) parser for Lua written in C"
-HOMEPAGE="https://github.com/openresty/lua-${PN}"
+HOMEPAGE="https://github.com/openresty/lua-rds-parser"
 SRC_URI=""
 
 EGIT_REPO_URI="https://github.com/openresty/lua-${PN}"
@@ -15,23 +18,14 @@ EGIT_REPO_URI="https://github.com/openresty/lua-${PN}"
 LICENSE="BSD"
 SLOT="0"
 KEYWORDS=""
-IUSE="luajit"
+IUSE=""
 
-RDEPEND="
-	virtual/lua[luajit=]
-"
-DEPEND="
-	${RDEPEND}
-	virtual/pkgconfig
-"
-
-src_prepare() {
-	local lua=lua;
-	use luajit && lua=luajit;
-
-	sed -r \
-		-e "s#^(PREFIX).*#\1=/usr#" \
-		-e "s#^(LUA_LIB_DIR).*#\1=$($(tc-getPKG_CONFIG) --variable INSTALL_CMOD ${lua})#" \
-		-e "s#^(LUA_INCLUDE_DIR).*#\1=$($(tc-getPKG_CONFIG) --variable includedir ${lua})#" \
-		-i Makefile
+each_lua_configure() {
+	myeconfargs=(
+		"PREFIX=/usr"
+		"LUA_LIB_DIR=$(lua_get_pkgvar INSTALL_CMOD)"
+		"LUA_INCLUDE_DIR=$(lua_get_pkgvar includedir)"
+	)
+	lua_default
 }
+

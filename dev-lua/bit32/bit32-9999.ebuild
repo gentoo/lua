@@ -4,32 +4,31 @@
 
 EAPI="5"
 
+# building fine, but not needed for Lua5.2 and Lua5.3
+LUA_COMPAT="lua51 luajit2"
+
 IS_MULTILIB=true
 VCS="git-r3"
 
 inherit lua
 
-DESCRIPTION="A self contained Lua MessagePack C implementation"
-HOMEPAGE="https://github.com/antirez/lua-cmsgpack"
+DESCRIPTION="A Lua5.2+ bit manipulation library"
+HOMEPAGE="https://github.com/keplerproject/lua-compat-5.2"
 
-EGIT_REPO_URI="https://github.com/antirez/lua-cmsgpack"
+EGIT_REPO_URI="https://github.com/keplerproject/lua-compat-5.2"
 KEYWORDS=""
 READMES=( README.md )
 
-LICENSE="BSD-2"
+LICENSE="MIT"
 SLOT="0"
-IUSE="test"
+IUSE=""
 
 each_lua_compile() {
 	_lua_setFLAGS
-	local MY_PN="lua_${PN}"
+	local MY_PN="lbitlib"
 
-	${CC} ${CFLAGS} -c -o ${MY_PN}.o ${MY_PN}.c || die
+	${CC} ${CFLAGS} -Ic-api -c -o ${MY_PN}.o ${MY_PN}.c || die
 	${CC} ${LDFLAGS} -o ${PN}.so ${MY_PN}.o || die
-}
-
-each_lua_test() {
-	${LUA} test.lua || die
 }
 
 each_lua_install() {

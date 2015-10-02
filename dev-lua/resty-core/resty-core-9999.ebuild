@@ -4,10 +4,12 @@
 
 EAPI="5"
 
-inherit eutils toolchain-funcs git-r3
+LUA_COMPAT="luajit2"
+VCS="git-r3"
+inherit lua
 
 DESCRIPTION="New LuaJIT FFI based API for lua-nginx-module"
-HOMEPAGE="https://github.com/openresty/lua-${PN}"
+HOMEPAGE="https://github.com/openresty/lua-resty-core"
 SRC_URI=""
 
 EGIT_REPO_URI="https://github.com/openresty/lua-${PN}"
@@ -24,15 +26,10 @@ RDEPEND="
 "
 DEPEND="
 	${RDEPEND}
-	virtual/pkgconfig
 "
 
-src_prepare() {
-	local lua=luajit;
+READMES=( README.markdown )
 
-	sed -r \
-		-e "s#^(PREFIX).*#\1=/usr#" \
-		-e "s#^(LUA_LIB_DIR).*#\1=$($(tc-getPKG_CONFIG) --variable INSTALL_LMOD ${lua})#" \
-		-e "s#^(LUA_INCLUDE_DIR).*#\1=$($(tc-getPKG_CONFIG) --variable includedir ${lua})#" \
-		-i Makefile
+each_lua_install() {
+	dolua_jit lib/resty
 }

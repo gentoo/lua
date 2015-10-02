@@ -4,8 +4,7 @@
 
 EAPI="5"
 
-VCS="mercurial"
-inherit eutils lua
+inherit eutils mercurial
 
 DESCRIPTION="XMPP client library written in Lua."
 HOMEPAGE="http://code.matthewwild.co.uk/"
@@ -14,21 +13,17 @@ EHG_REPO_URI="http://code.matthewwild.co.uk/${PN}/"
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS=""
-IUSE="luajit"
+IUSE=""
 
-READMES=( README )
+RDEPEND="virtual/lua"
+DEPEND="${RDEPEND}"
 
-all_lua_prepare() {
-	use luajit && sed -r \
-		-e '1s:(env lua):\1jit:' \
-		-i squish.lua make_squishy
+src_compile() {
+	default
 }
 
-all_lua_compile() {
-	emake
-}
-
-all_lua_install() {
+src_install() {
 	dobin squish
 	dobin make_squishy
+	dodoc README
 }

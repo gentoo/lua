@@ -1,0 +1,2 @@
+# Incompatible with current mongo drivers
+dev-lua/luamongo

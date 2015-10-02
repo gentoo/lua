@@ -4,7 +4,9 @@
 
 EAPI="5"
 
-inherit multilib toolchain-funcs flag-o-matic eutils git-r3
+VCS="git-r3"
+IS_MULTILIB=true
+inherit lua
 
 DESCRIPTION="Lua Rings Library"
 HOMEPAGE="https://github.com/keplerproject/rings"
@@ -16,22 +18,15 @@ EGIT_REPO_URI="git://github.com/msva/rings.git https://github.com/msva/rings.git
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS=""
-IUSE="luajit"
+IUSE=""
 
-RDEPEND="
-	virtual/lua[luajit=]
-"
-DEPEND="${RDEPEND}"
-
-src_configure() {
-	local lua="lua";
-	use luajit && lua="luajit"
-	./configure "${lua}"
+each_lua_configure() {
+	myeconfargs=(
+		PREFIX=/usr
+		LIBNAME="${P}".so
+		LUA_LIBDIR="$(lua_get_pkgvar INSTALL_CMOD)"
+		LUA_DIR="$(lua_get_pkgvar INSTALL_LMOD)"
+	)
+	lua_default
 }
 
-src_compile() {
-	local lua="lua";
-	use luajit && lua="luajit"
-	append-cflags "-I$($(tc-getPKG_CONFIG) --variable includedir ${lua})"
-	emake CC="$(tc-getCC) -fPIC -DPIC" LDFLAGS="${LDFLAGS}" CFLAGS="${CFLAGS}" || die "Can't copmile Rings library"
-}

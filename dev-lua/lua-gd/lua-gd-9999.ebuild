@@ -26,25 +26,30 @@ DEPEND="
 "
 
 READMES=( README )
-EXAMPLES=( demos/* )
-HTML_DOCS=( doc/ )
+EXAMPLES=( demos/. )
+HTML_DOCS=( doc/. )
 
-all_lua_prepare() {
-	sed -r \
-		-e 's#CFLAGS#CF#g' \
-		-e 's#LFLAGS#LF#g' \
-		-e 's/^(CF=.*)/\1 $(CFLAGS)/' \
-		-e 's/^(LF=.*)/\1 $(LDFLAGS)/' \
-		-e 's/`pkg-config/`$(PKG_CONFIG)/' \
-		-i Makefile
+#all_lua_prepare() {
+#	sed -r \
+#		-e 's#CFLAGS#CF#g' \
+#		-e 's#LFLAGS#LF#g' \
+#		-e 's/^(CF=.*)/\1 $(CFLAGS)/' \
+#		-e 's/^(LF=.*)/\1 $(LDFLAGS)/' \
+#		-e 's/`pkg-config/`$(PKG_CONFIG)/' \
+#		-i Makefile
+#}
+
+each_lua_configure() {
+	local lua=$(lua_get_lua)
+	myeconfargs=(
+		LUAPKG="${lua}"
+		LUABIN="${lua}"
+	)
+	lua_default
 }
 
 each_lua_compile() {
-	local lua=$(lua_get_lua)
-	lua_default \
-		LUAPKG="${lua}" \
-		LUABIN="${lua}" \
-			gd.so
+	lua_default gd.so
 }
 
 each_lua_install() {

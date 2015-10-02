@@ -4,7 +4,8 @@
 
 EAPI="5"
 
-inherit toolchain-funcs mercurial
+VCS="mercurial"
+inherit lua
 
 DESCRIPTION="Lua Asynchronous HTTP Library."
 HOMEPAGE="http://code.matthewwild.co.uk/"
@@ -13,21 +14,17 @@ EHG_REPO_URI="http://code.matthewwild.co.uk/${PN}/"
 LICENSE="LGPL"
 SLOT="0"
 KEYWORDS=""
-IUSE="luajit"
+IUSE=""
 
 RDEPEND="
-	virtual/lua[luajit=]
 	dev-lua/squish
 "
 DEPEND="${RDEPEND}"
 
-src_compile() {
+each_lua_compile() {
 	squish
 }
 
-src_install() {
-	local lua=lua;
-	use luajit && lua=luajit;
-	insinto "$($(tc-getPKG_CONFIG) --variable INSTALL_LMOD ${lua})"
-	doins yubikey.lua || die
+each_lua_install() {
+	dolua yubikey.lua
 }

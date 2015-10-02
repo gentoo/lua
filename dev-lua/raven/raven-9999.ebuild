@@ -4,10 +4,11 @@
 
 EAPI="5"
 
-inherit eutils toolchain-funcs git-r3
+VCS="git-r3"
+inherit lua
 
 DESCRIPTION="A small Lua interface to Sentry"
-HOMEPAGE="https://github.com/cloudflare/${PN}-lua"
+HOMEPAGE="https://github.com/cloudflare/raven-lua"
 SRC_URI=""
 
 EGIT_REPO_URI="https://github.com/cloudflare/${PN}-lua"
@@ -15,27 +16,24 @@ EGIT_REPO_URI="https://github.com/cloudflare/${PN}-lua"
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS=""
-IUSE="luajit"
+IUSE="doc +examples"
 
 RDEPEND="
-	virtual/lua[luajit=]
+	dev-lua/lua-cjson
 	dev-lua/lunit
 	dev-lua/luaposix
 "
 DEPEND="
 	${RDEPEND}
-	virtual/pkgconfig
 "
 
+READMES=( README.md )
+HTML_DOCS=( docs/. )
+EXAMPLES=( tests/. )
+
+# Makefile is only used to run tests
 src_compile() { :; }
 
-src_install() {
-	local lua=lua;
-	use luajit && lua=luajit;
-
-	insinto "$($(tc-getPKG_CONFIG) --variable INSTALL_LMOD ${lua})"
-	doins -r raven.lua
-
-	dodoc -r README.md
-	dohtml docs/*
+each_lua_install() {
+	dolua raven.lua
 }

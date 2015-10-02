@@ -32,7 +32,7 @@ DEPEND="
 	${RDEPEND}
 "
 
-DOCS=( docs/ README.md )
+DOCS=( docs/. README.md )
 
 all_lua_prepare() {
 	use moonscript || find "${S}" -type -name '*.moon' -delete

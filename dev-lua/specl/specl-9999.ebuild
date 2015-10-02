@@ -4,7 +4,8 @@
 
 EAPI="5"
 
-inherit base git-r3 toolchain-funcs eutils
+VCS="git-r3"
+inherit lua
 
 DESCRIPTION="a testing tool for Lua, providing a Behaviour Driven Development framework in the vein of RSpec"
 HOMEPAGE="https://github.com/gvvaughan/specl"
@@ -15,45 +16,39 @@ EGIT_REPO_URI="https://github.com/gvvaughan/specl"
 LICENSE="GPL"
 SLOT="0"
 KEYWORDS=""
-IUSE="luajit"
+IUSE=""
 
 RDEPEND="
-	virtual/lua[luajit=]
 	dev-lua/luamacro
 	dev-lua/lyaml
 "
 DEPEND="${RDEPEND}"
 
-DOCS=( "README.md" "NEWS" )
+READMES=( README.md NEWS )
 
-src_prepare() {
+all_lua_prepare() {
 	if [[ -n ${EVCS_OFFLINE} ]]; then
 		die "Unfortunately, upstream uses buildsystem which depends on external submodules, so you won't be able to build package in offline mode. Sorry."
 	fi
 
-	local lua=lua;
-	use luajit && lua=luajit;
-	export LUA="${lua}"
-
 	./bootstrap --skip-rock-checks
+	lua_default
 }
 
-src_configure() {
+each_lua_configure() {
 	myeconfargs=(
-		"--datadir=$($(tc-getPKG_CONFIG) --variable INSTALL_LMOD ${LUA})" \
-		"--libdir=$($(tc-getPKG_CONFIG) --variable INSTALL_CMOD ${LUA})" \
-		"LUA_INCLUDE=-I$($(tc-getPKG_CONFIG) --variable includedir ${LUA})"
+		"--datadir=$(lua_get_pkgvar INSTALL_LMOD)"
+		"--libdir=$(lua_get_pkgvar INSTALL_CMOD)"
+		"LUA_INCLUDE=-I$(lua_get_pkgvar includedir)"
 	)
-	base_src_configure "${myeconfargs[@]}"
+	lua_default
 }
 
-src_compile() {
-	cd "${S}";
+each_lua_compile() {
 	./config.status --file=lib/specl/version.lua
 }
 
-src_install() {
+each_lua_install() {
 	rm lib/specl/version.lua.in
-	insinto $($(tc-getPKG_CONFIG) --variable INSTALL_LMOD ${LUA})
-	doins -r lib/specl
+	dolua lib/specl
 }

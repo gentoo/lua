@@ -28,25 +28,21 @@ DEPEND="
 
 READMES=( README.md TODO )
 HTML_DOCS=( doc/luafann.html )
-EXAMPLES=( examples/* )
+EXAMPLES=( test/. )
 
 all_lua_compile() {
+	touch .lua_eclass_config
 	use doc && (
 		emake docs
 	)
 }
 
-each_lua_compile() {
-	_lua_setCFLAGS
-
-	emake \
-		CC="${CC}" \
-		CFLAGS="${CFLAGS}" \
-		LDFLAGS="${LDFLAGS}" \
-		PKG_CONFIG="${PKG_CONFIG}" \
-		LUA_IMPL="$(lua_get_lua)" \
-		LUA_BIN="${LUA}" \
-		LUA_INC="."
+each_lua_configure() {
+	myeconfargs=(
+		LUA_IMPL="$(lua_get_lua)"
+		LUA_BIN="${LUA}"
+	)
+	lua_default
 }
 
 each_lua_test() {

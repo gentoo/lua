@@ -4,7 +4,9 @@
 
 EAPI="5"
 
-inherit multilib eutils git-r3 toolchain-funcs
+VCS="git-r3"
+#IS_MULTILIB=true
+inherit lua
 
 DESCRIPTION="Lua WSAPI Library"
 HOMEPAGE="https://github.com/keplerproject/wsapi"
@@ -15,10 +17,9 @@ EGIT_REPO_URI="https://github.com/keplerproject/wsapi.git"
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS=""
-IUSE="luajit doc uwsgi +fcgi"
+IUSE="doc +examples uwsgi +fcgi"
 #TODO: xavante"
 RDEPEND="
-	virtual/lua[luajit=]
 	fcgi? (
 		dev-libs/fcgi
 		virtual/httpd-fastcgi
@@ -32,37 +33,29 @@ RDEPEND="
 #TODO:	xavante? ( dev-lua/xavante )"
 DEPEND="${RDEPEND}"
 
-src_prepare() {
-	local lua=lua
-	use luajit && lua=luajit
+DOCS=( doc/us/{index,libraries,license,manual}.md )
+HTML_DOCS=( doc/us/{index,libraries,license,manual}.html doc/us/doc.css doc/us/${PN}.png )
+EAMPLES=( samples/. )
+
+all_lua_prepare() {
 	sed -r \
 		-e "s///g" \
-		-e "1s%#!#.*lua$%#!/usr/bin/env ${lua}%g" \
 		-i src/launcher/wsapi{,.cgi,.fcgi}
-	echo "
-		LIB_OPTION=-shared -fPIC
-		BIN_DIR=/usr/bin
-		LUA_DIR=$($(tc-getPKG_CONFIG) --variable INSTALL_LMOD ${lua})
-		LUA_LIBDIR=$($(tc-getPKG_CONFIG) --variable INSTALL_CMOD ${lua})
-		INC=-I$($(tc-getPKG_CONFIG) --variable includedir ${lua})
-		CC=$(tc-getCC) -fPIC -DPIC
-		LDFLAGS=${LDFLAGS}
-		CFLAGS=${CFLAGS}
-		DESTDIR=${ED}
-	" > "${S}/config"
+	lua_default
+	rm configure
 }
 
-src_configure() {
-	:
-}
+#each_lua_configure() {
+#	myeconfargs=(
+#		LUA_DIR=$(lua_get_pkgvar INSTALL_LMOD)
+#		LUA_LIBDIR=$(lua_get_pkgvar INSTALL_CMOD)
+#		INC=-I$(lua_get_pkgvar includedir)
+#	)
+#	lua_default
+#}
 
-src_install() {
-	docompress -x /usr/share/doc
-	default
-	use doc && (
-		insinto /usr/share/doc/${PF}/examples
-		doins -r samples/*
-		insinto /usr/share/doc/${PF}
-		doins -r doc/*
-	)
+each_lua_install() {
+	dolua src/*.lua src/${PN}
+	newbin src/launcher/${PN}.cgi ${PN}-${TARGET}.cgi
+	use fcgi && newbin src/launcher/${PN}.fcgi ${PN}-${TARGET}.fcgi
 }

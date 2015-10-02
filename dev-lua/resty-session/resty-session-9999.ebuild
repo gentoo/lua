@@ -4,10 +4,12 @@
 
 EAPI="5"
 
-inherit base eutils toolchain-funcs git-r3
+VCS="git-r3"
+LUA_COMPAT="luajit2"
+inherit lua
 
 DESCRIPTION="Session library for OpenResty implementing Secure Cookie Protocol"
-HOMEPAGE="https://github.com/bungle/lua-${PN}"
+HOMEPAGE="https://github.com/bungle/lua-resty-session"
 SRC_URI=""
 
 EGIT_REPO_URI="https://github.com/bungle/lua-${PN}"
@@ -18,21 +20,16 @@ KEYWORDS=""
 IUSE=""
 
 RDEPEND="
-	virtual/lua[luajit]
 	www-servers/nginx[nginx_modules_http_lua]
 	dev-lua/lua-cjson
 	dev-lua/resty-string
 "
 DEPEND="
 	${RDEPEND}
-	virtual/pkgconfig
 "
 
-DOCS=( "README.md" )
+READMES=( README.md )
 
-src_install() {
-	insinto "$($(tc-getPKG_CONFIG) --variable INSTALL_LMOD luajit)"
-	doins -r lib/resty
-
-	base_src_install_docs
+each_lua_install() {
+	dolua_jit lib/resty
 }

@@ -4,10 +4,12 @@
 
 EAPI="5"
 
-inherit eutils toolchain-funcs git-r3
+VCS="git-r3"
+LUA_COMPAT="luajit2"
+inherit lua
 
 DESCRIPTION="Simple shm-based nonblocking lock API"
-HOMEPAGE="https://github.com/openresty/lua-${PN}"
+HOMEPAGE="https://github.com/openresty/lua-resty-lock"
 SRC_URI=""
 
 EGIT_REPO_URI="https://github.com/openresty/lua-${PN}"
@@ -18,20 +20,14 @@ KEYWORDS=""
 IUSE=""
 
 RDEPEND="
-	virtual/lua[luajit]
 	www-servers/nginx[nginx_modules_http_lua]
 "
 DEPEND="
 	${RDEPEND}
-	virtual/pkgconfig
 "
 
-src_prepare() {
-	local lua=luajit;
+READMES=( README.markdown )
 
-	sed -r \
-		-e "s#^(PREFIX).*#\1=/usr#" \
-		-e "s#^(LUA_LIB_DIR).*#\1=$($(tc-getPKG_CONFIG) --variable INSTALL_LMOD ${lua})#" \
-		-e "s#^(LUA_INCLUDE_DIR).*#\1=$($(tc-getPKG_CONFIG) --variable includedir ${lua})#" \
-		-i Makefile
+each_lua_install() {
+	dolua_jit lib/resty
 }

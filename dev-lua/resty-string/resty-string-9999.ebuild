@@ -4,10 +4,12 @@
 
 EAPI="5"
 
-inherit eutils toolchain-funcs git-r3
+VCS="git-r3"
+LUA_COMPAT="luajit2"
+inherit lua
 
 DESCRIPTION="String utilities and common hash functions for ngx_lua and LuaJIT"
-HOMEPAGE="https://github.com/openresty/lua-${PN}"
+HOMEPAGE="https://github.com/openresty/lua-string"
 SRC_URI=""
 
 EGIT_REPO_URI="https://github.com/openresty/lua-${PN}"
@@ -15,24 +17,23 @@ EGIT_REPO_URI="https://github.com/openresty/lua-${PN}"
 LICENSE="BSD"
 SLOT="0"
 KEYWORDS=""
-IUSE=""
+IUSE="+ext_random"
 
 RDEPEND="
-	virtual/lua[luajit]
-	www-servers/nginx[nginx_modules_http_lua]
+	ext_random? ( dev-lua/resty-random )
+	www-servers/nginx[nginx_modules_http_lua,ssl]
 	dev-libs/openssl
 "
 DEPEND="
 	${RDEPEND}
-	virtual/pkgconfig
 "
 
-src_prepare() {
-	local lua=luajit;
+READMES=( README.markdown )
 
-	sed -r \
-		-e "s#^(PREFIX).*#\1=/usr#" \
-		-e "s#^(LUA_LIB_DIR).*#\1=$($(tc-getPKG_CONFIG) --variable INSTALL_LMOD ${lua})#" \
-		-e "s#^(LUA_INCLUDE_DIR).*#\1=$($(tc-getPKG_CONFIG) --variable includedir ${lua})#" \
-		-i Makefile
+all_lua_prepare() {
+	use ext_random && rm lib/resty/random.lua
+}
+
+each_lua_install() {
+	dolua_jit lib/resty
 }

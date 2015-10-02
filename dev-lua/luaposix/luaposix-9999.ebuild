@@ -22,15 +22,15 @@ KEYWORDS=""
 IUSE="doc +examples ncurses"
 
 RDEPEND="
-	virtual/lua[bit]
+	virtual/lua[bit32]
 	ncurses? ( sys-libs/ncurses )
 "
 
 DEPEND="
 	${RDEPEND}
 	doc? ( dev-lua/ldoc )
-	dev-libs/gnulib
 "
+#	dev-libs/gnulib
 #	dev-lua/specl
 #	dev-lua/lyaml
 
@@ -96,6 +96,6 @@ each_lua_configure() {
 		ax_cv_lua_luaexecdir="$(lua_get_pkgvar INSTALL_CMOD)"
 		
 	)
-	base_src_configure
+	econf ${myeconfargs[@]}
 }
 

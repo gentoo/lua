@@ -4,10 +4,11 @@
 
 EAPI="5"
 
-inherit base eutils toolchain-funcs git-r3
+VCS="git-r3"
+inherit lua
 
 DESCRIPTION="Library for parsing HTTP Cookie header for Nginx"
-HOMEPAGE="https://github.com/cloudflare/lua-${PN}"
+HOMEPAGE="https://github.com/cloudflare/lua-resty-cookie"
 SRC_URI=""
 
 EGIT_REPO_URI="https://github.com/cloudflare/lua-${PN}"
@@ -15,27 +16,18 @@ EGIT_REPO_URI="https://github.com/cloudflare/lua-${PN}"
 LICENSE="BSD"
 SLOT="0"
 KEYWORDS=""
-IUSE="luajit"
+IUSE=""
 
 RDEPEND="
-	virtual/lua[luajit=]
 	www-servers/nginx[nginx_modules_http_lua]
 "
 DEPEND="
 	${RDEPEND}
-	virtual/pkgconfig
 "
 
+READMES=( README.md )
 
-DOCS=( "README.md" )
-
-src_install() {
-	local lua=lua;
-	use luajit && lua=luajit;
-
-	insinto "$($(tc-getPKG_CONFIG) --variable INSTALL_LMOD ${lua})"
-	doins -r lib/resty
-
-	base_src_install_docs
+each_lua_install() {
+	dolua lib/resty
 }
 

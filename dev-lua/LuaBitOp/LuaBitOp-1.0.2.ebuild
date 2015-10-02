@@ -5,7 +5,7 @@
 EAPI="5"
 
 IS_MULTILIB=true
-#LUA_COMPAT="lua51" #actually. But lj, l52 and l53 can load it too
+LUA_COMPAT="lua51 lua52 lua53"
 
 inherit lua
 
@@ -19,7 +19,13 @@ KEYWORDS="~amd64 ~x86"
 IUSE="doc"
 
 READMES=( README )
-HTML_DOCS=( doc/ )
+HTML_DOCS=( doc/. )
+
+each_lua_configure() {
+	# Lua5.3 compilation hack
+	myeconfargs=( 'CFLAGS+=-DLUA_NUMBER_DOUBLE' )
+	lua_default
+}
 
 each_lua_test() {
 	emake LUA=${LUA} test

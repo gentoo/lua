@@ -4,10 +4,12 @@
 
 EAPI="5"
 
-inherit eutils toolchain-funcs git-r3
+VCS="git-r3"
+LUA_COMPAT="luajit2"
+inherit lua
 
 DESCRIPTION="A simple LRU cache for OpenResty and the ngx_lua module (based on LuaJIT FFI)"
-HOMEPAGE="https://github.com/openresty/lua-${PN}"
+HOMEPAGE="https://github.com/openresty/lua-resty-lrucache"
 SRC_URI=""
 
 EGIT_REPO_URI="https://github.com/openresty/lua-${PN}"
@@ -15,21 +17,17 @@ EGIT_REPO_URI="https://github.com/openresty/lua-${PN}"
 LICENSE="BSD"
 SLOT="0"
 KEYWORDS=""
-IUSE="luajit"
+IUSE=""
 
 RDEPEND="
-	virtual/lua[luajit=]
 	www-servers/nginx[nginx_modules_http_lua]
 "
 DEPEND="
 	${RDEPEND}
-	virtual/pkgconfig
 "
 
-src_install() {
-	local lua=lua;
-	use luajit && lua=luajit;
+READMES=( README.markdown )
 
-	insinto "$($(tc-getPKG_CONFIG) --variable INSTALL_LMOD ${lua})"
-	doins -r lib/resty
+each_lua_install() {
+	dolua_jit lib/resty
 }

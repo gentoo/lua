@@ -4,10 +4,11 @@
 
 EAPI="5"
 
-inherit eutils toolchain-funcs git-r3
+VCS="git-r3"
+inherit lua
 
 DESCRIPTION="Lua MySQL client driver for ngx_lua based on the cosocket API"
-HOMEPAGE="https://github.com/openresty/lua-${PN}"
+HOMEPAGE="https://github.com/openresty/lua-resty-mysql"
 SRC_URI=""
 
 EGIT_REPO_URI="https://github.com/openresty/lua-${PN}"
@@ -15,24 +16,19 @@ EGIT_REPO_URI="https://github.com/openresty/lua-${PN}"
 LICENSE="BSD"
 SLOT="0"
 KEYWORDS=""
-IUSE="luajit"
+IUSE=""
 
 RDEPEND="
-	virtual/lua[bit,luajit=]
+	virtual/lua[bit]
 	www-servers/nginx[nginx_modules_http_lua]
 "
 DEPEND="
 	${RDEPEND}
-	virtual/pkgconfig
 "
 
-src_prepare() {
-	local lua=lua;
-        use luajit && lua=luajit;
+READMES=( README.markdown )
 
-	sed -r \
-		-e "s#^(PREFIX).*#\1=/usr#" \
-		-e "s#^(LUA_LIB_DIR).*#\1=$($(tc-getPKG_CONFIG) --variable INSTALL_LMOD ${lua})#" \
-		-e "s#^(LUA_INCLUDE_DIR).*#\1=$($(tc-getPKG_CONFIG) --variable includedir ${lua})#" \
-		-i Makefile
+each_lua_install() {
+	dolua lib/resty
 }
+

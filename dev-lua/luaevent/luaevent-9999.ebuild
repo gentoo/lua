@@ -27,7 +27,7 @@ DEPEND="
 
 READMES=( README )
 
-PATCHES=( ${FILESDIR}/{gc-anchoring,lua5.3}.patch )
+PATCHES=( ${FILESDIR}/gc-anchoring.patch )
 
 each_lua_install() {
 	dolua lua/*

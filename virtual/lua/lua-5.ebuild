@@ -13,7 +13,7 @@ SRC_URI=""
 LICENSE=""
 SLOT="0"
 KEYWORDS="~alpha ~amd64 ~arm ~hppa ~ia64 ~mips ~ppc ~ppc64 ~s390 ~sh ~sparc ~x86 ~x86-fbsd"
-IUSE="luajit bit"
+IUSE="luajit bit bit32"
 
 RDEPEND="
 	!luajit? (
@@ -25,10 +25,15 @@ RDEPEND="
 	)
 	bit? (
 		|| (
-			dev-lang/lua:5.2[deprecated,${MULTILIB_USEDEP}]
-			dev-lang/lua:5.3[deprecated,${MULTILIB_USEDEP}]
 			dev-lang/luajit:2[${MULTILIB_USEDEP}]
 			dev-lua/LuaBitOp[${MULTILIB_USEDEP}]
+		)
+	)
+	bit32? (
+		|| (
+			dev-lang/lua:5.2[deprecated,${MULTILIB_USEDEP}]
+			dev-lang/lua:5.3[deprecated,${MULTILIB_USEDEP}]
+			dev-lua/bit32[${MULTILIB_USEDEP}]
 		)
 	)
 	luajit? (

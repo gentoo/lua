@@ -19,14 +19,19 @@ SLOT="0"
 KEYWORDS=""
 IUSE="doc"
 
-HTML_DOCS=( doc/us/ )
+HTML_DOCS=( doc/us/. )
 READMES=( README )
 
 all_lua_prepare() {
-	sed \
-		-e 's|-O2|${CFLAGS}|' \
-		-e '/^LIB_OPTION/s|= |= ${LDFLAGS} |' \
-		-i config || die "config fix failed"
+	sed -e 'd' config
+	lua_default
+}
+
+each_lua_configure() {
+	myeconfargs=(
+		LIB_OPTION='$(LDFLAGS)'
+	)
+	lua_default
 }
 
 each_lua_install() {

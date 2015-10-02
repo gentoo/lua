@@ -662,9 +662,9 @@ _lua_src_install_examples() {
 	debug-print-function $FUNCNAME "$@"
 
 	local x
-	local MY_S="${WORKDIR}/all/${P}"
+#	local MY_S="${LUA_S:-${WORKDIR}/all/${P}}"
 
-	pushd "${MY_S}" >/dev/null
+#	pushd "${MY_S}" >/dev/null
 
 	if [[ "$(declare -p EXAMPLES 2>/dev/null 2>&1)" == "declare -a"* ]]; then
 		for x in "${EXAMPLES[@]}"; do
@@ -675,15 +675,20 @@ _lua_src_install_examples() {
 		done
 	fi
 
-	popd >/dev/null
+#	popd >/dev/null
 }
 
 _lua_src_install_docs() {
 	debug-print-function $FUNCNAME "$@"
 	local x
 
-	local MY_S="${WORKDIR}/all/${P}"
-	pushd "${MY_S}" >/dev/null
+#	local MY_S;
+#	if [[ -z "${LUA_S}" ]]; then
+#		MY_S="${WORKDIR}/all/${P}"
+#	else
+#		MY_S="${WORKDIR}/all/${LUA_S}"
+#	fi
+#	pushd "${MY_S}" >/dev/null
 
 	if [[ "$(declare -p DOCS 2>/dev/null 2>&1)" == "declare -a"* ]]; then
 		for x in "${DOCS[@]}"; do
@@ -700,7 +705,7 @@ _lua_src_install_docs() {
 		done
 	fi
 
-	popd >/dev/null
+#	popd >/dev/null
 }
 
 #### END ####
@@ -775,7 +780,7 @@ _lua_install_cmod() {
 }
 
 _lua_jit_insopts() {
-	[[ "${LUA}" =~ "luajit" ]] || return 0
+	[[ "${LUA}" =~ "luajit" ]] || die "Calling dolua_jit for non-jit targets isn't supported"
 	local insdir=$(${LUA} -e 'print(package.path:match(";(/[^;]+luajit[^;]+)/%?.lua;"))')
 	insinto ${insdir}
 	insopts -m 0644
@@ -783,7 +788,7 @@ _lua_jit_insopts() {
 
 dolua_jit() {
 	_lua_jit_insopts
-	doins "$@"
+	doins -r "$@"
 }
 
 newlua_jit() {

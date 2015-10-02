@@ -83,7 +83,7 @@ multilib_src_compile() {
 
 	cd src
 
-	local myCFLAGS=""
+	local myCFLAGS;
 	use deprecated && myCFLAGS="-DLUA_COMPAT_5_2 -DLUA_COMPAT_5_1"
 # -DLUA_COMPAT_FLOATSTRING"
 
