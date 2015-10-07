@@ -20,7 +20,7 @@ inherit games eutils autotools ${SCM_ECLASS}
 
 LICENSE="ZLIB"
 SLOT="0"
-IUSE="luajit"
+IUSE=""
 
 RDEPEND="
 	dev-games/physfs
@@ -31,7 +31,7 @@ RDEPEND="
 	media-libs/libvorbis
 	media-libs/openal
 	media-sound/mpg123
-	virtual/lua[luajit=]
+	virtual/lua[luajit]
 	virtual/opengl
 "
 DEPEND="
@@ -40,7 +40,7 @@ DEPEND="
 	media-libs/tiff
 "
 
-DOCS=( "readme.md" "changes.txt" )
+DOCS=( readme.md changes.txt )
 
 src_prepare() {
 	sh platform/unix/automagic || die
@@ -49,7 +49,6 @@ src_prepare() {
 
 src_configure() {
 	OPTS=()
-	use luajit && OPTS+=" --with-luajit"
 	OPTS+=" --disable-dependency-tracking --disable-option-checking"
 	econf ${OPTS}
 }

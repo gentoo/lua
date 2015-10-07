@@ -13,11 +13,11 @@ SRC_URI="http://bitbucket.org/rude/love/downloads/${P}-linux-src.tar.gz"
 LICENSE="ZLIB"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
-IUSE="luajit"
+IUSE=""
 
 RDEPEND="
 	dev-games/physfs
-	virtual/lua[luajit=]
+	virtual/lua[luajit]
 	media-libs/devil[mng,tiff]
 	media-libs/freetype
 	media-libs/libmodplug
@@ -33,6 +33,4 @@ DEPEND="
 	media-libs/tiff
 "
 
-S=${WORKDIR}/${PN}-HEAD
-
-DOCS=( "readme.txt" "changes.txt" )
+DOCS=( readme.md changes.txt )
