@@ -4,12 +4,11 @@
 
 EAPI="5"
 
-LUA_COMPAT="lua51 luajit2"
 VCS="mercurial"
 IS_MULTILIB=true
 inherit lua
 
-DESCRIPTION="XMPP client library written in Lua."
+DESCRIPTION="SAX XML parser based on the Expat library."
 HOMEPAGE="http://code.matthewwild.co.uk/"
 EHG_REPO_URI="http://code.matthewwild.co.uk/lua-expat/"
 #EHG_REPO_URI="https://bitbucket.org/mva/luaexpat-temp"
@@ -27,7 +26,22 @@ DEPEND="
 "
 
 READMES=( README )
-HTML_DOCS=( doc/ )
+HTML_DOCS=( doc/. )
+
+all_lua_prepare() {
+	sed -i -r \
+		-e '/^COMMON_CFLAGS/s# -ansi##' \
+		Makefile
+
+	lua_default
+}
+
+each_lua_configure() {
+	myeconfargs=(
+		LUA_V="${lua_impl##lua}"
+	)
+	lua_default
+}
 
 each_lua_install() {
 	dolua src/lxp{,.so}
