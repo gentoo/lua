@@ -76,11 +76,11 @@ each_lua_configure() {
 		-i .lua_eclass_config
 }
 
-each_lua_install() {
-	myeinstallargs=()
-	if ! use elibc_Winnt && ! use elibc_Cygwin; then
-		myeinstallargs+=( "install-unix" )
-	fi
-
-	lua_default
-}
+#each_lua_install() {
+#	myeinstallargs=()
+#	if ! use elibc_Winnt && ! use elibc_Cygwin; then
+#		myeinstallargs+=( "install-unix" )
+#	fi
+#
+#	lua_default
+#}
