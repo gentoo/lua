@@ -639,6 +639,10 @@ lua_src_install() {
 	done;
 	README_DOCS+=(${READMES[@]})
 
+	if [[ -n "${HTML_DOCS}" ]] && ! use doc; then
+		unset HTML_DOCS
+	fi
+
 	if [[ -n "${README_DOCS}" ]]; then
 		export DOCS=(${README_DOCS[@]});
 		_PHASE="install readmes" _lua_invoke_environment all _lua_src_install_docs
