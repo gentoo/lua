@@ -9,7 +9,7 @@ inherit base eutils multilib multilib-minimal portability pax-utils toolchain-fu
 DESCRIPTION="Just-In-Time Compiler for the Lua programming language"
 HOMEPAGE="http://luajit.org/"
 SRC_URI=""
-EGIT_REPO_URI="git://repo.or.cz/luajit-2.0.git"
+EGIT_REPO_URI="http://luajit.org/git/luajit-2.0.git"
 SLOT="2"
 
 LICENSE="MIT"
