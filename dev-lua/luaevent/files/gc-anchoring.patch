@@ -43,7 +43,7 @@ index afe8773..9e705be 100644
  	}
  }
  /* le_callback is allocated at the beginning of the coroutine in which it
-@@ -40,62 +39,64 @@ is used, no need to manually de-allocate */
+@@ -40,60 +39,62 @@ is used, no need to manually de-allocate */
  /* Index for coroutine is fd as integer for *nix, as lightuserdata for Win */
  void luaevent_callback(int fd, short event, void* p) {
  	le_callback* cb = p;
@@ -107,8 +107,6 @@ index afe8773..9e705be 100644
 -		if( newEvent != event || (cb->timeout.tv_sec != new_tv.tv_sec || cb->timeout.tv_usec != new_tv.tv_usec) ) {
 -			struct timeval *ptv = &cb->timeout;
 -			cb->timeout = new_tv;
--			if(!cb->timeout.tv_sec && !cb->timeout.tv_usec)
--				ptv = NULL;
 -			event_del(ev);
 -			event_set(ev, fd, EV_PERSIST | newEvent, luaevent_callback, cb);
 -			/* Assume cannot set a new timeout.. */
@@ -130,8 +128,6 @@ index afe8773..9e705be 100644
  		}
 +		struct timeval *ptv = &cb->timeout;
 +		cb->timeout = new_tv;
-+		if(!cb->timeout.tv_sec && !cb->timeout.tv_usec)
-+			ptv = NULL;
 +		event_del(ev);
 +		event_set(ev, fd, EV_PERSIST | ret, luaevent_callback, cb);
 +		/* Assume cannot set a new timeout.. */
