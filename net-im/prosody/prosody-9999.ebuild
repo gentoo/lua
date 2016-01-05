@@ -76,6 +76,7 @@ src_configure() {
 		--sysconfdir="${JABBER_ETC}" \
 		--datadir="${JABBER_SPOOL}" \
 		--with-lua-lib=/usr/$(get_libdir) \
+		--libdir=/usr/$(get_libdir) \
 		--c-compiler="$(tc-getCC)" --linker="$(tc-getCC)" \
 		--cflags="${CFLAGS} -Wall -fPIC -D_GNU_SOURCE" \
 		--ldflags="${LDFLAGS} -shared" \
