@@ -20,7 +20,7 @@ KEYWORDS=""
 IUSE="doc"
 
 HTML_DOCS=( doc/us/. )
-READMES=( README )
+READMES=( README.md )
 
 all_lua_prepare() {
 	sed -e 'd' config
