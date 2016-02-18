@@ -10,8 +10,6 @@
 </maintainer>
 <longdescription>Prosody IM server's community-writen modules</longdescription>
 <use>
-
-
 	<flag name='addressing'>This module is a partial implementation of <a href="http://xmpp.org/extensions/xep-0033.html">XEP-0033: Extended Stanza Addressing</a>.</flag>
 	<flag name='adhoc_account_management'>This module adds an ad-hoc command that lets an user change their password. This is useful for clients that don't have support for <a href="http://xmpp.org/extensions/xep-0077.html">XEP-0077</a> style password changing. In the future, it may provide other account management commands.</flag>
 	<flag name='adhoc_blacklist'>This module provides the <em>Edit Blacklist</em> ad-hoc command described in <a href="http://xmpp.org/extensions/xep-0133.html#edit-blacklist">XEP-0133</a> and also performs the actual blocking of incoming and outgoing server-to-server connections.</flag>
@@ -40,6 +38,7 @@
 	<flag name='auto_activate_hosts'>By default Prosody does not automatically activate/deactivate hosts when they are added to and removed from the configuration.</flag>
 	<flag name='benchmark_storage'>To benchmark <code>mod_storage_internal</code>:</flag>
 	<flag name='bidi'>This module implements <a href="http://xmpp.org/extensions/xep-0288.html">XEP-0288: Bidirectional Server-to-Server Connections</a>. It allows servers to use a single connection for sending stanzas to each other, instead of two connections (one for stanzas in each direction).</flag>
+	<flag name='block_outgoing'>No documentation yet :(</flag>
 	<flag name='block_registrations'>On a server with public registration it is usually desirable to prevent registration of certain &quot;reserved&quot; accounts, such as &quot;admin&quot;.</flag>
 	<flag name='block_s2s_subscriptions'>No documentation yet :(</flag>
 	<flag name='block_strangers'>No documentation yet :(</flag>
@@ -141,6 +140,8 @@
 	<flag name='password_policy'>No documentation yet :(</flag>
 	<flag name='pastebin'>Pastebins are used very often in IM, especially in chat rooms. You have a long log or command output which you need to send to someone over IM, and don't want to fill their message window with it. Put it on a pastebin site, and give them the URL instead, simple.</flag>
 	<flag name='pep_vcard_avatar'>This module pushes the users nickname and avatar from vCards into PEP, or into vCards from PEP. This allows interop between older clients that use <a href="http://xmpp.org/extensions/xep-0153.html">XEP-0153: vCard-Based Avatars</a> to see the avatars of clients that use <a href="http://xmpp.org/extensions/xep-0084.html">XEP-0084: User Avatar</a> and vice versa.</flag>
+	<flag name='pinger'>No documentation yet :(</flag>
+	<flag name='poke_strangers'>In order to build heuristics for which messages are spam, it is necessary to log as many details as possible about the spammers. This module sends a version and disco query whenever a message is received from a JID to a user it is not subscribed to. The results are printed to Prosody's log file at the 'info' level. Queried full JIDs are not queried again until Prosody restarts.</flag>
 	<flag name='post_msg'>Sometimes it's useful to have different interfaces to access XMPP.</flag>
 	<flag name='presence_cache'>This module stores presence from users contact even when they are offline, so that the client can see who is online faster when they sign in, and won't have to wait for remote servers to reply.</flag>
 	<flag name='privacy_lists'>Privacy lists are a flexible method for blocking communications.</flag>
@@ -180,7 +181,7 @@
 	<flag name='s2s_never_encrypt_blacklist'>Let's you stop Prosody from sending &lt;starttls xmlns='urn:ietf:params:xml:ns:xmpp-tls'&gt; feature to choppy/buggy servers which therefore would fail to re-negotiate and use a secure stream. (e.g. <a href="http://issues.igniterealtime.org/browse/OF-405">OpenFire 3.7.0</a>)</flag>
 	<flag name='s2s_reload_newcomponent'>Currently, module:reload command in console doesn't load new components. This module will automatically load the new components (if any) when the config:reload command is run in the console.</flag>
 	<flag name='s2s_whitelist'>No documentation yet :(</flag>
-	<flag name='s2soutinjection'>No documentation yet :(</flag>
+	<flag name='s2soutinjection'>This module is similar to <a href="/mod_srvinjection.html">mod_srvinjection</a> but less of an hack.</flag>
 	<flag name='saslauth_muc'>No documentation yet :(</flag>
 	<flag name='saslname'>This module implements <a href="http://xmpp.org/extensions/xep-0233.html">XEP-0233: Domain-Based Service Names in XMPP SASL Negotiation</a>.</flag>
 	<flag name='seclabels'>This module implements <a href="http://xmpp.org/extensions/xep-0258.htmla">XEP-0258: Security Labels in XMPP</a>.</flag>

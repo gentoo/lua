@@ -174,7 +174,7 @@ local inside=false;
 for line in md_fd:lines() do
 	if line:match([[<use>]]) then
 		temp_fd:write(line);
-		temp_fd:write(eol)
+--		temp_fd:write(eol)
 		inside=true;
 	elseif inside and (line:match([[</use>]])) then
 		inside=false;
