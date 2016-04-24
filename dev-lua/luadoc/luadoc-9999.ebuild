@@ -23,7 +23,7 @@ RDEPEND="
 	dev-lua/luafilesystem
 "
 
-READMES=( README )
+READMES=( README.md )
 HTML_DOCS=( doc/us/ )
 
 
