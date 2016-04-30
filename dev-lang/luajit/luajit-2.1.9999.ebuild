@@ -2,9 +2,9 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: This ebuild is from Lua overlay; Bumped by mva; $
 
-EAPI="5"
+EAPI="6"
 
-inherit base eutils multilib multilib-minimal portability pax-utils toolchain-funcs versionator flag-o-matic check-reqs git-r3
+inherit eutils multilib multilib-minimal portability pax-utils toolchain-funcs versionator flag-o-matic check-reqs git-r3
 
 DESCRIPTION="Just-In-Time Compiler for the Lua programming language"
 HOMEPAGE="http://luajit.org/"
@@ -30,7 +30,7 @@ PDEPEND="
 	virtual/lua[luajit]
 "
 
-HTML_DOCS=( "doc/" )
+HTML_DOCS=( "doc/." )
 
 MULTILIB_WRAPPED_HEADERS=(
     /usr/include/luajit-${SLOT}/luaconf.h
@@ -54,33 +54,13 @@ pkg_setup() {
 
 src_prepare(){
 	# fixing prefix and version
-#	sed -r \
-#		-e 's|^(VERSION)=.*|\1=$(MAJVER).$(MINVER)|' \
-#		-e 's|\$\(MAJVER\)\.\$\(MINVER\)\.\$\(RELVER\)|$(VERSION)|' \
-#		-e 's|^(FILE_MAN)=.*|\1=${PN}-$(VERSION).1|' \
-#		-e 's|^(INSTALL_PCNAME)=.*|\1=${PN}-$(VERSION).pc|' \
-#		-e 's|^(INSTALL_SOSHORT)=.*|\1=lib${PN}-${SLOT}.so|' \
-#		-e 's|^(INSTALL_ANAME)=.*|\1=lib${PN}-${SLOT}.a|' \
-#		-e 's|^(INSTALL_SONAME)=.*|\1=lib${PN}-${SLOT}.so.${PV}|' \
-#		-e 's|( PREFIX)=.*|\1=/usr|' \
-#		-e '/\$\(SYMLINK\)\ \$\(INSTALL_TNAME\)\ \$\(INSTALL_TSYM\)/d' \
-#		-i Makefile || die "failed to fix prefix in Makefile"
-
 	sed -r \
 		-e 's|^(VERSION)=.*|\1=${PV}|' \
-		-e 's|\$\(MAJVER\)\.\$\(MINVER\)\.\$\(RELVER\)|$(VERSION)|' \
+		-e 's|^(INSTALL_SONAME)=.*|\1=$(INSTALL_SOSHORT1).$(VERSION)|' \
 		-e 's|^(INSTALL_PCNAME)=.*|\1=${P}.pc|' \
 		-e 's|( PREFIX)=.*|\1=/usr|' \
 		-e 's|^(FILE_MAN)=.*|\1=${P}.1|' \
 		-i Makefile || die "failed to fix prefix in Makefile"
-
-#	sed -r \
-#		-e 's|^(libname=.*-)\$\{abiver\}|\1${majver}.${minver}|' \
-#		-i "etc/${PN}.pc" || die "Failed to slottify"
-
-#	sed -r \
-#		-e 's|^(TARGET_SONAME)=.*|\1=lib${PN}-${SLOT}.so.${PV}|' \
-#		-i src/Makefile || die "Failed to slottify"
 
 	sed -r \
 		-e 's|^(#define LUA_LJDIR).*|\1 "/'${P}'/"|' \
@@ -88,11 +68,12 @@ src_prepare(){
 
 	use debug && (
 		sed -r \
-			-e 's/#(CCDEBUG= -g)/\1 -ggdb/' \
+			-e 's/#(CCDEBUG= -g)/\1 -ggdb -O0/' \
 			-i src/Makefile || die "Failed to enable debug"
 	)
 	mv "${S}"/etc/${PN}.1 "${S}"/etc/${P}.1
 
+	eapply_user
 	multilib_copy_sources
 }
 
