@@ -32,35 +32,37 @@ PROSODY_MODULES="
 	conformance_restricted couchdb csi csi_compat data_access
 	default_bookmarks default_vcard delegation disable_tls discoitems dwd
 	email_pass extdisco fallback_vcard filter_chatstates firewall
-	flash_policy group_bookmarks host_blacklist host_guard http_altconnect
-	http_dir_listing http_favicon http_index http_logging http_muc_log
-	http_upload http_user_count idlecompat incidents_handling inotify_reload
-	ipcheck isolate_host jid_prep json_streams lastlog latex lib_ldap
-	limit_auth limits list_inactive listusers log_auth log_events log_mark
-	log_messages_sql log_rate log_sasl_mech log_slow_events mam mam_adhoc
-	mam_archive mam_muc mamsub manifesto measure_cpu measure_memory
-	message_logging migrate motd_sequential muc_access_control muc_ban_ip
-	muc_config_restrict muc_intercom muc_limits muc_log muc_log_http
-	muc_restrict_rooms munin net_dovecotauth offline_email onhold onions
-	openid password_policy pastebin pep_vcard_avatar pinger poke_strangers
-	post_msg presence_cache privacy_lists private_adhoc privilege proctitle
-	profile proxy65_whitelist pubsub_eventsource pubsub_feeds pubsub_github
+	flash_policy graceful_shutdown group_bookmarks host_blacklist host_guard
+	http_altconnect http_dir_listing http_favicon http_index http_logging
+	http_muc_log http_roster_admin http_upload http_user_count idlecompat
+	incidents_handling inotify_reload invite ipcheck isolate_host jid_prep
+	json_streams lastlog latex lib_ldap limit_auth limits list_inactive
+	listusers log_auth log_events log_mark log_messages_sql log_rate
+	log_sasl_mech log_slow_events mam mam_adhoc mam_archive mam_muc mamsub
+	manifesto measure_cpu measure_memory message_logging migrate
+	motd_sequential muc_access_control muc_ban_ip muc_config_restrict
+	muc_intercom muc_limits muc_log muc_log_http muc_restrict_rooms munin
+	net_dovecotauth offline_email onhold onions openid password_policy
+	pastebin pep_vcard_avatar pinger poke_strangers post_msg presence_cache
+	presence_dedup privacy_lists private_adhoc privilege proctitle profile
+	proxy65_whitelist pubsub_eventsource pubsub_feeds pubsub_github
 	pubsub_hub pubsub_mqtt pubsub_pivotaltracker pubsub_post pubsub_twitter
-	query_client_ver rawdebug readonly register_json register_redirect
-	register_web reload_modules remote_roster require_otr roster_allinall
-	roster_command s2s_auth_compat s2s_auth_dane s2s_auth_fingerprint
-	s2s_auth_monkeysphere s2s_blacklist s2s_idle_timeout s2s_keepalive
-	s2s_keysize_policy s2s_log_certs s2s_never_encrypt_blacklist
-	s2s_reload_newcomponent s2s_whitelist s2soutinjection saslauth_muc
-	saslname seclabels secure_interfaces server_contact_info server_status
-	service_directories sift smacks smacks_offline sms_clickatell
-	srvinjection sslv3_warn stanza_counter statistics statistics_auth
-	statistics_cputotal statistics_mem statistics_statsd statsd storage_gdbm
-	storage_ldap storage_lmdb storage_memory storage_mongodb storage_muc_log
+	query_client_ver rawdebug readonly register_dnsbl register_json
+	register_redirect register_web reload_modules remote_roster require_otr
+	roster_allinall roster_command s2s_auth_compat s2s_auth_dane
+	s2s_auth_fingerprint s2s_auth_monkeysphere s2s_blacklist
+	s2s_idle_timeout s2s_keepalive s2s_keysize_policy s2s_log_certs
+	s2s_never_encrypt_blacklist s2s_reload_newcomponent s2s_whitelist
+	s2soutinjection saslauth_muc saslname seclabels secure_interfaces
+	server_contact_info server_status service_directories sift smacks
+	smacks_offline sms_clickatell srvinjection sslv3_warn stanza_counter
+	statistics statistics_auth statistics_cputotal statistics_mem
+	statistics_statsd statsd storage_appendmap storage_gdbm storage_ldap
+	storage_lmdb storage_memory storage_mongodb storage_muc_log
 	storage_multi storage_xmlarchive streamstats strict_https
 	support_contact swedishchef tcpproxy telnet_tlsinfo throttle_presence
-	tls_policy turncredentials twitter uptime_presence vjud watchuntrusted
-	webpresence
+	throttle_unsolicited tls_policy track_muc_joins turncredentials twitter
+	uptime_presence vjud watchuntrusted webpresence
 "
 
 

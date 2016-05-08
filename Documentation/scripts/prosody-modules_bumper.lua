@@ -160,9 +160,14 @@ local function get_flag_desc(flag)
 
 	if #dom>0 then
 		desc=dom[1]:getcontent();
+		if desc:match("^NOTE: ") then
+			desc=dom[2]:getcontent();
+		end
 	end
 
 	desc=desc and desc:gsub([=[(href=["'])(mod_[^"']+.html)(["'])]=],"%1https://modules.prosody.im/%2%3")
+
+	desc=desc and desc.." (info: https://modules.prosody.im/mod_"..flag..")"
 
 	return desc or "No documentation yet :("
 end
