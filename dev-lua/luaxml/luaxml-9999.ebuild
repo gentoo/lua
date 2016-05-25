@@ -1,19 +1,19 @@
-# Copyright 1999-2015 Gentoo Foundation
+# Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: This ebuild is from Lua overlay; Bumped by mva; $
 
-EAPI="5"
+EAPI="6"
 
-VCS="git-r3"
+VCS="git"
 IS_MULTILIB=true
-
 LUA_COMPAT="lua51 luajit2"
+
+GITHUB_A="msva"
 
 inherit cmake-utils lua
 
 DESCRIPTION="A minimal set of XML processing function in Lua, with simple mapping between XML and Lua tables"
-HOMEPAGE="http://github.com/LuaDist/luaxml"
-EGIT_REPO_URI="https://github.com/msva/luaxml"
+HOMEPAGE="http://viremo.eludi.net/LuaXML/"
+#EGIT_REPO_URI="https://github.com/msva/luaxml"
 
 LICENSE="MIT"
 SLOT="0"
