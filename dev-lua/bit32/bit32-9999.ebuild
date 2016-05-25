@@ -1,8 +1,7 @@
-# Copyright 1999-2015 Gentoo Foundation
+# Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: This ebuild is from Lua overlay; Bumped by mva; $
 
-EAPI="5"
+EAPI=5
 
 # building fine, but not needed for Lua5.2 and Lua5.3
 LUA_COMPAT="lua51 luajit2"

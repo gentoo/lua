@@ -1,8 +1,7 @@
-# Copyright 1999-2015 Gentoo Foundation
+# Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: This ebuild is from Lua overlay; Bumped by mva; $
 
-EAPI="5"
+EAPI=5
 
 VCS="mercurial"
 IS_MULTILIB=true
