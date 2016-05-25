@@ -1,4 +1,4 @@
-#!luajit --
+#!/usr/bin/luajit --
 
 -- Hide the shebang, since we don't hope env to be in /usr/bin, so just
 -- executing LuaJIT from the PATH, and make a pokerface, like we called
