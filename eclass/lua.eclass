@@ -295,22 +295,30 @@ lua_add_bdepend() {
 # @DESCRIPTION:
 # Gets an array of lua use targets enabled by the user
 lua_get_use_implementations() {
-	local i implementation
+	local i=() implementation
 	for implementation in ${LUA_COMPAT}; do
-		use lua_targets_${implementation} && i+=" ${implementation}"
+		if [[ -z "${LUA_IGNORE_TARGET_DUPLICATION}" ]] && [ "${implementation}" = "lua51" ] && in_iuse lua_targets_luajit2 && use lua_targets_luajit2; then
+			ewarn "LuaJIT using same LMOD/CMOD install paths as lua51."
+			ewarn "Lua target 'lua51' was skipped to avoid useless double compilation and file overwrites."
+			ewarn "If you definitelly want to compile lua51 target for nothing (i.e. you're maintainer),"
+			ewarn "then set LUA_IGNORE_TARGET_DUPLICATION variable to any value in make.conf or package.env"
+			continue
+		else
+			use lua_targets_${implementation} && i+=("${implementation}")
+		fi
 	done
-	echo $i
+	echo ${i[@]}
 }
 
 # @FUNCTION: lua_get_use_targets
 # @DESCRIPTION:
 # Gets an array of lua use targets that the ebuild sets
 lua_get_use_targets() {
-	local t implementation
+	local t=() implementation
 	for implementation in ${LUA_COMPAT}; do
-		t+=" lua_targets_${implementation}"
+		t+=("lua_targets_${implementation}")
 	done
-	echo $t
+	echo ${t[@]}
 }
 
 # @FUNCTION: lua_implementations_depend
@@ -390,16 +398,14 @@ _lua_invoke_environment() {
 
 _lua_each_implementation() {
 	local invoked=no
-	for _lua_implementation in ${LUA_COMPAT}; do
-		# only proceed if it's requested
-		use lua_targets_${_lua_implementation} || continue
-
+	for _lua_implementation in $(lua_get_use_implementations); do
 		LUA=$(lua_implementation_command ${_lua_implementation})
 		TARGET=${_lua_implementation};
 		lua_impl=$(basename ${LUA})
 		invoked=yes
 
 		if [[ -n "$1" ]]; then
+			_lua_setFLAGS
 			_lua_invoke_environment ${_lua_implementation} "$@"
 		fi
 
@@ -448,7 +454,6 @@ lua_src_unpack() {
 
 	# hack for VCS-eclasses (darcs, for example) which defaults unpack dir to WD/P instead of S
 	if [[ "${PV}" = *9999* ]] && [[ -d "${WORKDIR}/${P}" ]] && [[ ! -d "${WORKDIR}/all/${P}" ]] ; then
-		die "darcs-patching :: git test"
 		mv "${WORKDIR}/${P}" "${WORKDIR}/all/${P}"
 	fi
 
@@ -662,7 +667,7 @@ lua_src_install() {
 #			done
 #		fi
 	done;
-	README_DOCS+=(${READMES[@]})
+	README_DOCS+=(${DOCS_FORCE[@]})
 
 	if [[ -n "${HTML_DOCS}" ]] && ! use doc; then
 		unset HTML_DOCS
@@ -670,7 +675,7 @@ lua_src_install() {
 
 	if [[ -n "${README_DOCS}" ]]; then
 		export DOCS=(${README_DOCS[@]});
-		_PHASE="install readmes" _lua_invoke_environment all _lua_src_install_docs
+		_PHASE="install readmes and forced docs" _lua_invoke_environment all _lua_src_install_docs
 		unset DOCS;
 	fi
 
@@ -893,8 +898,6 @@ lua_get_implementation() {
 			;;
 	esac
 }
-
-
 
 _lua_default_all_prepare() {
 	local prepargs=();

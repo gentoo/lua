@@ -1,7 +1,7 @@
 # Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
 inherit mercurial eutils
 
@@ -24,8 +24,10 @@ DEPEND="${RDEPEND}"
 
 src_prepare() {
 	use luajit && sed -r \
-		-e 's:(env lua):\1jit:' \
+		-e '1s:(env lua):\1jit:' \
 		-i clix.lua
+
+	default
 }
 
 src_compile() {

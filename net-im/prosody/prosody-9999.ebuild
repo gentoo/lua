@@ -1,7 +1,7 @@
 # Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
 inherit eutils multilib toolchain-funcs versionator mercurial
 
@@ -38,13 +38,11 @@ RDEPEND="
 	zlib? ( dev-lua/lua-zlib )
 "
 
-S="${WORKDIR}/${P}"
-
 JABBER_ETC="/etc/jabber"
 JABBER_SPOOL="/var/spool/jabber"
 
 
-DOCS=( -r doc/ HACKERS AUTHORS )
+DOCS=( doc/ HACKERS AUTHORS )
 
 src_prepare() {
 	epatch "${FILESDIR}/${PN}-0.8.0-cfg.lua.patch"
@@ -58,6 +56,8 @@ src_prepare() {
 	use luajit && {
 		find . -type f -name "*.lua" -print0 | xargs -0 sed -re "1s%#!.*%#!/usr/bin/env luajit%" -i
 	}
+
+	default
 }
 
 src_configure() {
