@@ -1,14 +1,15 @@
 # Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
-VCS="git-r3"
+VCS="git"
+GITHUB_A="keplerproject"
+
 inherit lua
 
 DESCRIPTION="A deployment and management system for Lua modules"
 HOMEPAGE="http://www.luarocks.org"
-EGIT_REPO_URI="https://github.com/keplerproject/luarocks.git"
 
 LICENSE="MIT"
 SLOT="0"
@@ -27,6 +28,7 @@ RDEPEND="
 "
 
 all_lua_prepare() {
+	# Don't die on gentoo's econf calls!
 	sed -r \
 		-e "/die.*Unknown flag:/d" \
 		-i configure
@@ -58,6 +60,15 @@ each_lua_configure() {
 	lua_default
 }
 
+each_lua_compile() {
+	lua_default build
+}
+
 pkg_preinst() {
+	local abi="$(lua_get_abi)"
 	find "${D}" -type f | xargs sed -e "s:${D}::g" -i || die "sed failed"
+	for l in luarocks{,-admin}; do
+		rm "${D}/usr/bin/${l}"
+		dosym "${l}-${abi}" "/usr/bin/${l}"
+	done
 }

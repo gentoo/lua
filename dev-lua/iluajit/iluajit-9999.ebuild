@@ -3,10 +3,10 @@
 
 EAPI=6
 
-LUA_COMPAT=luajit2
-VCS=git
-GITHUB_A=jdesgats
-GITHUB_PN=ILuaJIT
+LUA_COMPAT="luajit2"
+VCS="git"
+GITHUB_A="jdesgats"
+GITHUB_PN="ILuaJIT"
 
 inherit lua
 
@@ -25,8 +25,8 @@ RDEPEND="
 "
 DEPEND="${RDEPEND}"
 
-READMES=( README.md )
-HTML_DOCS=( html/. )
+DOCS=(README.md)
+HTML_DOCS=(html/.)
 
 all_lua_prepare() {
 	use doc && luadoc . -d html

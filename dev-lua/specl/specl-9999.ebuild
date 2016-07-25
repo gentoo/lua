@@ -1,53 +1,49 @@
 # Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
-VCS="git-r3"
+VCS="git"
+GITHUB_A="gvvaughan"
+
 inherit lua
 
 DESCRIPTION="a testing tool for Lua, providing a Behaviour Driven Development framework in the vein of RSpec"
 HOMEPAGE="https://github.com/gvvaughan/specl"
-SRC_URI=""
-
-EGIT_REPO_URI="https://github.com/gvvaughan/specl"
 
 LICENSE="GPL"
 SLOT="0"
 KEYWORDS=""
-IUSE=""
+IUSE="doc"
 
 RDEPEND="
 	dev-lua/luamacro
 	dev-lua/lyaml
 "
-DEPEND="${RDEPEND}"
+DEPEND="
+	${RDEPEND}
+"
 
-READMES=( README.md NEWS )
+DOCS=(README.md doc/specl.md NEWS.md)
+HTML_DOCS=(html/.)
 
 all_lua_prepare() {
-	if [[ -n ${EVCS_OFFLINE} ]]; then
-		die "Unfortunately, upstream uses buildsystem which depends on external submodules, so you won't be able to build package in offline mode. Sorry."
-	fi
-
-	./bootstrap --skip-rock-checks
-	lua_default
-}
-
-each_lua_configure() {
-	myeconfargs=(
-		"--datadir=$(lua_get_pkgvar INSTALL_LMOD)"
-		"--libdir=$(lua_get_pkgvar INSTALL_CMOD)"
-		"LUA_INCLUDE=-I$(lua_get_pkgvar includedir)"
-	)
-	lua_default
+	mkdir -p html
+	sed \
+		-e '/^dir/s@"."@"../html"@' \
+		-i doc/config.ld.in
 }
 
 each_lua_compile() {
-	./config.status --file=lib/specl/version.lua
+	make lib/specl/version.lua
+}
+
+all_lua_compile() {
+	lua_default
+	emake doc/specl.1
 }
 
 each_lua_install() {
-	rm lib/specl/version.lua.in
-	dolua lib/specl
+	dobin bin/specl
+	dolua lib/specl/*.lua lib/specl/*/
 }

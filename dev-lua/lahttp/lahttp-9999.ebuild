@@ -1,7 +1,7 @@
 # Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
 VCS="mercurial"
 inherit lua
@@ -29,7 +29,8 @@ all_lua_prepare() {
 }
 
 each_lua_compile() {
-	squish --use-http
+	# TODO: Do something about using with network-sandbox
+	squish --use-http || die
 }
 
 each_lua_install() {

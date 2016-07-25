@@ -1,8 +1,7 @@
 # Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
-
+EAPI=6
 inherit lua
 
 DESCRIPTION="Lua bindings to getopt_long"
@@ -15,7 +14,7 @@ SLOT="0"
 KEYWORDS="~x86 ~amd64"
 IUSE=""
 
-READMES=( README )
+DOCS=(README)
 
 S="${WORKDIR}/all/${MY_P}"
 LUA_S="${MY_P}"

@@ -1,25 +1,24 @@
 # Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
-VCS="git-r3"
+VCS="git"
 IS_MULTILIB="true"
+GITHUB_A="keplerproject"
+
 inherit lua
 
 DESCRIPTION="File System Library for the Lua Programming Language"
 HOMEPAGE="https://keplerproject.github.io/luafilesystem/"
-EGIT_REPO_URI="https://github.com/keplerproject/luafilesystem.git"
-SRC_URI=""
-#SRC_URI="https://github.com/downloads/keplerproject/luafilesystem/${P}.tar.gz"
 
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS=""
 IUSE="doc"
 
-HTML_DOCS=( doc/us/. )
-READMES=( README.md )
+HTML_DOCS=(doc/us/.)
+DOCS=(README.md)
 
 all_lua_prepare() {
 	sed -e 'd' config

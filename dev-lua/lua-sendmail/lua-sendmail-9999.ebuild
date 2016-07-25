@@ -1,16 +1,15 @@
 # Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
-VCS="git-r3"
+VCS="git"
+GITHUB_A="moteus"
+
 inherit lua
 
 DESCRIPTION="Simple wrapper around luasoket smtp.send"
 HOMEPAGE="https://github.com/moteus/lua-sendmail"
-SRC_URI=""
-
-EGIT_REPO_URI="https://github.com/moteus/lua-sendmail"
 
 LICENSE="MIT"
 SLOT="0"
@@ -24,8 +23,8 @@ DEPEND="
 	${RDEPEND}
 "
 
-READMES=( README.md )
-HTML_DOCS=( docs/ )
+DOCS=(README.md)
+HTML_DOCS=(docs/.)
 
 each_lua_install() {
 	dolua lua/sendmail.lua

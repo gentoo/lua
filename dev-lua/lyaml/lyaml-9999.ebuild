@@ -1,16 +1,15 @@
 # Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
-VCS="git-r3"
-inherit lua
+VCS="git"
+GITHUB_A="gvvaughan"
+
+inherit autotools lua
 
 DESCRIPTION="LibYAML binding for Lua."
 HOMEPAGE="https://github.com/gvvaughan/lyaml"
-SRC_URI=""
-
-EGIT_REPO_URI="https://github.com/gvvaughan/lyaml"
 
 LICENSE="GPL"
 SLOT="0"
@@ -22,62 +21,53 @@ RDEPEND="
 "
 DEPEND="${RDEPEND}"
 
-READMES=( README.md NEWS.md )
-HTML_DOCS=( doc/. )
+DOCS=(README.md NEWS.md)
+HTML_DOCS=(html/.)
 
 all_lua_prepare() {
-	if [[ -n ${EVCS_OFFLINE} ]]; then
-		die "Unfortunately, upstream uses buildsystem which depends on external submodules, so you won't be able to build package in offline mode. Sorry."
-	fi
+	sed -r \
+		-e "s/@PACKAGE_STRING@/${P}/" \
+		-e '/^dir/s@"."@"../html"@' \
+		build-aux/config.ld.in > build-aux/config.ld
 
-    # we'll check for ldoc ourslves
-    sed -r \
-        -e "s#(AC_PATH_PROG\(\[LDOC\],).*#\1 [echo], [false]\)#" \
-        -e "s#(AM_CONDITIONAL\(\[HAVE_LDOC\],).*#\1 [false]\)#" \
-        -i configure.ac
-
-    # we don't need and install documentation for each target, so we'll take care on this ourselves
-    sed -r \
-        -e 's#doc/.*html##' \
-        -e 's#doc/.*css##' \
-        -e 's#(mkdir)#\1 -p#' \
-        -e 's#^(doc:).*##' \
-        -e 's#\$\(dist_.*_DATA\)##g' \
-        -i local.mk
-
-	./bootstrap --skip-rock-checks
-
-	#unneded bootstrap wrapper
-    rm GNUmakefile
+	gawk \
+		'/^AC_INIT/{print gensub(/[^0-9.]*([0-9.]*)[^0-9.]*/,"#define VERSION \"\\1\"","g",$2)}' \
+		configure.ac > config.h
 }
+
+each_lua_compile() {
+	_lua_setFLAGS
+
+	# CRAZY buildsystem, no thanks
+	for c in ext/yaml/*.c; do
+		"${CC}" ${CFLAGS} -I. -c -o "${c/.c/.o}" "${c}" || die
+	done;
+
+    "${CC}" ${LDFLAGS} $(${PKG_CONFIG} --libs yaml-0.1) -o "${PN:1}.so" ext/yaml/*.o || die
+}
+
 
 all_lua_compile() {
     use doc && (
-        cp build-aux/config.ld.in build-aux/config.ld
-
-        sed -r \
-            -e "s/@PACKAGE_STRING@/${P}/" \
-            -i build-aux/config.ld
-
-        cd build-aux && ldoc -d ../doc . && cd ..
-
-        rm build-aux/config.ld
-    )
+		pushd build-aux &>/dev/null
+		ldoc .
+		popd
+	)
 }
 
-each_lua_configure() {
-	myeconfargs=(
-		LUA="$(lua_get_lua)"
-		LUA_INCLUDE="$(lua_get_pkgvar --cflags --cflags-only-I)"
-		ax_cv_lua_luadir="$(lua_get_pkgvar INSTALL_LMOD)"
-		ax_cv_lua_luaexecdir="$(lua_get_pkgvar INSTALL_CMOD)"
-		--datadir="$(lua_get_pkgvar INSTALL_LMOD)"
-		--libdir="$(lua_get_pkgvar INSTALL_CMOD)"
-	)
-	base_src_configure "${myeconfargs[@]}"
+each_lua_install() {
+	dolua "${PN:1}.so"
+}
 
+#each_lua_configure() {
+#	myeconfargs=(
+#		LUA="$(lua_get_lua)"
+#		LUA_INCLUDE="$(lua_get_pkgvar --cflags --cflags-only-I)"
+#		ax_cv_lua_luadir="$(lua_get_pkgvar INSTALL_LMOD)"
+#		ax_cv_lua_luaexecdir="$(lua_get_pkgvar INSTALL_CMOD)"
+#		--datadir="$(lua_get_pkgvar INSTALL_LMOD)"
+#		--libdir="$(lua_get_pkgvar INSTALL_CMOD)"
 #	)
-#		"LUA_INCLUDE=-I$(lua_get_pkgvar includedir)"
 #	lua_default
 #	econf ${myeconfargs[@]}
-}
+#}

@@ -1,24 +1,23 @@
 # Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
-VCS="git-r3"
+VCS="git"
+GITHUB_A="dcurrie"
+
 inherit lua
 
 DESCRIPTION="A unit testing framework for Lua"
 HOMEPAGE="https://github.com/dcurrie/lunit"
-SRC_URI=""
-
-EGIT_REPO_URI="https://github.com/dcurrie/${PN}"
 
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS=""
-IUSE="+examples"
+IUSE="doc examples"
 
-EXAMPLES=( examples/. )
-READMES=( README README.lunitx DOCUMENTATION )
+EXAMPLES=(examples/.)
+DOCS=(README README.lunitx DOCUMENTATION)
 
 each_lua_install() {
 	dolua lua/*

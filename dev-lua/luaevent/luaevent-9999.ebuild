@@ -1,16 +1,15 @@
 # Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
-#LUA_COMPAT="lua51 lua52 luajit2"
-VCS="git-r3"
+VCS="git"
 IS_MULTILIB=true
+GITHUB_A="harningt"
 inherit lua
 
 DESCRIPTION="libevent bindings for Lua"
 HOMEPAGE="http://luaforge.net/projects/luaevent http://repo.or.cz/w/luaevent.git"
-EGIT_REPO_URI="https://github.com/harningt/luaevent"
 
 LICENSE="LGPL-2.1"
 SLOT="0"
@@ -24,9 +23,9 @@ DEPEND="
 	${RDEPEND}
 "
 
-READMES=( README )
+DOCS=(README)
 
-PATCHES=( ${FILESDIR}/gc-anchoring.patch )
+PATCHES=(${FILESDIR}/gc-anchoring.patch)
 
 each_lua_install() {
 	dolua lua/*

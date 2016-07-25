@@ -1,25 +1,23 @@
 # Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
-LANGS=( "en" "ru" )
+LANGS=(en ru)
 
-VCS=git-r3
+VCS="git"
 IS_MULTILIB=true
-
+GITHUB_A="msva"
+GITHUB_PN="lua-crypto"
 inherit lua
 
 DESCRIPTION="Lua Crypto Library"
 HOMEPAGE="https://github.com/msva/lua-crypto"
-SRC_URI=""
-
-EGIT_REPO_URI="https://github.com/msva/lua-crypto.git"
 
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS=""
-IUSE="doc +openssl gcrypt linguas_en linguas_ru"
+IUSE="doc +openssl gcrypt l10n_en l10n_ru"
 
 RDEPEND="
 	openssl? ( >=dev-libs/openssl-0.9.7 )
@@ -28,15 +26,16 @@ RDEPEND="
 
 REQUIRED_USE="^^ ( openssl gcrypt )"
 
-READMES=( README )
+DOCS=(README)
 HTML_DOCS=()
 
 all_lua_prepare() {
-		for x in ${LANGS[@]}; do
-			if use linguas_${x}; then
-				HTML_DOCS+=( doc/${x} )
-			fi
-		done
+	for x in ${LANGS[@]}; do
+		if use l10n_${x}; then
+			HTML_DOCS+=( doc/${x} )
+		fi
+	done
+	lua_default
 }
 
 each_lua_compile() {

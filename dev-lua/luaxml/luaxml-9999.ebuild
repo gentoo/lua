@@ -5,15 +5,12 @@ EAPI=6
 
 VCS="git"
 IS_MULTILIB=true
-LUA_COMPAT="lua51 luajit2"
-
 GITHUB_A="msva"
 
 inherit cmake-utils lua
 
 DESCRIPTION="A minimal set of XML processing function in Lua, with simple mapping between XML and Lua tables"
 HOMEPAGE="http://viremo.eludi.net/LuaXML/"
-#EGIT_REPO_URI="https://github.com/msva/luaxml"
 
 LICENSE="MIT"
 SLOT="0"

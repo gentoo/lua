@@ -1,18 +1,17 @@
 # Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
 LUA_COMPAT="lua52"
-VCS="git-r3"
+VCS="git"
 IS_MULTILIB=true
+GITHUB_A="sprhawk"
+
 inherit lua
 
 DESCRIPTION="lua bindings for HTMLParser in libxml2"
 HOMEPAGE="https://github.com/sprhawk/lua-html"
-SRC_URI=""
-
-EGIT_REPO_URI="https://github.com/sprhawk/lua-html"
 
 LICENSE="MIT"
 SLOT="0"
@@ -24,7 +23,7 @@ RDEPEND="
 	dev-libs/libxml2
 "
 
-READMES=( Readme.md )
+DOCS=(Readme.md)
 
 all_lua_prepare() {
 	lua_default

@@ -1,10 +1,11 @@
 # Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
 IS_MULTILIB=true
 LUA_COMPAT="lua51 luajit2"
+
 inherit lua
 
 DESCRIPTION="Parsing Expression Grammars for Lua"
@@ -16,9 +17,9 @@ SLOT="0"
 KEYWORDS="amd64 ~arm ~hppa ~mips x86"
 IUSE="debug doc"
 
-PATCHES=( "${FILESDIR}"/${P}-makefile.patch )
-DOCS=( HISTORY )
-HTML_DOCS=( {lpeg,re}.html )
+PATCHES=("${FILESDIR}/${P}-makefile.patch")
+DOCS=(HISTORY)
+HTML_DOCS=({lpeg,re}.html)
 
 all_lua_prepare() {
 	use debug && append-cflags -DLPEG_DEBUG
@@ -33,5 +34,5 @@ each_lua_test() {
 }
 
 each_lua_install() {
-	dolua lpeg.so
+	dolua lpeg.so re.lua
 }

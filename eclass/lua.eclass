@@ -61,9 +61,9 @@
 # you are looking for if you get the related "Missing links" QA warning,
 # since the proper fix is almost always to make sure the shared object
 # is linked against liblua. There are cases were this is not the case
-# and the shared object is generic code to be used in some other way
-# (e.g. selenium's firefox driver extension). When set this argument is
-# passed to "grep -E" to remove reporting of these shared objects.
+# and the shared object is generic code to be used in some other way.
+# When set this argument is passed to "grep -E" to remove reporting of
+# these shared objects.
 
 : ${GLOBAL_CFLAGS-${CFLAGS}}
 : ${GLOBAL_CXXFLAGS-${CXXFLAGS}}
@@ -198,7 +198,7 @@ _lua_atoms_samelib_generic() {
 				;;
 			*])
 				echo "${token%[*}[LUATARGET,${token/*[}"
-				#"]}" # <= kludge for vim's syntax highlighting engine to don't mess up all the things below this line
+				#"]}" # <- kludge for vim's syntax highlighting engine to don't mess up all the things below this line
 				;;
 			*)
 				echo "${token}[LUATARGET]"
@@ -811,7 +811,7 @@ _lua_install_cmod() {
 _lua_jit_insopts() {
 	[[ "${LUA}" =~ "luajit" ]] || die "Calling dolua_jit for non-jit targets isn't supported"
 	local insdir=$(${LUA} -e 'print(package.path:match(";(/[^;]+luajit[^;]+)/%?.lua;"))')
-	insinto ${insdir}
+	insinto ${insdir}/${_dolua_jit_insdir}
 	insopts -m 0644
 }
 
@@ -917,8 +917,8 @@ _lua_default_all_prepare() {
 				-e 's#(^LFLAGS[[:space:]]*)[[:punct:]]*=#\1+=$(LDCONFIG)#' \
 				-e 's#`pkg-config#`$(PKG_CONFIG)#g' \
 				-e 's#(shell[[:space:][:punct:]]*)pkg-config#\1$(PKG_CONFIG)#g' \
-				-e 's#lua5.[[:digit:]]#$(LUA_IMPL)#g' \
 				-e 's#-llua[[:digit:][:punct:]]*#__LESLPH__#g;s#__LESLPH__([[:alpha:]])#-llua\1#g;s#__LESLPH__#$(LUA_LINK_LIB)#g' \
+				-e 's#lua5.[[:digit:]]#$(LUA_IMPL)#g' \
 				"${mf}"
 		fi
 		touch ${T}/.lua_ecl_conf

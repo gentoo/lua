@@ -1,9 +1,9 @@
 # Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
-inherit eutils mercurial
+inherit mercurial
 
 DESCRIPTION="XMPP client library written in Lua."
 HOMEPAGE="http://code.matthewwild.co.uk/"
@@ -14,12 +14,11 @@ SLOT="0"
 KEYWORDS=""
 IUSE=""
 
-RDEPEND="virtual/lua"
+RDEPEND="
+	dev-lua/luasocket
+	virtual/lua
+"
 DEPEND="${RDEPEND}"
-
-src_compile() {
-	default
-}
 
 src_install() {
 	dobin squish

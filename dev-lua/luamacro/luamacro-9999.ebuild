@@ -1,16 +1,15 @@
 # Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
-VCS="git-r3"
+VCS="git"
+GITHUB_A="stevedonovan"
+
 inherit lua
 
 DESCRIPTION="library and driver script for preprocessing and evaluating Lua code"
 HOMEPAGE="https://github.com/stevedonovan/LuaMacro/"
-SRC_URI=""
-
-EGIT_REPO_URI="https://github.com/stevedonovan/LuaMacro/"
 
 LICENSE="MIT"
 SLOT="0"

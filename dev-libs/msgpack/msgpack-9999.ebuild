@@ -6,7 +6,6 @@ inherit cmake-multilib git-r3
 
 DESCRIPTION="MessagePack is a binary-based efficient data interchange format"
 HOMEPAGE="http://msgpack.org/ https://github.com/msgpack/msgpack-c/"
-SRC_URI=""
 EGIT_REPO_URI="https://github.com/${PN}/${PN}-c"
 
 LICENSE="Apache-2.0"

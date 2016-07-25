@@ -1,24 +1,24 @@
 # Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
-VCS="git-r3"
+VCS="git"
+GITHUB_A="keplerproject"
 inherit lua
 
 DESCRIPTION="Lua coxpcall Library"
 HOMEPAGE="https://github.com/keplerproject/coxpcall"
-SRC_URI=""
-
-#s/msva/keplerproject/ when they apply pull-request
-EGIT_REPO_URI="https://github.com/msva/coxpcall.git"
 
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS=""
 IUSE="doc"
 
-HTML_DOCS=( doc/us/ )
+HTML_DOCS=( doc/. )
+
+src_configure() { :; }
+src_compile() { :; }
 
 each_lua_install() {
 	dolua src/*

@@ -1,22 +1,21 @@
 # Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
-VCS="git-r3"
+VCS="git"
+GITHUB_A="keplerproject"
 #IS_MULTILIB=true
+
 inherit lua
 
 DESCRIPTION="Lua WSAPI Library"
 HOMEPAGE="https://github.com/keplerproject/wsapi"
-SRC_URI=""
-
-EGIT_REPO_URI="https://github.com/keplerproject/wsapi.git"
 
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS=""
-IUSE="doc +examples uwsgi +fcgi"
+IUSE="doc examples uwsgi fcgi"
 #TODO: xavante"
 RDEPEND="
 	fcgi? (
@@ -32,9 +31,9 @@ RDEPEND="
 #TODO:	xavante? ( dev-lua/xavante )"
 DEPEND="${RDEPEND}"
 
-DOCS=( doc/us/{index,libraries,license,manual}.md )
-HTML_DOCS=( doc/us/{index,libraries,license,manual}.html doc/us/doc.css doc/us/${PN}.png )
-EAMPLES=( samples/. )
+DOCS=(doc/us/{index,libraries,license,manual}.md)
+HTML_DOCS=(doc/us/{index,libraries,license,manual}.html doc/us/doc.css doc/us/${PN}.png)
+EAMPLES=(samples/.)
 
 all_lua_prepare() {
 	sed -r \

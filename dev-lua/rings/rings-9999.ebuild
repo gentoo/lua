@@ -1,18 +1,16 @@
 # Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
-VCS="git-r3"
+VCS="git"
 IS_MULTILIB=true
+GITHUB_A="keplerproject"
+
 inherit lua
 
 DESCRIPTION="Lua Rings Library"
 HOMEPAGE="https://github.com/keplerproject/rings"
-SRC_URI=""
-
-#s/msva/keplerproject/ when they apply pull-request
-EGIT_REPO_URI="git://github.com/msva/rings.git https://github.com/msva/rings.git"
 
 LICENSE="MIT"
 SLOT="0"

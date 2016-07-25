@@ -1,21 +1,20 @@
 # Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
-VCS="git-r3"
+VCS="git"
+GITHUB_A="stevedonovan"
+
 inherit lua
 
 DESCRIPTION="A set of pure Lua libraries focusing on input data handling, functional programming and OS path management."
 HOMEPAGE="https://github.com/stevedonovan/Penlight"
-SRC_URI=""
-
-EGIT_REPO_URI="https://github.com/stevedonovan/Penlight git://github.com/stevedonovan/Penlight"
 
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS=""
-IUSE="doc +examples test luajit"
+IUSE="doc examples test luajit"
 
 # TODO: Lua 5.2 handling
 
@@ -24,14 +23,15 @@ DEPEND="
 	doc? ( dev-lua/ldoc )
 "
 
-HTML_DOCS=( html/. )
-DOCS=( README.md CHANGES.md CONTRIBUTING.md )
-EXAMPLES=( examples/. )
+HTML_DOCS=(html/.)
+DOCS=(README.md CHANGES.md CONTRIBUTING.md)
+EXAMPLES=(examples/.)
 
 all_lua_compile() {
 	use doc && (
-		cd doc
+		pushd doc &>/dev/null
 		ldoc . -d ../html
+		popd
 	)
 }
 

@@ -1,16 +1,15 @@
 # Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
-VCS="git-r3"
+VCS="git"
+GITHUB_A="Lua-cURL"
+GITHUB_PN="Lua-cURLv3"
 inherit lua
 
 DESCRIPTION="Lua cURL Library"
 HOMEPAGE="https://github.com/Lua-cURL/Lua-cURLv3"
-SRC_URI=""
-
-EGIT_REPO_URI="https://github.com/Lua-cURL/Lua-cURLv3"
 
 LICENSE="MIT"
 SLOT="0"
@@ -25,9 +24,9 @@ DEPEND="
 	${RDEPEND}
 "
 
-EXAMPLES=( examples/ )
-HTML_DOCS=( html/ )
-READMES=( README.md )
+EXAMPLES=( examples/. )
+HTML_DOCS=( html/. )
+DOCS=(README.md)
 
 each_lua_compile() {
 	lua_default LUA_IMPL="${lua_impl}"
@@ -39,7 +38,6 @@ all_lua_compile() {
 		ldoc . -d ../html
 	)
 }
-
 
 each_lua_install() {
 	lua_default LUA_IMPL="${lua_impl}"

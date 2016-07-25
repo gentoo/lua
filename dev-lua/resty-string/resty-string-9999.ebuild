@@ -1,36 +1,36 @@
 # Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
-VCS="git-r3"
+VCS="git"
 LUA_COMPAT="luajit2"
+GITHUB_A="openresty"
+GITHUB_PN="lua-${PN}"
+
 inherit lua
 
 DESCRIPTION="String utilities and common hash functions for ngx_lua and LuaJIT"
-HOMEPAGE="https://github.com/openresty/lua-string"
-SRC_URI=""
-
-EGIT_REPO_URI="https://github.com/openresty/lua-${PN}"
+HOMEPAGE="https://github.com/openresty/lua-resty-string"
 
 LICENSE="BSD"
 SLOT="0"
 KEYWORDS=""
-IUSE="+ext_random"
+IUSE="naive-random"
 
 RDEPEND="
-	ext_random? ( dev-lua/resty-random )
 	www-servers/nginx[nginx_modules_http_lua,ssl]
 	dev-libs/openssl
 "
 DEPEND="
 	${RDEPEND}
 "
+PDEPEND="!naive-random? ( dev-lua/resty-random )"
 
-READMES=( README.markdown )
+DOCS=(README.markdown)
 
 all_lua_prepare() {
-	use ext_random && rm lib/resty/random.lua
+	use naive-random || rm lib/resty/random.lua
 }
 
 each_lua_install() {

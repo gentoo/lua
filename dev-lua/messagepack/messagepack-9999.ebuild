@@ -1,14 +1,16 @@
 # Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
-VCS="git-r3"
+VCS="git"
+GITHUB_A="fperrad"
+GITHUB_PN="lua-${PN^}"
+
 inherit lua
 
 DESCRIPTION="A pure Lua implementation of msgpack.org"
 HOMEPAGE="https://fperrad.github.io/lua-MessagePack/"
-EGIT_REPO_URI="https://github.com/fperrad/lua-MessagePack.git"
 
 LICENSE="MIT"
 SLOT="0"

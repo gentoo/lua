@@ -1,36 +1,32 @@
 # Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
-VCS="git-r3"
-
-# Incompatible with current mongo-driver
-
-# FIXME: when libmongo-drivers will be multilib
-#IS_MULTILIB=true
+# XXX: broken build FIXME later
+EAPI=6
+VCS="git"
+GITHUB_A="moai"
 
 inherit lua
 
 DESCRIPTION="Lua driver for MongoDB"
 HOMEPAGE="https://github.com/mwild1/luamongo/"
-SRC_URI=""
-
-EGIT_REPO_URI="https://github.com/moai/luamongo"
 
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS="-*"
-IUSE="+examples"
+IUSE="doc examples"
 
 RDEPEND="
 	dev-libs/boost
 	dev-libs/mongo-cxx-driver
 "
 #	dev-db/mongodb[sharedclient]
+# NB: Incompatible with current mongo-driver
+
 DEPEND="${RDEPEND}"
 
-READMES=( README.md )
-EXAMPLES=( tests/ )
+DOCS=(README.md)
+EXAMPLES=(tests/.)
 
 all_lua_prepare() {
 	# Preparing makefile to default_prepare magic fix
@@ -41,13 +37,11 @@ all_lua_prepare() {
 		-e '/if . -z /d' \
 		-e 's#\$\(shell pkg-config --libs \$\(LUAPKG\)\)#-llua#' \
 		Makefile
-
 	lua_default
 }
 
 each_lua_configure() {
-	myeconfargs=()
-	myeconfargs+=(
+	myeconfargs=(
 		LUAPKG="$(lua_get_lua)"
 	)
 	lua_default

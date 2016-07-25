@@ -1,37 +1,34 @@
 # Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
-VCS="git-r3"
+VCS="git"
+GITHUB_A="lua-stdlib"
 
 inherit lua
 
 DESCRIPTION="Standard Lua libraries"
 HOMEPAGE="https://github.com/lua-stdlib/lua-stdlib"
-SRC_URI=""
-
-EGIT_REPO_URI="https://github.com/lua-stdlib/lua-stdlib"
 
 LICENSE="GPL"
 SLOT="0"
 KEYWORDS=""
-IUSE=""
+IUSE="doc"
 
-READMES=( README.md NEWS.md HACKING )
+DOCS=(README.md NEWS.md STYLE.md)
 
 all_lua_prepare() {
-	if [[ -n ${EVCS_OFFLINE} ]]; then
-		die "Unfortunately, upstream uses buildsystem which depends on external submodules, so you won't be able to build package in offline mode. Sorry."
-	fi
-
-	./bootstrap --skip-rock-checks
+    mkdir -p html
+    sed \
+        -e '/^dir/s@"."@"../html"@' \
+        -i doc/config.ld.in
 }
 
-each_lua_compile() {
-	./config.status --file=lib/std.lua
-}
+each_lua_compile() { :; }
+# ldoc definitions are currently broken
+all_lua_compile() { :; }
 
 each_lua_install() {
-	dolua lib/std lib/std.lua
+	dolua lib/std
 }

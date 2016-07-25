@@ -1,7 +1,7 @@
 # Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
 IS_MULTILIB=true
 LUA_COMPAT="lua51 lua52 lua53"
@@ -17,8 +17,8 @@ SLOT="0"
 KEYWORDS="~amd64 ~x86"
 IUSE="doc"
 
-READMES=( README )
-HTML_DOCS=( doc/. )
+DOCS=(README)
+HTML_DOCS=(doc/.)
 
 each_lua_configure() {
 	# Lua5.3 compilation hack

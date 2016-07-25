@@ -1,16 +1,16 @@
 # Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
-VCS="git-r3"
+VCS="git"
+GITHUB_A="cloudflare"
+GITHUB_PN="lua-${PN}"
+
 inherit lua
 
 DESCRIPTION="Library for parsing HTTP Cookie header for Nginx"
 HOMEPAGE="https://github.com/cloudflare/lua-resty-cookie"
-SRC_URI=""
-
-EGIT_REPO_URI="https://github.com/cloudflare/lua-${PN}"
 
 LICENSE="BSD"
 SLOT="0"
@@ -24,7 +24,7 @@ DEPEND="
 	${RDEPEND}
 "
 
-READMES=( README.md )
+DOCS=(README.md)
 
 each_lua_install() {
 	dolua lib/resty

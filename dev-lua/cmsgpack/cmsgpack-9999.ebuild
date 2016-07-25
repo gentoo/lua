@@ -1,23 +1,24 @@
 # Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
 IS_MULTILIB=true
-VCS="git-r3"
+VCS="git"
+GITHUB_A="antirez"
+GITHUB_PN="lua-${PN}"
 
 inherit lua
 
 DESCRIPTION="A self contained Lua MessagePack C implementation"
 HOMEPAGE="https://github.com/antirez/lua-cmsgpack"
 
-EGIT_REPO_URI="https://github.com/antirez/lua-cmsgpack"
 KEYWORDS=""
-READMES=( README.md )
+DOCS=(README.md)
 
 LICENSE="BSD-2"
 SLOT="0"
-IUSE="test"
+IUSE="doc test"
 
 each_lua_compile() {
 	_lua_setFLAGS

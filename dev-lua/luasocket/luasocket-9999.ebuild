@@ -1,24 +1,24 @@
 # Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
-VCS="git-r3"
+VCS="git"
 IS_MULTILIB=true
-
+GITHUB_A="diegonehab"
 inherit lua
 
 DESCRIPTION="Networking support library for the Lua language."
 HOMEPAGE="http://www.tecgraf.puc-rio.br/~diego/professional/luasocket/"
-EGIT_REPO_URI="https://github.com/diegonehab/luasocket"
 
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS=""
-IUSE="doc debug"
+IUSE="doc examples debug"
 
-DOCS=( NEW README )
-HTML_DOCS=( doc/ )
+DOCS=(NEW README)
+HTML_DOCS=(doc/.)
+EXAMPLES=(samples/.)
 
 all_lua_prepare() {
 	lua_default
@@ -48,13 +48,13 @@ each_lua_configure() {
 	)
 
 	use debug && \
-		myeconfargs+=( "DEBUG=DEBUG" )
+		myeconfargs+=("DEBUG=DEBUG")
 
 	use elibc_Winnt && \
-		myeconfargs+=( "PLAT=win32" )
+		myeconfargs+=("PLAT=win32")
 
 	use elibc_Cygwin && \
-		myeconfargs+=( "PLAT=mingw" )
+		myeconfargs+=("PLAT=mingw")
 
 	use elibc_Darwin && (
 		myeconfargs+=(
@@ -74,12 +74,3 @@ each_lua_configure() {
 		-e 's#(^LDFLAGS=)#MY\1#' \
 		-i .lua_eclass_config
 }
-
-#each_lua_install() {
-#	myeinstallargs=()
-#	if ! use elibc_Winnt && ! use elibc_Cygwin; then
-#		myeinstallargs+=( "install-unix" )
-#	fi
-#
-#	lua_default
-#}

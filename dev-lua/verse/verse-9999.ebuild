@@ -1,7 +1,7 @@
 # Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
 VCS="mercurial"
 LUA_COMPAT="lua51 luajit2"
@@ -14,7 +14,7 @@ EHG_REPO_URI="http://code.matthewwild.co.uk/${PN}/"
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS=""
-IUSE="+examples"
+IUSE="examples"
 
 RDEPEND="
 	dev-lua/squish
@@ -27,7 +27,7 @@ DEPEND="
 	${RDEPEND}
 "
 
-EXAMPLES=( doc/. )
+EXAMPLES=(doc/.)
 
 each_lua_compile() {
 	squish --use-http

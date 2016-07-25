@@ -1,17 +1,19 @@
 # Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
 LUA_COMPAT="lua51 luajit2"
 IS_MULTILIB=true
 VCS="mercurial"
+BITBUCKET_A="mva"
+BITBUCKET_PN="${PN}-temp"
 inherit lua
 
 DESCRIPTION="DBI module for Lua"
 HOMEPAGE="https://code.google.com/p/luadbi"
 #EHG_REPO_URI="https://code.google.com/p/luadbi"
-EHG_REPO_URI="https://bitbucket.org/mva/luadbi-temp"
+#EHG_REPO_URI="https://bitbucket.org/mva/luadbi-temp"
 
 LICENSE="MIT"
 SLOT="0"

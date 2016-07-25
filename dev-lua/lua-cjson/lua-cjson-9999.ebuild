@@ -1,42 +1,24 @@
 # Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
-VCS="git-r3"
+VCS="git"
 IS_MULTILIB=true
+GITHUB_A="openresty"
 #LUA_COMPAT="lua51 luajit2"
-#inherit cmake-utils lua
 inherit lua
 
 DESCRIPTION="Lua JSON Library, written in C"
 HOMEPAGE="http://www.kyne.com.au/~mark/software/lua-cjson.php"
-SRC_URI=""
-
-EGIT_REPO_URI="https://github.com/msva/lua-cjson"
 
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS=""
-IUSE="+examples"
+IUSE="examples"
 
-EXAMPLES=( tests/ lua/{json2lua,lua2json}.lua )
-
-#each_lua_configure() {
-#	mycmakeargs=(
-#		-DUSE_INTERNAL_FPCONV=ON
-#	)
-#	cmake-utils_src_configure
-#}
-
-#each_lua_configure() {
-#	mycmakeargs=(
-#		-DUSE_INTERNAL_FPCONV=ON
-#	)
-#	cmake-utils_src_configure
-#}
+EXAMPLES=( tests/. lua/{json2lua,lua2json}.lua )
 
 each_lua_install() {
 	dolua lua/cjson cjson.so
-#	cmake-utils_src_install
 }

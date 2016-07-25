@@ -1,9 +1,10 @@
 # Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
 inherit lua
+
 DESCRIPTION="LuaDoc is a documentation tool for Lua source code"
 HOMEPAGE="http://keplerproject.github.io/luadoc/"
 SRC_URI="http://luaforge.net/frs/download.php/3185/${P}.tar.gz"
@@ -18,8 +19,8 @@ RDEPEND="
 	dev-lua/luafilesystem
 "
 
-READMES=( README )
-HTML_DOCS=( doc/us/ )
+DOCS=(README)
+HTML_DOCS=(doc/us/.)
 
 
 all_lua_prepare() {

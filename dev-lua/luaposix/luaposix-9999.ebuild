@@ -1,24 +1,21 @@
 # Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
-VCS="git-r3"
+VCS="git"
 IS_MULTILIB=true
-#AT_NOEAUTOMAKE=yes
+GITHUB_A="luaposix"
 
 inherit autotools lua
 
 DESCRIPTION="POSIX binding, including curses, for Lua 5.1 and 5.2"
 HOMEPAGE="https://github.com/luaposix/luaposix"
-SRC_URI=""
-
-EGIT_REPO_URI="https://github.com/luaposix/luaposix.git"
 
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS=""
-IUSE="doc +examples ncurses"
+IUSE="doc examples ncurses"
 
 RDEPEND="
 	virtual/lua[bit32]
@@ -27,74 +24,42 @@ RDEPEND="
 
 DEPEND="
 	${RDEPEND}
+	sys-kernel/linux-headers
+	virtual/libc
 	doc? ( dev-lua/ldoc )
 "
 #	dev-libs/gnulib
 #	dev-lua/specl
 #	dev-lua/lyaml
 
-READMES=( README.md NEWS.md )
-EXAMPLES=( examples/ )
-HTML_DOCS=( doc/ )
+DOCS=(README.md NEWS.md)
+EXAMPLES=(examples/.)
+HTML_DOCS=(html/.)
 
 all_lua_prepare() {
-	[[ -n "${EGIT_OFFLINE}" ]] && die "Upstream unfortunately uses buildsystem, which requires to fetch some git "
+	mkdir -p html
+	sed \
+		-e '/^dir/s@"."@"../html"@' \
+		-i build-aux/config.ld.in
 
-	# we'll check for ldoc ourslves
+	cp build-aux/config.ld.in build-aux/config.ld
+	cp lib/posix.lua.in lib/posix/init.lua
+
 	sed -r \
-		-e "s#(AC_PATH_PROG\(\[LDOC\],).*#\1 [echo], [false]\)#" \
-		-e "s#(AM_CONDITIONAL\(\[HAVE_LDOC\],).*#\1 [false]\)#" \
-		-i configure.ac
-
-	# we don't need and install documentation for each target, so we'll take care on this ourselves
-	sed -r \
-		-e 's#doc/.*html##' \
-		-e 's#doc/.*css##' \
-		-e 's#(mkdir)#\1 -p#' \
-		-e 's#^(doc:).*##' \
-		-e 's#\$\(dist_.*_DATA\)##g' \
-		-i local.mk
-
-	myeprepareargs=(
-		--skip-rock-checks
-		--gnulib-srcdir=/usr/share/gnulib
-		-Wnone
-	)
-		#--skip-git
-#	AT_NOEAUTOMAKE=yes
-#	gnulib-tool  --no-changelog --avoid=dummy --aux-dir=build-aux --m4-base=m4 --source-base=unused --libtool --symlink --import warnings manywarnings
-#	eautoreconf
-
-	./bootstrap "${myeprepareargs[@]}"
-
-	# Unneded wrapper over ./bootstrap+./configure
-	rm GNUmakefile; ls
+		-e "s/@PACKAGE_STRING@/${P}/" \
+		-i build-aux/config.ld lib/posix/init.lua
 }
 
 all_lua_compile() {
 	use doc && (
-		cp build-aux/config.ld.in build-aux/config.ld
-		cp lib/posix.lua.in lib/posix/init.lua
-
-		sed -r \
-			-e "s/@PACKAGE_STRING@/${P}/" \
-			-i build-aux/config.ld lib/posix/init.lua
-
-		cd build-aux && ldoc -d ../doc . && cd ..
-
-		rm build-aux/config.ld lib/posix/init.lua
+		pushd build-aux &>/dev/null
+		ldoc -d ../doc .
+		popd
 	)
+
+	rm build-aux/config.ld lib/posix/init.lua
 }
 
-each_lua_configure() {
-	myeconfargs=(
-		"$(use_with ncurses)" \
-		LUA="$(lua_get_lua)" \
-		LUA_INCLUDE="$(lua_get_pkgvar --cflags --cflags-only-I)" \
-		ax_cv_lua_luadir="$(lua_get_pkgvar INSTALL_LMOD)" \
-		ax_cv_lua_luaexecdir="$(lua_get_pkgvar INSTALL_CMOD)"
-		
-	)
-	econf ${myeconfargs[@]}
+each_lua_compile() {
+	:; #wip
 }
-

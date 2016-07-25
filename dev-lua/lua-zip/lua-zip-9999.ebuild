@@ -1,14 +1,16 @@
 # Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
-VCS="git-r3"
+VCS="git"
+#GITHUB_A="brimworks"
+GITHUB_A="markuman"
+
 inherit cmake-utils lua
 
 DESCRIPTION="Lua bindings to libzip"
 HOMEPAGE="https://github.com/brimworks/lua-zip"
-EGIT_REPO_URI="https://github.com/brimworks/lua-zip.git"
 
 LICENSE="MIT"
 SLOT="0"
@@ -23,7 +25,7 @@ DEPEND="
 	${RDEPEND}
 "
 
-READMES=( README )
+DOCS=(README.md)
 
 each_lua_configure() {
 	mycmakeargs=(

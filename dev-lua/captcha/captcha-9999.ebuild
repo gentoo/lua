@@ -1,24 +1,24 @@
 # Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
-VCS="git-r3"
+VCS="git"
+GITHUB_A="mrDoctorWho"
+GITHUB_PN="lua-${PN}"
+
 inherit lua
 
 DESCRIPTION="A small lua module to generate CAPTCHA images using lua-gd"
 HOMEPAGE="https://github.com/mrDoctorWho/lua-captcha"
-SRC_URI=""
-
-EGIT_REPO_URI="https://github.com/mrDoctorWho/lua-${PN}"
 
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS=""
-IUSE="jpeg png +examples"
+IUSE="jpeg png examples"
 
-READMES=( README.md )
-EXAMPLES=( examples/ )
+DOCS=(README.md)
+EXAMPLES=(examples/.)
 
 RDEPEND="
 	dev-lua/lua-gd
@@ -26,6 +26,8 @@ RDEPEND="
 "
 
 REQUIRED_USE="|| ( jpeg png )"
+
+src_compile() { :; }
 
 each_lua_install() {
 	dolua src/*
