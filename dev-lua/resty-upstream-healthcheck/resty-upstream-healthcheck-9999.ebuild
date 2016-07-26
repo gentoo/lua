@@ -18,7 +18,7 @@ KEYWORDS=""
 IUSE=""
 
 RDEPEND="
-	www-servers/nginx[nginx_modules_http_lua,nginx_modules_http_lua_upsteam]
+	www-servers/nginx[nginx_modules_http_lua,nginx_modules_http_lua_upstream]
 "
 DEPEND="
 	${RDEPEND}
