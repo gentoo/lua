@@ -28,29 +28,27 @@ DEPEND="
 all_lua_prepare() {
 	sed -i -r \
 		-e 's#(MAKE\)).*(install)#\1 \2#' \
+		-e '/LIB_PATH.*-L.usr.lib/d' \
 		Makefile
-	epatch "${FILESDIR}/fix_removed_destdir_support.patch" || die "Probably, Upstream finally returned DESTDIR instalation back. Please, report that."
-	cd src
+
+	pushd src &>/dev/null
 	lua_default
+	popd &>/dev/null
 }
 
 each_lua_configure() {
-	cd src
+	pushd src &>/dev/null
 	myeconfargs=()
 	myeconfargs+=(
 		LD='$(CC)'
 		LUAPATH="$(lua_get_pkgvar INSTALL_LMOD)"
 		LUACPATH="$(lua_get_pkgvar INSTALL_CMOD)"
 	)
-		lua_default
+
+	lua_default
+	popd &>/dev/null
 }
 
 each_lua_compile() {
 	lua_default linux
 }
-
-#each_lua_install() {
-#	dolua ssl.so ssl.lua
-#	_dolua_insdir=ssl \
-#	dolua https.lua
-#}
