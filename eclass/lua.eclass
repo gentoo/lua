@@ -906,6 +906,9 @@ _lua_default_all_prepare() {
 		"${@}"
 	)
 
+	[[ "${EAPI}" -lt 6 ]] && epatch_user
+	default
+
 	[[ -x "${BOOTSTRAP}" ]] && ${BOOTSTRAP} "${prepargs[@]}"
 
 	for mf in Makefile GNUmakefile makefile; do
@@ -926,7 +929,6 @@ _lua_default_all_prepare() {
 		fi
 		touch ${T}/.lua_ecl_conf
 	done
-
 }
 
 _lua_default_all_compile() {
