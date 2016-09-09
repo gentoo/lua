@@ -10,7 +10,7 @@ IS_MULTILIB=true
 inherit lua
 
 DESCRIPTION="Most comprehensive OpenSSL module in the Lua universe."
-HOMEPAGE="https://github.com/remjey/luaotp"
+HOMEPAGE="https://github.com/wahern/luaossl/"
 
 LICENSE="MIT"
 SLOT="0"
