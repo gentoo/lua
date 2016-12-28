@@ -515,7 +515,7 @@ lua_src_prepare() {
 		_lua_invoke_environment all ${VCS}_src_prepare
 	fi
 
-	_lua_invoke_environment all default_src_prepare
+#	_lua_invoke_environment all default_src_prepare
 
 	if ! declare -f all_lua_prepare >/dev/null; then
 		all_lua_prepare() {
