@@ -297,7 +297,7 @@ lua_add_bdepend() {
 lua_get_use_implementations() {
 	local i=() implementation
 	for implementation in ${LUA_COMPAT}; do
-		if [[ -z "${LUA_IGNORE_TARGET_DUPLICATION}" ]] && [ "${implementation}" = "lua51" ] && in_iuse lua_targets_luajit2 && use lua_targets_luajit2; then
+		if [[ -z "${LUA_IGNORE_TARGET_DUPLICATION}" ]] && [ "${implementation}" = "lua51" ] && in_iuse lua_targets_luajit2 && use lua_targets_luajit2 && use lua_targets_lua51; then
 			ewarn "LuaJIT using same LMOD/CMOD install paths as lua51."
 			ewarn "Lua target 'lua51' was skipped to avoid useless double compilation and file overwrites."
 			ewarn "If you definitelly want to compile lua51 target for nothing (i.e. you're maintainer),"
