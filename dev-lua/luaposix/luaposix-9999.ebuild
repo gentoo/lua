@@ -33,7 +33,7 @@ DEPEND="
 #	dev-lua/lyaml
 
 DOCS=(README.md NEWS.md)
-EXAMPLES=(examples/.)
+EXAMPLES=(doc/examples/.)
 HTML_DOCS=(html/.)
 
 all_lua_prepare() {
@@ -48,6 +48,8 @@ all_lua_prepare() {
 	sed -r \
 		-e "s/@PACKAGE_STRING@/${P}/" \
 		-i build-aux/config.ld lib/posix/init.lua
+
+	lua_default
 }
 
 all_lua_compile() {

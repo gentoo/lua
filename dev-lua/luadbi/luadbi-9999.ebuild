@@ -48,7 +48,7 @@ each_lua_compile() {
 
 	for driver in "${drivers[@]}"; do
 		local buildme;
-		if [[ ${driver} = "psql" && ${ABI} = "x86" ]]; then
+		if [[ ${driver} = "psql" && ${ABI} = "x86" ]] && use amd64; then
 			# FIXME: when postgres and perl (as postgres dep) will have multilib support
 			buildme=no
 		fi
@@ -65,5 +65,10 @@ each_lua_compile() {
 }
 
 each_lua_install() {
-	dolua *.so DBI.lua
+	local libs=();
+	for lib in $(find . -name '*.so'); do
+		libs+=(${lib})
+	done
+	[[ -z "${libs[@]}" ]] || dolua ${libs[@]}
+	dolua DBI.lua
 }
