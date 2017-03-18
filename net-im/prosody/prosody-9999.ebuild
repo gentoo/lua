@@ -12,12 +12,13 @@ EHG_REPO_URI="http://hg.prosody.im/trunk"
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS=""
-IUSE="doc +libevent mysql postgres sqlite +ssl +zlib luajit ipv6 migration"
+IUSE="doc +libevent mysql postgres sqlite +ssl +zlib luajit ipv6 migration no-example-certs icu random-getrandom random-openssl"
 
 DEPEND="
 	virtual/lua[luajit=,bit]
 	net-im/jabber-base
-	>=net-dns/libidn-1.1
+	!icu? ( >=net-dns/libidn-1.1 )
+	icu? ( dev-libs/icu )
 	|| (
 		>=dev-libs/openssl-0.9.8z
 		>=dev-libs/openssl-1.0.1j
@@ -33,6 +34,10 @@ RDEPEND="
 	dev-lua/luafilesystem
 	mysql? ( >=dev-lua/luadbi-0.5[mysql] )
 	postgres? ( >=dev-lua/luadbi-0.5[postgres] )
+	random-getrandom? (
+		>=sys-kernel/linux-headers-3.17
+		>=sys-libs/glibc-2.25
+	)
 	sqlite? ( >=dev-lua/luadbi-0.5[sqlite] )
 	libevent? ( dev-lua/luaevent )
 	zlib? ( dev-lua/lua-zlib )
@@ -62,26 +67,51 @@ src_prepare() {
 
 src_configure() {
 	local lua=lua;
+	local myconf=();
+
+	use no-example-certs && myconf+=("--no-example-certs")
+
+	use icu && myconf+=("--idn-library=icu")
+
+	use random-getrandom && {
+		ewarn "This build will not be supported by upstream"
+		ewarn "random-* flags is meant as last resort for containers without /dev/urandom"
+
+		myconf+=("--with-random=getrandom")
+	}
+
+	use random-openssl && {
+		ewarn "This build will not be supported by upstream"
+		ewarn "random-* flags is meant as last resort for containers without /dev/urandom"
+
+		myconf+=("--with-random=openssl")
+	}
 
 	use luajit && {
-		myconf="--lua-suffix=jit"
+		myconf+=("--lua-suffix=jit")
 		lua=luajit;
 	}
 
 	# the configure script is handcrafted (and yells at unknown options)
 	# hence do not use 'econf'
-	./configure --prefix="/usr" \
+
+	my_econf() {
+		echo "./configure ${@}"
+		./configure "${@}"
+	}
+
+	my_econf --prefix="/usr" \
 		--ostype=linux \
 		--sysconfdir="${JABBER_ETC}" \
 		--datadir="${JABBER_SPOOL}" \
-		--with-lua-lib=/usr/$(get_libdir) \
 		--libdir=/usr/$(get_libdir) \
 		--c-compiler="$(tc-getCC)" --linker="$(tc-getCC)" \
-		--cflags="${CFLAGS} -Wall -fPIC -D_GNU_SOURCE" \
+		--cflags="${CFLAGS} -Wall -fPIC -std=c99" \
 		--ldflags="${LDFLAGS} -shared" \
 		--runwith="${lua}" \
 		--with-lua-include="$($(tc-getPKG_CONFIG) --variable includedir ${lua})" \
-		--require-config "${myconf}" || die "configure failed"
+		--with-lua-lib="$($(tc-getPKG_CONFIG) --variable libdir ${lua})" \
+		--require-config "${myconf[@]}" || die "configure failed"
 }
 
 src_compile() {

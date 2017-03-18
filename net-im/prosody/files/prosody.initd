@@ -30,13 +30,13 @@ start() {
 	checkconfig || return 1
 	ebegin "Starting Prosody XMPP Server"
 	checkpath -q -d -m 0770 -o jabber:jabber /var/run/jabber
-	start-stop-daemon -S -u ${USER} -x ${COMMAND} -- start &>/dev/null
+	start-stop-daemon -S -u ${USER} -x ${COMMAND} -- start >/dev/null 2>&1
 	eend $?
 }
 
 stop() {
 	ebegin "Stopping Prosody XMPP Server"
-	start-stop-daemon -S -u ${USER} -x ${COMMAND} -- stop &>/dev/null
+	start-stop-daemon -S -u ${USER} -x ${COMMAND} -- stop >/dev/null 2>&1
 	eend $?
 }
 
