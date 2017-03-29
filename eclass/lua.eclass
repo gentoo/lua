@@ -455,6 +455,8 @@ lua_src_unpack() {
 	# hack for VCS-eclasses (darcs, for example) which defaults unpack dir to WD/P instead of S
 	if [[ "${PV}" = *9999* ]] && [[ -d "${WORKDIR}/${P}" ]] && [[ ! -d "${WORKDIR}/all/${P}" ]] ; then
 		mv "${WORKDIR}/${P}" "${WORKDIR}/all/${P}"
+	elif [[ "${PV}" != *9999* ]] && [[ -n "${GITHUB_PV}" ]] && [[ -d "${WORKDIR}/all/${GITHUB_PN}-${GITHUB_PV}" ]] && [[ ! -d "${WORKDIR}/all/${P}" ]]; then
+		mv "${WORKDIR}/all/${GITHUB_PN}-${GITHUB_PV}" "${WORKDIR}/all/${P}"
 	fi
 
 	popd &>/dev/null
