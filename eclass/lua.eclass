@@ -954,7 +954,11 @@ _lua_default_each_configure() {
 	confargs+=("${myeconfargs[@]}")
 	confargs+=("${@}")
 
-	[[ -x ${ECONF_SOURCE:-.}/configure ]] && econf "${confargs[@]}"
+	(
+		[[ -x ${ECONF_SOURCE:-.}/configure ]] &&
+		[[ -z "${CUSTOM_ECONF}" ]]
+	) &&
+	econf "${confargs[@]}"
 
 	if [[ -f ${T}/.lua_ecl_conf ]]; then
 		touch .lua_eclass_config
