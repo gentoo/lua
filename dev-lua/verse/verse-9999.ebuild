@@ -5,6 +5,7 @@ EAPI=6
 
 VCS="mercurial"
 LUA_COMPAT="lua51 luajit2"
+CUSTOM_ECONF=true
 inherit lua
 
 DESCRIPTION="XMPP client library written in Lua."
@@ -29,8 +30,18 @@ DEPEND="
 
 EXAMPLES=(doc/.)
 
-each_lua_compile() {
-	squish --use-http
+each_lua_prepare() {
+	local impl="$(lua_get_lua)"
+	sed -r \
+		-e "s@^(PREFIX)=.*@\1=/usr@" \
+		-e "s@^(LUA_VERSION)=.*@\1=${impl##lua}@" \
+		-i configure
+	lua_default
+}
+
+each_lua_configure() {
+	./configure
+	lua_default
 }
 
 each_lua_install() {
