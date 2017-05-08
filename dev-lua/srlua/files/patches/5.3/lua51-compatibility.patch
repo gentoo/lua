@@ -1,0 +1,14 @@
+--- a/srlua.c	2017-04-09 16:28:56.780761259 +0700
++++ b/srlua.c	2017-04-09 16:34:40.159417660 +0700
+@@ -28,6 +28,10 @@
+ #define getprogname()
+ #endif
+ 
++#if !defined(LUA_VERSION_NUM) || LUA_VERSION_NUM < 502
++#define lua_load(L,reader,dt,chunkname,mode) lua_load(L,reader,dt,chunkname)
++#endif
++
+ typedef struct
+ {
+  FILE *f;
+
