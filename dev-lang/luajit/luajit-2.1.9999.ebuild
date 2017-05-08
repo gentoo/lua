@@ -93,6 +93,11 @@ multilib_src_compile() {
 		$(usex debug "-DLUAJIT_USE_GDBJIT" "")
 		$(usex valgrind "-DLUAJIT_USE_VALGRIND" "")
 		$(usex valgrind "-DLUAJIT_USE_SYSMALLOC" "")
+		$(usex amd64 "-DLUAJIT_ENABLE_GC64" "")
+#		$(usex arm64 "-DLUAJIT_ENABLE_GC64" "")
+#		$(usex mips64 "-DLUAJIT_ENABLE_GC64" "")
+#		$(usex ppc64 "-DLUAJIT_ENABLE_GC64" "")
+#		$(usex s390_64 "-DLUAJIT_ENABLE_GC64" "")
 	)
 
 	emake \
