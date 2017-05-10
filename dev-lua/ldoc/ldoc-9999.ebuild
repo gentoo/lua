@@ -36,6 +36,8 @@ all_lua_prepare() {
 		done
 	)
 	rm ldoc/{SciTE.properties,config.ld}
+
+	lua_default
 }
 
 each_lua_install() {
