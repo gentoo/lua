@@ -32,6 +32,7 @@ all_lua_prepare() {
 	sed -r \
 		-e "/die.*Unknown flag:/d" \
 		-i configure
+	lua_default
 }
 
 each_lua_configure() {
