@@ -32,6 +32,7 @@ all_lua_prepare() {
 	sed \
 		-e '/^dir/s@"."@"../html"@' \
 		-i doc/config.ld.in
+	lua_default
 }
 
 each_lua_compile() {
