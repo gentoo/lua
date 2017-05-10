@@ -31,7 +31,7 @@ DOCS=(README.markdown)
 
 all_lua_prepare() {
 	use naive-random || rm lib/resty/random.lua
-	default
+	lua_default
 }
 
 each_lua_install() {
