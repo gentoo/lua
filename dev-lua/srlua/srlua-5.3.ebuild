@@ -23,13 +23,13 @@ LUA_S="${PN}"
 PATCHES=("${FILESDIR}/patches/${PV}")
 
 all_lua_prepare() {
-	lua_default
 	sed -r \
 		-e '2aCFLAGS+=-Wall -Wextra -O0 -ggdb' \
 		-e '2aLDFLAGS=-fPIC' \
 		-e '2aLIBS=$(LDFLAGS) $(LUA_LINK_LIB) -ldl' \
 		-e '2,/^LIBS/d' \
 		-i Makefile
+	lua_default
 }
 
 each_lua_test() {
