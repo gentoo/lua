@@ -1,0 +1,111 @@
+--- a/vendor/compat-5.3/c-api/compat-5.3.h	2017-05-10 19:43:02.701992608 +0700
++++ b/vendor/compat-5.3/c-api/compat-5.3.h	2017-05-10 19:42:51.026426540 +0700
+@@ -95,8 +95,10 @@
+ #define lua_compare COMPAT53_CONCAT(COMPAT53_PREFIX, _compare)
+ COMPAT53_API int lua_compare (lua_State *L, int idx1, int idx2, int op);
+ 
++#ifndef COMPAT53_IS_LUAJIT
+ #define lua_copy COMPAT53_CONCAT(COMPAT53_PREFIX, _copy)
+ COMPAT53_API void lua_copy (lua_State *L, int from, int to);
++#endif
+ 
+ #define lua_getuservalue(L, i) \
+   (lua_getfenv(L, i), lua_type(L, -1))
+@@ -106,10 +108,12 @@
+ #define lua_len COMPAT53_CONCAT(COMPAT53_PREFIX, _len)
+ COMPAT53_API void lua_len (lua_State *L, int i);
+ 
++#ifndef COMPAT53_IS_LUAJIT
+ #define luaL_newlibtable(L, l) \
+   (lua_createtable(L, 0, sizeof(l)/sizeof(*(l))-1))
+ #define luaL_newlib(L, l) \
+   (luaL_newlibtable(L, l), luaL_register(L, NULL, l))
++#endif
+ 
+ #define lua_pushglobaltable(L) \
+   lua_pushvalue(L, LUA_GLOBALSINDEX)
+@@ -122,11 +126,13 @@
+ 
+ #define lua_rawlen(L, i) lua_objlen(L, i)
+ 
++#ifndef COMPAT53_IS_LUAJIT
+ #define lua_tointegerx COMPAT53_CONCAT(COMPAT53_PREFIX, _tointegerx)
+ COMPAT53_API lua_Integer lua_tointegerx (lua_State *L, int i, int *isnum);
+ 
+ #define lua_tonumberx COMPAT53_CONCAT(COMPAT53_PREFIX, _tonumberx)
+ COMPAT53_API lua_Number lua_tonumberx (lua_State *L, int i, int *isnum);
++#endif
+ 
+ #define luaL_checkversion COMPAT53_CONCAT(COMPAT53_PREFIX, L_checkversion)
+ COMPAT53_API void luaL_checkversion (lua_State *L);
+@@ -140,6 +146,7 @@
+ #define luaL_len COMPAT53_CONCAT(COMPAT53_PREFIX, L_len)
+ COMPAT53_API int luaL_len (lua_State *L, int i);
+ 
++#ifndef COMPAT53_IS_LUAJIT
+ #define luaL_setfuncs COMPAT53_CONCAT(COMPAT53_PREFIX, L_setfuncs)
+ COMPAT53_API void luaL_setfuncs (lua_State *L, const luaL_Reg *l, int nup);
+ 
+@@ -148,6 +155,7 @@
+ 
+ #define luaL_testudata COMPAT53_CONCAT(COMPAT53_PREFIX, L_testudata)
+ COMPAT53_API void *luaL_testudata (lua_State *L, int i, const char *tname);
++#endif
+ 
+ #define luaL_tolstring COMPAT53_CONCAT(COMPAT53_PREFIX, L_tolstring)
+ COMPAT53_API const char *luaL_tolstring (lua_State *L, int idx, size_t *len);
+--- a/vendor/compat-5.3/c-api/compat-5.3.c	2017-05-10 19:58:14.246778970 +0700
++++ b/vendor/compat-5.3/c-api/compat-5.3.c	2017-05-10 19:58:07.354038934 +0700
+@@ -89,14 +89,14 @@
+   return 0;
+ }
+ 
+-
++#ifndef COMPAT53_IS_LUAJIT
+ COMPAT53_API void lua_copy (lua_State *L, int from, int to) {
+   int abs_to = lua_absindex(L, to);
+   luaL_checkstack(L, 1, "not enough stack slots");
+   lua_pushvalue(L, from);
+   lua_replace(L, abs_to);
+ }
+-
++#endif
+ 
+ COMPAT53_API void lua_len (lua_State *L, int i) {
+   switch (lua_type(L, i)) {
+@@ -131,7 +131,7 @@
+   lua_rawset(L, abs_i);
+ }
+ 
+-
++#ifndef COMPAT53_IS_LUAJIT
+ COMPAT53_API lua_Integer lua_tointegerx (lua_State *L, int i, int *isnum) {
+   lua_Integer n = lua_tointeger(L, i);
+   if (isnum != NULL) {
+@@ -148,6 +147,7 @@
+   }
+   return n;
+ }
++#endif
+ 
+ 
+ COMPAT53_API void luaL_checkversion (lua_State *L) {
+@@ -194,7 +194,7 @@
+   return res;
+ }
+ 
+-
++#ifndef COMPAT53_IS_LUAJIT
+ COMPAT53_API void luaL_setfuncs (lua_State *L, const luaL_Reg *l, int nup) {
+   luaL_checkstack(L, nup+1, "too many upvalues");
+   for (; l->name != NULL; l++) {  /* fill the table with given functions */
+@@ -231,7 +231,7 @@
+   }
+   return p;
+ }
+-
++#endif
+ 
+ COMPAT53_API const char *luaL_tolstring (lua_State *L, int idx, size_t *len) {
+   if (!luaL_callmeta(L, idx, "__tostring")) {
+
