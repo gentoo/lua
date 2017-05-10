@@ -33,10 +33,11 @@ DOCS=( docs/. README.md )
 
 all_lua_prepare() {
 	use moonscript || find "${S}" -type -name '*.moon' -delete
+	lua_default
 }
 
 each_lua_compile() {
-	use moonscript && emake build
+	use moonscript && lua_default build
 }
 
 each_lua_install() {
