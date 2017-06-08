@@ -4,7 +4,6 @@
 EAPI=6
 
 IS_MULTILIB=true
-LUA_COMPAT="lua51 luajit2"
 
 inherit lua
 
@@ -23,6 +22,7 @@ HTML_DOCS=({lpeg,re}.html)
 
 all_lua_prepare() {
 	use debug && append-cflags -DLPEG_DEBUG
+	lua_default
 }
 
 each_lua_compile() {
