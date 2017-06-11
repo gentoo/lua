@@ -1,4 +1,4 @@
-# Copyright 1999-2016 Gentoo Foundation
+# Copyright 1999-2017 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
@@ -6,6 +6,7 @@ EAPI=6
 VCS="git"
 LUA_COMPAT="luajit2"
 GITHUB_A="jcupitt"
+GITHUB_PN="lua-${PN}"
 
 inherit lua
 
@@ -18,7 +19,7 @@ KEYWORDS=""
 IUSE=""
 
 RDEPEND="
-	media-libs/vips
+	>media-libs/vips-8.0.0
 "
 DEPEND="
 	${RDEPEND}
