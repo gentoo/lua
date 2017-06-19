@@ -1,0 +1,7 @@
+move dev-lua/argon2-ffi dev-lua/lua-argon2-ffi
+move dev-lua/argon2 dev-lua/lua-argon2
+move dev-lua/captcha dev-lua/lua-captcha
+move dev-lua/cmsgpack dev-lua/lua-cmsgpack
+move dev-lua/rds-parser dev-lua/lua-rds-parser
+move dev-lua/spawn dev-lua/lua-spawn
+move dev-lua/vips dev-lua/lua-vips

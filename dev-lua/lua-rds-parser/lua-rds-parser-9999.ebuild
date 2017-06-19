@@ -7,7 +7,6 @@ VCS="git"
 LUA_COMPAT="lua51 luajit2"
 IS_MULTILIB=true
 GITHUB_A="openresty"
-GITHUB_PN="lua-${PN}"
 
 inherit lua
 

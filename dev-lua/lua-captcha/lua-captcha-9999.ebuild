@@ -5,7 +5,6 @@ EAPI=6
 
 VCS="git"
 GITHUB_A="mrDoctorWho"
-GITHUB_PN="lua-${PN}"
 
 inherit lua
 

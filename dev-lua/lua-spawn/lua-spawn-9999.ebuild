@@ -5,7 +5,6 @@ EAPI=6
 
 VCS="git"
 GITHUB_A="daurnimator"
-GITHUB_PN="lua-${PN}"
 IS_MULTILIB=true
 
 inherit lua

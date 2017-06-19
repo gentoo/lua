@@ -4,23 +4,21 @@
 EAPI=6
 
 VCS="git"
-LUA_COMPAT="lua51 lua52 lua53"
+LUA_COMPAT="luajit2"
 GITHUB_A="thibaultcha"
-GITHUB_PN="lua-${PN}"
 
 inherit lua
 
-DESCRIPTION="Lua C binding for the Argon2 password hashing function"
+DESCRIPTION="LuaJIT FFI binding for the Argon2 password hashing function"
 HOMEPAGE="https://github.com/thibaultcha/lua-argon2"
 
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS=""
-IUSE="doc luajit"
+IUSE="doc"
 
 RDEPEND="
 	app-crypt/argon2
-	luajit? ( ${CATEGORY}/${PN}-ffi )
 "
 DEPEND="
 	${RDEPEND}
@@ -28,13 +26,12 @@ DEPEND="
 
 DOCS=({README,CHANGELOG}.md)
 
-each_lua_compile() {
-	_lua_setFLAGS
-
-	${CC} ${CFLAGS} -c -o "${PN}.o" "src/${PN}.c" || die
-	${CC} ${LDFLAGS} -largon2 -o "${PN}.so" "${PN}.o" || die
+each_lua_test() {
+	emake
 }
 
+src_compile() { :; }
+
 each_lua_install() {
-	dolua "${PN}.so"
+	dolua_jit "src/${PN%%-ffi}.lua"
 }

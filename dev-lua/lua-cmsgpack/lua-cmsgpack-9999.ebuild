@@ -6,7 +6,6 @@ EAPI=6
 IS_MULTILIB=true
 VCS="git"
 GITHUB_A="antirez"
-GITHUB_PN="lua-${PN}"
 
 inherit lua
 

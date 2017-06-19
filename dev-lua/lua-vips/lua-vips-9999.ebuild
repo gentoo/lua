@@ -6,7 +6,6 @@ EAPI=6
 VCS="git"
 LUA_COMPAT="luajit2"
 GITHUB_A="jcupitt"
-GITHUB_PN="lua-${PN}"
 
 inherit lua
 
