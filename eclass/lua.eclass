@@ -1,11 +1,12 @@
-# Copyright 1999-2016 Gentoo Foundation
+# Copyright 1999-2017 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
 # @ECLASS: lua.eclass
 # @MAINTAINER:
-# mva <lua@mva.name>
+# Vadim A. Misbakh-Soloviov (mva) <lua@mva.name>
 # @AUTHOR:
-# Author: Vadim A. Misbakh-Soloviov <lua@mva.name>
+# Vadim A. Misbakh-Soloviov (mva) <lua@mva.name>
+# (partially based on ruby and python eclasses)
 # @BLURB: An eclass for installing Lua packages with proper support for multiple Lua slots.
 # @DESCRIPTION:
 # The Lua eclass is designed to allow an easier installation of Lua packages
