@@ -22,7 +22,7 @@ RDEPEND="
 	dev-lua/luacrypto
 	dev-lua/lua-cjson
 	dev-lua/lpeg
-	dev-lua/rds-parser
+	dev-lua/lua-rds-parser
 	dev-lua/resty-upload
 "
 DEPEND="
