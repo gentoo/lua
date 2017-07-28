@@ -74,7 +74,7 @@ PROSODY_MODULES="
 "
 
 # Dirty hack. TODO: remove it after proper naming at upstream
-IUSE="${PROSODY_MODULES//mam /}"
+PROSODY_MODULES="${PROSODY_MODULES//mam /}"
 
 for x in ${PROSODY_MODULES}; do
 	IUSE="${IUSE} ${x//[^+]/}prosody_modules_${x/+}"
