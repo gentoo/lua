@@ -73,11 +73,12 @@ PROSODY_MODULES="
 	watchuntrusted webpresence
 "
 
+# Dirty hack. TODO: remove it after proper naming at upstream
+IUSE="${PROSODY_MODULES//mam /}"
 
 for x in ${PROSODY_MODULES}; do
 	IUSE="${IUSE} ${x//[^+]/}prosody_modules_${x/+}"
 done
-
 
 DEPEND="=net-im/prosody-${PV}"
 RDEPEND="
