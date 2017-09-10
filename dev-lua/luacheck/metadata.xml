@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+	<maintainer type="person">
+		<email>lua.overlay@mva.name</email>
+		<name>Vadim Misbakh-Soloviov</name>
+	</maintainer>
+	<use>
+		<flag name="luajit">Use <pkg>dev-lang/luajit</pkg> instead of
+			<pkg>dev-lang/lua</pkg></flag>
+	</use>
+</pkgmetadata>
