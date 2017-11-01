@@ -34,11 +34,6 @@
 # is compatible to. It must be set before the `inherit' call.
 : ${LUA_COMPAT:=lua51 lua52 lua53 luajit2}
 
-# @ECLASS-VARIABLE: LUA_PATCHES
-# @DEFAULT_UNSET
-# @DESCRIPTION:
-# A String or Array of filenames of patches to apply to all implementations.
-
 # @ECLASS-VARIABLE: LUA_OPTIONAL
 # @DESCRIPTION:
 # Set the value to "yes" to make the dependency on a Lua interpreter
@@ -108,7 +103,7 @@ if [[ -z "${EGIT_REPO_URI}" && -z "${EHG_REPO_URI}" && -z "${SRC_URI}" && -n "${
 	fi
 fi
 
-inherit eutils ${multilib} toolchain-funcs flag-o-matic ${VCS}
+inherit eutils ${multilib} toolchain-funcs flag-o-matic ${VCS} patches
 
 EXPORT_FUNCTIONS src_unpack src_prepare src_configure src_compile src_install pkg_setup src_test
 
@@ -655,7 +650,7 @@ lua_src_install() {
 	README_DOCS=(${DOCS[@]});
 	OTHER_DOCS=(${DOCS[@]//README*});
 #	MY_S="${WORKDIR}/all/${P}"
-	
+
 	unset DOCS;
 
 	for r in ${OTHER_DOCS[@]}; do
@@ -909,8 +904,7 @@ _lua_default_all_prepare() {
 		"${@}"
 	)
 
-	[[ "${EAPI}" -lt 6 ]] && epatch_user
-	default
+	patches_src_prepare
 
 	[[ -x "${BOOTSTRAP}" ]] && ${BOOTSTRAP} "${prepargs[@]}"
 
@@ -946,7 +940,7 @@ _lua_default_all_compile() {
 }
 
 #lua_default_all_install() {
-#	
+#
 #}
 
 _lua_default_each_configure() {
