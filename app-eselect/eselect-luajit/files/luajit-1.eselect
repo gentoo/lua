@@ -27,14 +27,18 @@ find_targets() {
 }
 
 get_libdirs() {
-	local dir libdirs
+	local dir libdirs=() ret;
 	for dir in $(list_libdirs); do
-		[[ -L ${EROOT}/usr/${dir} ]] && continue
-		ls "${EROOT}"/usr/${dir}/libluajit*.* > /dev/null 2>&1 || continue
+		[[ -L "${EROOT}/usr/${dir}" ]] && continue
+		ls "${EROOT}"/usr/"${dir}"/libluajit*.* > /dev/null 2>&1 || continue
 
-		libdirs+=' '/usr/${dir}
+		libdirs+=("${EROOT}/usr/${dir}")
 	done
-	echo ${libdirs:-/usr/lib}
+
+	ret=${libdirs[@]}
+	ret=${ret:-/usr/lib}
+
+	echo ${ret}
 }
 
 
