@@ -30,6 +30,7 @@ HTML_DOCS=(html/.)
 
 all_lua_prepare() {
 	use doc && luadoc . -d html
+	lua_default
 }
 
 each_lua_install() {
