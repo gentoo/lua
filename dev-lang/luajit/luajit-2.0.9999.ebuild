@@ -1,13 +1,16 @@
-# Copyright 1999-2016 Gentoo Foundation
+# Copyright 1999-2017 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
-inherit base eutils multilib multilib-minimal portability pax-utils toolchain-funcs versionator flag-o-matic check-reqs git-r3
+inherit eutils multilib multilib-minimal portability pax-utils toolchain-funcs versionator flag-o-matic check-reqs git-r3 patches
 
 DESCRIPTION="Just-In-Time Compiler for the Lua programming language"
-HOMEPAGE="http://luajit.org/"
-EGIT_REPO_URI="http://luajit.org/git/luajit-2.0.git"
+HOMEPAGE="https://luajit.org/"
+EGIT_REPO_URI="https://luajit.org/git/luajit-2.0.git"
+EGIT_BRANCH="v2.0"
+EGIT_MIN_CLONE_TYPE="single"
+
 SLOT="2"
 
 LICENSE="MIT"
@@ -30,9 +33,8 @@ PDEPEND="
 HTML_DOCS=( "doc/" )
 
 MULTILIB_WRAPPED_HEADERS=(
-    /usr/include/luajit-${SLOT}/luaconf.h
+	"/usr/include/luajit-${SLOT}/luaconf.h"
 )
-
 
 check_req() {
 	if use optimization; then
@@ -49,7 +51,8 @@ pkg_setup() {
 	check_req setup
 }
 
-src_prepare(){
+src_prepare() {
+	patches_src_prepare
 	# fixing prefix and version
 #	sed -r \
 #		-e 's|^(VERSION)=.*|\1=$(MAJVER).$(MINVER)|' \
@@ -124,12 +127,12 @@ multilib_src_compile() {
 multilib_src_install() {
 	emake DESTDIR="${D}" MULTILIB="$(get_libdir)" install
 
-	base_src_install_docs
+	einstalldocs
 
 	host-is-pax && pax-mark m "${ED}usr/bin/${P}"
 	newman "etc/${P}.1" "luacjit-${PV}.1"
 	newbin "${FILESDIR}/luac.jit" "luacjit-${PV}"
-	ln -s "${P}" "${ED}usr/bin/${PN}-${SLOT}"
+	ln -fs "${P}" "${ED}usr/bin/${PN}-${SLOT}"
 }
 
 pkg_postinst() {
