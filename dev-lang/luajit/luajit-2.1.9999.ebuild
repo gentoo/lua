@@ -69,12 +69,11 @@ src_prepare() {
 
 	use debug && (
 		sed -r \
-			-e 's/#(CCDEBUG= -g)/\1 -ggdb -O0/' \
+			-e 's/#(CCDEBUG= -g)/\1 -O0/' \
 			-i src/Makefile || die "Failed to enable debug"
 	)
 	mv "${S}"/etc/${PN}.1 "${S}"/etc/${P}.1
 
-	eapply_user
 	multilib_copy_sources
 }
 
@@ -112,7 +111,7 @@ multilib_src_compile() {
 }
 
 multilib_src_install() {
-	emake DESTDIR="${ED}" MULTILIB="$(get_libdir)" install
+	emake DESTDIR="${D}" MULTILIB="$(get_libdir)" install
 
 	einstalldocs
 
