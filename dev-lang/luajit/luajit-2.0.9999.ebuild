@@ -70,7 +70,7 @@ src_prepare() {
 		-e 's|^(VERSION)=.*|\1=${PV}|' \
 		-e 's|\$\(MAJVER\)\.\$\(MINVER\)\.\$\(RELVER\)|$(VERSION)|' \
 		-e 's|^(INSTALL_PCNAME)=.*|\1=${P}.pc|' \
-		-e 's|( PREFIX)=.*|\1=/usr|' \
+		-e 's|( PREFIX)=.*|\1=${EPREFIX}/usr|' \
 		-e 's|^(FILE_MAN)=.*|\1=${P}.1|' \
 		-i Makefile || die "failed to fix prefix in Makefile"
 
@@ -98,7 +98,7 @@ src_prepare() {
 
 multilib_src_configure() {
 	sed -r \
-		-e "s|^(prefix)=.*|\1=/usr|" \
+		-e "s|^(prefix)=.*|\1=${EPREFIX}/usr|" \
 		-e "s|^(multilib)=.*|\1=$(get_libdir)|" \
 		-i "etc/${PN}.pc" || die "Failed to slottify"
 }
@@ -125,7 +125,7 @@ multilib_src_compile() {
 }
 
 multilib_src_install() {
-	emake DESTDIR="${D}" MULTILIB="$(get_libdir)" install
+	emake DESTDIR="${ED}" MULTILIB="$(get_libdir)" install
 
 	einstalldocs
 

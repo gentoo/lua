@@ -59,7 +59,7 @@ src_prepare() {
 		-e 's|^(VERSION)=.*|\1=${PV}|' \
 		-e 's|^(INSTALL_SONAME)=.*|\1=$(INSTALL_SOSHORT1).$(VERSION)|' \
 		-e 's|^(INSTALL_PCNAME)=.*|\1=${P}.pc|' \
-		-e 's|( PREFIX)=.*|\1=/usr|' \
+		-e 's|( PREFIX)=.*|\1=${EROOT}usr|' \
 		-e 's|^(FILE_MAN)=.*|\1=${P}.1|' \
 		-i Makefile || die "failed to fix prefix in Makefile"
 
@@ -80,7 +80,7 @@ src_prepare() {
 
 multilib_src_configure() {
 	sed -r \
-		-e "s|^(prefix)=.*|\1=/usr|" \
+		-e "s|^(prefix)=.*|\1=${EROOT}usr|" \
 		-e "s|^(multilib)=.*|\1=$(get_libdir)|" \
 		-i "etc/${PN}.pc" || die "Failed to slottify"
 }
@@ -112,7 +112,7 @@ multilib_src_compile() {
 }
 
 multilib_src_install() {
-	emake DESTDIR="${D}" MULTILIB="$(get_libdir)" install
+	emake DESTDIR="${ED}" MULTILIB="$(get_libdir)" install
 
 	einstalldocs
 
@@ -123,10 +123,10 @@ multilib_src_install() {
 }
 
 pkg_postinst() {
-	if [[ ! -n $(readlink "${ROOT}"usr/bin/luajit) ]] ; then
+	if [[ ! -n $(readlink "${EROOT}"usr/bin/luajit) ]] ; then
 		eselect luajit set luajit-${PV}
 	fi
-	if [[ ! -n $(readlink "${ROOT}"usr/bin/lua) ]] ; then
+	if [[ ! -n $(readlink "${EROOT}"usr/bin/lua) ]] ; then
 		eselect lua set jit-${PV}
 	fi
 }
