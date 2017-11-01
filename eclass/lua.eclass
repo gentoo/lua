@@ -814,7 +814,7 @@ _lua_install_cmod() {
 _lua_jit_insopts() {
 	[[ "${LUA}" =~ "luajit" ]] || die "Calling dolua_jit for non-jit targets isn't supported"
 	local insdir=$(${LUA} -e 'print(package.path:match(";(/[^;]+luajit[^;]+)/%?.lua;"))')
-	insinto ${insdir}/${_dolua_jit_insdir}
+	insinto ${insdir#${EPREFIX}}/${_dolua_jit_insdir}
 	insopts -m 0644
 }
 
