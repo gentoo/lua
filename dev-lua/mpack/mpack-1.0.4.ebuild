@@ -43,10 +43,13 @@ DEPEND="
 "
 
 each_lua_prepare() {
+	# fixed in git HEAD
 	sed \
 		-e '/^LUA_/d' \
 		-i Makefile
+
 	if lua_is_jit; then
+		# fixed in git HEAD
 		sed \
 			-e '1i#define luaL_reg luaL_Reg' \
 			-i "${S}/lmpack.c"
@@ -56,9 +59,7 @@ each_lua_prepare() {
 each_lua_compile() {
 	local myemakeargs=(
 		USE_SYSTEM_LUA=yes
-#		LUA_INCLUDE="$(lua_get_incdir)"
-#		LUA_LIB=""
-		# ^ lua modules shouldn't ever link against liblua
+		MPACK_LUA_VERSION_NOPATCH="$(lua_get_abi)"
 	)
 	lua_default
 }
