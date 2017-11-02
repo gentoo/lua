@@ -101,7 +101,7 @@ multilib_src_compile() {
 		HOST_CC="$(tc-getCC)" \
 		CC="${CC}" \
 		TARGET_STRIP="true" \
-		XCFLAGS="${xcflags[*]}" "${opt}"
+		XCFLAGS="${xcflags[*]}" ${opt}
 }
 
 multilib_src_install() {
