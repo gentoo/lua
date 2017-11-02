@@ -1,6 +1,6 @@
-diff -rdu lua-5.1.3.orig/src/luaconf.h lua-5.1.3/src/luaconf.h
---- lua-5.1.3.orig/src/luaconf.h	2008-02-12 17:00:03.000000000 +0000
-+++ lua-5.1.3/src/luaconf.h	2008-02-12 17:07:55.000000000 +0000
+diff -rdu a/src/luaconf.h b/src/luaconf.h
+--- a/src/luaconf.h	2008-02-12 17:00:03.000000000 +0000
++++ b/src/luaconf.h	2008-02-12 17:07:55.000000000 +0000
 @@ -340,14 +340,14 @@
  ** CHANGE it to undefined as soon as your programs use only '...' to
  ** access vararg parameters (instead of the old 'arg' table).

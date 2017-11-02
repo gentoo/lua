@@ -1,9 +1,9 @@
-# Copyright 1999-2016 Gentoo Foundation
+# Copyright 1999-2017 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
-inherit eutils autotools multilib multilib-minimal portability toolchain-funcs
+inherit eutils autotools multilib multilib-minimal portability toolchain-funcs patches
 
 DESCRIPTION="A powerful light-weight programming language designed for extending applications"
 HOMEPAGE="http://www.lua.org/"
@@ -12,26 +12,29 @@ SRC_URI="http://www.lua.org/ftp/${P}.tar.gz"
 LICENSE="MIT"
 SLOT="5.2"
 KEYWORDS="~alpha ~amd64 ~arm ~hppa ~ia64 ~mips ~ppc ~ppc64 ~s390 ~sh ~sparc ~x86 ~amd64-fbsd ~x86-fbsd ~arm-linux ~x86-linux"
-IUSE="+deprecated emacs readline static"
+IUSE="+deprecated emacs readline +static"
 
-RDEPEND="readline? ( sys-libs/readline )
+RDEPEND="
+	readline? ( >=sys-libs/readline-6.3:0[${MULTILIB_USEDEP}] )
 	app-eselect/eselect-lua
-	!dev-lang/lua:0"
+	!dev-lang/lua:0
+"
 DEPEND="${RDEPEND}
 	sys-devel/libtool"
 PDEPEND="emacs? ( app-emacs/lua-mode )"
 
 MULTILIB_WRAPPED_HEADERS=(
-	/usr/include/lua${SLOT}/luaconf.h
+	"/usr/include/lua${SLOT}/luaconf.h"
 )
 
 src_prepare() {
-	local PATCH_PV=${SLOT}
+	patches_src_prepare
 
-	epatch "${FILESDIR}"/${PN}-${PATCH_PV}-make-r1.patch
-
-	[ -d "${FILESDIR}/${PV}" ] && \
-		EPATCH_SOURCE="${FILESDIR}/${PV}" EPATCH_SUFFIX="upstream.patch" epatch
+	# use glibtool on Darwin (versus Apple libtool)
+	if [[ ${CHOST} == *-darwin* ]] ; then
+		sed -i -e '/LIBTOOL = /s:/libtool:/glibtool:' \
+			Makefile src/Makefile || die
+	fi
 
 	# correct lua versioning
 	sed -i -e 's/\(LIB_VERSION = \)6:1:1/\10:0:0/' src/Makefile || die
@@ -53,11 +56,21 @@ src_prepare() {
 	fi
 
 	# upstream does not use libtool, but we do (see bug #336167)
-	cp "${FILESDIR}/configure.in" "${S}"/ || die
+	cp "${FILESDIR}/configure.ac" "${S}"/ || die
 	eautoreconf
 
 	# custom Makefiles
 	multilib_copy_sources
+
+	cp "${FILESDIR}/lua.pc" "${S}"
+	# A slotted Lua uses different directories for headers & names for
+	# libraries, and pkgconfig should reflect that.
+	sed -r -i \
+		-e "s:^V=.*:V= ${SLOT}:" \
+		-e "s:^R=.*:R= ${PV}:" \
+		-e "s:/,lib,:/$(get_libdir):g" \
+		-e "/^Libs:/s,((-llua)($| )),\2${SLOT}\3," \
+		"${S}"/lua.pc
 }
 
 multilib_src_configure() {
@@ -104,21 +117,14 @@ multilib_src_install() {
 	emake INSTALL_TOP="${ED}/usr" INSTALL_LIB="${ED}/usr/$(get_libdir)" \
 			V=${SLOT} gentoo_install
 
-	# We want packages to find our things...
-	cp "${FILESDIR}/lua.pc" "${WORKDIR}"
-	sed \
-		-e "s:^V=.*:V= ${SLOT}:" \
-		-e "s:^R=.*:R= ${PV}:" \
-		-e "s:/,lib,:/$(get_libdir):g" \
-		-i "${WORKDIR}/lua.pc"
-
 	insinto "/usr/$(get_libdir)/pkgconfig"
-	newins "${WORKDIR}/lua.pc" "lua${SLOT}.pc"
+	newins "${S}/lua.pc" "lua${SLOT}.pc"
 }
 
 multilib_src_install_all() {
-	dodoc README
-	dohtml doc/*.html doc/*.png doc/*.css doc/*.gif
+	DOCS=(README)
+	HTML_DOCS=(doc/*.html doc/*.png doc/*.css doc/*.gif)
+	einstalldocs
 
 	newman doc/lua.1 lua${SLOT}.1
 	newman doc/luac.1 luac${SLOT}.1
