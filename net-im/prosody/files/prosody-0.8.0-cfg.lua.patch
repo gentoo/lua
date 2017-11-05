@@ -13,7 +13,7 @@ index e513b11..08ebca6 100644
  
 @@ -123,12 +125,19 @@ authentication = "internal_plain"
  -- Logging configuration
- -- For advanced logging see http://prosody.im/doc/logging
+ -- For advanced logging see https://prosody.im/doc/logging
  log = {
 -	info = "prosody.log"; -- Change 'info' to 'debug' for verbose logging
 -	error = "prosody.err";
@@ -31,6 +31,10 @@ index e513b11..08ebca6 100644
 +prosody_user = "jabber"
 +prosody_group = "jabber"
 +
+ -- Uncomment to enable statistics
+ -- For more info see https://prosody.im/doc/statistics
+ -- statistics = "internal"
+
  ----------- Virtual hosts -----------
  -- You need to add a VirtualHost entry for each domain you wish Prosody to serve.
  -- Settings under each VirtualHost entry apply *only* to that host.
