@@ -111,7 +111,7 @@ src_configure() {
 		--runwith="${lua}" \
 		--with-lua-include="$($(tc-getPKG_CONFIG) --variable includedir ${lua})" \
 		--with-lua-lib="$($(tc-getPKG_CONFIG) --variable libdir ${lua})" \
-		--require-config "${myconf[@]}" || die "configure failed"
+		"${myconf[@]}" || die "configure failed"
 }
 
 src_compile() {
