@@ -108,7 +108,7 @@ local eb_fd,err=io.open(e_p);
 assert(eb_fd,err);
 local inside=false;
 for line in eb_fd:lines() do
-	if line:match([[^PROSODY_MODULES]]) then
+	if line:match([[^PROSODY_MODULES="$]]) then
 		temp_fd:write(line);
 		temp_fd:write(eol)
 		inside=true;

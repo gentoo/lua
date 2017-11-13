@@ -27,7 +27,7 @@ PROSODY_MODULES="
 	c2s_conn_throttle c2s_limit_sessions candy captcha_registration carbons
 	carbons_adhoc carbons_copies checkcerts client_certs cloud_notify
 	compact_resource compat_bind compat_dialback compat_muc_admin
-	compat_vcard component_client component_roundrobin compression
+	compat_vcard component_client component_roundrobin compression_unsafe
 	conformance_restricted conversejs couchdb csi csi_battery_saver
 	csi_compat csi_pump data_access default_bookmarks default_vcard delay
 	delegation disable_tls discoitems dwd e2e_policy email_pass extdisco
@@ -42,20 +42,20 @@ PROSODY_MODULES="
 	limit_auth limits list_active list_inactive listusers log_auth
 	log_events log_http log_mark log_messages_sql log_rate log_sasl_mech
 	log_slow_events mam mam_adhoc mam_archive mam_muc mamsub manifesto
-	measure_cpu measure_malloc measure_memory measure_message_length
-	measure_storage message_logging migrate motd_sequential
-	muc_access_control muc_ban_ip muc_block_pm muc_config_restrict
-	muc_intercom muc_limits muc_log muc_log_http muc_restrict_rooms munin
-	net_dovecotauth offline_email onhold onions openid password_policy
-	pastebin pep_plus pep_vcard_avatar pep_vcard_png_avatar persisthosts
-	pinger poke_strangers post_msg presence_cache presence_dedup
-	privacy_lists private_adhoc privilege proctitle profile
-	proxy65_whitelist pubsub_eventsource pubsub_feeds pubsub_github
-	pubsub_hub pubsub_mqtt pubsub_pivotaltracker pubsub_post pubsub_twitter
-	query_client_ver rawdebug readonly register_dnsbl register_json
-	register_redirect register_web reload_components reload_modules
-	remote_roster require_otr roster_allinall roster_command s2s_auth_compat
-	s2s_auth_dane s2s_auth_fingerprint s2s_auth_monkeysphere
+	measure_client_presence measure_cpu measure_malloc measure_memory
+	measure_message_length measure_stanza_counts measure_storage
+	message_logging migrate motd_sequential muc_access_control muc_ban_ip
+	muc_block_pm muc_config_restrict muc_intercom muc_limits muc_log
+	muc_log_http muc_restrict_rooms munin net_dovecotauth offline_email
+	onhold onions openid password_policy pastebin pep_plus pep_vcard_avatar
+	pep_vcard_png_avatar persisthosts pinger poke_strangers post_msg
+	presence_cache presence_dedup privacy_lists private_adhoc privilege
+	proctitle profile proxy65_whitelist pubsub_eventsource pubsub_feeds
+	pubsub_github pubsub_hub pubsub_mqtt pubsub_pivotaltracker pubsub_post
+	pubsub_twitter query_client_ver rawdebug readonly register_dnsbl
+	register_json register_redirect register_web reload_components
+	reload_modules remote_roster require_otr roster_allinall roster_command
+	s2s_auth_compat s2s_auth_dane s2s_auth_fingerprint s2s_auth_monkeysphere
 	s2s_auth_samecert s2s_blacklist s2s_idle_timeout s2s_keepalive
 	s2s_keysize_policy s2s_log_certs s2s_never_encrypt_blacklist
 	s2s_reload_newcomponent s2s_whitelist s2soutinjection saslauth_muc
@@ -69,7 +69,7 @@ PROSODY_MODULES="
 	storage_muconference_readonly storage_multi storage_xmlarchive
 	streamstats strict_https support_contact swedishchef tcpproxy
 	telnet_tlsinfo throttle_presence throttle_unsolicited tls_policy
-	track_muc_joins turncredentials twitter uptime_presence vjud
+	traceback track_muc_joins turncredentials twitter uptime_presence vjud
 	watchuntrusted webpresence
 "
 
