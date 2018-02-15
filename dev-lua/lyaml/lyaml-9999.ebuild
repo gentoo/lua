@@ -54,6 +54,7 @@ each_lua_configure() {
 		package="${PN}"
 		version="${ver}"
 		LUA_INCDIR="$(lua_get_incdir)"
+		LYAML_DIR="${EROOT}usr"
 	)
 	lua_default
 }
