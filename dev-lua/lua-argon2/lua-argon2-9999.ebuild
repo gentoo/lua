@@ -30,10 +30,10 @@ DOCS=({README,CHANGELOG}.md)
 each_lua_compile() {
 	_lua_setFLAGS
 
-	${CC} ${CFLAGS} -c -o "${PN}.o" "src/${PN}.c" || die
-	${CC} ${LDFLAGS} -largon2 -o "${PN}.so" "${PN}.o" || die
+	${CC} ${CFLAGS} -c -o "${PN}.o" "src/${PN#lua-}.c" || die
+	${CC} ${LDFLAGS} -largon2 -o "${PN#lua-}.so" "${PN}.o" || die
 }
 
 each_lua_install() {
-	dolua "${PN}.so"
+	dolua "argon2.so"
 }
