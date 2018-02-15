@@ -33,5 +33,5 @@ each_lua_test() {
 src_compile() { :; }
 
 each_lua_install() {
-	dolua_jit "src/${PN%%-ffi}.lua"
+	dolua_jit "src/argon2.lua"
 }

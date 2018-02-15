@@ -48,6 +48,10 @@ each_lua_prepare() {
 		-e '/^LUA_/d' \
 		-i Makefile
 
+	sed \
+		-e '692i	/* fallthrough */' \
+		-i "${S}/lmpack.c"
+
 	if lua_is_jit; then
 		# fixed in git HEAD
 		sed \

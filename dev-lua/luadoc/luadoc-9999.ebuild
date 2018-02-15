@@ -27,6 +27,7 @@ HTML_DOCS=( doc/us/. )
 all_lua_prepare() {
 	# >=lua-5.1.3
 	find . -name '*.lua' | xargs sed -e "s/gfind/gmatch/g" -i || die
+	default
 }
 
 each_lua_install() {

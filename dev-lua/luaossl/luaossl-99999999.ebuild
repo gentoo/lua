@@ -25,8 +25,6 @@ RDEPEND="${DEPEND}"
 DOCS=(doc/.)
 EXAMPLES=(examples/.)
 
-PATCHES=("${FILESDIR}/patches/${PV}")
-
 all_lua_prepare() {
 	sed  -r \
 		-e "s@(^prefix ).*@\1=/usr@" \

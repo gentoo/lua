@@ -22,7 +22,7 @@ RDEPEND="
 		dev-lua/lulpeg[lpeg_replace]
 	)
 	dev-lua/luafilesystem
-	dev-lua/alt-getopt
+	dev-lua/argparse
 	inotify? ( dev-lua/linotify )
 "
 DEPEND="${RDEPEND}"

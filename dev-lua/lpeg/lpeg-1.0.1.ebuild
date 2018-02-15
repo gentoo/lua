@@ -13,8 +13,10 @@ SRC_URI="http://www.inf.puc-rio.br/~roberto/${PN}/${P}.tar.gz"
 
 LICENSE="MIT"
 SLOT="0"
-KEYWORDS="amd64 ~arm ~hppa ~mips x86"
-IUSE="debug doc"
+KEYWORDS="~amd64 ~arm ~arm64 ~hppa ~mips ~ppc ~x86"
+IUSE="debug doc luajit"
+
+REQUIRED_USE="luajit? ( lua_targets_luajit2 )"
 
 PATCHES=("${FILESDIR}/${P}-makefile.patch")
 DOCS=(HISTORY)
