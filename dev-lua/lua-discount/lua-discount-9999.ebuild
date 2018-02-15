@@ -24,6 +24,10 @@ DEPEND="${RDEPEND}"
 
 DOCS=(README.md)
 
+each_lua_compile() {
+	lua_default discount.so
+}
+
 each_lua_install() {
 	dolua discount.so
 }
