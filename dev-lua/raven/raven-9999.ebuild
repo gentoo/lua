@@ -24,17 +24,24 @@ RDEPEND="
 		dev-lua/luaposix
 	)
 "
+#	doc? ( dev-lua/ldoc )
 DEPEND="
 	${RDEPEND}
 "
 
 DOCS=(README.md)
-HTML_DOCS=(docs/.)
+#HTML_DOCS=(docs/.)
 EXAMPLES=(tests/.)
 
+#all_lua_compile() {
+#	use doc && ldoc .
+#}
+#
+#each_lua_compile() { :; }
 # Makefile is only used to run tests
+# and ldoc is currently broken
 src_compile() { :; }
 
 each_lua_install() {
-	dolua raven.lua
+	dolua raven
 }
