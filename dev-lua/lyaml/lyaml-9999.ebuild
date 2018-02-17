@@ -6,7 +6,7 @@ EAPI=6
 VCS="git"
 GITHUB_A="gvvaughan"
 
-inherit autotools lua
+inherit lua
 
 DESCRIPTION="LibYAML binding for Lua."
 HOMEPAGE="https://github.com/gvvaughan/lyaml"
@@ -35,11 +35,6 @@ all_lua_prepare() {
 		-e '/^dir/s@../doc@../html@' \
 		-i build-aux/config.ld.in
 
-	sed -r \
-		-e '/^ldocs/d' \
-		-e '/^external_dependencies/,/\}/s@checksymbol[^ ]*@@' \
-		-i lukefile
-
 	cp "${FILESDIR}"/Makefile "${S}"
 
 	lua_default
@@ -54,12 +49,11 @@ each_lua_configure() {
 		package="${PN}"
 		version="${ver}"
 		LUA_INCDIR="$(lua_get_incdir)"
-		LYAML_DIR="${EROOT}usr"
 	)
 	lua_default
 }
 
 each_lua_install() {
 	dolua lib/"${PN}"
-	dolua linux/"${PN:1}".so
+	dolua "${PN:1}".so
 }
