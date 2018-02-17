@@ -16,24 +16,13 @@ SLOT="0"
 KEYWORDS=""
 IUSE="doc"
 
-RDEPEND="
-	dev-lua/luamacro
-	dev-lua/lyaml
-"
-DEPEND="
-	${RDEPEND}
-"
+lua_add_rdepend dev-lua/luamacro
+lua_add_rdepend dev-lua/lyaml
+lua_add_bdepend dev-lua/lyaml
+lua_add_bdepend dev-lua/lua-std-normalize
 
 DOCS=(README.md doc/specl.md NEWS.md)
-HTML_DOCS=(html/.)
-
-all_lua_prepare() {
-	mkdir -p html
-	sed \
-		-e '/^dir/s@"."@"../html"@' \
-		-i doc/config.ld.in
-	lua_default
-}
+HTML_DOCS=(doc/.)
 
 each_lua_compile() {
 	make lib/specl/version.lua
@@ -46,5 +35,5 @@ all_lua_compile() {
 
 each_lua_install() {
 	dobin bin/specl
-	dolua lib/specl/*.lua lib/specl/*/
+	dolua lib/specl
 }
