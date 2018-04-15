@@ -22,8 +22,7 @@ RDEPEND="
 "
 DEPEND="${RDEPEND}"
 
-DOCS=(README.md doc/text/.)
-HTML_DOCS=(doc/html/.)
+DOCS=(README.md doc/.)
 EXAMPLES=(demo/.)
 
 all_lua_prepare() {
