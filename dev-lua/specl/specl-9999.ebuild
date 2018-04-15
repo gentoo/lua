@@ -8,6 +8,8 @@ GITHUB_A="gvvaughan"
 
 inherit lua
 
+EGIT_BRANCH="v14.1"
+
 DESCRIPTION="a testing tool for Lua, providing a Behaviour Driven Development framework in the vein of RSpec"
 HOMEPAGE="https://github.com/gvvaughan/specl"
 
