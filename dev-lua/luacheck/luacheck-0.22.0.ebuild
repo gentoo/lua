@@ -2,7 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
-inherit toolchain-funcs
+LUA_COMPAT="lua51 luajit2"
+inherit lua
 
 DESCRIPTION="A tool for linting and static analysis of Lua code"
 HOMEPAGE="https://github.com/mpeterv/luacheck"
@@ -11,12 +12,11 @@ SRC_URI="https://github.com/mpeterv/luacheck/archive/${PV}.tar.gz -> ${P}.tar.gz
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS="~amd64"
-IUSE="doc luajit test"
+IUSE="doc test"
 
 RDEPEND="
-	dev-lua/luafilesystem[luajit=]
-	!luajit? ( >=dev-lang/lua-5.1:= )
-	luajit? ( dev-lang/luajit:2 )"
+	dev-lua/luafilesystem
+"
 DEPEND="${RDEPEND}
 	virtual/pkgconfig
 	doc? ( dev-python/sphinx )
@@ -24,25 +24,21 @@ DEPEND="${RDEPEND}
 
 DOCS=( CHANGELOG.md README.md )
 
-src_compile() {
+all_lua_compile() {
 	if use doc; then
 		sphinx-build docsrc html || die
 	fi
 }
 
-src_test() {
+each_lua_test() {
 	busted -o gtest || die
 }
 
-src_install() {
-	local instdir
-	instdir="$($(tc-getPKG_CONFIG) --variable INSTALL_LMOD $(usex luajit 'luajit' 'lua'))"
-	insinto "${instdir#${EPREFIX}}"
-	doins -r src/luacheck
-
+each_lua_install() {
+	dolua src/luacheck
+}
+all_lua_install() {
 	newbin bin/luacheck.lua luacheck
-
 	use doc && HTML_DOCS+=( html/. )
-
 	einstalldocs
 }

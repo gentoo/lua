@@ -21,7 +21,7 @@ IUSE="doc test"
 
 each_lua_compile() {
 	_lua_setFLAGS
-	local MY_PN="lua_${PN}"
+	local MY_PN="${PN//-/_}"
 
 	${CC} ${CFLAGS} -c -o ${MY_PN}.o ${MY_PN}.c || die
 	${CC} ${LDFLAGS} -o ${PN}.so ${MY_PN}.o || die
