@@ -20,7 +20,7 @@ end
 local function getabis(abi)
 	local ret={}
 	local abistr
-	local abi=abi or ""
+	local abi=abi or "*"
 	local arch
 
 	if abi=="default" then
@@ -32,12 +32,12 @@ local function getabis(abi)
 		end
 	end
 
-	abistr=(io.popen("cd "..libexec.." 2>/dev/null; echo srlua."..abi.."*"):read() or "")
+	abistr=(io.popen(("echo %s/%s/srlua*"):format(libexec,abi)):read() or "")
 
 	if abistr:match("%*") then abistr="" end -- failed matching -> nothing found
 
 	if #abistr>8 then
-		for abi in abistr:gmatch("srlua.(%S*)") do
+		for abi in abistr:gmatch(libexec.."/(%S*)/srlua") do
 			table.insert(ret,abi)
 		end
 	end
@@ -51,7 +51,7 @@ local function help(err,msg)
 		p""
 	end
 	p"Description:"
-	p"This is a wrapper on original `glue` program from `srlua` package"
+	p"This is a wrapper on original `srglue` program from `srlua` package"
 	p"The only difference is that you should pass 'ABI' string instead of path to `srlua`"
 	p""
 	p"Usage:"
@@ -92,7 +92,7 @@ local function argparse(argv)
 	if #abi==0 then
 		help(true,"There is no such ABI that you specified.")
 	elseif #abi>1 then
-		help(true,"Multiple ABIs matched your ABI selection. Please, be more specific.")
+		help(true,("Multiple ABIs (%d) matched your ABI selection. Please, be more specific."):format(#abi))
 		--local interpreter, multilib = k:match("(%S*)%.(%w-)$")
 	else
 		abi=abi[1]
@@ -106,7 +106,9 @@ local function argparse(argv)
 	chmod="chmod" -- TODO: setfacl support
 	chmod_mod="755"
 
-	os.exit(os.execute(libexec.."/glue "..libexec.."/srlua."..abi.." "..script.." "..out.." && "..chmod.." "..chmod_mod.." "..out))
+	local abidir=libexec.."/"..abi
+
+	os.exit(os.execute(("%s/glue %s/srlua %s %s && %s %s %s"):format(abidir,abidir,script,out,chmod,chmod_mod,out)))
 end
 
 if #arg>3 or #arg==0 then
