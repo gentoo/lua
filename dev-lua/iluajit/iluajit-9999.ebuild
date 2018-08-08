@@ -11,6 +11,7 @@ GITHUB_PN="ILuaJIT"
 inherit lua
 
 DESCRIPTION="Readline powered shell for LuaJIT"
+HOMEPAGE="https://github.com/jdesgats/ILuaJIT"
 
 LICENSE="MIT"
 SLOT="0"
