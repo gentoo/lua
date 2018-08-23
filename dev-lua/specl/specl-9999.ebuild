@@ -6,11 +6,11 @@ EAPI=6
 VCS="git"
 GITHUB_A="gvvaughan"
 
-inherit lua
+inherit autotools lua
 
 EGIT_BRANCH="v14.1"
 
-DESCRIPTION="a testing tool for Lua, providing a Behaviour Driven Development framework in the vein of RSpec"
+DESCRIPTION="A testing tool for Lua, providing a Behaviour Driven Development"
 HOMEPAGE="https://github.com/gvvaughan/specl"
 
 LICENSE="GPL"
@@ -25,17 +25,16 @@ lua_add_bdepend dev-lua/lua-std-normalize
 
 DOCS=(README.md doc/specl.md NEWS.md)
 HTML_DOCS=(doc/.)
+#DOC_MAKE_TARGET="doc/specl.1"
 
-each_lua_compile() {
-	make lib/specl/version.lua
-}
-
-all_lua_compile() {
+all_lua_prepare() {
 	lua_default
-	emake doc/specl.1
+	touch Makefile.am # Yup, kludges
+	eautoreconf
 }
 
 each_lua_install() {
 	dobin bin/specl
+	rm lib/specl/version.lua.in # and here too
 	dolua lib/specl
 }

@@ -20,10 +20,10 @@ DOCS=(README.md NEWS.md STYLE.md)
 
 all_lua_prepare() {
 	lua_default
-    mkdir -p html
-    sed \
-        -e '/^dir/s@"."@"../html"@' \
-        -i doc/config.ld.in
+	mkdir -p html
+	sed \
+		-e '/^dir/s@"."@"../html"@' \
+		-i doc/config.ld.in
 }
 
 each_lua_compile() { :; }

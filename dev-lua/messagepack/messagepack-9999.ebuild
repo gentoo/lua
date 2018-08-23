@@ -4,7 +4,7 @@
 EAPI=6
 
 VCS="git"
-GITHUB_A="fperrad"
+GITHUB_A="great90"
 GITHUB_PN="lua-${PN^}"
 
 inherit lua

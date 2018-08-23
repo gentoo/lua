@@ -6,7 +6,7 @@ EAPI=6
 VCS="git"
 GITHUB_A="brimworks"
 
-inherit lua
+inherit cmake-utils lua
 
 DESCRIPTION="Lua bindings to zlib"
 HOMEPAGE="http://github.com/brimworks/lua-zlib"
@@ -20,15 +20,7 @@ RDEPEND="sys-libs/zlib"
 DEPEND="${RDEPEND}"
 
 each_lua_configure() {
-	local myeconfargs=(
-		INCDIR=""
-		LIBDIR=""
-	)
-	lua_default
-}
-
-each_lua_compile() {
-	lua_default linux
+	cmake-utils_src_configure
 }
 
 each_lua_install() {

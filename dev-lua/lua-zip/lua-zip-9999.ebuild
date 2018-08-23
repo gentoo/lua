@@ -5,12 +5,13 @@ EAPI=6
 
 VCS="git"
 #GITHUB_A="brimworks"
-GITHUB_A="markuman"
+#GITHUB_A="markuman"
 
 inherit cmake-utils lua
 
 DESCRIPTION="Lua bindings to libzip"
-HOMEPAGE="https://github.com/brimworks/lua-zip"
+HOMEPAGE="https://git.osuv.de/m/lua-zip"
+EGIT_REPO_URI="https://git.osuv.de/m/lua-zip"
 
 LICENSE="MIT"
 SLOT="0"

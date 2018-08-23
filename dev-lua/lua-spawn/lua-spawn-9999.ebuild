@@ -25,21 +25,19 @@ DEPEND="
 RDEPEND="
 	${RDEPEND}
 "
-
-PATCHES=("${FILESDIR}/patches/${PV}")
+MY_PN="${PN##lua-}"
 
 all_lua_prepare() {
-	mv "${PN}/posix.c" "${S}"
+	mv "${MY_PN}/posix.c" "${S}"
 	lua_default
 }
 
 each_lua_compile() {
 	_lua_setFLAGS
-	${CC} ${CFLAGS} ${LDFLAGS} -I./vendor/compat-5.3/c-api/ -I$(lua_get_incdir) posix.c -o ${PN}.so
+	${CC} ${CFLAGS} ${LDFLAGS} -I./vendor/compat-5.3/c-api/ "-I$(lua_get_incdir)" posix.c -o "${MY_PN}"/posix.so
 }
 
 each_lua_install() {
-	dolua "${PN}"
-	dolua "${PN}.so"
+	dolua "${MY_PN}"/
 }
 

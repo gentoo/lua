@@ -26,6 +26,8 @@ DEPEND="
 
 DOCS=(README.md)
 
+src_compile() { :; }
+
 each_lua_install() {
 	dolua_jit src/*
 }
