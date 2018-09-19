@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
-LUA_COMPAT="lua51 luajit2"
+#LUA_COMPAT="lua51 lua52 lua53 luajit2"
 inherit lua
 
 DESCRIPTION="A tool for linting and static analysis of Lua code"
@@ -16,11 +16,15 @@ IUSE="doc test"
 
 RDEPEND="
 	dev-lua/luafilesystem
+	dev-lua/lanes
 "
 DEPEND="${RDEPEND}
 	virtual/pkgconfig
 	doc? ( dev-python/sphinx )
-	test? ( dev-lua/busted )"
+	test? (
+		dev-lua/busted
+		dev-lua/luautf8
+	)"
 
 DOCS=( CHANGELOG.md README.md )
 
