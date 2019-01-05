@@ -24,7 +24,7 @@ RDEPEND="
 	)
 "
 
-DOCS=(README)
+DOCS=(README.md)
 
 each_lua_install() {
 	use gcmem || rm gcmem.lua

@@ -8,7 +8,7 @@ GITHUB_A="stevedonovan"
 
 inherit lua
 
-DESCRIPTION="A set of pure Lua libraries focusing on input data handling, functional programming and OS path management."
+DESCRIPTION="Libraries for input handling, functional programming and OS path management."
 HOMEPAGE="https://github.com/stevedonovan/Penlight"
 
 LICENSE="MIT"
@@ -23,8 +23,8 @@ DEPEND="
 	doc? ( dev-lua/ldoc )
 "
 
-HTML_DOCS=(html/.)
-DOCS=(README.md CHANGES.md CONTRIBUTING.md)
+#HTML_DOCS=(html/.)
+DOCS=(README.md CONTRIBUTING.md)
 EXAMPLES=(examples/.)
 
 all_lua_compile() {

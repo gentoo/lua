@@ -26,9 +26,13 @@ DEPEND="
 
 DOCS=(README.markdown)
 
-#all_lua_prepare() {
-#	
-#}
+all_lua_prepare() {
+	lua_default
+	sed -r \
+		-e "/^LUA_VERSION/s@5.2@\$\(LUA_IMPL\)\nLD=gcc@" \
+		-e "/^CFLAGS/s@lua-@@" \
+		-i GNUmakefile
+}
 
 each_lua_compile() {
 	# If we have LuaJIT in the system — we'd prefer FFI version
@@ -50,7 +54,7 @@ each_lua_install() {
 
 	if use prosody; then
 		insinto "/etc/jabber"
-		doins "use_unbound.lua"	
+		doins "use_unbound.lua"
 	fi
 }
 

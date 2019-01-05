@@ -25,8 +25,6 @@ DEPEND="
 
 DOCS=(README)
 
-PATCHES=(${FILESDIR}/gc-anchoring.patch)
-
 each_lua_install() {
 	dolua lua/*
 	_dolua_insdir="${PN}" \

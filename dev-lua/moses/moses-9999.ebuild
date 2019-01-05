@@ -25,7 +25,7 @@ DEPEND="
 "
 
 DOCS=(README.md doc/tutorial.md)
-HTML_DOCS=(doc/index.html doc/topics)
+HTML_DOCS=(doc/index.html doc/manual)
 
 each_lua_install() {
 	dolua ${PN}.lua

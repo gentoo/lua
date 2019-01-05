@@ -23,7 +23,7 @@ RDEPEND="
 	dev-libs/libxml2
 "
 
-DOCS=(Readme.md)
+DOCS=(README.md)
 
 all_lua_prepare() {
 	lua_default
@@ -37,6 +37,8 @@ all_lua_prepare() {
 	sed -r \
 		-e 's#libxml/HTMLParser.h#libxml/HTMLparser.h#' \
 		-i html.c
+
+	mv Readme.md README.md
 }
 
 each_lua_test() {
