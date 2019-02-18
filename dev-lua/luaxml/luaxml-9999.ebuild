@@ -1,4 +1,4 @@
-# Copyright 1999-2016 Gentoo Foundation
+# Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
@@ -9,7 +9,7 @@ GITHUB_A="msva"
 
 inherit cmake-utils lua
 
-DESCRIPTION="A minimal set of XML processing function in Lua, with simple mapping between XML and Lua tables"
+DESCRIPTION="A minimal set of XML processing funcs & simple XML<->Tables mapping"
 HOMEPAGE="http://viremo.eludi.net/LuaXML/"
 
 LICENSE="MIT"
@@ -25,4 +25,3 @@ each_lua_configure() {
 
 	cmake-utils_src_configure
 }
-

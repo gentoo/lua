@@ -1,4 +1,4 @@
-# Copyright 1999-2016 Gentoo Foundation
+# Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
@@ -40,4 +40,3 @@ each_lua_compile() {
 each_lua_install() {
 	dolua "${MY_PN}"/
 }
-

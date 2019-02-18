@@ -1,4 +1,4 @@
-# Copyright 1999-2016 Gentoo Foundation
+# Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
@@ -11,7 +11,7 @@ inherit lua
 DESCRIPTION="LibYAML binding for Lua."
 HOMEPAGE="https://github.com/gvvaughan/lyaml"
 
-LICENSE="GPL"
+LICENSE="MIT"
 SLOT="0"
 KEYWORDS=""
 IUSE="doc"

@@ -1,4 +1,4 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
@@ -16,7 +16,7 @@ LUA_S="libmpack-${PV}/binding/lua"
 
 LICENSE="MIT"
 SLOT="0"
-KEYWORDS="~amd64 ~x86 ~arm ~arm64"
+KEYWORDS="~amd64 ~arm ~arm64 ~mips ~x86"
 IUSE="luajit test"
 
 RDEPEND="
@@ -69,7 +69,7 @@ each_lua_compile() {
 }
 
 each_lua_test() {
-	${LUA} ${EROOT}/usr/bin/busted -o gtest test.lua || die
+	"${LUA}" "${EROOT}"/usr/bin/busted -o gtest test.lua || die
 }
 
 each_lua_install() {

@@ -1,4 +1,4 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
@@ -19,7 +19,7 @@ IUSE="+gradient +cache +fileno +png udp"
 
 RDEPEND="
 	$(lua_implementations_depend)
-	media-libs/libpng
+	media-libs/libpng:0
 	media-libs/freetype
 	media-libs/fontconfig
 	x11-libs/libXft

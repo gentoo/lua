@@ -1,4 +1,4 @@
-# Copyright 1999-2016 Gentoo Foundation
+# Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
@@ -15,14 +15,14 @@ HOMEPAGE="https://github.com/mkottman/ltn12ce"
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS=""
-IUSE="+system-bzip +system-lzma +system-polarssl +system-zlib"
-
+IUSE="+system-bzip +system-lzma +system-zlib"
+# +system-polarssl
 RDEPEND="
 	system-bzip? ( app-arch/bzip2[$MULTILIB_USEDEP] )
 	system-lzma? ( app-arch/xz-utils[$MULTILIB_USEDEP] )
-	system-polarssl? ( net-libs/polarssl[$MULTILIB_USEDEP] )
 	system-zlib? ( sys-libs/zlib[$MULTILIB_USEDEP] )
 "
+#	system-polarssl? ( net-libs/polarssl[$MULTILIB_USEDEP] )
 
 DEPEND="
 	${RDEPEND}

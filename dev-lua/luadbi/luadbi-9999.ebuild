@@ -1,4 +1,4 @@
-# Copyright 1999-2016 Gentoo Foundation
+# Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
@@ -22,7 +22,7 @@ IUSE="mysql postgres sqlite oracle"
 
 RDEPEND="
 	mysql? ( || ( dev-db/mysql dev-db/mariadb ) )
-	postgres? ( dev-db/postgresql )
+	postgres? ( dev-db/postgresql:* )
 	sqlite? ( >=dev-db/sqlite-3 )
 	oracle? ( dev-db/oracle-instantclient-basic )
 "

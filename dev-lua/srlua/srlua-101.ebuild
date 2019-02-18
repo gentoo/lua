@@ -1,4 +1,4 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -13,7 +13,7 @@ SRC_URI="http://webserver2.tecgraf.puc-rio.br/~lhf/ftp/lua/ar/${P}.tar.gz"
 
 LICENSE="public-domain"
 SLOT="0"
-KEYWORDS="~amd64 ~arm ~hppa ~mips x86"
+KEYWORDS="~amd64 ~arm ~arm64 ~mips ~x86"
 IUSE="+static-libs"
 
 DOCS=(README)

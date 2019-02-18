@@ -1,15 +1,15 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 
-inherit eutils multilib multilib-minimal portability pax-utils toolchain-funcs versionator flag-o-matic check-reqs git-r3 patches
+inherit eutils multilib multilib-minimal portability pax-utils toolchain-funcs flag-o-matic check-reqs git-r3 patches
 
 DESCRIPTION="Just-In-Time Compiler for the Lua programming language"
 HOMEPAGE="https://luajit.org/"
 EGIT_REPO_URI="https://luajit.org/git/luajit-2.0.git"
 EGIT_BRANCH="v2.1"
-EGIT_MIN_CLONE_TYPE="single"
+EGIT_MIN_CLONE_TYPE="single+tags"
 
 SLOT="2"
 

@@ -1,4 +1,4 @@
-# Copyright 1999-2016 Gentoo Foundation
+# Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
@@ -7,7 +7,7 @@ VCS="git"
 GITHUB_A="msva"
 inherit lua
 
-DESCRIPTION="XML library that enables manipulation of XML documents as simple Lua data structures"
+DESCRIPTION="Library for XML documents manipulations as simple Lua data structures"
 HOMEPAGE="https://github.com/msva/etree"
 
 LICENSE="MIT"

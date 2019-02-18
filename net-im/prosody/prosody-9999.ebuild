@@ -1,9 +1,9 @@
-# Copyright 1999-2016 Gentoo Foundation
+# Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
 
-inherit eutils multilib toolchain-funcs versionator mercurial
+inherit eutils multilib toolchain-funcs mercurial
 
 DESCRIPTION="Prosody is a flexible communications server for Jabber/XMPP written in Lua."
 HOMEPAGE="http://prosody.im/"
@@ -17,19 +17,19 @@ IUSE="doc +libevent mysql postgres sqlite +ssl +zlib luajit ipv6 migration no-ex
 DEPEND="
 	virtual/lua[luajit=,bit]
 	net-im/jabber-base
-	!icu? ( >=net-dns/libidn-1.1 )
+	!icu? ( >=net-dns/libidn-1.1:0 )
 	icu? ( dev-libs/icu )
 	|| (
-		>=dev-libs/openssl-0.9.8z
-		>=dev-libs/openssl-1.0.1j
+		>=dev-libs/openssl-0.9.8z:0.9.8
+		>=dev-libs/openssl-1.0.1j:0
 	)
 "
 
 RDEPEND="
 	${DEPEND}
 	dev-lua/luasocket
-	ipv6? ( =dev-lua/luasocket-9999 )
-	ssl? ( =dev-lua/luasec-9999 )
+	ipv6? ( dev-lua/luasocket )
+	ssl? ( dev-lua/luasec )
 	dev-lua/luaexpat
 	dev-lua/luafilesystem
 	mysql? ( >=dev-lua/luadbi-0.5[mysql] )
@@ -46,15 +46,14 @@ RDEPEND="
 JABBER_ETC="/etc/jabber"
 JABBER_SPOOL="/var/spool/jabber"
 
-
 DOCS=( doc/ HACKERS AUTHORS )
 
 src_prepare() {
 	epatch "${FILESDIR}/${PN}-0.8.0-cfg.lua.patch"
-	sed -e "s!MODULES = \$(DESTDIR)\$(PREFIX)/lib/!MODULES = \$(DESTDIR)\$(PREFIX)/$(get_libdir)/!" -i Makefile
-	sed -e "s!SOURCE = \$(DESTDIR)\$(PREFIX)/lib/!SOURCE = \$(DESTDIR)\$(PREFIX)/$(get_libdir)/!" -i Makefile
-	sed -e "s!INSTALLEDSOURCE = \$(PREFIX)/lib/!INSTALLEDSOURCE = \$(PREFIX)/$(get_libdir)/!" -i Makefile
-	sed -e "s!INSTALLEDMODULES = \$(PREFIX)/lib/!INSTALLEDMODULES = \$(PREFIX)/$(get_libdir)/!" -i Makefile
+	sed -e "s!MODULES = \$(DESTDIR)\$(PREFIX)/lib/!MODULES = \$(DESTDIR)\$(PREFIX)/$(get_libdir)/!" -i GNUmakefile
+	sed -e "s!SOURCE = \$(DESTDIR)\$(PREFIX)/lib/!SOURCE = \$(DESTDIR)\$(PREFIX)/$(get_libdir)/!" -i GNUmakefile
+	sed -e "s!INSTALLEDSOURCE = \$(PREFIX)/lib/!INSTALLEDSOURCE = \$(PREFIX)/$(get_libdir)/!" -i GNUmakefile
+	sed -e "s!INSTALLEDMODULES = \$(PREFIX)/lib/!INSTALLEDMODULES = \$(PREFIX)/$(get_libdir)/!" -i GNUmakefile
 	sed -e 's!\(os.execute(\)\(CFG_SOURCEDIR.."/../../bin/prosody"\)\();\)!\1"/usr/bin/prosody"\3!' -i util/prosodyctl.lua
 	sed -e 's!\(desired_user = .* or "\)\(prosody\)\(";\)!\1jabber\3!' -i prosodyctl
 

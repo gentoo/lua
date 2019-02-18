@@ -1,4 +1,4 @@
-# Copyright 1999-2018 Gentoo Foundation
+# Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
@@ -13,7 +13,7 @@ inherit cmake-utils lua
 DESCRIPTION="A basic interface between tdlib and lua"
 HOMEPAGE="https://github.com/giuseppeM99/tdlua"
 
-LICENSE="GPL-3.0"
+LICENSE="GPL-3"
 SLOT="0"
 KEYWORDS=""
 IUSE="doc examples"

@@ -1,4 +1,4 @@
-# Copyright 1999-2016 Gentoo Foundation
+# Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
 # XXX: broken build FIXME later
@@ -13,7 +13,7 @@ HOMEPAGE="https://github.com/mwild1/luamongo/"
 
 LICENSE="MIT"
 SLOT="0"
-KEYWORDS="-*"
+KEYWORDS=""
 IUSE="doc examples"
 
 RDEPEND="

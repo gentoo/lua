@@ -1,4 +1,4 @@
-# Copyright 1999-2016 Gentoo Foundation
+# Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
@@ -25,39 +25,41 @@ PROSODY_MODULES="
 	auto_accept_subscriptions auto_activate_hosts auto_answer_disco_info
 	benchmark_storage bidi block_outgoing block_registrations
 	block_s2s_subscriptions block_strangers block_subscribes
-	block_subscriptions blocking broadcast c2s_conn_throttle
-	c2s_limit_sessions cache_c2s_caps candy captcha_registration carbons
+	block_subscriptions blocking bob bookmarks broadcast c2s_conn_throttle
+	c2s_limit_sessions cache_c2s_caps captcha_registration carbons
 	carbons_adhoc carbons_copies checkcerts client_certs client_proxy
 	cloud_notify compact_resource compat_bind compat_dialback
 	compat_muc_admin compat_vcard component_client component_http
 	component_roundrobin compression_unsafe conformance_restricted
 	conversejs couchdb csi csi_battery_saver csi_compat csi_pump data_access
-	default_bookmarks default_vcard delay delegation deny_omemo disable_tls
-	discoitems dwd e2e_policy email_pass extdisco fallback_vcard
+	default_bookmarks default_vcard delay delegation deny_omemo devices
+	disable_tls discoitems dwd e2e_policy email_pass extdisco fallback_vcard
 	filter_chatstates filter_words firewall flash_policy graceful_shutdown
 	group_bookmarks host_blacklist host_guard host_status_check
 	host_status_heartbeat http_altconnect http_auth_check
 	http_authentication http_avatar http_dir_listing http_dir_listing2
 	http_favicon http_host_status_check http_hostaliases http_index
-	http_logging http_muc_log http_rest http_roster_admin http_stats_stream
-	http_upload http_upload_external http_user_count idlecompat
-	incidents_handling inject_ecaps2 inotify_reload invite ipcheck
-	isolate_host jid_prep json_streams lastlog latex lib_ldap limit_auth
-	limits list_active list_inactive listusers log_auth log_events log_http
-	log_mark log_messages_sql log_rate log_sasl_mech log_slow_events mam
-	mam_adhoc mam_archive mam_muc mamsub manifesto measure_client_identities
+	http_logging http_muc_log http_pep_avatar http_rest http_roster_admin
+	http_stats_stream http_upload http_upload_external http_user_count
+	idlecompat ignore_host_chatstates incidents_handling inject_ecaps2
+	inotify_reload invite ipcheck isolate_host jid_prep json_streams lastlog
+	latex lib_ldap limit_auth limits list_active list_inactive listusers
+	log_auth log_events log_http log_mark log_messages_sql log_rate
+	log_sasl_mech log_slow_events mam mam_adhoc mam_archive mam_muc mamsub
+	manifesto measure_client_features measure_client_identities
 	measure_client_presence measure_cpu measure_malloc measure_memory
 	measure_message_e2ee measure_message_length measure_stanza_counts
 	measure_storage message_logging migrate minimix motd_sequential
-	muc_access_control muc_badge muc_ban_ip muc_block_pm muc_config_restrict
-	muc_eventsource muc_gc10 muc_intercom muc_lang muc_limits muc_log
-	muc_log_http muc_restrict_rooms munin net_dovecotauth net_proxy
-	offline_email omemo_all_access onhold onions openid password_policy
-	pastebin pep_vcard_avatar pep_vcard_png_avatar persisthosts pinger
-	poke_strangers post_msg presence_cache presence_dedup privacy_lists
-	private_adhoc privilege proctitle profile prometheus proxy65_whitelist
-	pubsub_eventsource pubsub_feeds pubsub_github pubsub_hub pubsub_mqtt
-	pubsub_pivotaltracker pubsub_post pubsub_stats pubsub_twitter
+	muc_access_control muc_badge muc_ban_ip muc_block_pm muc_cloud_notify
+	muc_config_restrict muc_eventsource muc_gc10 muc_intercom muc_lang
+	muc_limits muc_log muc_log_http muc_ping muc_restrict_rooms munin
+	net_dovecotauth net_proxy offline_email omemo_all_access onhold onions
+	openid password_policy password_reset pastebin pep_vcard_avatar
+	pep_vcard_png_avatar persisthosts pinger poke_strangers post_msg
+	presence_cache presence_dedup privacy_lists private_adhoc privilege
+	proctitle profile prometheus proxy65_whitelist pubsub_eventsource
+	pubsub_feeds pubsub_github pubsub_hub pubsub_mqtt pubsub_pivotaltracker
+	pubsub_post pubsub_stats pubsub_text_interface pubsub_twitter
 	query_client_ver rawdebug readonly register_dnsbl
 	register_dnsbl_firewall_mark register_dnsbl_warn register_json
 	register_oob_url register_redirect register_web reload_components
@@ -75,20 +77,18 @@ PROSODY_MODULES="
 	storage_ejabberdsql_readonly storage_gdbm storage_ldap storage_lmdb
 	storage_memory storage_mongodb storage_muc_log
 	storage_muconference_readonly storage_multi storage_xmlarchive
-	streamstats strict_https support_contact swedishchef tcpproxy
-	telnet_tlsinfo throttle_presence throttle_unsolicited tls_policy
-	traceback track_muc_joins turncredentials twitter uptime_presence
-	vcard_command vcard_muc vjud watchuntrusted webpresence xhtmlim
+	streamstats strict_https support_contact support_room swedishchef
+	tcpproxy telnet_tlsinfo test_data throttle_presence throttle_unsolicited
+	tls_policy traceback track_muc_joins turncredentials twitter
+	uptime_presence vcard_command vcard_muc vjud watchuntrusted webpresence
+	xhtmlim
 "
-
-# Dirty hack. TODO: remove it after proper naming at upstream
-PROSODY_MODULES="${PROSODY_MODULES//mam /}"
 
 for x in ${PROSODY_MODULES}; do
 	IUSE="${IUSE} ${x//[^+]/}prosody_modules_${x/+}"
 done
 
-DEPEND="=net-im/prosody-${PV}"
+DEPEND="~net-im/prosody-${PV}"
 RDEPEND="
 	${DEPEND}
 	prosody_modules_inotify_reload? (
@@ -183,7 +183,8 @@ REQUIRED_USE="
 
 src_install() {
 	cd "${S}";
-	for m in ${PROSODY_MODULES}; do
+	use prosody_modules_mam || ewarn "mod_mam is ignored. Using prosody's instead."
+	for m in ${PROSODY_MODULES//mam /}; do
 		if use prosody_modules_${m}; then
 			insinto /usr/lib/prosody/modules;
 			doins -r "mod_${m}"

@@ -1,4 +1,4 @@
-# Copyright 1999-2016 Gentoo Foundation
+# Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
@@ -9,7 +9,7 @@ GITHUB_A="brimworks"
 inherit cmake-utils lua
 
 DESCRIPTION="Lua bindings to zlib"
-HOMEPAGE="http://github.com/brimworks/lua-zlib"
+HOMEPAGE="https://github.com/brimworks/lua-zlib"
 
 LICENSE="MIT"
 SLOT="0"

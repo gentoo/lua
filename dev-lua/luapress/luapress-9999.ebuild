@@ -1,4 +1,4 @@
-# Copyright 1999-2016 Gentoo Foundation
+# Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
@@ -41,8 +41,7 @@ each_lua_install() {
 }
 
 all_lua_install() {
-	insinto "${EROOT}/usr/share/${P}"
+	insinto "/usr/share/${P}"
 	doins -r template plugins
 	dobin "bin/${PN}"
 }
-

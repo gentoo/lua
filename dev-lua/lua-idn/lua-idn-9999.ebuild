@@ -1,4 +1,4 @@
-# Copyright 1999-2016 Gentoo Foundation
+# Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
@@ -8,7 +8,7 @@ GITHUB_A="haste"
 
 inherit lua
 
-DESCRIPTION="A Lua implementation of Internationalizing Domain Names in Applications (RFC 3490)"
+DESCRIPTION="A Lua implementation of IDNA (RFC 3490)"
 HOMEPAGE="https://github.com/haste/lua-idn"
 
 LICENSE="MIT"

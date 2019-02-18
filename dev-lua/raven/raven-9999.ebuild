@@ -1,4 +1,4 @@
-# Copyright 1999-2016 Gentoo Foundation
+# Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
@@ -19,14 +19,14 @@ IUSE="doc test examples"
 
 RDEPEND="
 	dev-lua/lua-cjson
-	test? (
-		dev-lua/lunit
-		dev-lua/luaposix
-	)
 "
 #	doc? ( dev-lua/ldoc )
 DEPEND="
 	${RDEPEND}
+	test? (
+		dev-lua/lunit
+		dev-lua/luaposix
+	)
 "
 
 DOCS=(README.md)

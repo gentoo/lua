@@ -1,4 +1,4 @@
-# Copyright 1999-2016 Gentoo Foundation
+# Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
@@ -14,12 +14,12 @@ EHG_REPO_URI="http://code.zash.se/luaunbound/"
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS=""
-IUSE="prosody"
+#IUSE="prosody"
 
 RDEPEND="
 	net-dns/unbound
-	prosody? ( net-im/prosody )
 "
+#	prosody? ( net-im/prosody )
 DEPEND="
 	${RDEPEND}
 "
@@ -40,9 +40,9 @@ each_lua_compile() {
 		lua_default
 	fi
 
-	if use prosody; then
-		lua_default prosody
-	fi
+#	if use prosody; then
+#		lua_default prosody
+#	fi
 }
 
 each_lua_install() {
@@ -52,20 +52,20 @@ each_lua_install() {
 		dolua "lunbound.so"
 	fi
 
-	if use prosody; then
-		insinto "/etc/jabber"
-		doins "use_unbound.lua"
-	fi
+#	if use prosody; then
+#		insinto "/etc/jabber"
+#		doins "use_unbound.lua"
+#	fi
 }
 
-pkg_postinst() {
-	if use prosody; then
-		einfo ""
-		einfo "Add following 3 lines to global section of your prosody.cfg.lua:"
-		echo 'RunScript "use_unbound.lua"'
-		echo 'resolvconf = "/etc/resolv.conf"'
-		echo 'hoststxt = "/etc/hosts"'
-		echo ''
-		einfo "Alternatively, you can customize resolv.conf and hosts files locations"
-	fi
-}
+#pkg_postinst() {
+#	if use prosody; then
+#		einfo ""
+#		einfo "Add following 3 lines to global section of your prosody.cfg.lua:"
+#		echo 'RunScript "use_unbound.lua"'
+#		echo 'resolvconf = "/etc/resolv.conf"'
+#		echo 'hoststxt = "/etc/hosts"'
+#		echo ''
+#		einfo "Alternatively, you can customize resolv.conf and hosts files locations"
+#	fi
+#}

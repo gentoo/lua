@@ -1,4 +1,4 @@
-# Copyright 1999-2016 Gentoo Foundation
+# Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
@@ -21,7 +21,7 @@ IUSE="doc +completion"
 RDEPEND="
 	doc? ( dev-lua/luadoc )
 	dev-lua/penlight
-	sys-libs/readline
+	sys-libs/readline:0
 	completion? ( dev-lua/luafilesystem )
 "
 DEPEND="${RDEPEND}"
@@ -39,5 +39,5 @@ each_lua_install() {
 }
 
 all_lua_install() {
-	dobin ${FILESDIR}/${PN}
+	dobin "${FILESDIR}/${PN}"
 }
