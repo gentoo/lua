@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+	<maintainer type="person">
+		<email>contact@hacktivis.me</email>
+		<name>Haelwenn (lanodan) Monnier</name>
+	</maintainer>
+	<upstream>
+		<changelog>https://github.com/martanne/vis</changelog>
+		<bugs-to>https://github.com/martanne/vis/issues</bugs-to>
+		<remote-id type="github">martanne/vis</remote-id>
+	</upstream>
+	<longdescription lang="en">
+Vis aims to be a modern, legacy free, simple yet efficient editor combining the strengths of both vi(m) and sam.
+</longdescription>
+	<use>
+		<flag name="tre">more memory efficient regex search using <pkg>dev-libs/tre</pkg></flag>
+		<flag name="lpeg">runtime for syntax highlight using <pkg>dev-lua/lpeg</pkg></flag>
+	</use>
+</pkgmetadata>
